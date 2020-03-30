@@ -27,7 +27,7 @@ export class ApartmentEditComponent implements OnInit {
   longitude:number = 81.843217
   loading: boolean;
   constructor(private apartmentService:ApartmentService,
-	      private authService:AuthService,
+	      public authService:AuthService,
               private activatedRoute:ActivatedRoute,
               private geocodeService: GeocodeService,
               private ref: ChangeDetectorRef,

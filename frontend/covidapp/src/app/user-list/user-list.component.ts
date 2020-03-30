@@ -24,7 +24,7 @@ export class UserListComponent  {
   success: boolean = false;
   dataLoaded: Promise<boolean>;
   constructor(
-    private authService: AuthService, private userService: UserService, private router : Router
+    public authService: AuthService, private userService: UserService, private router : Router
   ) {
     this.filterForm = new FormGroup({
       is_staff: new FormControl(),

@@ -63,10 +63,14 @@ MIDDLEWARE = [
 ]
 
 CORS_ORIGIN_WHITELIST = [
+    'https://covid.libtech.in',
     'http://localhost:4200',
     'http://covid.libtech.in:8010',
     'http://covid.libtech.in:8011',
     'http://covid.libtech.in:8012',
+    'https://covid.libtech.in:8012',
+    'http://rb.libtech.in:8012',
+    'https://rb.libtech.in:8012',
     'http://covid.libtech.in:8013',
     'http://covid.libtech.in:8016',
     'http://b.libtech.in:9001',

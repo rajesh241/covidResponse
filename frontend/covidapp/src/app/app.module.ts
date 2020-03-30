@@ -36,12 +36,17 @@ import { CovidCreateComponent } from './covid/covid-create/covid-create.componen
 
 
 //const google_oauth_client_id:string = '849540517607-9alj6fb3hoo3lhrlml4upqkme070bo2f.apps.googleusercontent.com';
+
 let config = new AuthServiceConfig([
   {
     id: GoogleLoginProvider.PROVIDER_ID,
     provider: new GoogleLoginProvider(libtech.GOOGLECLIENTID)
   }
 ]);
+
+export function provideConfig() {
+  return config;
+}
 
 @NgModule({
   declarations: [
@@ -79,10 +84,14 @@ let config = new AuthServiceConfig([
        libraries: ['places']
     }),
     HttpClientModule,
-    SocialLoginModule.initialize(config)
+    SocialLoginModule
   ],
-  providers: [AuthService,
-	      ApartmentFilterService
+  providers: [
+	      AuthService,
+              {
+                 provide: AuthServiceConfig,
+                 useFactory: provideConfig
+              }
   ],
   bootstrap: [AppComponent]
 })

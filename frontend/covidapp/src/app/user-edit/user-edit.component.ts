@@ -22,7 +22,7 @@ export class UserEditComponent implements OnInit {
   avatar_url:string;
  // name:string='yesman';
   constructor(private userService:UserService,
-	      private authService:AuthService,
+	      public authService:AuthService,
 	      private router:Router,
               private activatedRoute:ActivatedRoute) { }
 
