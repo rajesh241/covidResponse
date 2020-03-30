@@ -31,7 +31,9 @@ export class CovidCreateComponent implements OnInit {
                ) { }
 
     ngOnInit() {
-        this.showLocation();
+        console.log('Inside setCurrentLocation()')
+        this.setCurrentLocation();
+        //this.showLocation();
     }
 
     showLocation() {
@@ -39,6 +41,7 @@ export class CovidCreateComponent implements OnInit {
     }
 
     addressToCoordinates() {
+        console.log('Inside addressToCoordinates()')
         this.loading = true;
         this.geocodeService.geocodeAddress(this.address)
             .subscribe((location: Location) => {
@@ -54,6 +57,67 @@ export class CovidCreateComponent implements OnInit {
             });
     }
 
+    /* Get address given the location
+    setCurrentAddress(location) {
+        this.geocodeService.geocoder({
+            'location': { lat: location.lat, lng: location.lng }
+        }, (results, status) => {
+            console.log(results);
+            console.log(status);
+            if (status === 'OK') {
+                if (results[0]) {
+                    this.zoom = 12;
+                    this.address = results[0].formatted_address;
+                } else {
+                    window.alert('No results found');
+                }
+            } else {
+                window.alert('Geocoder failed due to: ' + status);
+            }
+        });
+    }*/
+    // Get Current Location Coordinates
+    private setCurrentLocation() {
+        console.log('Inside setCurrentLocation()')
+        if ('geolocation' in navigator) {
+            console.log('geolocation found in navigator')
+            this.loading = true;
+            navigator.geolocation.getCurrentPosition((position) => {
+                console.log('Inside getCurrentLocation()')
+                this.location.lat = position.coords.latitude;
+                this.location.lng = position.coords.longitude;
+                // FIXME - Ask Goli
+                // this.covid.latitude = Number(String(this.location.lat).toFixed(6));
+                // this.covid.longitude = Number(String(this.location.lng).toFixed(6));
+                // this.zoom = 8;
+                //this.getAddress(this.latitude, this.longitude);
+                this.covid.latitude = Number(this.location.lat.toFixed(6));
+                this.covid.longitude = Number(this.location.lng.toFixed(6));
+                this.loading = false;
+                this.ref.detectChanges();
+
+                //this.setCurrentAddress(this.location);
+            }, err => {
+                console.log(err);
+                this.success=false;
+                this.errorMessage=this.authService.getErrorMessage(err); //FIXME
+                console.log(this.errorMessage);
+            });
+        }
+        else {
+            console.log("Geolocation is not supported by this browser.");
+            alert("Geolocation is not supported by this browser.");
+            this.location.lat = 28.4720443;
+            this.location.lng = 77.1329417;
+            this.covid.latitude = Number(this.location.lat.toFixed(6));
+            this.covid.longitude = Number(this.location.lng.toFixed(6));
+            this.loading = false;
+            this.ref.detectChanges();
+            // this.zoom = 15;
+        }
+        console.log(this.location, this.address)
+    }
+
     markerDragEnd($event: MouseEvent) {
         console.log($event);
         this.location.lat = $event.coords.lat;
@@ -62,17 +126,13 @@ export class CovidCreateComponent implements OnInit {
         this.covid.longitude = Number($event.coords.lng.toFixed(6));
     }
 
-    onSubmit(){
-        this.saveCovid();
-    }
-    saveCovid(){
+    onSubmit() {
         this.covidService.createItem(this.covid)
             .subscribe(
                 data => {
                     this.success=true;
                     console.log("Covid create Successful!");
-                },
-                err => {
+                }, err => {
                     console.log(err.error);
                     this.success=false;
                     this.errorMessage=this.authService.getErrorMessage(err);
