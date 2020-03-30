@@ -18,9 +18,9 @@ import { Router } from "@angular/router"
 export class CovidCreateComponent implements OnInit {
     covid : Covid = new Covid();
     success: boolean = false;
-    errorMessage:string="";
-    address = 'Mumbai';
-    location: Location;
+    errorMessage: string="";
+    address: string;
+    location: Location = {'lat': 28.4720443, 'lng': 77.1329417};
     loading: boolean;
 
     constructor(private covidService: CovidService,
@@ -95,27 +95,26 @@ export class CovidCreateComponent implements OnInit {
                 this.covid.longitude = Number(this.location.lng.toFixed(6));
                 this.loading = false;
                 this.ref.detectChanges();
-
-                //this.setCurrentAddress(this.location);
+                console.log(this.location, this.address)
             }, err => {
                 console.log(err);
                 this.success=false;
-                this.errorMessage=this.authService.getErrorMessage(err); //FIXME
+                this.errorMessage=err.message + '(Broswer not able to detect location, assuming default. Kindly ignore)'; //FIXME
                 console.log(this.errorMessage);
+                this.loading = false;
             });
         }
         else {
             console.log("Geolocation is not supported by this browser.");
             alert("Geolocation is not supported by this browser.");
-            this.location.lat = 28.4720443;
-            this.location.lng = 77.1329417;
+            //this.location.lat = 28.4720443;
+            //this.location.lng = 77.1329417;
             this.covid.latitude = Number(this.location.lat.toFixed(6));
             this.covid.longitude = Number(this.location.lng.toFixed(6));
             this.loading = false;
             this.ref.detectChanges();
             // this.zoom = 15;
         }
-        console.log(this.location, this.address)
     }
 
     markerDragEnd($event: MouseEvent) {
