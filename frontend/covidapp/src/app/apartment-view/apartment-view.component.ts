@@ -22,7 +22,7 @@ export class ApartmentViewComponent implements OnInit, AfterViewInit {
   @ViewChild('AgmMap', {static: false}) agmMap: AgmMap;
 
   constructor(private apartmentService:ApartmentService,
-	      private authService:AuthService,
+	      public authService:AuthService,
               private activatedRoute:ActivatedRoute) { }
 
   ngOnInit() {

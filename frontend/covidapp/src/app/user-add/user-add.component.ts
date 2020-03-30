@@ -17,7 +17,7 @@ export class UserAddComponent implements OnInit {
   is_superuser:boolean=false
   success:boolean=false;
   errorMessage:string="";
-  constructor(private authService:AuthService, private userService:UserService, private router: Router) {
+  constructor(public authService:AuthService, private userService:UserService, private router: Router) {
   }
   ngOnInit() {
   }

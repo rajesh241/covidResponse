@@ -25,7 +25,7 @@ export class LoginComponent implements OnInit {
       return this.authService.isLoggedIn();
   }
   constructor(private _socioAuthServ: GAuthService,
-	  private authService:AuthService,
+	  public authService:AuthService,
 	  private router : Router,
           private ngZone: NgZone,
 	  private mealService:MealService) {

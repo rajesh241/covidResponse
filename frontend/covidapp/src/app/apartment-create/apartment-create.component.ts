@@ -25,7 +25,7 @@ export class ApartmentCreateComponent implements OnInit {
   loading: boolean;
   constructor(private apartmentService: ApartmentService,
     private geocodeService: GeocodeService,
-    private authService: AuthService,
+    public authService: AuthService,
     private ref: ChangeDetectorRef,
     private router: Router,
              ) { }

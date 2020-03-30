@@ -23,7 +23,7 @@ export class ApartmentFilterComponent  {
   success: boolean = false;
   dataLoaded: Promise<boolean>;
   constructor(
-    private authService: AuthService, private apartmentService: ApartmentService
+    public authService: AuthService, private apartmentService: ApartmentService
   ) {
     this.filterForm = new FormGroup({
       is_available: new FormControl(),
