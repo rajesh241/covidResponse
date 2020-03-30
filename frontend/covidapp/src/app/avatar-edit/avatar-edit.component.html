@@ -1,0 +1,13 @@
+<h3>Edit User Profile</h3>
+
+<label>
+  Title:
+  <input type="text" (change)="onNameChanged($event)" />
+</label>
+<br/>
+<label>
+  Cover:
+  <input type="file" (change)="onImageChanged($event)" />
+</label>
+<br/>
+<button (click)="editAvatar()">Save</button>
