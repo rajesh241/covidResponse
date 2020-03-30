@@ -1,0 +1,10 @@
+
+
+from django.urls import path, include
+from baseapp import views
+
+app_name = 'baseapp'
+urlpatterns = [
+    path('covid/', views.CovidAPIView.as_view(), name='create'),
+    path('bulkdelete/', views.CovidBulkDeleteView.as_view(), name='bulkdelete'),
+]

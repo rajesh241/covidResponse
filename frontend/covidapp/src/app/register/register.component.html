@@ -1,0 +1,44 @@
+<div class="container">
+  <h1>Register</h1>
+  <p *ngIf="!success">{{message}}</p>
+  <div class="col-lg-8 ">
+    <div class="row well center" *ngIf="!authService.token">
+    <p>{{ registerStatus }} </p>
+    <h3 *ngIf="success" class="text-success"> Account Created!</h3> 
+    <h4 *ngIf="success" > An email with the verfication link has been sent to your account. Kindly verify your account</h4>
+    <div [innerHTML]="comment"></div>
+
+    <h3 *ngIf="!success" class="text-danger" [innerHTML]="regError" ></h3> 
+    <div class="row" *ngIf="!success">
+    <label> Name </label>
+    <input 
+       type='text'
+       class="form-control"
+       [(ngModel)]="username">
+    
+    <label>Email </label>
+    <input 
+       type='text'
+       class="form-control"
+       [(ngModel)]="email">
+    <label>Password </label>
+    <input 
+       type='password'
+       class="form-control"
+       [(ngModel)]="password">
+    
+    <label>Verify Password</label>
+    <input 
+       type='password'
+       class="form-control"
+       [(ngModel)]="password2">
+    
+    <button class="btn btn-primary" 
+    	(click)="onRegister()"
+    	>
+    Register
+    </button>
+    </div> 
+    </div>
+  </div>
+</div>

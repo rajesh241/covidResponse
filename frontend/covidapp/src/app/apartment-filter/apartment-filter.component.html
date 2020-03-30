@@ -1,0 +1,126 @@
+<div class="container" [formGroup]="filterForm">
+  <div class="form-group row">
+    <label  class="col-md-2 col-form-label">Search</label>
+    <div class="col-md-4">
+      <input formControlName="search" class="form-control" placeholder="Search by apartment name, description">
+    </div>
+  </div>
+
+  <div class="form-group row" *ngIf="authService.isRealtor()">
+    <label  class="col-md-2 col-form-label">Is Apartment Available</label>
+    <div class="col-md-2">
+          <select formControlName="is_available" class="form-control">
+             <option [value]="null">Is available?</option>
+             <option [value]="1">Yes</option>
+             <option [value]="0">No</option>
+          </select>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <label class="col-md-2 col-form-label">Price Per Month (in Rupees) </label>
+    <div class="col-md-2">
+      <input  formControlName="price_per_month__gte" class="form-control" placeholder="min">
+    </div>
+    <div class="col-md-2">
+      <input  formControlName="price_per_month__lte" class="form-control" placeholder="max">
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <label  class="col-md-2 col-form-label">Floor Area Size (in sqft)</label>
+    <div class="col-md-2">
+      <input  formControlName="floor_area_size__gte" class="form-control" placeholder="min">
+    </div>
+    <div class="col-md-2">
+      <input  formControlName="floor_area_size__lte" class="form-control" placeholder="max">
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <label  class="col-md-2 col-form-label">Number of Rooms</label>
+    <div class="col-md-2">
+      <input  formControlName="number_of_rooms__gte" class="form-control" placeholder="min">
+    </div>
+    <div class="col-md-2">
+      <input  formControlName="number_of_rooms__lte" class="form-control" placeholder="max">
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <label class="col-md-2 col-form-label">Results per Page</label>
+    <div class="col-md-2">
+      <input  formControlName="limit" class="form-control" placeholder="min">
+    </div>
+    <div class="col-md-2">
+          <select formControlName="ordering" class="form-control">
+             <option value="null" selected>Sory by?</option>
+             <option value="created">Oldest Listing First</option>
+             <option value="-created">Newest Listing First</option>
+             <option value="price_per_month">Price per month Low to High</option>
+             <option value="-price_per_month">Price per month High to Low</option>
+             <option value="floor_area_size">Floor Area Size Low to High</option>
+             <option value="-floor_area_size">Floor Area Size High to Low</option>
+          </select>
+    </div>
+  </div>
+
+
+
+  <div *ngIf="dataLoaded | async" class="col-lg-12 well">
+    <div class="row">
+        <div class="col-md-12">
+            <h4 class="text-left">List Apartments</h4> 
+        </div>
+        <div class="col-lg-12 ml-auto mr-auto">
+            <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>No Of Rooms</th>
+                        <th>Price per month (Rupees)</th>
+                        <th>Floor Area Size (sqft)</th>
+			<th>Posted On</th>
+			<th>Realtor</th>
+                        <th *ngIf="authService.isRealtor()">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let apartment of (page | async)?.results;let i=index" 
+                    >
+		    <td><a [routerLink]="['/view',apartment.id]">{{apartment.name}}</a></td>
+                        <td>{{apartment.description}}</td>
+                        <td>{{apartment.number_of_rooms}}</td>
+                        <td>{{apartment.price_per_month}}</td>
+                        <td>{{apartment.floor_area_size}}</td>
+			<td>{{apartment.created | date}}</td>
+			<td>{{apartment.realtor }}</td>
+                        <td *ngIf="authService.isRealtor()" class="td-actions text-right">                             
+                            <a type="button" class="btn btn-success btn-just-icon btn-sm "
+                            style="margin-left:10px;"
+                          [routerLink]="['/edit',apartment.id]"
+                            >
+                                <i class="material-icons">Edit</i>
+                            </a>
+
+                            <button (click)="deleteApartment(apartment.id)" type="button" rel="tooltip" class="btn btn-danger btn-just-icon btn-sm" data-original-title="" title="" style="margin-left:10px;">
+                                <i class="material-icons">Delete</i>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            </div>
+     </div>
+  </div>
+    <div class="row" *ngIf="authService.isRealtor()">
+        <button class="btn btn-primary" (click)="deleteAllApartments()">
+        Delete All Apartments
+        </button>
+    </div>
+  </div>
+
+  <app-paginator [page]="page | async" (pageChange)="onPageChanged($event)"></app-paginator>
+</div>

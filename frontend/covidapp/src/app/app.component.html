@@ -1,0 +1,44 @@
+<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
+<!-- * * * * * * * * * * * The content below * * * * * * * * * * * -->
+<!-- * * * * * * * * * * is only a placeholder * * * * * * * * * * -->
+<!-- * * * * * * * * * * and can be replaced. * * * * * * * * * * * -->
+<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
+<!-- * * * * * * * * * Delete the template below * * * * * * * * * * -->
+<!-- * * * * * * * to get started with your project! * * * * * * * * -->
+<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">Covid Response</a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li class="menu-item" routerLinkActive="active" *ngIf="authService.isLoggedIn()"><a routerLink="apartments" >Listing</a></li>
+        <li class="menu-item" routerLinkActive="active" *ngIf="authService.isLoggedIn()"><a routerLink="map" >Map</a></li>
+        <li class="menu-item" routerLinkActive="active" *ngIf="authService.isRealtor()"><a routerLink="add" >Create</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li class="menu-item" routerLinkActive="active" *ngIf="!authService.isLoggedIn()"><a routerLink="login" >Login</a></li>
+        <li class="menu-item" routerLinkActive="active" *ngIf="!authService.isLoggedIn()"><a routerLink="register" >Register</a></li>
+        <li class="menu-item" routerLinkActive="active" *ngIf="authService.isRealtor()"><a routerLink="users" >Users</a></li>
+        <li class="menu-item" routerLinkActive="active" *ngIf="authService.isLoggedIn()"><a routerLink="profile" >Profile</a></li>
+        <li><a href="#" (click)="authService.logout()"  *ngIf="authService.isLoggedIn()">Logout  </a></li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+
+
+<div style="margin-top:50px;">
+   <router-outlet></router-outlet>
+</div>
