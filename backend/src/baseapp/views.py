@@ -8,7 +8,8 @@ from django_filters import rest_framework as filters
 from rest_framework import mixins, generics, permissions
 from baseapp.models import Covid, Context
 from user.mixins import HttpResponseMixin
-from .serializers import (CovidSerializer,ItemSerializer, ContextSerializer
+from .serializers import (CovidSerializer,ItemSerializer, ContextSerializer,
+                          ContextPublicSerializer
                          )
 from user.permissions import IsStaffReadWriteOrAuthReadOnly
 from user.utils import is_json
@@ -136,6 +137,10 @@ class CovidBulkDeleteView(GenericAPIView):
 
 
 
+class CreateContextView(generics.CreateAPIView):
+    """Create a new user in the system"""
+    permission_classes = (permissions.AllowAny,)
+    serializer_class = ContextPublicSerializer
 
 class ContextFilter(filters.FilterSet):
  #   min_price = filters.NumberFilter(field_name="price", lookup_expr='gte')

@@ -43,7 +43,8 @@ class Context(models.Model):
                                    blank=True)
     who_are_you = models.CharField(max_length=1024, blank=True, null=True)
     email = models.EmailField(blank=True, null=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True,
+                             blank=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 

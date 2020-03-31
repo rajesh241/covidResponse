@@ -23,8 +23,9 @@ export class ContextCreateComponent implements OnInit {
     address: string;
     location: Location = {'lat': 28.4720443, 'lng': 77.1329417};
     loading: boolean;
+    isVolunteer: boolean = false;
     form_type: string;
-
+    formTitle : string = "Please give some more detail"
     constructor(private contextService: ContextService,
                 private geocodeService: GeocodeService,
                 private authService: AuthService,
@@ -43,6 +44,13 @@ export class ContextCreateComponent implements OnInit {
         this.setCurrentLocation();
         //this.showLocation();
 	console.log('Form type is ' + this.form_type);
+	if (this.form_type == "help"){
+		this.formTitle = "Give more details on what help we can provide you";
+		this.isVolunteer = false;
+	}else{
+		this.formTitle = "Give more details on what help you can provide";
+		this.isVolunteer = true;
+	}
     }
 
     showLocation() {
@@ -135,7 +143,8 @@ export class ContextCreateComponent implements OnInit {
     }
 
     onSubmit() {
-        this.contextService.createItem(this.context)
+	console.log(this.context);
+        this.contextService.createItemPublic(this.context)
             .subscribe(
                 data => {
                     this.success=true;
