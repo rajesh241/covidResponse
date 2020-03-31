@@ -18,6 +18,7 @@ import { Router } from "@angular/router"
 })
 export class ContextCreateComponent implements OnInit {
     context = new Context();
+    //context : any;
     success: boolean = false;
     errorMessage: string="";
     address: string;

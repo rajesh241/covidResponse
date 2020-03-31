@@ -11,9 +11,9 @@
             <label  class="col-sm-6 col-form-label">Whom do you represent</label>
             <div class="col-sm-6">
               <select  class="form-control" name="who_are_you" [(ngModel)]="context.who_are_you">
-                <option [value]="null">Who are you</option>
-                <option [value]="individual">I am an individual / small organization</option>
-                <option [value]="organization">I represent a large organization</option>
+                <option value="null">Who are you</option>
+                <option value="individual">I am an individual / small organization</option>
+                <option value="organization">I represent a large organization</option>
               </select>
             </div>
           </div>
@@ -54,12 +54,11 @@
             <label  class="col-sm-6 col-form-label">What kind of help do you need</label>
             <div class="col-sm-6">
               <select  class="form-control" name="what_help" [(ngModel)]="context.what_help">
-                <option [value]="null">Who kind of help do you need</option>
-                <option [value]="food">Food supplies</option>
-                <option [value]="medical">Medical</option>
-                <option [value]="police">Help with Police</option>
-                <option [value]="transport">Transport</option>
-                <option [value]="Other">Other</option>
+                <option value="food">Food supplies</option>
+                <option value="medical">Medical</option>
+                <option value="police">Help with Police</option>
+                <option value="transport">Transport</option>
+                <option value="Other">Other</option>
               </select>
             </div>
           </div>
@@ -68,9 +67,9 @@
             <label  class="col-sm-6 col-form-label">What kind of help do you need</label>
             <div class="col-sm-6">
               <select  class="form-control"  name="how_urgent" [(ngModel)]="context.how_urgent">
-                <option [value]="null">How urgent do you need help</option>
-                <option [value]="critical">Critial</option>
-                <option [value]="urgent">Urgent</option>
+                <option value="null">How urgent do you need help</option>
+                <option value="critical">Critial</option>
+                <option value="urgent">Urgent</option>
               </select>
             </div>
           </div>
