@@ -35,6 +35,7 @@ import { UserAddComponent } from './user-add/user-add.component';
 import { CovidCreateComponent } from './covid/covid-create/covid-create.component';
 import { ContextCreateComponent } from './context/context-create/context-create.component';
 import { ContextFilterComponent } from './context/context-filter/context-filter.component';
+import { ContextMapComponent } from './context/context-map/context-map.component';
 
 
 //const google_oauth_client_id:string = '849540517607-9alj6fb3hoo3lhrlml4upqkme070bo2f.apps.googleusercontent.com';
@@ -77,6 +78,7 @@ export function provideConfig() {
     CovidCreateComponent,
     ContextCreateComponent,
     ContextFilterComponent,
+    ContextMapComponent,
   ],
   imports: [
     BrowserModule,
