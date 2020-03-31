@@ -4,6 +4,7 @@ import { AuthGuard } from './helpers/auth.guard';
 import { CovidCreateComponent } from "./covid/covid-create/covid-create.component";
 import { ContextCreateComponent } from "./context/context-create/context-create.component";
 import { ContextFilterComponent } from "./context/context-filter/context-filter.component";
+import { ContextMapComponent } from "./context/context-map/context-map.component";
 import { ApartmentListComponent } from "./apartment-list/apartment-list.component";
 import { ApartmentMapComponent } from "./apartment-map/apartment-map.component";
 import { ApartmentCreateComponent } from "./apartment-create/apartment-create.component";
@@ -28,7 +29,7 @@ const routes: Routes = [
   {path : 'invite', component : InviteComponent},
   {path : 'apartments', component : ApartmentFilterComponent, canActivate: [AuthGuard]},
   {path : 'contexts', component : ContextFilterComponent, canActivate: [AuthGuard]},
-  {path : 'map', component : ApartmentMapComponent},
+  {path : 'map', component : ContextMapComponent},
   {path : 'users', component : UserListComponent},
   {path : 'login', component : LoginComponent},
   {path : 'register', component : RegisterComponent},
