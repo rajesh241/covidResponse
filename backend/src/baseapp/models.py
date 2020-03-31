@@ -27,7 +27,7 @@ class Covid(models.Model):
 class Context(models.Model):
     """This is the basic class for Aparment"""
     name = models.CharField(max_length=256)
-    phone = models.IntegerField(blank=True, null=True)
+    phone = models.BigIntegerField(blank=True, null=True)
     description = models.TextField(blank=True, null=True)
     how_many_people = models.IntegerField(blank=True, null=True)
     what_help = models.TextField(blank=True, null=True)
