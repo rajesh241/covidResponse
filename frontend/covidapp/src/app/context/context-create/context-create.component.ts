@@ -12,12 +12,12 @@ import { Router } from "@angular/router"
 
 
 @Component({
-  selector: 'app-context-create',
-  templateUrl: './context-create.component.html',
-  styleUrls: ['./context-create.component.css']
+    selector: 'app-context-create',
+    templateUrl: './context-create.component.html',
+    styleUrls: ['./context-create.component.css']
 })
 export class ContextCreateComponent implements OnInit {
-    context : Context = new Context();
+    context = new Context();
     success: boolean = false;
     errorMessage: string="";
     address: string;
@@ -36,25 +36,25 @@ export class ContextCreateComponent implements OnInit {
 
     ngOnInit() {
         this.activatedRoute.paramMap.subscribe(
-          params => {
-             this.form_type=params.get("form");
-          }  
+            params => {
+                this.form_type=params.get("form");
+            }
         )
         console.log('Inside setCurrentLocation()')
         this.setCurrentLocation();
         //this.showLocation();
-	console.log('Form type is ' + this.form_type);
-	if (this.form_type == "help"){
-		this.formTitle = "Give more details on what help we can provide you";
-		this.isVolunteer = false;
-		this.context.record_type = "needHelp";
-		this.context.icon_url = "http://maps.google.com/mapfiles/ms/icons/red-dot.png";
-	}else{
-		this.formTitle = "Give more details on what help you can provide";
-		this.isVolunteer = true;
-		this.context.record_type = "volunteer";
-		this.context.icon_url = "http://maps.google.com/mapfiles/ms/icons/blue-dot.png";
-	}
+        console.log('Form type is ' + this.form_type);
+        if (this.form_type == "help"){
+            this.formTitle = "Give more details on what help we can provide you";
+            this.isVolunteer = false;
+            this.context.record_type = "needHelp";
+            this.context.icon_url = "http://maps.google.com/mapfiles/ms/icons/red-dot.png";
+        }else{
+            this.formTitle = "Give more details on what help you can provide";
+            this.isVolunteer = true;
+            this.context.record_type = "volunteer";
+            this.context.icon_url = "http://maps.google.com/mapfiles/ms/icons/blue-dot.png";
+        }
     }
 
     showLocation() {
@@ -79,24 +79,24 @@ export class ContextCreateComponent implements OnInit {
     }
 
     /* Get address given the location
-    setCurrentAddress(location) {
-        this.geocodeService.geocoder({
-            'location': { lat: location.lat, lng: location.lng }
-        }, (results, status) => {
-            console.log(results);
-            console.log(status);
-            if (status === 'OK') {
-                if (results[0]) {
-                    this.zoom = 12;
-                    this.address = results[0].formatted_address;
-                } else {
-                    window.alert('No results found');
-                }
-            } else {
-                window.alert('Geocoder failed due to: ' + status);
-            }
-        });
-    }*/
+       setCurrentAddress(location) {
+       this.geocodeService.geocoder({
+       'location': { lat: location.lat, lng: location.lng }
+       }, (results, status) => {
+       console.log(results);
+       console.log(status);
+       if (status === 'OK') {
+       if (results[0]) {
+       this.zoom = 12;
+       this.address = results[0].formatted_address;
+       } else {
+       window.alert('No results found');
+       }
+       } else {
+       window.alert('Geocoder failed due to: ' + status);
+       }
+       });
+       }*/
     // Get Current Location Coordinates
     private setCurrentLocation() {
         console.log('Inside setCurrentLocation()')
@@ -147,7 +147,7 @@ export class ContextCreateComponent implements OnInit {
     }
 
     onSubmit() {
-	console.log(this.context);
+        console.log(this.context);
         this.contextService.createItemPublic(this.context)
             .subscribe(
                 data => {

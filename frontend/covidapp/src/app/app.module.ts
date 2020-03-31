@@ -48,69 +48,69 @@ import { MatExpansionModule } from '@angular/material/expansion';
 //const google_oauth_client_id:string = '849540517607-9alj6fb3hoo3lhrlml4upqkme070bo2f.apps.googleusercontent.com';
 
 let config = new AuthServiceConfig([
-  {
-    id: GoogleLoginProvider.PROVIDER_ID,
-    provider: new GoogleLoginProvider(libtech.GOOGLECLIENTID)
-  }
+    {
+        id: GoogleLoginProvider.PROVIDER_ID,
+        provider: new GoogleLoginProvider(libtech.GOOGLECLIENTID)
+    }
 ]);
 
 export function provideConfig() {
-  return config;
+    return config;
 }
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    LoginComponent,
-    ProfileEditComponent,
-    DateFilterPipe,
-    RegisterComponent,
-    UserListComponent,
-    UserEditComponent,
-    TimeFilterPipe,
-    RegisterConfirmComponent,
-    AvatarEditComponent,
-    ApartmentListComponent,
-    PaginatorComponent,
-    ApartmentFilterComponent,
-    ApartmentCreateComponent,
-    ApartmentEditComponent,
-    ApartmentMapComponent,
-    Oauth2callbackComponent,
-    ApartmentViewComponent,
-    PasswordresetComponent,
-    PasswordresetConfirmComponent,
-    InviteComponent,
-    UserAddComponent,
-    CovidCreateComponent,
-    ContextCreateComponent,
-    ContextFilterComponent,
-    ContextMapComponent,
-    CovidHomeComponent,
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    FormsModule,
-    MatButtonModule,
-    MatCardModule,
-    MatExpansionModule,
-    ReactiveFormsModule,
-    AgmCoreModule.forRoot({
-       apiKey: libtech.googleAPIKey,
-       libraries: ['places']
-    }),
-    HttpClientModule,
-    SocialLoginModule,
-    BrowserAnimationsModule
-  ],
-  providers: [
-	      AuthService,
-              {
-                 provide: AuthServiceConfig,
-                 useFactory: provideConfig
-              }
-  ],
-  bootstrap: [AppComponent]
+    declarations: [
+        AppComponent,
+        LoginComponent,
+        ProfileEditComponent,
+        DateFilterPipe,
+        RegisterComponent,
+        UserListComponent,
+        UserEditComponent,
+        TimeFilterPipe,
+        RegisterConfirmComponent,
+        AvatarEditComponent,
+        ApartmentListComponent,
+        PaginatorComponent,
+        ApartmentFilterComponent,
+        ApartmentCreateComponent,
+        ApartmentEditComponent,
+        ApartmentMapComponent,
+        Oauth2callbackComponent,
+        ApartmentViewComponent,
+        PasswordresetComponent,
+        PasswordresetConfirmComponent,
+        InviteComponent,
+        UserAddComponent,
+        CovidCreateComponent,
+        ContextCreateComponent,
+        ContextFilterComponent,
+        ContextMapComponent,
+        CovidHomeComponent,
+    ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        FormsModule,
+        MatButtonModule,
+        MatCardModule,
+        MatExpansionModule,
+        ReactiveFormsModule,
+        AgmCoreModule.forRoot({
+            apiKey: libtech.googleAPIKey,
+            libraries: ['places']
+        }),
+        HttpClientModule,
+        SocialLoginModule,
+        BrowserAnimationsModule
+    ],
+    providers: [
+        AuthService,
+        {
+            provide: AuthServiceConfig,
+            useFactory: provideConfig
+        }
+    ],
+    bootstrap: [AppComponent]
 })
 export class AppModule { }
