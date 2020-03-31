@@ -17,6 +17,7 @@ import {Router} from "@angular/router"
   styleUrls: ['./context-map.component.css']
 })
 export class ContextMapComponent  {
+  iconUrl:string = "https://maps.google.com/mapfiles/kml/shapes/parking_lot_maps.png";
   latitude = 19.1990;
   longitude = 72.8589;
   lat_max:number = 20.23320865099854;

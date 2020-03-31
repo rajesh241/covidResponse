@@ -22,7 +22,8 @@
 
       <div *ngFor="let context of (page | async)?.results" [ngClass]="{'available': context.is_available, 'context': true}">
           <agm-marker (mouseOver)="window.open()" (mouseOut)="window.close()" (markerClick)="markerClick(context.id)" [latitude]="context.latitude"
-            [longitude]="context.longitude">
+				  [longitude]="context.longitude" [iconUrl]="context.icon_url" 
+				  >
             <agm-info-window #window>
               <h6>Name: {{context.name}}</h6>
               <h6>Description: {{context.description}}</h6>
