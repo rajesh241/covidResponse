@@ -47,9 +47,13 @@ export class ContextCreateComponent implements OnInit {
 	if (this.form_type == "help"){
 		this.formTitle = "Give more details on what help we can provide you";
 		this.isVolunteer = false;
+		this.context.record_type = "needHelp";
+		this.context.icon_url = "http://maps.google.com/mapfiles/ms/icons/red-dot.png";
 	}else{
 		this.formTitle = "Give more details on what help you can provide";
 		this.isVolunteer = true;
+		this.context.record_type = "volunteer";
+		this.context.icon_url = "http://maps.google.com/mapfiles/ms/icons/blue-dot.png";
 	}
     }
 
