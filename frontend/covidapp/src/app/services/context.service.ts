@@ -29,7 +29,7 @@ export class ContextService {
     return this.http.get(this.listEndPoint,this.getHttpOptions());
   }
   
-  itemBulkDelete(data){
+  bulkDeleteItems(data){
     return this.http.post(this.bulkDeleteEndpoint,data,this.getHttpOptions());
   }
   createItem(context:Context){

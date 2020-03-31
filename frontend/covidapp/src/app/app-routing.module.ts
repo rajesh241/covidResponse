@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from './helpers/auth.guard';
 import { CovidCreateComponent } from "./covid/covid-create/covid-create.component";
 import { ContextCreateComponent } from "./context/context-create/context-create.component";
+import { ContextFilterComponent } from "./context/context-filter/context-filter.component";
 import { ApartmentListComponent } from "./apartment-list/apartment-list.component";
 import { ApartmentMapComponent } from "./apartment-map/apartment-map.component";
 import { ApartmentCreateComponent } from "./apartment-create/apartment-create.component";
@@ -23,9 +24,10 @@ import { InviteComponent } from "./invite/invite.component";
 import { Oauth2callbackComponent } from './oauth2callback/oauth2callback.component';
 
 const routes: Routes = [
-  {path : '', redirectTo: 'apartments' ,pathMatch:'full'},
+  {path : '', redirectTo: 'contexts' ,pathMatch:'full'},
   {path : 'invite', component : InviteComponent},
   {path : 'apartments', component : ApartmentFilterComponent, canActivate: [AuthGuard]},
+  {path : 'contexts', component : ContextFilterComponent, canActivate: [AuthGuard]},
   {path : 'map', component : ApartmentMapComponent},
   {path : 'users', component : UserListComponent},
   {path : 'login', component : LoginComponent},
