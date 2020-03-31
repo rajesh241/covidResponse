@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from './helpers/auth.guard';
 import { CovidCreateComponent } from "./covid/covid-create/covid-create.component";
+import { ContextCreateComponent } from "./context/context-create/context-create.component";
 import { ApartmentListComponent } from "./apartment-list/apartment-list.component";
 import { ApartmentMapComponent } from "./apartment-map/apartment-map.component";
 import { ApartmentCreateComponent } from "./apartment-create/apartment-create.component";
@@ -30,7 +31,7 @@ const routes: Routes = [
   {path : 'login', component : LoginComponent},
   {path : 'register', component : RegisterComponent},
   {path : 'regconfirm', component : RegisterConfirmComponent},
-  {path : 'add', component : CovidCreateComponent},
+  {path : 'add', component : ContextCreateComponent},
   {path : 'edit/:id', component : ApartmentEditComponent},
   {path : 'view/:id', component : ApartmentViewComponent},
   {path : 'useredit/:id', component : UserEditComponent},
