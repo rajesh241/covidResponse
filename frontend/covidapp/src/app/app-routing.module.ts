@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from './helpers/auth.guard';
+import { CovidHomeComponent } from "./covid/covid-home/covid-home.component";
 import { CovidCreateComponent } from "./covid/covid-create/covid-create.component";
 import { ContextCreateComponent } from "./context/context-create/context-create.component";
 import { ContextFilterComponent } from "./context/context-filter/context-filter.component";
@@ -25,7 +26,8 @@ import { InviteComponent } from "./invite/invite.component";
 import { Oauth2callbackComponent } from './oauth2callback/oauth2callback.component';
 
 const routes: Routes = [
-  {path : '', redirectTo: 'contexts' ,pathMatch:'full'},
+  // {path : '', redirectTo: 'contexts', pathMatch:'full'},
+  {path : '', component : CovidHomeComponent},
   {path : 'invite', component : InviteComponent},
   {path : 'apartments', component : ApartmentFilterComponent, canActivate: [AuthGuard]},
   {path : 'contexts', component : ContextFilterComponent, canActivate: [AuthGuard]},
@@ -43,8 +45,6 @@ const routes: Routes = [
   {path : 'avatar', component : AvatarEditComponent},
   {path : 'pwdreset', component : PasswordresetComponent},
   {path : 'pwdresetconfirm', component : PasswordresetConfirmComponent},
-
-
 ];
 
 @NgModule({

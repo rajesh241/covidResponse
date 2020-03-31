@@ -36,7 +36,14 @@ import { CovidCreateComponent } from './covid/covid-create/covid-create.componen
 import { ContextCreateComponent } from './context/context-create/context-create.component';
 import { ContextFilterComponent } from './context/context-filter/context-filter.component';
 import { ContextMapComponent } from './context/context-map/context-map.component';
+import { CovidHomeComponent } from './covid/covid-home/covid-home.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+// Angular Material
+import { MatButtonModule } from '@angular/material';
+//import { MatIconModule } from '@angular/material';
+import { MatCardModule } from '@angular/material/card';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 //const google_oauth_client_id:string = '849540517607-9alj6fb3hoo3lhrlml4upqkme070bo2f.apps.googleusercontent.com';
 
@@ -79,18 +86,23 @@ export function provideConfig() {
     ContextCreateComponent,
     ContextFilterComponent,
     ContextMapComponent,
+    CovidHomeComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
+    MatButtonModule,
+    MatCardModule,
+    MatExpansionModule,
     ReactiveFormsModule,
     AgmCoreModule.forRoot({
        apiKey: libtech.googleAPIKey,
        libraries: ['places']
     }),
     HttpClientModule,
-    SocialLoginModule
+    SocialLoginModule,
+    BrowserAnimationsModule
   ],
   providers: [
 	      AuthService,
