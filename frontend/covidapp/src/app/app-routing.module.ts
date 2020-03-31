@@ -30,7 +30,7 @@ const routes: Routes = [
   {path : '', component : CovidHomeComponent},
   {path : 'invite', component : InviteComponent},
   {path : 'apartments', component : ApartmentFilterComponent, canActivate: [AuthGuard]},
-  {path : 'contexts', component : ContextFilterComponent, canActivate: [AuthGuard]},
+  {path : 'list', component : ContextFilterComponent},
   {path : 'map', component : ContextMapComponent},
   {path : 'users', component : UserListComponent},
   {path : 'login', component : LoginComponent},
