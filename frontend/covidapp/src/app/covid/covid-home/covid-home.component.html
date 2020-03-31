@@ -8,12 +8,12 @@ You can request for help yourself(Help) or on behalf of someone(Volunteer)
   <mat-card-content class="col-md-6" style="padding: 0px 15px;">
     <div>
       <button mat-raised-button>
-        <a routerLink="/crisis-center" routerLink="add">Volunteer</a>
+        <a routerLink="/crisis-center" [routerLink]="['add','volunteer']">I want to Volunteer</a>
       </button>
     </div>
     <div>
       <button mat-raised-button>
-        <a routerLink="/crisis-center" routerLink="add">Help</a>
+        <a routerLink="/crisis-center" [routerLink]="['add','help']">I Need Help</a>
       </button>
     </div>
   </mat-card-content>

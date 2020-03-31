@@ -1,4 +1,5 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { ActivatedRoute } from "@angular/router";
 import { Context } from "../../models/context";
 import { ContextService } from "../../services/context.service";
 import { AuthService } from "../../services/auth.service";
@@ -22,18 +23,26 @@ export class ContextCreateComponent implements OnInit {
     address: string;
     location: Location = {'lat': 28.4720443, 'lng': 77.1329417};
     loading: boolean;
+    form_type: string;
 
     constructor(private contextService: ContextService,
                 private geocodeService: GeocodeService,
                 private authService: AuthService,
+                private activatedRoute:ActivatedRoute,
                 private ref: ChangeDetectorRef,
                 private router: Router,
                ) { }
 
     ngOnInit() {
+        this.activatedRoute.paramMap.subscribe(
+          params => {
+             this.form_type=params.get("form");
+          }  
+        )
         console.log('Inside setCurrentLocation()')
         this.setCurrentLocation();
         //this.showLocation();
+	console.log('Form type is ' + this.form_type);
     }
 
     showLocation() {
