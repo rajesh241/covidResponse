@@ -44,8 +44,7 @@ export function queryPaginated<T>(http: HttpClient, baseUrl: string, urlOrFilter
   headers = headers.set("Authorization", "Bearer " + token)
   console.log(headers);
   return http.get<Page<T>>(url, {
-    params: params,
-    headers: headers
+    params: params
   });
 }
 
@@ -71,7 +70,6 @@ export function queryPaginatedLocations<T>(http: HttpClient, baseUrl: string, ge
   headers = headers.set("Authorization", "Bearer " + token)
   console.log(headers);
   return http.get<Page<T>>(url, {
-    params: params,
-    headers: headers
+    params: params
   });
 }

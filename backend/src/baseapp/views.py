@@ -11,7 +11,7 @@ from user.mixins import HttpResponseMixin
 from .serializers import (CovidSerializer,ItemSerializer, ContextSerializer,
                           ContextPublicSerializer
                          )
-from user.permissions import IsStaffReadWriteOrAuthReadOnly
+from user.permissions import IsStaffReadWriteOrAuthReadOnly, IsStaffReadWriteOrReadOnly
 from user.utils import is_json
 
 
@@ -174,7 +174,7 @@ class ContextAPIView(HttpResponseMixin,
                     mixins.UpdateModelMixin,
                     generics.ListAPIView):
     """API View for the Report Model"""
-    permission_classes = [IsStaffReadWriteOrAuthReadOnly]
+    permission_classes = [IsStaffReadWriteOrReadOnly]
     #permission_classes = [permissions.IsAuthenticated]
     serializer_class = ContextSerializer
     passed_id = None
