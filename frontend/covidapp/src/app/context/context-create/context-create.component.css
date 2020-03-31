@@ -1,0 +1,13 @@
+agm-map {
+    height: 300px;
+    margin: 20px;
+    margin-top: 0px;
+}
+
+* {
+    font-family: Lato;
+}
+
+a {
+    color: darkblue;
+}

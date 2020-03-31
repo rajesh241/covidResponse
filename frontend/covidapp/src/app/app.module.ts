@@ -33,6 +33,7 @@ import { PasswordresetConfirmComponent } from './passwordreset-confirm/passwordr
 import { InviteComponent } from './invite/invite.component';
 import { UserAddComponent } from './user-add/user-add.component';
 import { CovidCreateComponent } from './covid/covid-create/covid-create.component';
+import { ContextCreateComponent } from './context/context-create/context-create.component';
 
 
 //const google_oauth_client_id:string = '849540517607-9alj6fb3hoo3lhrlml4upqkme070bo2f.apps.googleusercontent.com';
@@ -73,6 +74,7 @@ export function provideConfig() {
     InviteComponent,
     UserAddComponent,
     CovidCreateComponent,
+    ContextCreateComponent,
   ],
   imports: [
     BrowserModule,
