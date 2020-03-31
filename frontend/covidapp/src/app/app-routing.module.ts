@@ -36,7 +36,7 @@ const routes: Routes = [
   {path : 'login', component : LoginComponent},
   {path : 'register', component : RegisterComponent},
   {path : 'regconfirm', component : RegisterConfirmComponent},
-  {path : 'add', component : ContextCreateComponent},
+  {path : 'add/:form', component : ContextCreateComponent},
   {path : 'edit/:id', component : ApartmentEditComponent},
   {path : 'view/:id', component : ApartmentViewComponent},
   {path : 'useredit/:id', component : UserEditComponent},
