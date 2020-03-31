@@ -13,6 +13,7 @@ import { Page, queryPaginated, queryPaginatedLocations} from '../pagination';
 export class ContextService {
   private endpoint = environment.apiURL+"/api/public/context/";
   private listEndPoint = environment.apiURL+"/api/public/context/";
+  private createEndPoint = environment.apiURL+"/api/public/create/";
   private bulkDeleteEndpoint = environment.apiURL+"/api/public/bulkdeleteapt/";
   constructor( private http :  HttpClient ) { }
   getItem(id:number):Observable<any>{
@@ -35,6 +36,9 @@ export class ContextService {
   createItem(context:Context){
     return this.http.post(this.endpoint,context,this.getHttpOptions());
   }
+  createItemPublic(context:Context){
+    return this.http.post(this.createEndPoint,context,this.getPublicHttpOptions());
+  }
   updateItem(id:number,payload:any):Observable<object>{
     return this.http.put(this.endpoint+"?id="+id,payload,this.getHttpOptions())
   }
@@ -42,13 +46,20 @@ export class ContextService {
     return this.http.delete(this.endpoint+"?id="+id,this.getHttpOptions())
 
   }
- 
+   
   getHttpOptions() {
    const token = localStorage.getItem("id_token");
     return {
       headers: new HttpHeaders({
       'content-type':'application/json',
       "Authorization" : "Bearer " + token
+      })
+    };
+  }
+  getPublicHttpOptions() {
+    return {
+      headers: new HttpHeaders({
+      'content-type':'application/json',
       })
     };
   }
