@@ -13,7 +13,7 @@ class ContextSerializer(serializers.ModelSerializer):
     user = serializers.HiddenField(default=serializers.CurrentUserDefault())
     class Meta:
         """Meta Class"""
-        model = Covid
+        model = Context
         fields = '__all__'
         extra_kwargs = {
                    'description' :  { 'required': True,'error_messages': {'required':'field is required'}},
