@@ -36,6 +36,7 @@ export class CovidSearchComponent implements OnInit {
     zoom:number;
     address: string;
     displayFilter:boolean=false;
+    patch_data:any;
     private geoCoder;
 
     // FIXME: 2nd Argument added for Angular 8
@@ -59,6 +60,7 @@ export class CovidSearchComponent implements OnInit {
     constructor(
         private mapsAPILoader: MapsAPILoader,
         private contextService: ContextService,
+        public authService: AuthService,
         private ngZone: NgZone
     ) {
         this.filterForm = new FormGroup({
@@ -244,7 +246,33 @@ export class CovidSearchComponent implements OnInit {
             return false;
         }
     }
-
+    toggleFunctional(context_id, is_functional, record_type){
+	    console.log(context_id);
+	    console.log(is_functional);
+	    is_functional = !is_functional;
+	    if(is_functional){
+		   if(record_type == "needHelp"){
+		      this.patch_data = {'is_functional':1,'icon_url':'https://covidb.libtech.in/media/icons/red-dot.png'}
+		   }else if(record_type == "facility"){
+		      this.patch_data = {'is_functional':1,'icon_url':'https://covidb.libtech.in/media/icons/green-dot.png'}
+		   }else{
+		      this.patch_data = {'is_functional':1,'icon_url':'https://covidb.libtech.in/media/icons/blue-dot.png'}
+		   }
+	    }else{
+		   this.patch_data = {'is_functional':0,'icon_url':'https://covidb.libtech.in/media/icons/yellow-dot.png'}
+	    }
+	    console.log(this.patch_data);
+            this.contextService.patchItem(context_id,this.patch_data)
+            .subscribe(
+                data => {
+			console.log("Update Success");
+			this.loadpage();
+	        },
+                err => {
+                   console.log("Update Failed");
+	           }
+               );
+    }
     getAddress(latitude, longitude) {
         this.geoCoder.geocode({ 'location': { lat: latitude, lng: longitude } }, (results, status) => {
             console.log(results);
