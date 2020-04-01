@@ -1,30 +1,11 @@
-<div class="container">
+<div class="container" align="center">
 
   <h1>Search For Relief</h1>
   <br />
+  <h5><b>NOTE: Please drag and correct if need be!</b></h5>
   <div class="form-group">
-    <label>Enter the address of the person looking for help</label>
-    <input type="text" class="form-control" (keydown.enter)="$event.preventDefault()" placeholder="Search Nearest Location" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" #search>
-  </div>
-  <br />
-
-  <div [formGroup]="filterForm">
-    <div class="form-group row">
-      <label  class="col-md-2 col-form-label">Search</label>
-      <div class="col-md-4">
-        <input formControlName="search" class="form-control" placeholder="Search by name, description">
-      </div>
-    </div>
-   
-    <div class="form-group row" >
-      <label  class="col-md-2 col-form-label">Type</label>
-      <div class="col-md-2">
-            <select formControlName="record_type" class="form-control">
-               <option value="needHelp">Crisis</option>
-               <option value="facility">Relief</option>
-            </select>
-      </div>
-    </div>
+    <!--<label>Enter the address of the person looking for help</label>-->
+    <input type="text" class="form-control" (keydown.enter)="$event.preventDefault()" placeholder="Enter the address of the person looking for help" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" #search>
   </div>
   <br />
 
@@ -42,9 +23,9 @@
         <agm-marker (markerClick)="clickedMarker(m.name, i)" [latitude]="m.latitude" [longitude]="m.longitude" [label]="m.label" [iconUrl]="m.icon_url" *ngIf="m.is_active">
 
           <agm-info-window>
-              <h6>Name: {{m.name}}</h6>
-              <h6>Description: {{m.description}}</h6>
-	      <h6><a href="/item/{{m.id}}">View</a></h6>
+            <h6>Name: {{m.name}}</h6>
+            <h6>Description: {{m.description}}</h6>
+            <h6><a href="/item/{{m.id}}">View</a></h6>
           </agm-info-window>
 
         </agm-marker>
@@ -61,11 +42,25 @@
       </agm-marker>
     </agm-map>
   </div>
+  <h5>Address: {{address}}</h5>
+  <!-- <h5>Current Location - Latitude: {{latitude}} Longitude: {{longitude}}</h5> -->
+  <br />
 
-  <br />
-  <h5>Address: {{address}}   <b>NOTE: Please drag and correct if need be!</b></h5>
-  <br />
-
-  <h5>Current Location - Latitude: {{latitude}} Longitude: {{longitude}}</h5>
-  <br />
+  <div [formGroup]="filterForm">
+    <div class="row">
+      <section align="center" formControlName="record_type" class="cb-section cb-margin">
+        <mat-checkbox class="cb-margin" [(ngModel)]="facility">Relief<img src="./assets/blue-dot.png"></mat-checkbox>
+        <mat-checkbox class="cb-margin" [(ngModel)]="needHelp">Crisis<img src="./assets/red-dot.png"></mat-checkbox>
+        <mat-checkbox class="cb-margin" [(ngModel)]="volunteers">Volunteers<img src="./assets/green-dot.png"></mat-checkbox>
+        <mat-checkbox class="cb-margin" [(ngModel)]="treatment">Treatment<img src="./assets/marker-red.png"></mat-checkbox>
+      </section>
+      <br />
+    </div>
+    <div class="form-group row">
+      <label class="col-md-2 col-form-label">Filter</label>
+      <div class="col-md-4">
+        <input formControlName="search" class="form-control" placeholder="Filter by name, description">
+      </div>
+    </div>
+  </div>
 </div>
