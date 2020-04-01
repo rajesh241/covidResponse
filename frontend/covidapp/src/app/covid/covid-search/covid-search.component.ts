@@ -65,6 +65,7 @@ export class CovidSearchComponent implements OnInit {
             longitude__gte : new FormControl(),
             latitude__lte : new FormControl(),
             longitude__lte : new FormControl(),
+            record_type : new FormControl(),
             limit : new FormControl(5000),
             search: new FormControl()
         });
