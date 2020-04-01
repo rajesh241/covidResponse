@@ -10,6 +10,7 @@ import { ContextCreateComponent } from "./context/context-create/context-create.
 import { ContextFilterComponent } from "./context/context-filter/context-filter.component";
 import { ContextEditComponent } from "./context/context-edit/context-edit.component";
 import { ContextMapComponent } from "./context/context-map/context-map.component";
+import { AboutComponent } from "./about/about.component";
 import { UserListComponent } from "./user-list/user-list.component";
 import { LoginComponent } from "./login/login.component";
 import { UserEditComponent } from "./user-edit/user-edit.component";
@@ -32,6 +33,7 @@ const routes: Routes = [
     {path : 'invite', component : InviteComponent},
     {path : 'list', component : ContextFilterComponent},
     {path : 'map', component : ContextMapComponent},
+    {path : 'about', component : AboutComponent},
     {path : 'users', component : UserListComponent},
     {path : 'login', component : LoginComponent},
     {path : 'register', component : RegisterComponent},

@@ -40,6 +40,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule } from '@angular/material';
 import { MatCheckboxModule } from '@angular/material';
 import { MatCardModule } from '@angular/material/card';
+import { AboutComponent } from './about/about.component';
 
 //const google_oauth_client_id:string = '849540517607-9alj6fb3hoo3lhrlml4upqkme070bo2f.apps.googleusercontent.com';
 
@@ -81,6 +82,7 @@ export function provideConfig() {
         CovidLocateComponent,
         CovidSearchComponent,
         ContextEditComponent,
+        AboutComponent,
     ],
     imports: [
         BrowserModule,
