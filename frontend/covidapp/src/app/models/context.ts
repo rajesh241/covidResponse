@@ -2,6 +2,7 @@ export class Context {
 id: number;
 name: string;
 is_active: boolean;
+is_functional: boolean;
 record_type:string;
 record_subtype:string;
 phone: number;

@@ -25,10 +25,10 @@ class ContextSerializer(serializers.ModelSerializer):
         """
         Check that the start is before the stop.
         """
-        if (data['latitude'] > 90) or (data['latitude'] < -90):
-            raise serializers.ValidationError({"detail":"Latitude must be between +90 and -90"})
-        if (data['longitude'] > 180) or (data['longitude'] < -180):
-            raise serializers.ValidationError({"detail":"Longitude must be between 180 and -180"})
+        #if (data['latitude'] > 90) or (data['latitude'] < -90):
+        #    raise serializers.ValidationError({"detail":"Latitude must be between +90 and -90"})
+        #if (data['longitude'] > 180) or (data['longitude'] < -180):
+        #    raise serializers.ValidationError({"detail":"Longitude must be between 180 and -180"})
         return data
 
 class ContextPublicSerializer(serializers.ModelSerializer):

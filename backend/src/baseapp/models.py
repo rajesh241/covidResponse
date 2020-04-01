@@ -50,8 +50,9 @@ class Context(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True,
                              blank=True)
     is_active = models.BooleanField(default=True)
+    is_functional = models.BooleanField(default=True)
     icon_url = models.URLField(blank=True, null=True,
-                               default='http://maps.google.com/mapfiles/ms/icons/red-dot.png')
+                               default='https://covidb.libtech.in/media/icons/red-dot.png')
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 

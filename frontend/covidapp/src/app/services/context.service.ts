@@ -45,6 +45,9 @@ export class ContextService {
   updateItem(id:number,payload:any):Observable<object>{
     return this.http.put(this.endpoint+"?id="+id,payload,this.getHttpOptions())
   }
+  patchItem(id:number,payload:any):Observable<object>{
+    return this.http.patch(this.endpoint+"?id="+id,JSON.stringify(payload),this.getHttpOptions())
+  }
   deleteItem(id: number):Observable<any>{
     return this.http.delete(this.endpoint+"?id="+id,this.getHttpOptions())
 

@@ -178,7 +178,7 @@ SIMPLE_JWT = {
 }
 
 ##Settings from Frontend
-FRONTEND_URL = "https://fadeb121.ngrok.io"
+FRONTEND_URL = "https://covid.libtech.in"
 FRONTEND_REGCONFIRM_URL = f"{FRONTEND_URL}/regconfirm/"
 FRONTEND_PWDRESETCONFIRM_URL = f"{FRONTEND_URL}/pwdresetconfirm/"
 FRONTEND_REGISTER_URL = f"{FRONTEND_URL}/register/"
