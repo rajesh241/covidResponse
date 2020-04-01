@@ -33,7 +33,7 @@
       </ng-container>
 
       <agm-circle [latitude]="radiusLat" [longitude]="radiusLong" [radius]="radius" [fillColor]="'gray'"
-                  [circleDraggable]="true" [editable]="false" (dragEnd)="markerDragEnd($event)"
+                  [circleDraggable]="false" [editable]="false" (dragEnd)="markerDragEnd($event)"
                   (radiusChange)="event('radiusChange',$event)">
       </agm-circle>
 
@@ -42,17 +42,20 @@
       </agm-marker>
     </agm-map>
   </div>
+  <!--
   <h5>Address: {{address}}</h5>
-  <!-- <h5>Current Location - Latitude: {{latitude}} Longitude: {{longitude}}</h5> -->
+  <h5>Current Location - Latitude: {{latitude}} Longitude: {{longitude}}</h5>
+  -->
   <br />
 
+  <!--
   <div [formGroup]="filterForm">
     <div class="row">
       <section align="center" formControlName="record_type" class="cb-section cb-margin">
         <mat-checkbox class="cb-margin" [(ngModel)]="facility">Relief<img src="./assets/blue-dot.png"></mat-checkbox>
         <mat-checkbox class="cb-margin" [(ngModel)]="needHelp">Crisis<img src="./assets/red-dot.png"></mat-checkbox>
         <mat-checkbox class="cb-margin" [(ngModel)]="volunteers">Volunteers<img src="./assets/green-dot.png"></mat-checkbox>
-        <mat-checkbox class="cb-margin" [(ngModel)]="treatment">Treatment<img src="./assets/marker-red.png"></mat-checkbox>
+        <mat-checkbox class="cb-margin" [(ngModel)]="treatment">Treatment<img src="https://www.iconfinder.com/icons/131846/add_create_green_new_plus_icon"></mat-checkbox>
       </section>
       <br />
     </div>
@@ -63,4 +66,5 @@
       </div>
     </div>
   </div>
+  -->
 </div>
