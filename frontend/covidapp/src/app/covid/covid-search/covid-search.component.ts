@@ -9,7 +9,7 @@ import { Page } from '../../pagination';
 import { Context } from "../../models/context";
 import { ContextService } from "../../services/context.service";
 import { AuthService } from "../../services/auth.service";
-import {Router} from "@angular/router"
+import { Router } from "@angular/router"
 
 // just an interface for type safety.
 interface marker {
@@ -38,7 +38,7 @@ export class CovidSearchComponent implements OnInit {
     private geoCoder;
 
     // FIXME: 2nd Argument added for Angular 8
-    @ViewChild('search', { static: false })
+    @ViewChild('search', { static: true })
     public searchElementRef: ElementRef;
 
     // Which format to show?
@@ -114,6 +114,8 @@ export class CovidSearchComponent implements OnInit {
                     //set latitude, longitude and zoom
                     this.latitude = place.geometry.location.lat();
                     this.longitude = place.geometry.location.lng();
+                    this.radiusLat = this.latitude;
+                    this.radiusLong = this.longitude;
                     this.zoom = ZOOM_DEFAULT;
                 });
             });
