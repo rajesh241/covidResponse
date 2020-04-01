@@ -23,9 +23,8 @@
         <agm-marker (markerClick)="clickedMarker(m.name, i)" [latitude]="m.latitude" [longitude]="m.longitude" [label]="m.label" [iconUrl]="m.icon_url" *ngIf="m.is_active">
 
           <agm-info-window>
-            <h6>Name: {{m.name}}</h6>
-            <h6>Description: {{m.description}}</h6>
-            <h6><a href="/item/{{m.id}}">View</a></h6>
+	    <h6><b>{{m.name}}</b></h6>
+            <h6>{{m.description}}</h6>
 	    <div *ngIf="authService.isLoggedIn()">
 		    <form  *ngIf="m.is_functional" (ngSubmit)="toggleFunctional(m.id,m.is_functional,m.record_type)">
                          <button type="submit" class="btn btn-lg btn-info">Click if this unit is not functional</button>
