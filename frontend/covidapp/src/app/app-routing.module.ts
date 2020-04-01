@@ -8,6 +8,7 @@ import { CovidSearchComponent } from "./covid/covid-search/covid-search.componen
 import { CovidCreateComponent } from "./covid/covid-create/covid-create.component";
 import { ContextCreateComponent } from "./context/context-create/context-create.component";
 import { ContextFilterComponent } from "./context/context-filter/context-filter.component";
+import { ContextEditComponent } from "./context/context-edit/context-edit.component";
 import { ContextMapComponent } from "./context/context-map/context-map.component";
 import { UserListComponent } from "./user-list/user-list.component";
 import { LoginComponent } from "./login/login.component";
@@ -37,6 +38,7 @@ const routes: Routes = [
     {path : 'regconfirm', component : RegisterConfirmComponent},
     {path : 'add/:form', component : ContextCreateComponent},
     {path : 'useredit/:id', component : UserEditComponent},
+    {path : 'item/:id', component : ContextEditComponent},
     {path : 'useradd', component : UserAddComponent},
     {path : 'profile', component : ProfileEditComponent},
     {path : 'avatar', component : AvatarEditComponent},
