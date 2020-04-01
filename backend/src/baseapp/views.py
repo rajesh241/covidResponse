@@ -179,7 +179,7 @@ class ContextAPIView(HttpResponseMixin,
     serializer_class = ContextSerializer
     passed_id = None
     input_id = None
-    search_fields = ('name',)
+    search_fields = ('name', 'description')
     ordering_fields = ('name', 'id', 'created', 'updated')
     filterset_class = ContextFilter
     queryset = Context.objects.all()

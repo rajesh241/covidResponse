@@ -22,7 +22,9 @@
         <agm-marker (markerClick)="clickedMarker(m.name, i)" [latitude]="m.latitude" [longitude]="m.longitude" [label]="m.label" [iconUrl]="m.icon_url" *ngIf="m.is_active">
 
           <agm-info-window>
-            <div>{{m.name}}</div>
+              <h6>Name: {{m.name}}</h6>
+              <h6>Description: {{m.description}}</h6>
+	      <h6><a href="/item/{{m.id}}">View</a></h6>
           </agm-info-window>
 
         </agm-marker>
