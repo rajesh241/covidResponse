@@ -30,17 +30,16 @@ import { ContextCreateComponent } from './context/context-create/context-create.
 import { ContextFilterComponent } from './context/context-filter/context-filter.component';
 import { ContextMapComponent } from './context/context-map/context-map.component';
 import { CovidHomeComponent } from './covid/covid-home/covid-home.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
-// Angular Material
-import { MatButtonModule } from '@angular/material';
-//import { MatIconModule } from '@angular/material';
-import { MatCardModule } from '@angular/material/card';
-import { MatExpansionModule } from '@angular/material/expansion';
 import { CovidNearbyComponent } from './covid/covid-nearby/covid-nearby.component';
 import { CovidLocateComponent } from './covid/covid-locate/covid-locate.component';
 import { CovidSearchComponent } from './covid/covid-search/covid-search.component';
 import { ContextEditComponent } from './context/context-edit/context-edit.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+// Angular Material
+import { MatButtonModule } from '@angular/material';
+import { MatCheckboxModule } from '@angular/material';
+import { MatCardModule } from '@angular/material/card';
 
 //const google_oauth_client_id:string = '849540517607-9alj6fb3hoo3lhrlml4upqkme070bo2f.apps.googleusercontent.com';
 
@@ -89,7 +88,7 @@ export function provideConfig() {
         FormsModule,
         MatButtonModule,
         MatCardModule,
-        MatExpansionModule,
+        MatCheckboxModule,
         ReactiveFormsModule,
         AgmCoreModule.forRoot({
             apiKey: libtech.googleAPIKey,
