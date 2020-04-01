@@ -65,7 +65,7 @@ export class CovidSearchComponent implements OnInit {
             longitude__gte : new FormControl(),
             latitude__lte : new FormControl(),
             longitude__lte : new FormControl(),
-            limit : new FormControl(50),
+            limit : new FormControl(5000),
             search: new FormControl()
         });
         this.page = this.filterForm.valueChanges.pipe(
