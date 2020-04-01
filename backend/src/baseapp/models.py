@@ -29,6 +29,7 @@ class Context(models.Model):
     name = models.CharField(max_length=256)
     record_type = models.CharField(max_length=1024, null=True, blank=True,
                                    default="needHelp")
+    record_subtype = models.CharField(max_length=1024, null=True, blank=True)
     contact_numbers = models.CharField(max_length=1024, null=True, blank=True)
     phone = models.BigIntegerField(blank=True, null=True)
     description = models.TextField(blank=True, null=True)
@@ -45,6 +46,7 @@ class Context(models.Model):
                                    blank=True)
     who_are_you = models.CharField(max_length=1024, blank=True, null=True)
     email = models.EmailField(blank=True, null=True)
+    information_source = models.CharField(max_length=1024, blank=True, null=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True,
                              blank=True)
     icon_url = models.URLField(blank=True, null=True,
