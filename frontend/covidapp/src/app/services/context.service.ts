@@ -19,6 +19,9 @@ export class ContextService {
   getItem(id:number):Observable<any>{
     return this.http.get(this.endpoint+"?id="+id,this.getHttpOptions());
   }
+  getItemPublic(id:number):Observable<any>{
+    return this.http.get(this.endpoint+"?id="+id,this.getPublicHttpOptions());
+  }
 
   list(urlOrFilter?: string | object): Observable<Page<Context>> {
     return queryPaginated<Context>(this.http, this.listEndPoint, urlOrFilter);
