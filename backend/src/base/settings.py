@@ -73,6 +73,7 @@ CORS_ORIGIN_WHITELIST = [
     'https://rb.libtech.in:8012',
     'http://covid.libtech.in:8013',
     'http://covid.libtech.in:8016',
+    'https://covid.libtech.in:8016',
     'http://b.libtech.in:9001',
     'http://b.libtech.in:8888',
     'https://49adcd5c.ngrok.io',

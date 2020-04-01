@@ -49,6 +49,7 @@ class Context(models.Model):
     information_source = models.CharField(max_length=1024, blank=True, null=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True,
                              blank=True)
+    is_active = models.BooleanField(default=True)
     icon_url = models.URLField(blank=True, null=True,
                                default='http://maps.google.com/mapfiles/ms/icons/red-dot.png')
     created = models.DateTimeField(auto_now_add=True)

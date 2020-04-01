@@ -1,15 +1,25 @@
 import { Component, OnInit, ViewChild, ElementRef, NgZone } from '@angular/core';
 import { MapsAPILoader, MouseEvent } from '@agm/core';
+import { FormControl, FormGroup } from '@angular/forms';
+import { Observable, Subject } from 'rxjs';
+import { debounceTime, merge, share, startWith, switchMap } from 'rxjs/operators';
+import * as moment from "moment";
+
+import { Page } from '../../pagination';
+import { Context } from "../../models/context";
+import { ContextService } from "../../services/context.service";
+import { AuthService } from "../../services/auth.service";
+import {Router} from "@angular/router"
 
 // just an interface for type safety.
 interface marker {
-    lat: number;
-    lng: number;
+    latitude: number;
+    longitude: number;
     label?: string;
     draggable: boolean;
-    content?:string;
-    isShown:boolean;
-    icon:string;
+    name?:string;
+    is_active:boolean;
+    icon_url:string;
 }
 
 const ZOOM_DEFAULT = 12;
@@ -39,11 +49,47 @@ export class CovidSearchComponent implements OnInit {
     radiusLong = 0;
 
     markers: marker[] = []
+    filterForm: FormGroup;
+    page: Observable<Page<Context>>;
+    pageUrl = new Subject<string>();
+    success: boolean = false;
+    dataLoaded: Promise<boolean>;
 
     constructor(
         private mapsAPILoader: MapsAPILoader,
+        private contextService: ContextService,
         private ngZone: NgZone
     ) {
+        this.filterForm = new FormGroup({
+            latitude__gte : new FormControl(),
+            longitude__gte : new FormControl(),
+            latitude__lte : new FormControl(),
+            longitude__lte : new FormControl(),
+            limit : new FormControl(50),
+            search: new FormControl()
+        });
+        this.page = this.filterForm.valueChanges.pipe(
+            debounceTime(200),
+            startWith(this.filterForm.value),
+            merge(this.pageUrl),
+            switchMap(urlOrFilter => this.contextService.list(urlOrFilter)),
+            share()
+        );
+        this.dataLoaded = Promise.resolve(true);
+    }
+
+    onPageChanged(url: string) {
+        this.pageUrl.next(url);
+    }
+    loadpage(){
+        this.page = this.filterForm.valueChanges.pipe(
+            debounceTime(200),
+            startWith(this.filterForm.value),
+            merge(this.pageUrl),
+            switchMap(urlOrFilter => this.contextService.list(urlOrFilter)),
+            share()
+        );
+        this.dataLoaded = Promise.resolve(true);
     }
 
     ngOnInit() {
@@ -110,39 +156,39 @@ export class CovidSearchComponent implements OnInit {
         for(let i=1;i<50;i++){
             this.markers.push(
                 {
-                    lat: this.latitude + Math.random()-0.5,
-                    lng: this.longitude + Math.random()-0.5,
+                    latitude: this.latitude + Math.random()-0.5,
+                    longitude: this.longitude + Math.random()-0.5,
                     label: '', //`${i}`,
                     draggable: false,
-                    content: `Content no ${i}`,
-                    isShown: true,
-                    icon:'./assets/red-dot.png'
+                    name: `Content no ${i}`,
+                    is_active: true,
+                    icon_url:'./assets/red-dot.png'
                 }
             );
         }
         for(let i=50;i<100;i++){
             this.markers.push(
                 {
-                    lat: this.latitude + Math.random()-0.5,
-                    lng: this.longitude + Math.random()-0.5,
+                    latitude: this.latitude + Math.random()-0.5,
+                    longitude: this.longitude + Math.random()-0.5,
                     label: '', //`${i}`,
                     draggable: false,
-                    content: `Content no ${i}`,
-                    isShown: true,
-                    icon:'./assets/blue-dot.png'
+                    name: `Content no ${i}`,
+                    is_active: true,
+                    icon_url:'./assets/blue-dot.png'
                 }
             );
         }
         for(let i=100;i<150;i++){
             this.markers.push(
                 {
-                    lat: this.latitude + Math.random()-0.5,
-                    lng: this.longitude + Math.random()-0.5,
+                    latitude: this.latitude + Math.random()-0.5,
+                    longitude: this.longitude + Math.random()-0.5,
                     label: '', //`${i}`,
                     draggable: false,
-                    content: `Content no ${i}`,
-                    isShown: true,
-                    icon:'./assets/green-dot.png'
+                    name: `Content no ${i}`,
+                    is_active: true,
+                    icon_url:'./assets/green-dot.png'
                 }
             );
         }
@@ -157,8 +203,8 @@ export class CovidSearchComponent implements OnInit {
         this.radiusLong = this.longitude;
     }
 
-    clickedMarker(label: string, index: number) {
-        console.log(`clicked the marker: ${label || index}`)
+    clickedMarker(name: string, index: number) {
+        console.log(`clicked the marker: ${name || index}`)
     }
 
     radiusDragEnd($event: any) {
@@ -176,7 +222,7 @@ export class CovidSearchComponent implements OnInit {
 
     showHideMarkers(){
         Object.values(this.markers).forEach(value => {
-            value.isShown = true; // this.getDistanceBetween(value.lat,value.lng,this.radiusLat,this.radiusLong);
+            value.is_active = true; // this.getDistanceBetween(value.lat,value.lng,this.radiusLat,this.radiusLong);
         });
     }
 
