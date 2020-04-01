@@ -48,6 +48,24 @@
   -->
   <br />
 
+  <div *ngIf="displayFilter" [formGroup]="filterForm">
+    <div class="row">
+      <section align="center" formControlName="record_type" class="cb-section cb-margin">
+        <mat-checkbox class="cb-margin" >Relief<img src="./assets/blue-dot.png"></mat-checkbox>
+        <mat-checkbox class="cb-margin" >Crisis<img src="./assets/red-dot.png"></mat-checkbox>
+        <mat-checkbox class="cb-margin" >Volunteers<img src="./assets/green-dot.png"></mat-checkbox>
+        <mat-checkbox class="cb-margin" >Treatment<img src="./assets/marker-red.png"></mat-checkbox>
+      </section>
+      <br />
+    </div>
+    <div class="form-group row">
+      <label class="col-md-2 col-form-label">Filter</label>
+      <div class="col-md-4">
+        <input formControlName="search" class="form-control" placeholder="Filter by name, description">
+      </div>
+    </div>
+  </div>
+
   <!--
   <div [formGroup]="filterForm">
     <div class="row">
