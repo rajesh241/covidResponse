@@ -259,7 +259,7 @@ export class CovidSearchComponent implements OnInit {
 		      this.patch_data = {'is_functional':1,'icon_url':'https://covidb.libtech.in/media/icons/blue-dot.png'}
 		   }
 	    }else{
-		   this.patch_data = {'is_functional':0,'icon_url':'https://covidb.libtech.in/media/icons/yellow-dot.png'}
+		   this.patch_data = {'is_functional':0,'icon_url':'https://covidb.libtech.in/media/icons/gray-dot.png'}
 	    }
 	    console.log(this.patch_data);
             this.contextService.patchItem(context_id,this.patch_data)
