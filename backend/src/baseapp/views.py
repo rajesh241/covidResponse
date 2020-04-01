@@ -153,7 +153,8 @@ class ContextFilter(filters.FilterSet):
         fields = {
                     'id': ['gte', 'lte'],
                     'latitude' : ['gte', 'lte'],
-                    'longitude' : ['gte', 'lte']
+                    'longitude' : ['gte', 'lte'],
+                    'record_type' : ['exact']
                 }
     @property
     def qs(self):

@@ -33,6 +33,9 @@ export function queryPaginated<T>(http: HttpClient, baseUrl: string, urlOrFilter
       else if ( (value != null) && (key === "search")){
         params = params.set(key, value.toString());
       }
+      else if ( (value != null) && (key === "record_type")){
+        params = params.set(key, value.toString());
+      }
       else if ( (value != null) && (key === "ordering")){
         params = params.set(key, value.toString());
       }
