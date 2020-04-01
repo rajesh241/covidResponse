@@ -53,6 +53,7 @@ class Context(models.Model):
     is_functional = models.BooleanField(default=True)
     icon_url = models.URLField(blank=True, null=True,
                                default='https://covidb.libtech.in/media/icons/red-dot.png')
+    backend_remarks = models.TextField(blank=True, null=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
