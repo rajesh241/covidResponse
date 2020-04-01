@@ -1,18 +1,49 @@
 <div class="container">
 
-  <h1>Please Mark Your Location</h1>
-
+  <h1>Search For Relief</h1>
+  <br />
   <div class="form-group">
-    <label>Enter address of the person looking for help</label>
+    <label>Enter the address of the person looking for help</label>
     <input type="text" class="form-control" (keydown.enter)="$event.preventDefault()" placeholder="Search Nearest Location" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" #search>
   </div>
+  <br />
 
-  <agm-map [latitude]="latitude" [longitude]="longitude" [zoom]="zoom">
-    <agm-marker [latitude]="latitude" [longitude]="longitude" [markerDraggable]="true"
-                (dragEnd)="markerDragEnd($event)"></agm-marker>
-  </agm-map>
+  <div *ngIf="!located">
+    <agm-map [latitude]="latitude" [longitude]="longitude" [zoom]="zoom">
+      <agm-marker [latitude]="latitude" [longitude]="longitude" [markerDraggable]="true"
+                  (dragEnd)="markerDragEnd($event)"></agm-marker>
+    </agm-map>
+  </div>
+  <div *ngIf="located">
+    <agm-map [latitude]="latitude" [longitude]="longitude" [zoom]="zoom">
 
+      <ng-container *ngFor="let m of markers; let i = index">
+
+        <agm-marker (markerClick)="clickedMarker(m.label, i)" [latitude]="m.lat" [longitude]="m.lng" [label]="m.label" [iconUrl]="m.icon" *ngIf="m.isShown">
+
+          <agm-info-window>
+            <div>{{m.content}}</div>
+          </agm-info-window>
+
+        </agm-marker>
+
+      </ng-container>
+
+      <agm-circle [latitude]="radiusLat" [longitude]="radiusLong" [radius]="radius" [fillColor]="'gray'"
+                  [circleDraggable]="true" [editable]="false" (dragEnd)="markerDragEnd($event)"
+                  (radiusChange)="event('radiusChange',$event)">
+      </agm-circle>
+
+      <agm-marker [latitude]="latitude" [longitude]="longitude" [markerDraggable]="true"
+                  (dragEnd)="markerDragEnd($event)">
+      </agm-marker>
+    </agm-map>
+  </div>
+
+  <br />
   <h5>Address: {{address}}   <b>NOTE: Please drag and correct if need be!</b></h5>
+  <br />
 
   <h5>Current Location - Latitude: {{latitude}} Longitude: {{longitude}}</h5>
+  <br />
 </div>

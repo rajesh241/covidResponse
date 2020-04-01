@@ -1,3 +1,5 @@
+<div class="container">
+
 <agm-map [latitude]="latitude" [longitude]="longitude" [zoom]="zoom">
 
     <ng-container *ngFor="let m of markers; let i = index">
@@ -12,8 +14,8 @@
 
     </ng-container>
 
-    <agm-circle [latitude]="radiusLat" [longitude]="radiusLong" [radius]="radius" [fillColor]="'red'"
-        [circleDraggable]="true" [editable]="false" (dragEnd)="radiusDragEnd($event)"
+    <agm-circle [latitude]="radiusLat" [longitude]="radiusLong" [radius]="radius" [fillColor]="'gray'"
+                [circleDraggable]="true" [editable]="false" (dragEnd)="radiusDragEnd($event)"
         (radiusChange)="event('radiusChange',$event)">
     </agm-circle>
 
@@ -21,3 +23,4 @@
 
 <div>Latitude: {{latitude}}</div>
 <div>Longitude: {{longitude}}</div>
+</div>
