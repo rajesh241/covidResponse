@@ -1,14 +1,15 @@
 <div class="container" align="center">
 
-  <h1>Search For Relief</h1>
+  <h1>Directory Of Relief Facilities</h1>
   <br />
-  <h5><b>NOTE: Please drag and correct if need be!</b></h5>
+  <p>
+    We are building a directory of public facilities, NGOs and individuals who are offering food supplies, water and other basic relief during the pandemic.  <b>The circle represents 5 KM distance from the location you provided.</b> This is a new list and we will update it every day.
+    Please fill <a href="https://forms.gle/6Y3kZN3Go3H78wudA" target="_new">this form</a> if you would like to be added to this directory.
+  </p>
   <div class="form-group">
     <!--<label>Enter the address of the person looking for help</label>-->
     <input type="text" class="form-control" (keydown.enter)="$event.preventDefault()" placeholder="Enter the address of the person looking for help" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" #search>
   </div>
-  <br />
-
   <div *ngIf="!located">
     <agm-map [latitude]="latitude" [longitude]="longitude" [zoom]="zoom">
       <agm-marker [latitude]="latitude" [longitude]="longitude" [markerDraggable]="true"
@@ -23,16 +24,16 @@
         <agm-marker (markerClick)="clickedMarker(m.name, i)" [latitude]="m.latitude" [longitude]="m.longitude" [label]="m.label" [iconUrl]="m.icon_url" *ngIf="m.is_active">
 
           <agm-info-window>
-	    <h6><b>{{m.name}}</b></h6>
+            <h6><b>{{m.name}}</b></h6>
             <h6>{{m.description}}</h6>
-	    <div *ngIf="authService.isLoggedIn()">
-		    <form  *ngIf="m.is_functional" (ngSubmit)="toggleFunctional(m.id,m.is_functional,m.record_type)">
-                         <button type="submit" class="btn btn-lg btn-info">Click if this unit is not functional</button>
-                    </form>
-		    <form  *ngIf="!m.is_functional" (ngSubmit)="toggleFunctional(m.id,m.is_functional,m.record_type)">
-                         <button type="submit" class="btn btn-lg btn-info">Click if this unit is functional</button>
-                    </form>
-	    </div>
+            <div *ngIf="authService.isLoggedIn()">
+              <form  *ngIf="m.is_functional" (ngSubmit)="toggleFunctional(m.id,m.is_functional,m.record_type)">
+                <button type="submit" class="btn btn-lg btn-info">Click if this unit is not functional</button>
+              </form>
+              <form  *ngIf="!m.is_functional" (ngSubmit)="toggleFunctional(m.id,m.is_functional,m.record_type)">
+                <button type="submit" class="btn btn-lg btn-info">Click if this unit is functional</button>
+              </form>
+            </div>
           </agm-info-window>
 
         </agm-marker>
@@ -49,47 +50,54 @@
       </agm-marker>
     </agm-map>
   </div>
-  <!--
-  <h5>Address: {{address}}</h5>
-  <h5>Current Location - Latitude: {{latitude}} Longitude: {{longitude}}</h5>
-  -->
-  <br />
-
-  <div *ngIf="displayFilter" [formGroup]="filterForm">
-    <div class="row">
-      <section align="center" formControlName="record_type" class="cb-section cb-margin">
-        <mat-checkbox class="cb-margin" >Relief<img src="./assets/blue-dot.png"></mat-checkbox>
-        <mat-checkbox class="cb-margin" >Crisis<img src="./assets/red-dot.png"></mat-checkbox>
-        <mat-checkbox class="cb-margin" >Volunteers<img src="./assets/green-dot.png"></mat-checkbox>
-        <mat-checkbox class="cb-margin" >Treatment<img src="./assets/marker-red.png"></mat-checkbox>
-      </section>
-      <br />
-    </div>
-    <div class="form-group row">
-      <label class="col-md-2 col-form-label">Filter</label>
-      <div class="col-md-4">
-        <input formControlName="search" class="form-control" placeholder="Filter by name, description">
-      </div>
-    </div>
+  <div align="left">
+    <!-- <h3>Legends:</h3> -->
+    <h4>Support Organization<img src="http://maps.google.com/mapfiles/ms/icons/blue-dot.png"></h4>
+    <h4>People Needing Support<img src="http://maps.google.com/mapfiles/ms/icons/red-dot.png"></h4>
+    <h4>Public Relief Facility<img src="http://maps.google.com/mapfiles/ms/icons/green-dot.png"></h4>
+    <h4>Public Relief Facility (Defunct)<img src="http://maps.google.com/mapfiles/ms/icons/yellow-dot.png"></h4>
   </div>
-
   <!--
-  <div [formGroup]="filterForm">
-    <div class="row">
-      <section align="center" formControlName="record_type" class="cb-section cb-margin">
-        <mat-checkbox class="cb-margin" [(ngModel)]="facility">Relief<img src="./assets/blue-dot.png"></mat-checkbox>
-        <mat-checkbox class="cb-margin" [(ngModel)]="needHelp">Crisis<img src="./assets/red-dot.png"></mat-checkbox>
-        <mat-checkbox class="cb-margin" [(ngModel)]="volunteers">Volunteers<img src="./assets/green-dot.png"></mat-checkbox>
-        <mat-checkbox class="cb-margin" [(ngModel)]="treatment">Treatment<img src="https://www.iconfinder.com/icons/131846/add_create_green_new_plus_icon"></mat-checkbox>
-      </section>
+      <h5>Address: {{address}}</h5>
+      <h5>Current Location - Latitude: {{latitude}} Longitude: {{longitude}}</h5>
+      -->
       <br />
-    </div>
-    <div class="form-group row">
-      <label class="col-md-2 col-form-label">Filter</label>
-      <div class="col-md-4">
-        <input formControlName="search" class="form-control" placeholder="Filter by name, description">
+
+      <div *ngIf="displayFilter" [formGroup]="filterForm">
+        <div class="row">
+          <section align="center" formControlName="record_type" class="cb-section cb-margin">
+            <mat-checkbox class="cb-margin" >Relief<img src="./assets/blue-dot.png"></mat-checkbox>
+            <mat-checkbox class="cb-margin" >Crisis<img src="./assets/red-dot.png"></mat-checkbox>
+            <mat-checkbox class="cb-margin" >Volunteers<img src="./assets/green-dot.png"></mat-checkbox>
+            <mat-checkbox class="cb-margin" >Treatment<img src="./assets/marker-red.png"></mat-checkbox>
+          </section>
+          <br />
+        </div>
+        <div class="form-group row">
+          <label class="col-md-2 col-form-label">Filter</label>
+          <div class="col-md-4">
+            <input formControlName="search" class="form-control" placeholder="Filter by name, description">
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
-  -->
+
+      <!--
+          <div [formGroup]="filterForm">
+            <div class="row">
+              <section align="center" formControlName="record_type" class="cb-section cb-margin">
+                <mat-checkbox class="cb-margin" [(ngModel)]="facility">Relief<img src="./assets/blue-dot.png"></mat-checkbox>
+                <mat-checkbox class="cb-margin" [(ngModel)]="needHelp">Crisis<img src="./assets/red-dot.png"></mat-checkbox>
+                <mat-checkbox class="cb-margin" [(ngModel)]="volunteers">Volunteers<img src="./assets/green-dot.png"></mat-checkbox>
+                <mat-checkbox class="cb-margin" [(ngModel)]="treatment">Treatment<img src="https://www.iconfinder.com/icons/131846/add_create_green_new_plus_icon"></mat-checkbox>
+              </section>
+              <br />
+            </div>
+            <div class="form-group row">
+              <label class="col-md-2 col-form-label">Filter</label>
+              <div class="col-md-4">
+                <input formControlName="search" class="form-control" placeholder="Filter by name, description">
+              </div>
+            </div>
+          </div>
+          -->
 </div>
