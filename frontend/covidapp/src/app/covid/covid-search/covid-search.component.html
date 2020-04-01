@@ -17,12 +17,12 @@
   <div *ngIf="located">
     <agm-map [latitude]="latitude" [longitude]="longitude" [zoom]="zoom">
 
-      <ng-container *ngFor="let m of markers; let i = index">
+      <ng-container *ngFor="let m of (page | async)?.results; let i = index">
 
-        <agm-marker (markerClick)="clickedMarker(m.label, i)" [latitude]="m.lat" [longitude]="m.lng" [label]="m.label" [iconUrl]="m.icon" *ngIf="m.isShown">
+        <agm-marker (markerClick)="clickedMarker(m.name, i)" [latitude]="m.latitude" [longitude]="m.longitude" [label]="m.label" [iconUrl]="m.icon_url" *ngIf="m.is_active">
 
           <agm-info-window>
-            <div>{{m.content}}</div>
+            <div>{{m.name}}</div>
           </agm-info-window>
 
         </agm-marker>
