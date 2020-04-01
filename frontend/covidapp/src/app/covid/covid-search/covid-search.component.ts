@@ -35,6 +35,7 @@ export class CovidSearchComponent implements OnInit {
     longitude: number;
     zoom:number;
     address: string;
+    displayFilter:boolean=false;
     private geoCoder;
 
     // FIXME: 2nd Argument added for Angular 8

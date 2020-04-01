@@ -89,7 +89,7 @@ export class AuthService {
     localStorage.setItem("ur", decoded.ur);
     this.mealService.getAllMeals();
     setTimeout(() => {
-        this.router.navigate(['/apartments']);
+        this.router.navigate(['/search']);
     }, 500);
   }          
 

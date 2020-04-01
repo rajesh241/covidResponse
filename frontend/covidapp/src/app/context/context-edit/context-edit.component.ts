@@ -14,7 +14,8 @@ import { MapsAPILoader, MouseEvent } from '@agm/core';
   styleUrls: ['./context-edit.component.css']
 })
 export class ContextEditComponent implements OnInit {
-  context : Observable<Context>;
+  //context : Observable<Context>;
+  context : any;
   apt : Context;
   context_id: number;
   success: boolean=false; 
