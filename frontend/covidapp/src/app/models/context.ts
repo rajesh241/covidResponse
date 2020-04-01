@@ -1,7 +1,9 @@
 export class Context {
 id: number;
 name: string;
+is_active: boolean;
 record_type:string;
+record_subtype:string;
 phone: number;
 contact_numbers: string;
 description: string;
@@ -13,6 +15,7 @@ email: string;
 created: Date;
 updated: Date;
 icon_url: string;
+information_source: string;
 latitude : number;
 longitude: number;
 native_latitude : number;

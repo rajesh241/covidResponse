@@ -46,7 +46,7 @@
                 <tbody>
                     <tr *ngFor="let context of (page | async)?.results;let i=index" 
                     >
-		    <td><a [routerLink]="['/view',context.id]">{{context.name}}</a></td>
+		    <td><a [routerLink]="['/item',context.id]">{{context.name}}</a></td>
                         <td>{{context.description}}</td>
 			<td>{{context.created | date}}</td>
                         <td *ngIf="authService.isRealtor()" class="td-actions text-right">                             

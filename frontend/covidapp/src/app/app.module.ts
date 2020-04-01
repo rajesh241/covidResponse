@@ -40,6 +40,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { CovidNearbyComponent } from './covid/covid-nearby/covid-nearby.component';
 import { CovidLocateComponent } from './covid/covid-locate/covid-locate.component';
 import { CovidSearchComponent } from './covid/covid-search/covid-search.component';
+import { ContextEditComponent } from './context/context-edit/context-edit.component';
 
 //const google_oauth_client_id:string = '849540517607-9alj6fb3hoo3lhrlml4upqkme070bo2f.apps.googleusercontent.com';
 
@@ -80,6 +81,7 @@ export function provideConfig() {
         CovidNearbyComponent,
         CovidLocateComponent,
         CovidSearchComponent,
+        ContextEditComponent,
     ],
     imports: [
         BrowserModule,
