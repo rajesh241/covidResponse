@@ -14,16 +14,19 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li class="menu-item" routerLinkActive="active" ><a routerLink="list" >Listing</a></li>
-        <li class="menu-item" routerLinkActive="active" ><a routerLink="map" >Map</a></li>
-        <li class="menu-item" routerLinkActive="active" ><a routerLink="add" >Create</a></li>
+        <li class="menu-item" routerLinkActive="active" ><a routerLink="list">Listing</a></li>
+        <li class="menu-item" routerLinkActive="active" ><a routerLink="map">Map</a></li>
+        <li class="menu-item" routerLinkActive="active" ><a routerLink="add">Create</a></li>
+        <li class="menu-item" routerLinkActive="active" ><a routerLink="locate">Locate</a></li>
+        <li class="menu-item" routerLinkActive="active" ><a routerLink="nearby">Nearby</a></li>
+        <li class="menu-item" routerLinkActive="active" ><a routerLink="search">Search</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li class="menu-item" routerLinkActive="active" *ngIf="!authService.isLoggedIn()"><a routerLink="login" >Login</a></li>
-        <li class="menu-item" routerLinkActive="active" *ngIf="!authService.isLoggedIn()"><a routerLink="register" >Register</a></li>
-        <li class="menu-item" routerLinkActive="active" *ngIf="authService.isRealtor()"><a routerLink="users" >Users</a></li>
-        <li class="menu-item" routerLinkActive="active" *ngIf="authService.isLoggedIn()"><a routerLink="profile" >Profile</a></li>
-        <li><a href="#" (click)="authService.logout()"  *ngIf="authService.isLoggedIn()">Logout  </a></li>
+        <li class="menu-item" routerLinkActive="active" *ngIf="!authService.isLoggedIn()"><a routerLink="login">Login</a></li>
+        <li class="menu-item" routerLinkActive="active" *ngIf="!authService.isLoggedIn()"><a routerLink="register">Register</a></li>
+        <li class="menu-item" routerLinkActive="active" *ngIf="authService.isRealtor()"><a routerLink="users">Users</a></li>
+        <li class="menu-item" routerLinkActive="active" *ngIf="authService.isLoggedIn()"><a routerLink="profile">Profile</a></li>
+        <li><a href="#" (click)="authService.logout()"  *ngIf="authService.isLoggedIn()">Logout</a></li>
       </ul>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
@@ -32,5 +35,5 @@
 
 
 <div style="margin-top:50px;">
-   <router-outlet></router-outlet>
+  <router-outlet></router-outlet>
 </div>
