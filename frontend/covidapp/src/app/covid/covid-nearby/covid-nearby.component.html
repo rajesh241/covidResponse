@@ -1,0 +1,23 @@
+<agm-map [latitude]="latitude" [longitude]="longitude" [zoom]="zoom">
+
+    <ng-container *ngFor="let m of markers; let i = index">
+
+        <agm-marker (markerClick)="clickedMarker(m.label, i)" [latitude]="m.lat" [longitude]="m.lng" [label]="m.label" [iconUrl]="m.icon" *ngIf="m.isShown">
+
+            <agm-info-window>
+                <div>{{m.content}}</div>
+            </agm-info-window>
+
+        </agm-marker>
+
+    </ng-container>
+
+    <agm-circle [latitude]="radiusLat" [longitude]="radiusLong" [radius]="radius" [fillColor]="'red'"
+        [circleDraggable]="true" [editable]="false" (dragEnd)="radiusDragEnd($event)"
+        (radiusChange)="event('radiusChange',$event)">
+    </agm-circle>
+
+</agm-map>
+
+<div>Latitude: {{latitude}}</div>
+<div>Longitude: {{longitude}}</div>

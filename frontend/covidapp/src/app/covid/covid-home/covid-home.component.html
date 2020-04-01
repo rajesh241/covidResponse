@@ -17,19 +17,19 @@
       <div style="padding: 0px 15px;">
         <div>
           <button mat-raised-button>
-            <a routerLink="/crisis-center" [routerLink]="['add','volunteer']">Need Help</a>
+            <a routerLink="/crisis-center" [routerLink]="['add','help']">Need Help</a>
           </button>
         </div>
         <br />
         <div>
           <button mat-raised-button>
-            <a routerLink="/crisis-center" [routerLink]="['add','help']">I want to Volunteer</a>
+            <a routerLink="/crisis-center" [routerLink]="['add','volunteer']">I want to Volunteer</a>
           </button>
         </div>
       </div>
     </div>
   </mat-card-content>
-  <mat-card-content>
+  <mat-card-content class="col-md-6">
     <h3>How are things looking currently?</h3>
     <div *ngIf="showMap">
       <app-context-map></app-context-map>
