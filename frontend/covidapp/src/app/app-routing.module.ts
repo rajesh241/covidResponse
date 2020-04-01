@@ -8,12 +8,6 @@ import { CovidCreateComponent } from "./covid/covid-create/covid-create.componen
 import { ContextCreateComponent } from "./context/context-create/context-create.component";
 import { ContextFilterComponent } from "./context/context-filter/context-filter.component";
 import { ContextMapComponent } from "./context/context-map/context-map.component";
-import { ApartmentListComponent } from "./apartment-list/apartment-list.component";
-import { ApartmentMapComponent } from "./apartment-map/apartment-map.component";
-import { ApartmentCreateComponent } from "./apartment-create/apartment-create.component";
-import { ApartmentEditComponent } from "./apartment-edit/apartment-edit.component";
-import { ApartmentViewComponent } from "./apartment-view/apartment-view.component";
-import { ApartmentFilterComponent } from "./apartment-filter/apartment-filter.component";
 import { UserListComponent } from "./user-list/user-list.component";
 import { LoginComponent } from "./login/login.component";
 import { UserEditComponent } from "./user-edit/user-edit.component";
@@ -33,7 +27,6 @@ const routes: Routes = [
     {path : 'locate', component : CovidLocateComponent},
     {path : 'nearby', component : CovidNearbyComponent},
     {path : 'invite', component : InviteComponent},
-    {path : 'apartments', component : ApartmentFilterComponent, canActivate: [AuthGuard]},
     {path : 'list', component : ContextFilterComponent},
     {path : 'map', component : ContextMapComponent},
     {path : 'users', component : UserListComponent},
@@ -41,8 +34,6 @@ const routes: Routes = [
     {path : 'register', component : RegisterComponent},
     {path : 'regconfirm', component : RegisterConfirmComponent},
     {path : 'add/:form', component : ContextCreateComponent},
-    {path : 'edit/:id', component : ApartmentEditComponent},
-    {path : 'view/:id', component : ApartmentViewComponent},
     {path : 'useredit/:id', component : UserEditComponent},
     {path : 'useradd', component : UserAddComponent},
     {path : 'profile', component : ProfileEditComponent},

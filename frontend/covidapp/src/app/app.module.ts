@@ -11,23 +11,16 @@ import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
 import { LoginComponent } from './login/login.component';
 import { AuthService } from './services/auth.service';
-import { ApartmentFilterService } from './services/apartment-filter.service';
 import { ProfileEditComponent } from './profile-edit/profile-edit.component';
 import { RegisterComponent } from './register/register.component';
 import { DateFilterPipe } from './date-filter.pipe';
 import { UserListComponent } from './user-list/user-list.component';
 import { UserEditComponent } from './user-edit/user-edit.component';
+import { AvatarEditComponent } from './avatar-edit/avatar-edit.component';
 import { TimeFilterPipe } from './time-filter.pipe';
 import { RegisterConfirmComponent } from './register-confirm/register-confirm.component';
-import { AvatarEditComponent } from './avatar-edit/avatar-edit.component';
-import { ApartmentListComponent } from './apartment-list/apartment-list.component';
 import { PaginatorComponent } from './paginator/paginator.component';
-import { ApartmentFilterComponent } from './apartment-filter/apartment-filter.component';
-import { ApartmentCreateComponent } from './apartment-create/apartment-create.component';
-import { ApartmentEditComponent } from './apartment-edit/apartment-edit.component';
-import { ApartmentMapComponent } from './apartment-map/apartment-map.component';
 import { Oauth2callbackComponent } from './oauth2callback/oauth2callback.component';
-import { ApartmentViewComponent } from './apartment-view/apartment-view.component';
 import { PasswordresetComponent } from './passwordreset/passwordreset.component';
 import { PasswordresetConfirmComponent } from './passwordreset-confirm/passwordreset-confirm.component';
 import { InviteComponent } from './invite/invite.component';
@@ -72,14 +65,8 @@ export function provideConfig() {
         TimeFilterPipe,
         RegisterConfirmComponent,
         AvatarEditComponent,
-        ApartmentListComponent,
         PaginatorComponent,
-        ApartmentFilterComponent,
-        ApartmentCreateComponent,
-        ApartmentEditComponent,
-        ApartmentMapComponent,
         Oauth2callbackComponent,
-        ApartmentViewComponent,
         PasswordresetComponent,
         PasswordresetConfirmComponent,
         InviteComponent,
