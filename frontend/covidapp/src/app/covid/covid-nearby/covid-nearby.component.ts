@@ -26,7 +26,7 @@ export class CovidNearbyComponent implements OnInit {
   private geoCoder;
 
   // Radius
-  radius = 10000;
+  radius = 5000;
   radiusLat = 0;
   radiusLong = 0;
 

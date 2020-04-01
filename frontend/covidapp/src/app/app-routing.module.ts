@@ -4,6 +4,7 @@ import { AuthGuard } from './helpers/auth.guard';
 import { CovidHomeComponent } from "./covid/covid-home/covid-home.component";
 import { CovidLocateComponent } from "./covid/covid-locate/covid-locate.component";
 import { CovidNearbyComponent } from "./covid/covid-nearby/covid-nearby.component";
+import { CovidSearchComponent } from "./covid/covid-search/covid-search.component";
 import { CovidCreateComponent } from "./covid/covid-create/covid-create.component";
 import { ContextCreateComponent } from "./context/context-create/context-create.component";
 import { ContextFilterComponent } from "./context/context-filter/context-filter.component";
@@ -22,10 +23,11 @@ import { InviteComponent } from "./invite/invite.component";
 import { Oauth2callbackComponent } from './oauth2callback/oauth2callback.component';
 
 const routes: Routes = [
-    // {path : '', redirectTo: 'contexts', pathMatch:'full'},
-    {path : '', component : CovidHomeComponent},
+    {path : '', redirectTo: 'search', pathMatch:'full'},
+    // {path : '', component : CovidHomeComponent},
     {path : 'locate', component : CovidLocateComponent},
     {path : 'nearby', component : CovidNearbyComponent},
+    {path : 'search', component : CovidSearchComponent},
     {path : 'invite', component : InviteComponent},
     {path : 'list', component : ContextFilterComponent},
     {path : 'map', component : ContextMapComponent},
