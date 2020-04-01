@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from './helpers/auth.guard';
 import { CovidHomeComponent } from "./covid/covid-home/covid-home.component";
+import { CovidLocateComponent } from "./covid/covid-locate/covid-locate.component";
+import { CovidNearbyComponent } from "./covid/covid-nearby/covid-nearby.component";
 import { CovidCreateComponent } from "./covid/covid-create/covid-create.component";
 import { ContextCreateComponent } from "./context/context-create/context-create.component";
 import { ContextFilterComponent } from "./context/context-filter/context-filter.component";
@@ -26,29 +28,31 @@ import { InviteComponent } from "./invite/invite.component";
 import { Oauth2callbackComponent } from './oauth2callback/oauth2callback.component';
 
 const routes: Routes = [
-  // {path : '', redirectTo: 'contexts', pathMatch:'full'},
-  {path : '', component : CovidHomeComponent},
-  {path : 'invite', component : InviteComponent},
-  {path : 'apartments', component : ApartmentFilterComponent, canActivate: [AuthGuard]},
-  {path : 'list', component : ContextFilterComponent},
-  {path : 'map', component : ContextMapComponent},
-  {path : 'users', component : UserListComponent},
-  {path : 'login', component : LoginComponent},
-  {path : 'register', component : RegisterComponent},
-  {path : 'regconfirm', component : RegisterConfirmComponent},
-  {path : 'add/:form', component : ContextCreateComponent},
-  {path : 'edit/:id', component : ApartmentEditComponent},
-  {path : 'view/:id', component : ApartmentViewComponent},
-  {path : 'useredit/:id', component : UserEditComponent},
-  {path : 'useradd', component : UserAddComponent},
-  {path : 'profile', component : ProfileEditComponent},
-  {path : 'avatar', component : AvatarEditComponent},
-  {path : 'pwdreset', component : PasswordresetComponent},
-  {path : 'pwdresetconfirm', component : PasswordresetConfirmComponent},
+    // {path : '', redirectTo: 'contexts', pathMatch:'full'},
+    {path : '', component : CovidHomeComponent},
+    {path : 'locate', component : CovidLocateComponent},
+    {path : 'nearby', component : CovidNearbyComponent},
+    {path : 'invite', component : InviteComponent},
+    {path : 'apartments', component : ApartmentFilterComponent, canActivate: [AuthGuard]},
+    {path : 'list', component : ContextFilterComponent},
+    {path : 'map', component : ContextMapComponent},
+    {path : 'users', component : UserListComponent},
+    {path : 'login', component : LoginComponent},
+    {path : 'register', component : RegisterComponent},
+    {path : 'regconfirm', component : RegisterConfirmComponent},
+    {path : 'add/:form', component : ContextCreateComponent},
+    {path : 'edit/:id', component : ApartmentEditComponent},
+    {path : 'view/:id', component : ApartmentViewComponent},
+    {path : 'useredit/:id', component : UserEditComponent},
+    {path : 'useradd', component : UserAddComponent},
+    {path : 'profile', component : ProfileEditComponent},
+    {path : 'avatar', component : AvatarEditComponent},
+    {path : 'pwdreset', component : PasswordresetComponent},
+    {path : 'pwdresetconfirm', component : PasswordresetConfirmComponent},
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+    imports: [RouterModule.forRoot(routes)],
+    exports: [RouterModule]
 })
 export class AppRoutingModule { }
