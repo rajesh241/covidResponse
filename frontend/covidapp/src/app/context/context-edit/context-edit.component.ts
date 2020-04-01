@@ -27,6 +27,9 @@ export class ContextEditComponent implements OnInit {
   longitude:number = 81.843217
   loading: boolean;
   isVolunteer:boolean=false;
+  editMode:boolean=false;
+  allowEdit:boolean=false;
+  showLoginMessage:boolean=false;
   constructor(private contextService:ContextService,
 	      private authService:AuthService,
               private activatedRoute:ActivatedRoute,
@@ -45,7 +48,7 @@ export class ContextEditComponent implements OnInit {
   }
  
   loadContextData(){
-    this.contextService.getItem(this.context_id)
+    this.contextService.getItemPublic(this.context_id)
          .subscribe(
             data => {
               this.context = data;
@@ -108,6 +111,15 @@ export class ContextEditComponent implements OnInit {
     this.apt.latitude = Number($event.coords.lat.toFixed(6));
     this.apt.longitude = Number($event.coords.lng.toFixed(6));
   }
-
+  onEditButton(){
+	  this.editMode = true;
+	  if (this.authService.isLoggedIn()){
+		  this.allowEdit = true;
+		  this.showLoginMessage=false;
+	  }else{
+		  this.allowEdit=false;
+		  this.showLoginMessage=true;
+	  }
+  }
 
 }

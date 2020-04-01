@@ -1,7 +1,16 @@
-<h1>Update COntext</h1>
 <div *ngIf="dataLoaded | async" class="container">
-   <h1>Update Context</h1>
-   <div class="col-lg-8 ">
+   <div>
+     <h2>{{ context.name }}</h2>
+     <p>{{ context.description }} </p>
+   </div>
+      <form  (ngSubmit)="onEditButton()">
+        <button type="submit" class="btn btn-lg btn-info">Edit</button>
+      </form>
+   <div *ngIf="editMode">
+      <div *ngIf="showLoginMessage">
+	      <p>You should be logged in to edit</p>
+      </div>
+   <div *ngIf="allowEdit" class="col-lg-8 ">
       <h3 *ngIf="success" class="text-success">Successfully Updated</h3> 
       <h3 *ngIf="!success" class="text-danger" [innerHTML]="errorMessage"> </h3> 
       <h4 class="float-right"><small>All fields are required</small></h4>
@@ -110,5 +119,6 @@
             </div>
          </form>
       </div>
+   </div>
    </div>
 </div>
