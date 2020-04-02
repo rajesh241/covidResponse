@@ -25,8 +25,8 @@ import { InviteComponent } from "./invite/invite.component";
 import { Oauth2callbackComponent } from './oauth2callback/oauth2callback.component';
 
 const routes: Routes = [
-    {path : '', redirectTo: 'search', pathMatch:'full'},
-    // {path : '', component : CovidHomeComponent},
+    {path : '', component : CovidSearchComponent},
+    //{path : '', redirectTo: 'search', pathMatch:'full'},
     {path : 'locate', component : CovidLocateComponent},
     {path : 'nearby', component : CovidNearbyComponent},
     {path : 'search', component : CovidSearchComponent},
