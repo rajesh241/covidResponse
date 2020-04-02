@@ -13,140 +13,140 @@ interface marker {
 }
 
 @Component({
-  selector: 'app-covid-nearby',
-  templateUrl: './covid-nearby.component.html',
-  styleUrls: ['./covid-nearby.component.css']
+    selector: 'app-covid-nearby',
+    templateUrl: './covid-nearby.component.html',
+    styleUrls: ['./covid-nearby.component.css']
 })
 export class CovidNearbyComponent implements OnInit {
-  title: string = 'AGM project';
-  latitude: number;
-  longitude: number;
-  zoom: number;
-  address: string;
-  private geoCoder;
+    title: string = 'AGM project';
+    latitude: number;
+    longitude: number;
+    zoom: number;
+    address: string;
+    private geoCoder;
 
-  // Radius
+    // Radius
     radius = 5000;
-  radiusLat = 0;
-  radiusLong = 0;
+    radiusLat = 0;
+    radiusLong = 0;
 
-  markers: marker[] = []
+    markers: marker[] = []
 
-  constructor(private mapsAPILoader: MapsAPILoader) { }
+    constructor(private mapsAPILoader: MapsAPILoader) { }
 
-  ngOnInit(): void {
-    //load Map
-    this.mapsAPILoader.load().then(() => {
-      this.setCurrentLocation();
-    });
-  }
-
-  // Get Current Location Coordinates
-  private setCurrentLocation() {
-    if ('geolocation' in navigator) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        this.latitude = position.coords.latitude;
-        this.longitude = position.coords.longitude;
-        this.radiusLat = this.latitude;
-        this.radiusLong = this.longitude;
-        this.zoom = 12;
-
-        for(let i=1;i<50;i++){
-          this.markers.push(
-            {
-              lat: this.latitude + Math.random()-0.5,
-              lng: this.longitude + Math.random()-0.5,
-                label: '',
-              draggable: false,
-              content: `Content no ${i}`,
-              isShown: true,
-                //icon:'./assets/red-dot.png'
-                icon: 'data:image/svg+xml;utf-8, \
-      <svg width="24" height="24" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"> \
-        <path fill="red" stroke="white" stroke-width="1.5" d="M3.5 3.5h25v25h-25z" ></path> \
-      </svg>'
-            }
-          );
-        }
-        for(let i=50;i<100;i++){
-          this.markers.push(
-            {
-              lat: this.latitude + Math.random()-0.5,
-              lng: this.longitude + Math.random()-0.5,
-                label: '',
-              draggable: false,
-              content: `Content no ${i}`,
-              isShown: true,
-              icon:'./assets/blue-dot.png'
-            }
-          );
-        }
-        for(let i=100;i<150;i++){
-          this.markers.push(
-            {
-              lat: this.latitude + Math.random()-0.5,
-              lng: this.longitude + Math.random()-0.5,
-                label: '',
-              draggable: false,
-              content: `Content no ${i}`,
-              isShown: true,
-              icon:'./assets/green-dot.png'
-            }
-          );
-        }
-        for(let i=150;i<200;i++){
-          this.markers.push(
-            {
-              lat: this.latitude + Math.random()-0.5,
-              lng: this.longitude + Math.random()-0.5,
-                label: '',
-              draggable: false,
-              content: `Content no ${i}`,
-              isShown: true,
-              icon:'./assets/yellow-dot.png'
-            }
-          );
-        }
-
-      });
+    ngOnInit(): void {
+        //load Map
+        this.mapsAPILoader.load().then(() => {
+            this.setCurrentLocation();
+        });
     }
-  }
 
-  clickedMarker(label: string, index: number) {
-    console.log(`clicked the marker: ${label || index}`)
-  }
+    // Get Current Location Coordinates
+    private setCurrentLocation() {
+        if ('geolocation' in navigator) {
+            navigator.geolocation.getCurrentPosition((position) => {
+                this.latitude = position.coords.latitude;
+                this.longitude = position.coords.longitude;
+                this.radiusLat = this.latitude;
+                this.radiusLong = this.longitude;
+                this.zoom = 12;
 
-  radiusDragEnd($event: any) {
-    console.log($event);
-    this.radiusLat = $event.coords.lat;
-    this.radiusLong = $event.coords.lng;
-    this.showHideMarkers();
-  }
+                for(let i=1;i<50;i++){
+                    this.markers.push(
+                        {
+                            lat: this.latitude + Math.random()-0.5,
+                            lng: this.longitude + Math.random()-0.5,
+                            label: '',
+                            draggable: false,
+                            content: `Content no ${i}`,
+                            isShown: true,
+                            //icon:'./assets/red-dot.png'
+                            icon: 'data:image/svg+xml;utf-8, \
+<svg width="24" height="24" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"> \
+<path fill="red" stroke="white" stroke-width="1.5" d="M3.5 3.5h25v25h-25z" ></path> \
+</svg>'
+                        }
+                    );
+                }
+                for(let i=50;i<100;i++){
+                    this.markers.push(
+                        {
+                            lat: this.latitude + Math.random()-0.5,
+                            lng: this.longitude + Math.random()-0.5,
+                            label: '',
+                            draggable: false,
+                            content: `Content no ${i}`,
+                            isShown: true,
+                            icon:'./assets/blue-dot.png'
+                        }
+                    );
+                }
+                for(let i=100;i<150;i++){
+                    this.markers.push(
+                        {
+                            lat: this.latitude + Math.random()-0.5,
+                            lng: this.longitude + Math.random()-0.5,
+                            label: '',
+                            draggable: false,
+                            content: `Content no ${i}`,
+                            isShown: true,
+                            icon:'./assets/green-dot.png'
+                        }
+                    );
+                }
+                for(let i=150;i<200;i++){
+                    this.markers.push(
+                        {
+                            lat: this.latitude + Math.random()-0.5,
+                            lng: this.longitude + Math.random()-0.5,
+                            label: '',
+                            draggable: false,
+                            content: `Content no ${i}`,
+                            isShown: true,
+                            icon:'./assets/yellow-dot.png'
+                        }
+                    );
+                }
 
-  event(type,$event) {
-    console.log(type,$event);
-    this.radius = $event;
-    this.showHideMarkers();
-  }
-
-  showHideMarkers(){
-    Object.values(this.markers).forEach(value => {
-      value.isShown = this.getDistanceBetween(value.lat,value.lng,this.radiusLat,this.radiusLong);
-    });
-  }
-
-  getDistanceBetween(lat1,long1,lat2,long2){
-    var from = new google.maps.LatLng(lat1,long1);
-    var to = new google.maps.LatLng(lat2,long2);
-
-    if(google.maps.geometry.spherical.computeDistanceBetween(from,to) <= this.radius){
-      console.log('Radius',this.radius);
-      console.log('Distance Between',google.maps.geometry.spherical.computeDistanceBetween(
-        from,to
-      ));
-      return true;
-    }else{
-      return false;
+            });
+        }
     }
-  }
+
+    clickedMarker(label: string, index: number) {
+        console.log(`clicked the marker: ${label || index}`)
+    }
+
+    radiusDragEnd($event: any) {
+        console.log($event);
+        this.radiusLat = $event.coords.lat;
+        this.radiusLong = $event.coords.lng;
+        this.showHideMarkers();
+    }
+
+    event(type,$event) {
+        console.log(type,$event);
+        this.radius = $event;
+        this.showHideMarkers();
+    }
+
+    showHideMarkers(){
+        Object.values(this.markers).forEach(value => {
+            value.isShown = this.getDistanceBetween(value.lat,value.lng,this.radiusLat,this.radiusLong);
+        });
+    }
+
+    getDistanceBetween(lat1,long1,lat2,long2){
+        var from = new google.maps.LatLng(lat1,long1);
+        var to = new google.maps.LatLng(lat2,long2);
+
+        if(google.maps.geometry.spherical.computeDistanceBetween(from,to) <= this.radius){
+            console.log('Radius',this.radius);
+            console.log('Distance Between',google.maps.geometry.spherical.computeDistanceBetween(
+                from,to
+            ));
+            return true;
+        }else{
+            return false;
+        }
+    }
 }
