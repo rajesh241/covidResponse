@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth import get_user_model
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django_mysql.models import JSONField
 
 User = get_user_model()
 # Create your models here.
@@ -69,6 +70,18 @@ class Entity(models.Model):
         return f"{self.name}-{self.description}"
 
 
+class Feedback(models.Model):
+    """Class for collecting feedback on the entity"""
+    entity = models.ForeignKey(Entity, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True,
+                             blank=True)
+    data_json = JSONField()  # requires Django-Mysql package
+    class Meta:
+        """To define meta data attributes"""
+        db_table = 'feedback'
+    def __str__(self):
+        """Default str method for the class"""
+        return f"{self.entity.name}"
 @receiver(post_save, sender=Entity)
 def update_context(sender, instance, created, **kwargs):
     if (instance.is_facility == False):
