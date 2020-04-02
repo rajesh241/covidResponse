@@ -26,7 +26,7 @@ class Covid(models.Model):
         """Default str method for the class"""
         return f"{self.name}-{self.description}"
 
-class Context(models.Model):
+class Entity(models.Model):
     """This is the basic class for Aparment"""
     name = models.CharField(max_length=256)
     record_type = models.CharField(max_length=1024, null=True, blank=True,
@@ -69,7 +69,7 @@ class Context(models.Model):
         return f"{self.name}-{self.description}"
 
 
-@receiver(post_save, sender=Context)
+@receiver(post_save, sender=Entity)
 def update_context(sender, instance, created, **kwargs):
     if (instance.is_facility == False):
         if(instance.record_type == "facility"):

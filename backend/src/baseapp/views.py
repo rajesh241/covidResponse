@@ -6,10 +6,10 @@ from rest_framework.response import Response
 from rest_framework.generics import GenericAPIView
 from django_filters import rest_framework as filters
 from rest_framework import mixins, generics, permissions
-from baseapp.models import Covid, Context
+from baseapp.models import Covid, Entity
 from user.mixins import HttpResponseMixin
-from .serializers import (CovidSerializer,ItemSerializer, ContextSerializer,
-                          ContextPublicSerializer
+from .serializers import (CovidSerializer,ItemSerializer, EntitySerializer,
+                          EntityPublicSerializer
                          )
 from user.permissions import IsStaffReadWriteOrAuthReadOnly, IsStaffReadWriteOrReadOnly
 from user.utils import is_json
@@ -137,17 +137,17 @@ class CovidBulkDeleteView(GenericAPIView):
 
 
 
-class CreateContextView(generics.CreateAPIView):
+class CreateEntityView(generics.CreateAPIView):
     """Create a new user in the system"""
     permission_classes = (permissions.AllowAny,)
-    serializer_class = ContextPublicSerializer
+    serializer_class = EntityPublicSerializer
 
-class ContextFilter(filters.FilterSet):
+class EntityFilter(filters.FilterSet):
  #   min_price = filters.NumberFilter(field_name="price", lookup_expr='gte')
  #   max_price = filters.NumberFilter(field_name="price", lookup_expr='lte')
 
     class Meta:
-        model = Context
+        model = Entity
         #fields = ('number_of_rooms', 'floor_area_size',
         #          'price_per_month', 'is_available')
         fields = {
@@ -158,7 +158,7 @@ class ContextFilter(filters.FilterSet):
                 }
     @property
     def qs(self):
-        parent_qs = super(ContextFilter, self).qs
+        parent_qs = super(EntityFilter, self).qs
         return parent_qs
        #if 'finyear' in self.request.query_params:
        #    return parent_qs
@@ -168,7 +168,7 @@ class ContextFilter(filters.FilterSet):
 
 
 
-class ContextAPIView(HttpResponseMixin,
+class EntityAPIView(HttpResponseMixin,
                     mixins.CreateModelMixin,
                     mixins.DestroyModelMixin,
                     mixins.RetrieveModelMixin,
@@ -177,17 +177,17 @@ class ContextAPIView(HttpResponseMixin,
     """API View for the Report Model"""
     permission_classes = [IsStaffReadWriteOrReadOnly]
     #permission_classes = [permissions.IsAuthenticated]
-    serializer_class = ContextSerializer
+    serializer_class = EntitySerializer
     passed_id = None
     input_id = None
     search_fields = ('name', 'description')
     ordering_fields = ('name', 'id', 'created', 'updated')
-    filterset_class = ContextFilter
-    queryset = Context.objects.all()
+    filterset_class = EntityFilter
+    queryset = Entity.objects.all()
     def get_queryset(self, *args, **kwargs):
        if self.request.user.is_staff:
-           return Context.objects.all()
-       return Context.objects.all()
+           return Entity.objects.all()
+       return Entity.objects.all()
     def get_object(self):
         input_id = self.input_id
         queryset = self.get_queryset()
