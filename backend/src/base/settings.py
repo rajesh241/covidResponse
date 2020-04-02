@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'django_filters',
     'django.contrib.staticfiles',
+    'django_mysql',
     'rest_framework.authtoken',
     'core',
     'user',
