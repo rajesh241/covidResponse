@@ -1,19 +1,19 @@
 
 """Serializer classes for the application"""
 from rest_framework import serializers, fields
-from baseapp.models import Covid, Context
+from baseapp.models import Covid, Entity
 
 class ItemSerializer(serializers.Serializer):
     """Your Custom Serializer"""
     # Gets a list of Integers
     user_ids = serializers.ListField(child=serializers.CharField())
 
-class ContextSerializer(serializers.ModelSerializer):
+class EntitySerializer(serializers.ModelSerializer):
     """Serializer for Report Model"""
     user = serializers.HiddenField(default=serializers.CurrentUserDefault())
     class Meta:
         """Meta Class"""
-        model = Context
+        model = Entity
         fields = '__all__'
         extra_kwargs = {
                    'description' :  { 'required': True,'error_messages': {'required':'field is required'}},
@@ -31,11 +31,11 @@ class ContextSerializer(serializers.ModelSerializer):
         #    raise serializers.ValidationError({"detail":"Longitude must be between 180 and -180"})
         return data
 
-class ContextPublicSerializer(serializers.ModelSerializer):
+class EntityPublicSerializer(serializers.ModelSerializer):
     """Serializer for Report Model"""
     class Meta:
         """Meta Class"""
-        model = Context
+        model = Entity
         fields = '__all__'
         extra_kwargs = {
                    'description' :  { 'required': True,'error_messages': {'required':'field is required'}},

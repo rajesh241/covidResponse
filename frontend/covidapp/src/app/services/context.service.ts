@@ -11,8 +11,8 @@ import { Page, queryPaginated, queryPaginatedLocations} from '../pagination';
   providedIn: 'root'
 })
 export class ContextService {
-  private endpoint = environment.apiURL+"/api/public/context/";
-  private listEndPoint = environment.apiURL+"/api/public/context/";
+  private endpoint = environment.apiURL+"/api/public/entity/";
+  private listEndPoint = environment.apiURL+"/api/public/entity/";
   private createEndPoint = environment.apiURL+"/api/public/create/";
   private bulkDeleteEndpoint = environment.apiURL+"/api/public/bulkdeleteapt/";
   constructor( private http :  HttpClient ) { }
