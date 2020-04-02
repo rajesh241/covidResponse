@@ -1,13 +1,21 @@
 
 """Serializer classes for the application"""
 from rest_framework import serializers, fields
-from baseapp.models import Covid, Entity
+from baseapp.models import Covid, Entity, Feedback
 
 class ItemSerializer(serializers.Serializer):
     """Your Custom Serializer"""
     # Gets a list of Integers
     user_ids = serializers.ListField(child=serializers.CharField())
 
+class FeedbackSerializer(serializers.ModelSerializer):
+    """Serializer for Report Model"""
+    user = serializers.HiddenField(default=serializers.CurrentUserDefault())
+    class Meta:
+        """Meta Class"""
+        model = Feedback
+        fields = '__all__'
+ 
 class EntitySerializer(serializers.ModelSerializer):
     """Serializer for Report Model"""
     user = serializers.HiddenField(default=serializers.CurrentUserDefault())
