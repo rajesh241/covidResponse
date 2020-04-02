@@ -26,6 +26,7 @@
           <agm-info-window>
             <h6><b>{{m.name}}</b></h6>
             <h6>{{m.description}}</h6>
+	    <div *ngIf="m.is_facility">
             <div *ngIf="authService.isLoggedIn()">
               <form  *ngIf="m.is_functional" (ngSubmit)="toggleFunctional(m.id,m.is_functional,m.record_type)">
                 <button type="submit" class="btn btn-lg btn-info">Click if this unit is not functional</button>
@@ -33,6 +34,7 @@
               <form  *ngIf="!m.is_functional" (ngSubmit)="toggleFunctional(m.id,m.is_functional,m.record_type)">
                 <button type="submit" class="btn btn-lg btn-info">Click if this unit is functional</button>
               </form>
+            </div>
             </div>
           </agm-info-window>
 

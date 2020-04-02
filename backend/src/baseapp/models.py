@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth import get_user_model
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 User = get_user_model()
 # Create your models here.
@@ -51,9 +53,11 @@ class Context(models.Model):
                              blank=True)
     is_active = models.BooleanField(default=True)
     is_functional = models.BooleanField(default=True)
+    is_facility = models.BooleanField(default=False)
     icon_url = models.URLField(blank=True, null=True,
                                default='https://covidb.libtech.in/media/icons/red-dot.png')
     backend_remarks = models.TextField(blank=True, null=True)
+    feedback_form = models.TextField(blank=True, null=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
@@ -65,3 +69,9 @@ class Context(models.Model):
         return f"{self.name}-{self.description}"
 
 
+@receiver(post_save, sender=Context)
+def update_context(sender, instance, created, **kwargs):
+    if (instance.is_facility == False):
+        if(instance.record_type == "facility"):
+            instance.is_facility = True
+            instance.save()

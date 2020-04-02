@@ -3,6 +3,7 @@ id: number;
 name: string;
 is_active: boolean;
 is_functional: boolean;
+is_facility: boolean;
 record_type:string;
 record_subtype:string;
 phone: number;
