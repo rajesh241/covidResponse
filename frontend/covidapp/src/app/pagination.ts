@@ -10,7 +10,7 @@ export class Page<T> {
   results: Array<T>;  // items for the current page
 }
 
-export function queryPaginated<T>(http: HttpClient, baseUrl: string, urlOrFilter?: string | object): Observable<Page<T>> {
+export function queryPaginated<T>(http: HttpClient, baseUrl: string, insertToken:boolean, urlOrFilter?: string | object): Observable<Page<T>> {
   let params = new HttpParams();
   let url = baseUrl;
   
@@ -46,9 +46,16 @@ export function queryPaginated<T>(http: HttpClient, baseUrl: string, urlOrFilter
   let headers = new HttpHeaders();
   headers = headers.set("Authorization", "Bearer " + token)
   console.log(headers);
-  return http.get<Page<T>>(url, {
-    params: params
-  });
+  if (insertToken){
+       return http.get<Page<T>>(url, {
+         params: params,
+	 headers: headers
+       });
+  }else{
+       return http.get<Page<T>>(url, {
+         params: params
+       });
+  }
 }
 
 export function queryPaginatedLocations<T>(http: HttpClient, baseUrl: string, geoBounds: object,urlOrFilter?: string | object): Observable<Page<T>> {

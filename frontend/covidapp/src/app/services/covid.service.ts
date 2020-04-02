@@ -19,7 +19,7 @@ export class CovidService {
   }
 
   list(urlOrFilter?: string | object): Observable<Page<Covid>> {
-    return queryPaginated<Covid>(this.http, this.listEndPoint, urlOrFilter);
+    return queryPaginated<Covid>(this.http, this.listEndPoint, false, urlOrFilter);
   }
   geoList(geoBounds:object, urlOrFilter?: string | object): Observable<Page<Covid>> {
     return queryPaginatedLocations<Covid>(this.http, this.listEndPoint, geoBounds, urlOrFilter);

@@ -24,7 +24,7 @@ export class ContextService {
   }
 
   list(urlOrFilter?: string | object): Observable<Page<Context>> {
-    return queryPaginated<Context>(this.http, this.listEndPoint, urlOrFilter);
+    return queryPaginated<Context>(this.http, this.listEndPoint, false, urlOrFilter);
   }
   geoList(geoBounds:object, urlOrFilter?: string | object): Observable<Page<Context>> {
     return queryPaginatedLocations<Context>(this.http, this.listEndPoint, geoBounds, urlOrFilter);

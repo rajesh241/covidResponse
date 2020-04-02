@@ -19,7 +19,7 @@ export class ApartmentService {
   }
 
   list(urlOrFilter?: string | object): Observable<Page<Apartment>> {
-    return queryPaginated<Apartment>(this.http, this.listEndPoint, urlOrFilter);
+    return queryPaginated<Apartment>(this.http, this.listEndPoint, true, urlOrFilter);
   }
   geoList(geoBounds:object, urlOrFilter?: string | object): Observable<Page<Apartment>> {
     return queryPaginatedLocations<Apartment>(this.http, this.listEndPoint, geoBounds, urlOrFilter);
