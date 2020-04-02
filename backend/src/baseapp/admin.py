@@ -5,7 +5,8 @@ from .models import Context, Covid
 class ContextModelAdmin(admin.ModelAdmin):
     """Model Adminf or class Location"""
     list_display = ["id", "name", "latitude", "longitude"]
-    search_fields = ["name"]
+    list_filter = ["record_type"]
+    search_fields = ["name", "description"]
 class CovidModelAdmin(admin.ModelAdmin):
     """Model Adminf or class Location"""
     list_display = ["id", "name", "latitude", "longitude"]
