@@ -15,6 +15,7 @@ export class UserService {
   private editEndPoint = environment.apiURL+"/api/user/modify/profile/";
   private bulkDeleteEndpoint = environment.apiURL+"/api/user/bulkdelete/";
   private profileEndPoint = environment.apiURL+"/api/user/me/";
+  insertToken:boolean = true;
   constructor( private http :  HttpClient ) { }
 
   userBulkDelete(data){
@@ -33,7 +34,7 @@ export class UserService {
   }
   
   list(urlOrFilter?: string | object): Observable<Page<User>> {
-    return queryPaginated<User>(this.http, this.listEndPoint, urlOrFilter);
+    return queryPaginated<User>(this.http, this.listEndPoint, this.insertToken, urlOrFilter);
   }
   userCreate(payload:any){
     return this.http.post(this.endpoint,payload,this.getEditHttpOptions());

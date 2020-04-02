@@ -13,6 +13,6 @@ export class ApartmentFilterService {
   ) { }
 
   list(urlOrFilter?: string | object): Observable<Page<Apartment>> {
-    return queryPaginated<Apartment>(this.http, this.baseUrl, urlOrFilter);
+    return queryPaginated<Apartment>(this.http, this.baseUrl, true, urlOrFilter);
   }
 }
