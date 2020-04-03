@@ -11,6 +11,7 @@ interface marker {
     isShown:boolean;
     icon:string;
 }
+const DEFAULT_ZOOM=11;
 
 @Component({
     selector: 'app-covid-nearby',
@@ -31,6 +32,7 @@ export class CovidNearbyComponent implements OnInit {
     radiusLong = 0;
 
     markers: marker[] = []
+    dynamicMarkers = []
 
     constructor(private mapsAPILoader: MapsAPILoader) { }
 
@@ -49,22 +51,21 @@ export class CovidNearbyComponent implements OnInit {
                 this.longitude = position.coords.longitude;
                 this.radiusLat = this.latitude;
                 this.radiusLong = this.longitude;
-                this.zoom = 12;
+                this.zoom = DEFAULT_ZOOM;
 
+                // this.setMarkers();
+                
                 for(let i=1;i<50;i++){
                     this.markers.push(
                         {
                             lat: this.latitude + Math.random()-0.5,
                             lng: this.longitude + Math.random()-0.5,
-                            label: '😄',
+                            label: '',
                             draggable: false,
                             content: `Content no ${i}`,
                             isShown: true,
-                            //icon:'./assets/red-dot.png'
-                            icon: 'data:image/svg+xml;utf-8, \
-<svg width="24" height="24" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"> \
-<path fill="yellow" stroke="black" stroke-width="1" d="M3.5 3.5h25v25h-25z" ></path> \
-</svg>'
+                            //Green People
+                            icon: 'data:image/svg+xml;utf-8, <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="24" height="24" viewBox="0 0 24 24"><path fill="green" stroke="black" stroke-width=".5" d="M16 17V19H2V17S2 13 9 13 16 17 16 17M12.5 7.5A3.5 3.5 0 1 0 9 11A3.5 3.5 0 0 0 12.5 7.5M15.94 13A5.32 5.32 0 0 1 18 17V19H22V17S22 13.37 15.94 13M15 4A3.39 3.39 0 0 0 13.07 4.59A5 5 0 0 1 13.07 10.41A3.39 3.39 0 0 0 15 11A3.5 3.5 0 0 0 15 4Z" /></svg>'
                         }
                     );
                 }
@@ -73,15 +74,12 @@ export class CovidNearbyComponent implements OnInit {
                         {
                             lat: this.latitude + Math.random()-0.5,
                             lng: this.longitude + Math.random()-0.5,
-                            label: '😇',
+                            label: '',
                             draggable: false,
                             content: `Content no ${i}`,
                             isShown: true,
-                            //icon:'./assets/blue-dot.png'
-                            icon: 'data:image/svg+xml;utf-8, \
-<svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"> \
-<path fill="lightgreen" stroke="black" stroke-width="0.5" d="M3.5 3.5h25v25h-25z" ></path> \
-</svg>'
+                            //Red People
+                            icon: 'data:image/svg+xml;utf-8, <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="24" height="24" viewBox="0 0 24 24"><path fill="red" stroke="black" stroke-width=".5" d="M16 17V19H2V17S2 13 9 13 16 17 16 17M12.5 7.5A3.5 3.5 0 1 0 9 11A3.5 3.5 0 0 0 12.5 7.5M15.94 13A5.32 5.32 0 0 1 18 17V19H22V17S22 13.37 15.94 13M15 4A3.39 3.39 0 0 0 13.07 4.59A5 5 0 0 1 13.07 10.41A3.39 3.39 0 0 0 15 11A3.5 3.5 0 0 0 15 4Z" /></svg>'
                         }
                     );
                 }
@@ -90,15 +88,12 @@ export class CovidNearbyComponent implements OnInit {
                         {
                             lat: this.latitude + Math.random()-0.5,
                             lng: this.longitude + Math.random()-0.5,
-                            label: '💗',
+                            label: '',
                             draggable: false,
                             content: `Content no ${i}`,
                             isShown: true,
-                            //icon:'./assets/green-dot.png'
-                            icon: 'data:image/svg+xml;utf-8, \
-<svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"> \
-<path fill="red" stroke="black" stroke-width="1" d="M3.5 3.5h25v25h-25z" ></path> \
-</svg>'
+                            //Blue Support
+                            icon: 'data:image/svg+xml;utf-8, <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="24" height="24" viewBox="0 0 24 24"><path fill="blue" stroke="black" stroke-width=".5" d="M4,8H8V4A2,2 0 0,1 10,2H14A2,2 0 0,1 16,4V8H20A2,2 0 0,1 22,10V14A2,2 0 0,1 20,16H16V20A2,2 0 0,1 14,22H10A2,2 0 0,1 8,20V16H4A2,2 0 0,1 2,14V10A2,2 0 0,1 4,8Z" /></svg>'
                         }
                     );
                 }
@@ -107,59 +102,91 @@ export class CovidNearbyComponent implements OnInit {
                         {
                             lat: this.latitude + Math.random()-0.5,
                             lng: this.longitude + Math.random()-0.5,
-                            label: '🔥',
+                            label: '',
                             draggable: false,
                             content: `Content no ${i}`,
                             isShown: true,
-                            //icon:'./assets/yellow-dot.png'
-                            icon: 'data:image/svg+xml;utf-8, \
-<svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"> \
-<path fill="orange" stroke="black" stroke-width="1" d="M3.5 3.5h25v25h-25z" ></path> \
-</svg>'
+                            //Grey Support
+                            icon: 'data:image/svg+xml;utf-8, <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="24" height="24" viewBox="0 0 24 24"><path fill="gray" stroke="black" stroke-width=".5" d="M4,8H8V4A2,2 0 0,1 10,2H14A2,2 0 0,1 16,4V8H20A2,2 0 0,1 22,10V14A2,2 0 0,1 20,16H16V20A2,2 0 0,1 14,22H10A2,2 0 0,1 8,20V16H4A2,2 0 0,1 2,14V10A2,2 0 0,1 4,8Z" /></svg>'
+                            /*
+                              icon: 'data:image/svg+xml;utf-8, \
+                              <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48"> \
+                              <path d="M0 0h48v48H0z" fill="none"/> \
+                              <path fill="gray" stroke="black" stroke-width=".5" d="M38 6H10c-2.21 0-3.98 1.79-3.98 4L6 38c0 2.21 1.79 4 4 4h28c2.21 0 4-1.79 4-4V10c0-2.21-1.79-4-4-4zm-2 22h-8v8h-8v-8h-8v-8h8v-8h8v8h8v8z"/> \
+                              </svg>'
+                            */
                         }
                     );
                 }
-                for(let i=150;i<200;i++){
+                for(let i=200;i<250;i++){
                     this.markers.push(
                         {
                             lat: this.latitude + Math.random()-0.5,
                             lng: this.longitude + Math.random()-0.5,
-                            label: '😀',
+                            label: '',
                             draggable: false,
                             content: `Content no ${i}`,
                             isShown: true,
-                            //icon:'./assets/yellow-dot.png'
+                            // Black Plane
                             icon: 'data:image/svg+xml;utf-8, \
-<svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"> \
-<path fill="gray" stroke="black" stroke-width="1" d="M3.5 3.5h25v25h-25z" ></path> \
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"> \
+<path d="M10.18 9"/> \
+<path fill="black" stroke="black" stroke-width=".5" d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/> \
+<path d="M0 0h24v24H0z" fill="none"/> \
 </svg>'
                         }
                     );
                 }
-                for(let i=150;i<200;i++){
+                for(let i=250;i<300;i++){
                     this.markers.push(
                         {
                             lat: this.latitude + Math.random()-0.5,
                             lng: this.longitude + Math.random()-0.5,
-                            label: '$',
+                            label: '',
                             draggable: false,
                             content: `Content no ${i}`,
                             isShown: true,
-                            //icon:'./assets/yellow-dot.png'
+                            // Grey Plane
                             icon: 'data:image/svg+xml;utf-8, \
-<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">\
-  <symbol id="fish" viewBox="0 26 100 48"> \
-    <path d="M98.5,47.5C96.5,45.5,81,35,62,35c-2.1,0-4.2,0.1-6.2,0.3L39,26c0,4.5,1.3,9,2.4,12.1C31.7,40.7,23.3,44,16,44L0,34 \
-    c0,8,4,16,4,16s-4,8-4,16l16-10c7.3,0,15.7,3.3,25.4,5.9C40.3,65,39,69.5,39,74l16.8-9.3c2,0.2,4.1,0.3,6.2,0.3 \
-    c19,0,34.5-10.5,36.5-12.5S100.5,49.5,98.5,47.5z M85.5,50c-1.4,0-2.5-1.1-2.5-2.5s1.1-2.5,2.5-2.5s2.5,1.1,2.5,2.5 \
-    C88,48.9,86.9,50,85.5,50z"/>  \
-  </symbol> \
-</svg> \
-'
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"> \
+<path d="M10.18 9"/> \
+<path fill="gray" stroke="black" stroke-width=".5" d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/> \
+<path d="M0 0h24v24H0z" fill="none"/> \
+</svg>'
                         }
                     );
                 }
             });
+        }
+    }
+
+    setMarkers() {
+        var icon = {
+
+            path: "M-20,0a20,20 0 1,0 40,0a20,20 0 1,0 -40,0",
+            fillColor: '#FF0000',
+            fillOpacity: .6,
+            anchor: new google.maps.Point(0,0),
+            strokeWeight: 0,
+            scale: 1
+        }
+        for(let i=0;i<300;i++){
+            this.dynamicMarkers.push(
+                {
+                    latitude: this.latitude + Math.random()-0.5,
+                    longitude: this.longitude + Math.random()-0.5,
+                    label: '#',
+                    draggable: false,
+                    content: `Content no ${i}`,
+                    isShown: true,
+                    //icon:'./assets/yellow-dot.png'
+                    iconAnchorX: 0,
+                    iconAnchorY: 0,
+                    iconHeight: 24,
+                    iconWidth: 24,
+                    iconUrl: "M-20,0a20,20 0 1,0 40,0a20,20 0 1,0 -40,0"
+                }
+            );
         }
     }
 
