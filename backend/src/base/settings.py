@@ -62,8 +62,9 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
 ]
+CORS_ORIGIN_ALLOW_ALL = True
 
-CORS_ORIGIN_WHITELIST = [
+LIBTECHCORS_ORIGIN_WHITELIST = [
     'https://covid.libtech.in',
     'http://localhost:4200',
     'http://covid.libtech.in:8010',
