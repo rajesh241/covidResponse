@@ -43,7 +43,8 @@ export class CovidSearchComponent implements OnInit {
     // FIXME: 2nd Argument added for Angular 8
     @ViewChild('search', { static: true })
     public searchElementRef: ElementRef;
-
+    @ViewChild('json', { static: true }) jsonElement?: ElementRef;
+    public form: Object = {components: []};
     // Which format to show?
     located: boolean = true;
     // Radius
@@ -293,5 +294,9 @@ export class CovidSearchComponent implements OnInit {
     onSubmit($event) {
         console.log($event);
         this.data = $event.data;
+    }
+    onChange(event) {
+        console.log(event.form);
+        this.data = (event.form)
     }
 }
