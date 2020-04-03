@@ -76,6 +76,8 @@ class Feedback(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True,
                              blank=True)
     data_json = JSONField()  # requires Django-Mysql package
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
     class Meta:
         """To define meta data attributes"""
         db_table = 'feedback'
