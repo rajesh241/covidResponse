@@ -42,6 +42,9 @@ import { MatCheckboxModule } from '@angular/material';
 import { MatCardModule } from '@angular/material/card';
 import { AboutComponent } from './about/about.component';
 
+// Angular FormIO - https://github.com/formio/angular-formio
+import { FormioModule } from 'angular-formio';
+
 //const google_oauth_client_id:string = '849540517607-9alj6fb3hoo3lhrlml4upqkme070bo2f.apps.googleusercontent.com';
 
 let config = new AuthServiceConfig([
@@ -88,6 +91,7 @@ export function provideConfig() {
         BrowserModule,
         AppRoutingModule,
         FormsModule,
+        FormioModule,
         MatButtonModule,
         MatCardModule,
         MatCheckboxModule,
