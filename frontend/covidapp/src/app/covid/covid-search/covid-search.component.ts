@@ -38,6 +38,7 @@ export class CovidSearchComponent implements OnInit {
     displayFilter:boolean=false;
     patch_data:any;
     private geoCoder;
+    data: any = "Before Submit";
 
     // FIXME: 2nd Argument added for Angular 8
     @ViewChild('search', { static: true })
@@ -288,5 +289,9 @@ export class CovidSearchComponent implements OnInit {
                 window.alert('Geocoder failed due to: ' + status);
             }
         });
+    }
+    onSubmit($event) {
+        console.log($event);
+        this.data = $event.data;
     }
 }
