@@ -1,0 +1,43 @@
+{
+    "components": [
+        {
+            "label": "Comments if any",
+            "placeholder": "Please let know if you have anything to share about this facility",
+            "autoExpand": false,
+            "spellcheck": true,
+            "tableView": true,
+            "validate": {
+                "unique": false,
+                "multiple": false
+            },
+            "key": "commentsIfAny",
+            "type": "textarea",
+            "input": true
+        },
+        {
+            "label": "is_functional",
+            "description": "Let know if the facility is functional",
+            "tableView": false,
+            "defaultValue": false,
+            "validate": {
+                "unique": false,
+                "multiple": false
+            },
+            "key": "isFunctional",
+            "type": "checkbox",
+            "input": true
+        },
+        {
+            "type": "button",
+            "label": "Submit",
+            "key": "submit",
+            "disableOnInvalid": true,
+            "input": true,
+            "tableView": false,
+            "validate": {
+                "unique": false,
+                "multiple": false
+            }
+        }
+    ]
+}
