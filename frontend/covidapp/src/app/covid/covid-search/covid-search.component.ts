@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef, NgZone } from '@angular/core';
 import { MapsAPILoader, MouseEvent } from '@agm/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, FormArray } from '@angular/forms';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime, merge, share, startWith, switchMap } from 'rxjs/operators';
 import * as moment from "moment";
@@ -39,7 +39,7 @@ export class CovidSearchComponent implements OnInit {
     longitude: number;
     zoom:number;
     address: string;
-    displayFilter:boolean=false;
+    displayFilter:boolean=true;
     patch_data:any;
     private geoCoder;
     data: any = "Before Submit";
@@ -89,9 +89,10 @@ export class CovidSearchComponent implements OnInit {
             longitude__gte : new FormControl(),
             latitude__lte : new FormControl(),
             longitude__lte : new FormControl(),
-            record_type : new FormControl(),
+            record_type1 : new FormControl(),
             limit : new FormControl(5000),
-            search: new FormControl()
+            search: new FormControl(),
+            record_type: this.createRecordTypeCheckbox(this.recordTypes)
         });
         this.page = this.filterForm.valueChanges.pipe(
             debounceTime(200),
@@ -116,7 +117,12 @@ export class CovidSearchComponent implements OnInit {
         );
         this.dataLoaded = Promise.resolve(true);
     }
-
+    createRecordTypeCheckbox(recordTypeInputs) {
+      const arr = recordTypeInputs.map(recordType => {
+        return new FormControl(recordType.selected || false);
+      });
+      return new FormArray(arr);
+    }
     ngOnInit() {
         console.log('Inside ngOnInit()')
         //load Places Autocomplete
