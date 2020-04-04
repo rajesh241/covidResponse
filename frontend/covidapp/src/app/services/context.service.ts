@@ -12,6 +12,7 @@ import { Page, queryPaginated, queryPaginatedLocations} from '../pagination';
 })
 export class ContextService {
   private endpoint = environment.apiURL+"/api/public/entity/";
+  private fbendpoint = environment.apiURL+"/api/public/feedback/";
   private listEndPoint = environment.apiURL+"/api/public/entity/";
   private createEndPoint = environment.apiURL+"/api/public/create/";
   private bulkDeleteEndpoint = environment.apiURL+"/api/public/bulkdeleteapt/";
@@ -38,6 +39,10 @@ export class ContextService {
   }
   createItem(context:Context){
     return this.http.post(this.endpoint,context,this.getHttpOptions());
+  }
+  createFeedback(feedback:any){
+    console.log("Creating feedback");
+    return this.http.post(this.fbendpoint,feedback,this.getHttpOptions());
   }
   createItemPublic(context:Context){
     return this.http.post(this.createEndPoint,context,this.getPublicHttpOptions());
