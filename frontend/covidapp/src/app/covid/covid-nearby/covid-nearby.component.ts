@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { MapsAPILoader } from '@agm/core';
+import { FormCreateComponent } from '../../form-create/form-create.component';
+
+import {MatDialog, MatDialogConfig} from "@angular/material";
+import { MarkerDialogComponent } from '../../marker-dialog/marker-dialog.component';
 
 // just an interface for type safety.
 interface marker {
@@ -34,7 +38,10 @@ export class CovidNearbyComponent implements OnInit {
     markers: marker[] = []
     dynamicMarkers = []
 
-    constructor(private mapsAPILoader: MapsAPILoader) { }
+    constructor(
+        private mapsAPILoader: MapsAPILoader,
+        private dialog: MatDialog
+    ) { }
 
     ngOnInit(): void {
         //load Map
@@ -226,5 +233,35 @@ export class CovidNearbyComponent implements OnInit {
         }else{
             return false;
         }
+    }
+
+    openCreateForm() {
+        const dialogConfig = new MatDialogConfig();
+
+        dialogConfig.disableClose = true;
+        dialogConfig.autoFocus = true;
+
+        dialogConfig.data = {title: 'Drag and Drop to build a From'};
+
+        this.dialog.open(FormCreateComponent, dialogConfig);
+        
+        const dialogRef = this.dialog.open(MarkerDialogComponent, dialogConfig);
+
+        dialogRef.afterClosed().subscribe(
+            data => {
+		console.log("Dialog output:", data);
+                /*
+		this.contextService.createFeedback({"entity":marker.id,"data_json":data})
+                    .subscribe(
+                        data1 => {
+                            console.log('login success', data1);
+                        },
+                        err => {
+                            console.log(err.error);
+                        }
+		    )
+                */
+	    }
+        );        
     }
 }

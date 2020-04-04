@@ -1,0 +1,17 @@
+<div class="container">
+  <form-builder [form]="form" (change)="onChange($event)"></form-builder>
+  <pre>{{ this.data | json }}</pre>
+</div>
+
+<!--
+<h2 mat-dialog-title>{{title}}</h2>
+
+<mat-dialog-content [formGroup]="form">
+  <form-builder [form]="form" (change)="onChange($event)"></form-builder>
+  <pre>{{ this.data | json }}</pre>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button mat-raised-button (click)="close()">Close</button>
+</mat-dialog-actions>
+-->

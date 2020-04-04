@@ -1,6 +1,6 @@
-import {Component, Inject, OnInit, ViewEncapsulation} from '@angular/core';
+import { Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
-import {FormBuilder, Validators, FormGroup} from "@angular/forms";
+import { FormBuilder, Validators, FormGroup } from "@angular/forms";
 
 @Component({
     selector: 'app-marker-dialog',
@@ -9,6 +9,7 @@ import {FormBuilder, Validators, FormGroup} from "@angular/forms";
 })
 export class MarkerDialogComponent implements OnInit {
     form: FormGroup;
+    title:string = 'Update the details of the NGO/Support Org'
     marker;
     data;
     //form_url:string = "https://libtech-india-data.s3.ap-south-1.amazonaws.com/covid/json/example.json";    
