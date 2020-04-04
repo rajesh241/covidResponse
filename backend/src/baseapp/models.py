@@ -58,7 +58,7 @@ class Entity(models.Model):
     icon_url = models.URLField(blank=True, null=True,
                                default='https://covidb.libtech.in/media/icons/red-dot.png')
     backend_remarks = models.TextField(blank=True, null=True)
-    feedback_form = models.TextField(blank=True, null=True)
+    feedback_form_json = JSONField(null=True, blank=True)  # requires Django-Mysql package
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
@@ -83,7 +83,7 @@ class Feedback(models.Model):
         db_table = 'feedback'
     def __str__(self):
         """Default str method for the class"""
-        return f"{self.entity.name}"
+        return f"{self.id}"
 @receiver(post_save, sender=Entity)
 def update_context(sender, instance, created, **kwargs):
     if (instance.is_facility == False):

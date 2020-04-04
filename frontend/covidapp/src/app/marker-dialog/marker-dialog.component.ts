@@ -11,12 +11,16 @@ export class MarkerDialogComponent implements OnInit {
     form: FormGroup;
     marker;
     data;
-    
+    //form_url:string = "https://libtech-india-data.s3.ap-south-1.amazonaws.com/covid/json/example.json";    
+    form_url:string = "https://example.form.io/example";
     constructor(
         private fb: FormBuilder,
         private dialogRef: MatDialogRef<MarkerDialogComponent>,
         @Inject(MAT_DIALOG_DATA) marker) {
-        this.marker = marker
+        this.marker = marker;
+	console.log("printing marker");
+	console.log(this.marker.feedback_form_json);
+	console.log(this.marker);
     }
 
     ngOnInit() {

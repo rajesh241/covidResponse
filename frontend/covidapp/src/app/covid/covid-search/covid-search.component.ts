@@ -62,7 +62,21 @@ export class CovidSearchComponent implements OnInit {
     pageUrl = new Subject<string>();
     success: boolean = false;
     dataLoaded: Promise<boolean>;
-
+    recordTypes: any = [
+     {
+       name: "needHelp",
+       value: "needHelp"
+     },
+     {
+       name: "facility",
+       value: "facility",
+       selected: true
+     },
+     {
+       name: "volunteer",
+       value: "voluteer"
+     }
+    ];
     constructor(
         private mapsAPILoader: MapsAPILoader,
         private contextService: ContextService,
@@ -235,8 +249,19 @@ export class CovidSearchComponent implements OnInit {
         const dialogRef = this.dialog.open(MarkerDialogComponent, dialogConfig);
 
         dialogRef.afterClosed().subscribe(
-            data => console.log("Dialog output:", data)
-        );            
+            data => {
+		    console.log("Dialog output:", data);
+		    this.contextService.createFeedback({"entity":marker.id,"data_json":data})
+                      .subscribe(
+                        data1 => {
+                                console.log('login success', data1);
+                        },
+                        err => {
+                           console.log(err.error);
+                          }
+		      )
+	     }
+         );            
     }
 
     radiusDragEnd($event: any) {

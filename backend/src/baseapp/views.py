@@ -159,6 +159,8 @@ class EntityFilter(filters.FilterSet):
     @property
     def qs(self):
         parent_qs = super(EntityFilter, self).qs
+        if 'record_type' in self.request.query_params:
+            print("there is reocrd_tye in query params")
         return parent_qs
        #if 'finyear' in self.request.query_params:
        #    return parent_qs
@@ -246,9 +248,8 @@ class FeedbackAPIView(HttpResponseMixin,
     serializer_class = FeedbackSerializer
     passed_id = None
     input_id = None
-    search_fields = ('name', 'description')
-    ordering_fields = ('name', 'id', 'created', 'updated')
-    filter_fields = ("id")
+    search_fields = ('id')
+    ordering_fields = ('id', 'created', 'updated')
     queryset = Feedback.objects.all()
     def get_queryset(self, *args, **kwargs):
        if self.request.user.is_staff:

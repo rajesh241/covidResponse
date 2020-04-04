@@ -18,6 +18,7 @@ created: Date;
 updated: Date;
 icon_url: string;
 information_source: string;
+feedback_form_json: string;
 latitude : number;
 longitude: number;
 native_latitude : number;
