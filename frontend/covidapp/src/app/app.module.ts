@@ -40,10 +40,12 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule } from '@angular/material';
 import { MatCheckboxModule } from '@angular/material';
 import { MatCardModule } from '@angular/material/card';
+import {MatDialogModule} from "@angular/material";
 import { AboutComponent } from './about/about.component';
 
 // Angular FormIO - https://github.com/formio/angular-formio
 import { FormioModule } from 'angular-formio';
+import { MarkerDialogComponent } from './marker-dialog/marker-dialog.component';
 
 //const google_oauth_client_id:string = '849540517607-9alj6fb3hoo3lhrlml4upqkme070bo2f.apps.googleusercontent.com';
 
@@ -86,6 +88,7 @@ export function provideConfig() {
         CovidSearchComponent,
         ContextEditComponent,
         AboutComponent,
+        MarkerDialogComponent,
     ],
     imports: [
         BrowserModule,
@@ -95,6 +98,7 @@ export function provideConfig() {
         MatButtonModule,
         MatCardModule,
         MatCheckboxModule,
+        MatDialogModule,
         ReactiveFormsModule,
         AgmCoreModule.forRoot({
             apiKey: libtech.googleAPIKey,
@@ -111,6 +115,7 @@ export function provideConfig() {
             useFactory: provideConfig
         }
     ],
-    bootstrap: [AppComponent]
+    bootstrap: [AppComponent],
+    entryComponents: [MarkerDialogComponent]
 })
 export class AppModule { }

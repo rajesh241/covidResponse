@@ -11,6 +11,10 @@ import { ContextService } from "../../services/context.service";
 import { AuthService } from "../../services/auth.service";
 import { Router } from "@angular/router"
 
+import {MatDialog, MatDialogConfig} from "@angular/material";
+import { MarkerDialogComponent } from '../../marker-dialog/marker-dialog.component';
+
+
 // just an interface for type safety.
 interface marker {
     latitude: number;
@@ -63,7 +67,8 @@ export class CovidSearchComponent implements OnInit {
         private mapsAPILoader: MapsAPILoader,
         private contextService: ContextService,
         public authService: AuthService,
-        private ngZone: NgZone
+        private ngZone: NgZone,
+        private dialog: MatDialog
     ) {
         this.filterForm = new FormGroup({
             latitude__gte : new FormControl(),
@@ -211,8 +216,27 @@ export class CovidSearchComponent implements OnInit {
         this.radiusLong = this.longitude;
     }
 
-    clickedMarker(name: string, index: number) {
-        console.log(`clicked the marker: ${name || index}`)
+    clickedMarker(marker) {
+        console.log(marker);
+        console.log(`clicked the marker: ${marker.name}`);
+        this.openMarkerDialog(marker);
+    }
+
+    openMarkerDialog(marker) {
+        const dialogConfig = new MatDialogConfig();
+
+        dialogConfig.disableClose = true;
+        dialogConfig.autoFocus = true;
+
+        dialogConfig.data = marker;
+
+        this.dialog.open(MarkerDialogComponent, dialogConfig);
+        
+        const dialogRef = this.dialog.open(MarkerDialogComponent, dialogConfig);
+
+        dialogRef.afterClosed().subscribe(
+            data => console.log("Dialog output:", data)
+        );            
     }
 
     radiusDragEnd($event: any) {

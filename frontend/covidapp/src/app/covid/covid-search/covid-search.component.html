@@ -21,20 +21,15 @@
 
       <ng-container *ngFor="let m of (page | async)?.results; let i = index">
 
-        <agm-marker (markerClick)="clickedMarker(m.name, i)" [latitude]="m.latitude" [longitude]="m.longitude" [label]="m.label" [iconUrl]="m.icon_url" *ngIf="m.is_active">
+        <agm-marker (markerClick)="clickedMarker(m)" [latitude]="m.latitude" [longitude]="m.longitude" [label]="m.label" [iconUrl]="m.icon_url" *ngIf="m.is_active">
 
           <agm-info-window>
             <h6><b>{{m.name}}</b></h6>
             <h6>{{m.description}}</h6>
-	    <div *ngIf="m.is_facility">
-            <div *ngIf="authService.isLoggedIn()">
-              <form  *ngIf="m.is_functional" (ngSubmit)="toggleFunctional(m.id,m.is_functional,m.record_type)">
-                <button type="submit" class="btn btn-lg btn-info">Click if this unit is not functional</button>
-              </form>
-              <form  *ngIf="!m.is_functional" (ngSubmit)="toggleFunctional(m.id,m.is_functional,m.record_type)">
-                <button type="submit" class="btn btn-lg btn-info">Click if this unit is functional</button>
-              </form>
-            </div>
+            <div *ngIf="m.is_facility">
+              <div *ngIf="authService.isLoggedIn()">
+                <button mat-raised-button (click)="openMarkerDialog(m)">Edit</button>
+              </div>
             </div>
           </agm-info-window>
 
@@ -102,101 +97,11 @@
               </div>
             </div>
           </div>
-          -->
 
-          <h2> Simple Form With Validation (Inline JSON)</h2>
-          <formio [form]='{
-    "title": "My Test Form",
-    "components": [
-        {
-            "type": "textfield",
-            "input": true,
-            "tableView": true,
-            "inputType": "text",
-            "inputMask": "",
-            "label": "First Name",
-            "key": "firstName",
-            "placeholder": "Enter your first name",
-            "prefix": "",
-            "suffix": "",
-            "multiple": false,
-            "defaultValue": "",
-            "protected": false,
-            "unique": false,
-            "persistent": true,
-            "validate": {
-                "required": true,
-                "minLength": 2,
-                "maxLength": 10,
-                "pattern": "",
-                "custom": "",
-                "customPrivate": false
-            },
-            "conditional": {
-                "show": "",
-                "when": null,
-                "eq": ""
-            }
-        },
-        {
-            "type": "textfield",
-            "input": true,
-            "tableView": true,
-            "inputType": "text",
-            "inputMask": "",
-            "label": "Last Name",
-            "key": "lastName",
-            "placeholder": "Enter your last name",
-            "prefix": "",
-            "suffix": "",
-            "multiple": false,
-            "defaultValue": "",
-            "protected": false,
-            "unique": false,
-            "persistent": true,
-            "validate": {
-                "required": true,
-                "minLength": 2,
-                "maxLength": 10,
-                "pattern": "",
-                "custom": "",
-                "customPrivate": false
-            },
-            "conditional": {
-                "show": "",
-                "when": null,
-                "eq": ""
-            }
-        },
-  {
-    type: "email",
-    label: "Email",
-    key: "email",
-    input: true
-  },
-
-        {
-            "input": true,
-            "label": "Submit",
-            "tableView": false,
-            "key": "submit",
-            "size": "md",
-            "leftIcon": "",
-            "rightIcon": "",
-            "block": false,
-            "action": "submit",
-            "disableOnInvalid": true,
-            "theme": "primary",
-            "type": "button"
-        }
-    ]
-    }' (submit)="onSubmit($event)"></formio>
-
-          <pre>{{ this.data | json }}</pre>
           <h2> COMPLICATED FORM - Source JSON - https://example.form.io/example</h2>
           <formio src="https://pjmfogrfqptslvi.form.io/test" (submit)="onSubmit($event)"></formio>
 
           <h2> Build you own form </h2>
           <form-builder [form]="form" (change)="onChange($event)"></form-builder>
-
+          -->
 </div>
