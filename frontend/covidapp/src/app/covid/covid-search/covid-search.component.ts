@@ -64,17 +64,22 @@ export class CovidSearchComponent implements OnInit {
     dataLoaded: Promise<boolean>;
     recordTypes: any = [
      {
-       name: "needHelp",
-       value: "needHelp"
-     },
-     {
-       name: "facility",
-       value: "facility",
+       name: "Crisis",
+       value: "needHelp",
+       img: "./assets/red-dot.png",
        selected: true
      },
      {
-       name: "volunteer",
-       value: "voluteer"
+       name: "Relief",
+       value: "facility",
+       img: "./assets/green-dot.png",
+       selected: true
+     },
+     {
+       name: "Volunteer",
+       value: "voluteer",
+       img: "./assets/blue-dot.png",
+       selected:"true"
      }
     ];
     constructor(
@@ -91,9 +96,9 @@ export class CovidSearchComponent implements OnInit {
             longitude__lte : new FormControl(),
             record_type1 : new FormControl(),
             limit : new FormControl(5000),
-            search: new FormControl(),
-            record_type: this.createRecordTypeCheckbox(this.recordTypes)
+            search: new FormControl()
         });
+        this.createRecordTypeCheckbox(this.recordTypes);
         this.page = this.filterForm.valueChanges.pipe(
             debounceTime(200),
             startWith(this.filterForm.value),
@@ -118,10 +123,9 @@ export class CovidSearchComponent implements OnInit {
         this.dataLoaded = Promise.resolve(true);
     }
     createRecordTypeCheckbox(recordTypeInputs) {
-      const arr = recordTypeInputs.map(recordType => {
-        return new FormControl(recordType.selected || false);
+      recordTypeInputs.map(recordType => {
+        this.filterForm.addControl(recordType.value, new FormControl(recordType.selected || false));
       });
-      return new FormArray(arr);
     }
     ngOnInit() {
         console.log('Inside ngOnInit()')
