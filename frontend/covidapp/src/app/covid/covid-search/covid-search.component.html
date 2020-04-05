@@ -62,23 +62,13 @@
       <br />
 
       <div *ngIf="displayFilter" [formGroup]="filterForm">
-        <div class="row">
+	<div class="row">
           <section align="center" formControlName="record_type1" class="cb-section cb-margin">
-            <mat-checkbox class="cb-margin" >Relief<img src="./assets/blue-dot.png"></mat-checkbox>
-            <mat-checkbox class="cb-margin" >Crisis<img src="./assets/red-dot.png"></mat-checkbox>
-            <mat-checkbox class="cb-margin" >Volunteers<img src="./assets/green-dot.png"></mat-checkbox>
-            <mat-checkbox class="cb-margin" >Treatment<img src="./assets/marker-red.png"></mat-checkbox>
+		<div *ngFor="let rt of recordTypes;let i=index;">
+			<mat-checkbox class="cb-margin" [formControlName]="rt.value">{{ rt.name }}<img [src]="rt.img"></mat-checkbox>
+		</div>
           </section>
           <br />
-        </div>
-        <div class="form-group row">
-          <label class="field-label">Record Type</label>
-          <div class="flex-container">
-            <div *ngFor="let rt of filterForm.controls.record_type.controls; let i=index;">
-              <input type="checkbox"  [formControl]="rt">
-              {{recordTypes[i].name}}
-            </div>
-          </div>
         </div>
         <div class="form-group row">
           <label class="col-md-2 col-form-label">Filter</label>
