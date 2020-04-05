@@ -77,7 +77,7 @@ export class CovidSearchComponent implements OnInit {
      },
      {
        name: "Volunteer",
-       value: "voluteer",
+       value: "volunteer",
        img: "./assets/blue-dot.png",
        selected:"true"
      }
