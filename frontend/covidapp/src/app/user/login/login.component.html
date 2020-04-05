@@ -1,0 +1,45 @@
+  <div class="container">
+    <div class="col-lg-8 ">
+      <div class ="row" *ngIf="authService.isLoggedIn()">
+	      <p>Loading ...</p>
+      </div> 
+      <div class="row well center" *ngIf="!authService.isLoggedIn()">
+        <h1>Login</h1>
+        <h3 *ngIf="success" class="text-success"> Logged in Successfully</h3> 
+        <h3 *ngIf="!success" class="text-danger" [innerHTML]="errorMessage"> </h3> 
+        <p> Please enter your credntials to login. If you dont have an account please <a routerLink="../register" >Register here</a> </p>
+	<p> Alternatively you can also login via facebook or google</p>
+        <label>Email</label>
+        <input 
+           type='text'
+           class="form-control"
+           [(ngModel)]="email">
+        <label>Password</label>
+        <input 
+           type='password'
+           class="form-control"
+           [(ngModel)]="password">
+        
+        
+        <button class="btn btn-primary" 
+        	(click)="onLogin()"
+        	>
+        Login
+        </button>
+        <a href="/pwdreset"> Forgot Password</a>              
+      </div>
+  </div>
+  <div class="col-lg-8 " *ngIf="!authService.isLoggedIn()" >
+	  <div class="col-lg-4">
+            <button class="btn btn-primary"  (click)="fbLogin()">
+            Login with Facebook
+            </button>
+	  </div>
+	  <div class="col-lg-4">
+            <button class="btn btn-primary"  (click)="glogin('Google');">
+            Login with Google
+            </button>
+	  </div>
+  </div>
+</div>
+  

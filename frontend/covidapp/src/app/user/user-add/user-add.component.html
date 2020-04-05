@@ -1,0 +1,41 @@
+<div class="container" *ngIf="authService.isRealtor()">
+  <h1>Add User</h1>
+  <div class="col-lg-8 ">
+    <h3 *ngIf="success" class="text-success"> Account Created!</h3> 
+    <h3 *ngIf="!success" class="text-danger" [innerHTML]="errorMessage" ></h3> 
+    <label> Name </label>
+    <input 
+       type='text'
+       class="form-control"
+       [(ngModel)]="username">
+    
+    <label>Email </label>
+    <input 
+       type='text'
+       class="form-control"
+       [(ngModel)]="email">
+    <label>Password </label>
+    <input 
+       type='password'
+       class="form-control"
+       [(ngModel)]="password">
+    
+    <label>Verify Password</label>
+    <input 
+       type='password'
+       class="form-control"
+       [(ngModel)]="password2">
+                  <div class="row"> 
+                  <div class="col-sm-3 form-group">
+                     <input type="checkbox" class="form-control" id="is_staff" name="is_staff" [(ngModel)]="is_staff">
+                          <label for="is_staff">Is Realtor</label>
+                  </div>
+                  </div> 
+    <button class="btn btn-primary" 
+    	(click)="onRegister()"
+    	>
+    Add User
+    </button>
+    
+  </div>
+</div>

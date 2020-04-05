@@ -1,0 +1,79 @@
+<div class="container">
+  <h1>Update User</h1>
+  <div class="col-lg-8 ">
+    <h3 *ngIf="success" class="text-success">Successfully Updated</h3>
+    <h3 *ngIf="!success" class="text-danger" [innerHTML]="errorMessage"> </h3>
+    <div class="row">
+      <div class="col-lg-3">
+        <img class="avatarprofile" src={{avatar_url}}/>
+      </div>
+      <div class="col-lg-5">
+        <h3> {{user.name}}</h3>
+        <h3> {{user.email}}</h3>
+      </div>
+    </div>
+    <div class="row well center">
+      <form (ngSubmit)="onSubmit()">
+
+        <div class="col-sm-12">
+
+          <div *ngIf="user" class="row">
+            <div class="col-sm-6 form-group">
+              <label>Name</label>
+              <input type="text" class="form-control" id="name" name="user.name" [(ngModel)]="user.name">
+            </div>
+          </div>
+
+          <div *ngIf="!is_social_user" class="row">
+            <div class="col-sm-6 form-group">
+              <label>Password</label>
+              <input type="password" class="form-control" id="password" name="password" [(ngModel)]="user.password">
+            </div>
+            <div class="col-sm-6 form-group">
+              <label>ReEnter Password</label>
+              <input type="password" class="form-control" name="password" [(ngModel)]="user.password2">
+            </div>
+          </div>
+
+          <div *ngIf="user" class="row">
+            <div class="col-sm-3 form-group">
+              <input type="checkbox" class="form-control" id="is_active" name="is_active" [(ngModel)]="user.is_active">
+              <label for="is_active">Is Active</label>
+            </div>
+            <div class="col-sm-3 form-group">
+              <input type="checkbox" class="form-control" id="is_locked" name="is_locked" [(ngModel)]="user.is_locked">
+              <label for="is_locked">Is Locked</label>
+            </div>
+            <div class="col-sm-3 form-group">
+              <input type="checkbox" class="form-control" id="is_staff" name="is_staff" [(ngModel)]="user.is_staff">
+              <label for="is_staff">Is Realtor</label>
+            </div>
+            <div class="col-sm-3 form-group" *ngIf="authService.isAdmin()">
+              <input type="checkbox" class="form-control" id="is_superuser" name="is_superuser" [(ngModel)]="user.is_superuser">
+              <label for="is_superuser">Is Admin</label>
+            </div>
+          </div>
+
+          <div *ngIf="user" class="row">
+
+            <div class="col-sm-3 " >
+              <img class="avatar" src={{avatar_url}}/>
+            </div>
+            <div class="col-sm-3 " *ngIf="!is_social_user">
+              <label>Avatar</label>
+              <input type="file" (change)="onImageChanged($event)" >
+            </div>
+            <div class="col-sm-3" *ngIf="is_social_user">
+              <p> This is social user and his profile picture is taken from {{user.provider}}. His profile picture cannot be edited</p>
+            </div>
+
+
+          </div>
+
+
+          <button *ngIf="user" type="submit" class="btn btn-lg btn-info">Submit</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
