@@ -33,7 +33,13 @@ export function queryPaginated<T>(http: HttpClient, baseUrl: string, insertToken
       else if ( (value != null) && (key === "search")){
         params = params.set(key, value.toString());
       }
-      else if ( (value != null) && (key === "record_type")){
+      else if ( (value != null) && (key === "needHelp")){
+        params = params.set(key, value.toString());
+      }
+      else if ( (value != null) && (key === "facility")){
+        params = params.set(key, value.toString());
+      }
+      else if ( (value != null) && (key === "volunteer")){
         params = params.set(key, value.toString());
       }
       else if ( (value != null) && (key === "ordering")){
