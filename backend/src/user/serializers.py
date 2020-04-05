@@ -120,7 +120,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     def send_account_activation_email(self, request, user):
         text_content = 'Account Activation Email'
-        subject = 'Email Verfication from Toptal Demo'
+        subject = f'Email Verfication from {settings.WEB_NAME}'
         template_name = "email/activation.html"
         from_email = settings.EMAIL_HOST_USER
         recipients = [user.email]
