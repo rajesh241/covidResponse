@@ -1,4 +1,5 @@
 <div class="container">
+  <h2>{{title}}</h2>
   <form-builder [form]="form" (change)="onChange($event)"></form-builder>
   <pre>{{ this.data | json }}</pre>
 </div>

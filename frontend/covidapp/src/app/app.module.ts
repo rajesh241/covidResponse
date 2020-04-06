@@ -41,14 +41,15 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule } from '@angular/material';
 import { MatCheckboxModule } from '@angular/material';
 import { MatCardModule } from '@angular/material/card';
-import {MatDialogModule} from "@angular/material";
+import { MatDialogModule } from "@angular/material";
 import { AboutComponent } from './about/about.component';
 
 // Angular FormIO - https://github.com/formio/angular-formio
 import { FormioModule } from 'angular-formio';
 import { MarkerDialogComponent } from './entity/marker-dialog/marker-dialog.component';
-import { FormCreateComponent } from './form-create/form-create.component';
 import { EntitySearchComponent } from './entity/entity-search/entity-search.component';
+import { FormCreateComponent } from './formio/form-create/form-create.component';
+import { FormDisplayComponent } from './formio/form-display/form-display.component';
 
 //const google_oauth_client_id:string = '849540517607-9alj6fb3hoo3lhrlml4upqkme070bo2f.apps.googleusercontent.com';
 
@@ -94,6 +95,7 @@ export function provideConfig() {
         MarkerDialogComponent,
         FormCreateComponent,
         EntitySearchComponent,
+        FormDisplayComponent,
     ],
     imports: [
         BrowserModule,
