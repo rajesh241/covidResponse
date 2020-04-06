@@ -1,0 +1,98 @@
+
+<div class="container" align="center">
+
+  <h1>Directory Of Relief Facilities</h1>
+  <br />
+  <p>
+    We are building a directory of public facilities, NGOs and individuals who are offering food supplies, water and other basic relief during the pandemic.  <b>The circle represents 5 KM distance from the location you provided.</b> This is a new list and we will update it every day.
+    Please fill <a href="https://forms.gle/6Y3kZN3Go3H78wudA" target="_new">this form</a> if you would like to be added to this directory.
+  </p>
+  <div class="form-group">
+    <!--<label>Enter the address of the person looking for help</label>-->
+    <input type="text" class="form-control" (keydown.enter)="$event.preventDefault()" placeholder="Enter the address of the person looking for help" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" #search>
+  </div>
+  <div *ngIf="!located">
+    <agm-map [latitude]="latitude" [longitude]="longitude" [zoom]="zoom">
+      <agm-marker [latitude]="latitude" [longitude]="longitude" [markerDraggable]="true"
+                  (dragEnd)="markerDragEnd($event)"></agm-marker>
+    </agm-map>
+  </div>
+  <div *ngIf="located">
+    <agm-map [latitude]="latitude" [longitude]="longitude" [zoom]="zoom">
+
+      <ng-container *ngFor="let m of (page | async)?.results; let i = index">
+
+        <agm-marker (markerClick)="clickedMarker(m)" [latitude]="m.latitude" [longitude]="m.longitude" [label]="m.label" [iconUrl]="m.icon_url" *ngIf="m.is_active">
+
+
+        </agm-marker>
+
+      </ng-container>
+
+      <agm-circle [latitude]="radiusLat" [longitude]="radiusLong" [radius]="radius" [fillColor]="'gray'"
+                  [circleDraggable]="false" [editable]="false" (dragEnd)="markerDragEnd($event)"
+                  (radiusChange)="event('radiusChange',$event)">
+      </agm-circle>
+
+      <agm-marker [latitude]="latitude" [longitude]="longitude" [markerDraggable]="true"
+                  (dragEnd)="markerDragEnd($event)">
+      </agm-marker>
+    </agm-map>
+  </div>
+  <div align="left">
+    <!-- <h3>Legends:</h3> -->
+    <h4>Support Organization<img src="assets/blue-dot.png"></h4>
+    <h4>People Needing Support<img src="assets/red-dot.png"></h4>
+    <h4>Public Relief Facility<img src="assets/green-dot.png"></h4>
+    <h4>Public Relief Facility (Defunct)<img src="assets/yellow-dot.png"></h4>
+    <h4>Official<img src="assets/purple-dot.png"></h4>
+  </div>
+  <!--
+      <h5>Address: {{address}}</h5>
+      <h5>Current Location - Latitude: {{latitude}} Longitude: {{longitude}}</h5>
+      -->
+      <br />
+
+      <div *ngIf="displayFilter" [formGroup]="filterForm">
+	<div class="row">
+          <section align="center" class="cb-section cb-margin">
+		<div *ngFor="let rt of recordTypes;let i=index;">
+			<mat-checkbox class="cb-margin" [formControlName]="rt.value">{{ rt.name }}<img [src]="rt.img"></mat-checkbox>
+		</div>
+          </section>
+          <br />
+        </div>
+        <div class="form-group row">
+          <label class="col-md-2 col-form-label">Filter</label>
+          <div class="col-md-4">
+            <input formControlName="search" class="form-control" placeholder="Filter by name, description">
+          </div>
+        </div>
+      </div>
+
+      <!--
+          <div [formGroup]="filterForm">
+            <div class="row">
+              <section align="center" formControlName="record_type" class="cb-section cb-margin">
+                <mat-checkbox class="cb-margin" [(ngModel)]="facility">Relief<img src="./assets/blue-dot.png"></mat-checkbox>
+                <mat-checkbox class="cb-margin" [(ngModel)]="needHelp">Crisis<img src="./assets/red-dot.png"></mat-checkbox>
+                <mat-checkbox class="cb-margin" [(ngModel)]="volunteers">Volunteers<img src="./assets/green-dot.png"></mat-checkbox>
+                <mat-checkbox class="cb-margin" [(ngModel)]="treatment">Treatment<img src="https://www.iconfinder.com/icons/131846/add_create_green_new_plus_icon"></mat-checkbox>
+              </section>
+              <br />
+            </div>
+            <div class="form-group row">
+              <label class="col-md-2 col-form-label">Filter</label>
+              <div class="col-md-4">
+                <input formControlName="search" class="form-control" placeholder="Filter by name, description">
+              </div>
+            </div>
+          </div>
+
+          <h2> COMPLICATED FORM - Source JSON - https://example.form.io/example</h2>
+          <formio src="https://pjmfogrfqptslvi.form.io/test" (submit)="onSubmit($event)"></formio>
+
+          <h2> Build you own form </h2>
+          <form-builder [form]="form" (change)="onChange($event)"></form-builder>
+          -->
+</div>

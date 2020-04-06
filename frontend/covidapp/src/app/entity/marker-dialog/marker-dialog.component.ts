@@ -14,6 +14,7 @@ export class MarkerDialogComponent implements OnInit {
     data;
     //form_url:string = "https://libtech-india-data.s3.ap-south-1.amazonaws.com/covid/json/example.json";    
     form_url:string = "https://example.form.io/example";
+    facility_form_url:string = "http://covid.libtech.in:8888/map/facility";
     constructor(
         private fb: FormBuilder,
         private dialogRef: MatDialogRef<MarkerDialogComponent>,
