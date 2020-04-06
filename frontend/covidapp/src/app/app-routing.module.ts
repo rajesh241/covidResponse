@@ -6,7 +6,8 @@ import { CovidLocateComponent } from "./covid/covid-locate/covid-locate.componen
 import { CovidNearbyComponent } from "./covid/covid-nearby/covid-nearby.component";
 import { CovidSearchComponent } from "./covid/covid-search/covid-search.component";
 import { CovidCreateComponent } from "./covid/covid-create/covid-create.component";
-import { FormCreateComponent } from "./form-create/form-create.component";
+import { FormCreateComponent } from "./formio/form-create/form-create.component";
+import { FormDisplayComponent } from './formio/form-display/form-display.component';
 import { ContextCreateComponent } from "./context/context-create/context-create.component";
 import { ContextFilterComponent } from "./context/context-filter/context-filter.component";
 import { ContextEditComponent } from "./context/context-edit/context-edit.component";
@@ -35,6 +36,7 @@ const routes: Routes = [
     {path : 'nearby', component : CovidNearbyComponent},
     {path : 'search', component : EntitySearchComponent},
     {path : 'form-create', component : FormCreateComponent},
+    {path : 'form-display', component : FormDisplayComponent},
     {path : 'invite', component : InviteComponent},
     {path : 'list', component : ContextFilterComponent},
     {path : 'map', component : ContextMapComponent},

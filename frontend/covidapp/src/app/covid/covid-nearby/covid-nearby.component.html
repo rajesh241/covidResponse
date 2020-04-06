@@ -2,7 +2,6 @@
 
   <div>
     <button mat-raised-button (click)="openCreateForm()">Create Form</button>
-    <form-builder [form]="form" (change)="onChange($event)"></form-builder>
   </div>
 
   <agm-map [latitude]="latitude" [longitude]="longitude" [zoom]="zoom">

@@ -8,17 +8,20 @@ import { FormBuilder, Validators, FormGroup } from "@angular/forms";
     styleUrls: ['./form-create.component.css']
 })
 export class FormCreateComponent implements OnInit {
-    title: 'Create a form that you can supply for the NGO/Support org';
+    title:string = 'Create a custom form';
     form; // : FormGroup;
-    data;
+    data = {'initial_data': 'This needs to update with latest data', 'title': 'Howdie Word!'};
+    
 
-    constructor() {}
+    constructor() {
+        this.data.title = this.title;
+    }
 
     ngOnInit() {}
 
     onChange(event) {
         console.log(event);
-        //this.data = (event.form)
+        this.data = (event.form)
     }
     /*
     constructor(

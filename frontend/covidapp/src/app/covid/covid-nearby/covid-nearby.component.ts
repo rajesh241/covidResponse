@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MapsAPILoader } from '@agm/core';
-import { FormCreateComponent } from '../../form-create/form-create.component';
+import { FormCreateComponent } from '../../formio/form-create/form-create.component';
 
 import {MatDialog, MatDialogConfig} from "@angular/material";
 import { MarkerDialogComponent } from '../../entity/marker-dialog/marker-dialog.component';
@@ -35,8 +35,8 @@ export class CovidNearbyComponent implements OnInit {
     radiusLat = 0;
     radiusLong = 0;
 
-    markers: marker[] = []
-    dynamicMarkers = []
+    markers: marker[] = [];
+    dynamicMarkers = [];
 
     constructor(
         private mapsAPILoader: MapsAPILoader,
