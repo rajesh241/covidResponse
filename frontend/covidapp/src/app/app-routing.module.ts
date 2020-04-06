@@ -15,6 +15,7 @@ import { AboutComponent } from "./about/about.component";
 import { AvatarEditComponent } from "./avatar-edit/avatar-edit.component";
 import { Oauth2callbackComponent } from './oauth2callback/oauth2callback.component';
 
+import { EntitySearchComponent } from "./entity/entity-search/entity-search.component";
 
 import { LoginComponent } from './user/login/login.component';
 import { UserListComponent } from './user/user-list/user-list.component';
@@ -32,7 +33,7 @@ const routes: Routes = [
     //{path : '', redirectTo: 'search', pathMatch:'full'},
     {path : 'locate', component : CovidLocateComponent},
     {path : 'nearby', component : CovidNearbyComponent},
-    {path : 'search', component : CovidSearchComponent},
+    {path : 'search', component : EntitySearchComponent},
     {path : 'form-create', component : FormCreateComponent},
     {path : 'invite', component : InviteComponent},
     {path : 'list', component : ContextFilterComponent},

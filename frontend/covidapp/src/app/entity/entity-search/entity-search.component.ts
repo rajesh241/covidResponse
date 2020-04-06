@@ -6,13 +6,13 @@ import { debounceTime, merge, share, startWith, switchMap } from 'rxjs/operators
 import * as moment from "moment";
 
 import { Page } from '../../pagination';
-import { Context } from "../../models/context";
-import { ContextService } from "../../services/context.service";
+import { Entity } from "../../models/entity";
+import { EntityService } from "../../services/entity.service";
 import { AuthService } from "../../services/auth.service";
 import { Router } from "@angular/router"
 
 import {MatDialog, MatDialogConfig} from "@angular/material";
-import { MarkerDialogComponent } from '../../entity/marker-dialog/marker-dialog.component';
+import { MarkerDialogComponent } from '../marker-dialog/marker-dialog.component';
 
 
 // just an interface for type safety.
@@ -29,12 +29,12 @@ interface marker {
 const ZOOM_DEFAULT = 12;
 
 @Component({
-    selector: 'app-covid-search',
-    templateUrl: './covid-search.component.html',
-    styleUrls: ['./covid-search.component.css']
+    selector: 'app-entity-search',
+    templateUrl: './entity-search.component.html',
+    styleUrls: ['./entity-search.component.css']
 })
-export class CovidSearchComponent implements OnInit {
-    title: string = 'Covid Search';
+export class EntitySearchComponent implements OnInit {
+    title: string = 'Entity Search';
     latitude: number;
     longitude: number;
     zoom:number;
@@ -58,7 +58,7 @@ export class CovidSearchComponent implements OnInit {
 
     markers: marker[] = []
     filterForm: FormGroup;
-    page: Observable<Page<Context>>;
+    page: Observable<Page<Entity>>;
     pageUrl = new Subject<string>();
     success: boolean = false;
     dataLoaded: Promise<boolean>;
@@ -84,7 +84,7 @@ export class CovidSearchComponent implements OnInit {
     ];
     constructor(
         private mapsAPILoader: MapsAPILoader,
-        private contextService: ContextService,
+        private entityService: EntityService,
         public authService: AuthService,
         private ngZone: NgZone,
         private dialog: MatDialog
@@ -103,7 +103,7 @@ export class CovidSearchComponent implements OnInit {
             debounceTime(200),
             startWith(this.filterForm.value),
             merge(this.pageUrl),
-            switchMap(urlOrFilter => this.contextService.list(urlOrFilter)),
+            switchMap(urlOrFilter => this.entityService.list(urlOrFilter)),
             share()
         );
         this.dataLoaded = Promise.resolve(true);
@@ -117,7 +117,7 @@ export class CovidSearchComponent implements OnInit {
             debounceTime(200),
             startWith(this.filterForm.value),
             merge(this.pageUrl),
-            switchMap(urlOrFilter => this.contextService.list(urlOrFilter)),
+            switchMap(urlOrFilter => this.entityService.list(urlOrFilter)),
             share()
         );
         this.dataLoaded = Promise.resolve(true);
@@ -261,7 +261,7 @@ export class CovidSearchComponent implements OnInit {
         dialogRef.afterClosed().subscribe(
             data => {
 		    console.log("Dialog output:", data);
-		    this.contextService.createFeedback({"entity":marker.id,"data_json":data})
+		    this.entityService.createFeedback({"entity":marker.id,"data_json":data})
                       .subscribe(
                         data1 => {
                                 console.log('login success', data1);
@@ -307,23 +307,23 @@ export class CovidSearchComponent implements OnInit {
             return false;
         }
     }
-    toggleFunctional(context_id, is_functional, record_type){
-	    console.log(context_id);
+    toggleFunctional(entity_id, is_functional, record_type){
+	    console.log(entity_id);
 	    console.log(is_functional);
 	    is_functional = !is_functional;
 	    if(is_functional){
 		   if(record_type == "needHelp"){
-		      this.patch_data = {'is_functional':1,'icon_url':'https://covidb.libtech.in/media/icons/red-dot.png'}
+		      this.patch_data = {'is_functional':1,'icon_url':'https://entityb.libtech.in/media/icons/red-dot.png'}
 		   }else if(record_type == "facility"){
-		      this.patch_data = {'is_functional':1,'icon_url':'https://covidb.libtech.in/media/icons/green-dot.png'}
+		      this.patch_data = {'is_functional':1,'icon_url':'https://entityb.libtech.in/media/icons/green-dot.png'}
 		   }else{
-		      this.patch_data = {'is_functional':1,'icon_url':'https://covidb.libtech.in/media/icons/blue-dot.png'}
+		      this.patch_data = {'is_functional':1,'icon_url':'https://entityb.libtech.in/media/icons/blue-dot.png'}
 		   }
 	    }else{
-		   this.patch_data = {'is_functional':0,'icon_url':'https://covidb.libtech.in/media/icons/gray-dot.png'}
+		   this.patch_data = {'is_functional':0,'icon_url':'https://entityb.libtech.in/media/icons/gray-dot.png'}
 	    }
 	    console.log(this.patch_data);
-            this.contextService.patchItem(context_id,this.patch_data)
+            this.entityService.patchItem(entity_id,this.patch_data)
             .subscribe(
                 data => {
 			console.log("Update Success");

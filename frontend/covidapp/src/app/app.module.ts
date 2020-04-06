@@ -46,8 +46,9 @@ import { AboutComponent } from './about/about.component';
 
 // Angular FormIO - https://github.com/formio/angular-formio
 import { FormioModule } from 'angular-formio';
-import { MarkerDialogComponent } from './marker-dialog/marker-dialog.component';
+import { MarkerDialogComponent } from './entity/marker-dialog/marker-dialog.component';
 import { FormCreateComponent } from './form-create/form-create.component';
+import { EntitySearchComponent } from './entity/entity-search/entity-search.component';
 
 //const google_oauth_client_id:string = '849540517607-9alj6fb3hoo3lhrlml4upqkme070bo2f.apps.googleusercontent.com';
 
@@ -92,6 +93,7 @@ export function provideConfig() {
         AboutComponent,
         MarkerDialogComponent,
         FormCreateComponent,
+        EntitySearchComponent,
     ],
     imports: [
         BrowserModule,

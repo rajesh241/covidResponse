@@ -3,7 +3,7 @@ import { MapsAPILoader } from '@agm/core';
 import { FormCreateComponent } from '../../form-create/form-create.component';
 
 import {MatDialog, MatDialogConfig} from "@angular/material";
-import { MarkerDialogComponent } from '../../marker-dialog/marker-dialog.component';
+import { MarkerDialogComponent } from '../../entity/marker-dialog/marker-dialog.component';
 
 // just an interface for type safety.
 interface marker {
