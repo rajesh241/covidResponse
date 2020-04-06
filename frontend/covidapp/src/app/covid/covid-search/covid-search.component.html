@@ -63,7 +63,7 @@
 
       <div *ngIf="displayFilter" [formGroup]="filterForm">
 	<div class="row">
-          <section align="center" formControlName="record_type1" class="cb-section cb-margin">
+          <section align="center" class="cb-section cb-margin">
 		<div *ngFor="let rt of recordTypes;let i=index;">
 			<mat-checkbox class="cb-margin" [formControlName]="rt.value">{{ rt.name }}<img [src]="rt.img"></mat-checkbox>
 		</div>
