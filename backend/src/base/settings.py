@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'rest_framework_swagger',
+    'drf_yasg',
     'passwordreset',
     'corsheaders',
     'rest_framework',
@@ -250,3 +252,5 @@ SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
 }
 NOSE_ARGS = ['--nocapture',
              '--nologcapture',]
+
+

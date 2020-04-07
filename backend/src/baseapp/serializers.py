@@ -3,7 +3,7 @@
 from rest_framework import serializers, fields
 from baseapp.models import Covid, Entity, Feedback
 
-class ItemSerializer(serializers.Serializer):
+class ItemSerializer1(serializers.Serializer):
     """Your Custom Serializer"""
     # Gets a list of Integers
     user_ids = serializers.ListField(child=serializers.CharField())

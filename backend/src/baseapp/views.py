@@ -8,7 +8,7 @@ from django_filters import rest_framework as filters
 from rest_framework import mixins, generics, permissions
 from baseapp.models import Covid, Entity, Feedback
 from user.mixins import HttpResponseMixin
-from .serializers import (CovidSerializer,ItemSerializer, EntitySerializer,
+from .serializers import (CovidSerializer,ItemSerializer1, EntitySerializer,
                           EntityPublicSerializer, FeedbackSerializer
                          )
 from user.permissions import IsStaffReadWriteOrAuthReadOnly, IsStaffReadWriteOrReadOnly
@@ -123,7 +123,7 @@ class CovidAPIView(HttpResponseMixin,
 class CovidBulkDeleteView(GenericAPIView):
     throttle_classes = ()
     permission_classes = [IsStaffReadWriteOrAuthReadOnly]
-    serializer_class = ItemSerializer
+    serializer_class = ItemSerializer1
 
     def post(self, request, *args, **kwargs):
         serializer = self.serializer_class(data=request.data)
