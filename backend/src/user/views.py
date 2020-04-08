@@ -53,7 +53,9 @@ class ModifyUserView(viewsets.ModelViewSet):
         return HttpResponse({'message': 'User Updated'}, status=200)
 
 class CreateUserView(generics.CreateAPIView):
-    """Create a new user in the system"""
+    """This method is used to register a new user. This does not require
+    authenticated. Once a user registers an email is sent to user for
+    activation"""
     permission_classes = (permissions.AllowAny,)
     serializer_class = UserSerializer
 
@@ -64,7 +66,10 @@ class CreateTokenView(ObtainAuthToken):
 
 class ManageUserView(generics.RetrieveUpdateAPIView,
                      generics.DestroyAPIView):
-    """View that would update the user"""
+    """This method us used to change the profile for autheticated user. The
+    user profile can be patched, updated or deleted with this methods. No
+    parameters needs to be passed, the profile is picked up for the current
+    authenticated user"""
     serializer_class = ModifyUserSerializer
    # authentication_classes = (authentication.TokenAuthentication,)
     permission_classes = (permissions.IsAuthenticated,)
@@ -74,12 +79,17 @@ class ManageUserView(generics.RetrieveUpdateAPIView,
         return self.request.user
 
 class MyTokenObtainPairView(TokenObtainPairView):
-    """Custom token View to include custom user fields based on custom token serializer"""
+    """This method is used to obtain the authentication token."""
     serializer_class = MyTokenObtainPairSerializer
         
 class UserActivateView(GenericAPIView):
     """
-    An Api View which provides a method to activate a user based on the token
+    This method is used to activate the user. When the user registers on the
+    domain, he is send an email with the url (frontend url), and the following two parameters
+    token: A Randomly generated token
+    uidb64: encoded user ID
+    The frontend system should call the post method with the following
+    parameters, to activate the user 
     """
     serializer_class = RegistrationActivationSerializer
     permission_classes = (permissions.AllowAny,)
@@ -177,6 +187,17 @@ class UserAPIView(HttpResponseMixin,
       self.check_object_permissions(self.request,obj)
     return obj
   def get(self,request,*args,**kwargs):
+    """This method is available only to the users with is_staff(user_manager)
+    permissions.This method will return the list of Users based on the
+    parameters values specified. The number of items can be controlled by the
+    limit parameter. 
+    ordering field can be set to either of (name, id, created, updated). It
+    will sort the returned results based on that. For example
+    entity/?ordering=updated or entity/?ordering=-name (Sort by name
+    descending)
+    If id of the User is appended to the url for example /entity/1, then
+    it would return only one user corresponding to the id mentioned. 
+    """
     print(f"request user {request.user}")
     if not request.user.is_staff:
        raise PermissionDenied()
@@ -186,10 +207,19 @@ class UserAPIView(HttpResponseMixin,
     return super().get(request,*args,**kwargs)
 
   def post(self,request,*args,**kwargs):
+    """This method can be used to create a user at the backend. The User will
+    be activated and would not have to go through the activation method. This
+    method is available only to users with is_staff(user manager)
+    permissions"""
     print(request.data)
     return self.create(request,*args,**kwargs)
 
   def put(self,request,*args,**kwargs):
+    """This method can be used to update a user at the backend. All the fields
+    will be updated. User id can be specified as part of data or can be
+    appended in the url for example user/1 (to edit user with id 1). This
+    method is available only to users with is_staff(user manager)
+    permissions"""
     self.inputID=getID(request)
     if self.inputID is None:
       data=json.dumps({"message":"Need to specify the ID for this method"})
@@ -197,6 +227,11 @@ class UserAPIView(HttpResponseMixin,
     return self.update(request,*args,**kwargs)
 
   def patch(self,request,*args,**kwargs):
+    """This method can be used to patch a user at the backend. Only the fields
+    passed as part of data will be updated. User id can be specified as part of data or can be
+    appended in the url for example user/1 (to edit user with id 1). This
+    method is available only to users with is_staff(user manager)
+    permissions"""
     self.inputID=getID(request)
     print(request.POST)
     if self.inputID is None:
@@ -224,6 +259,10 @@ class UserAPIView(HttpResponseMixin,
   #return self.partial_update(request,*args,**kwargs)
 
   def delete(self,request,*args,**kwargs):
+    """This method can be used to delete a user. User id can be specified as part of data or can be
+    appended in the url for example user/1 (to edit user with id 1). This
+    method is available only to users with is_staff(user manager)
+    permissions"""
     self.inputID=getID(request)
     if self.inputID is None:
       data=json.dumps({"message":"Need to specify the ID for this method"})
