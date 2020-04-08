@@ -27,11 +27,17 @@ from user.views import ModifyUserView
 
 schema_view = get_schema_view(
        openapi.Info(
-                 title="Snippets API",
+                 title="Covid Response API",
                  default_version='v1',
-                 description="Test description",
+                 description="""There's an ongoing effort between the Azim Premji
+           network, Libtech, Foundation for Ecological Sustainability and a
+           growing consortium of organisations to build a Crisis Support
+           Network for migrant workers (and others) who need aid due to the
+           COVID-19 crisis. This Network will take the form of a database/map
+           of people in need and relief services (both private and public).
+           Following is the documentation of the backend API""",
                  terms_of_service="https://www.google.com/policies/terms/",
-                 contact=openapi.Contact(email="contact@snippets.local"),
+                 contact=openapi.Contact(email="togoli@gmail.com"),
                  license=openapi.License(name="BSD License"),
               ),
        public=True,
@@ -42,7 +48,7 @@ urlpatterns = [
     path('api/public/', include('baseapp.urls')),
     path('api/user/', include('user.urls')),
     path('api/passwordreset/', include('passwordreset.urls')),
-    path('swagger/', schema_view.with_ui('swagger', cache_timeout=0),
+    path('api/docs/', schema_view.with_ui('swagger', cache_timeout=0),
            name='schema-swagger-ui'),
 
 ]

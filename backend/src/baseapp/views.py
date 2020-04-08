@@ -138,7 +138,9 @@ class CovidBulkDeleteView(GenericAPIView):
 
 
 class CreateEntityView(generics.CreateAPIView):
-    """Create a new user in the system"""
+    """This will create a new Entity. This view does not require
+    authentication. The Entities created with this view, will have is_active
+    field set to false."""
     permission_classes = (permissions.AllowAny,)
     serializer_class = EntityPublicSerializer
 
@@ -183,7 +185,8 @@ class EntityAPIView(HttpResponseMixin,
                     mixins.RetrieveModelMixin,
                     mixins.UpdateModelMixin,
                     generics.ListAPIView):
-    """API View for the Report Model"""
+    """Primary view of Entity table. GET Methods do not require authentication,
+    Other methods are allowed only for users with permissions of user manager"""
     permission_classes = [IsStaffReadWriteOrReadOnly]
     #permission_classes = [permissions.IsAuthenticated]
     serializer_class = EntitySerializer
@@ -206,6 +209,16 @@ class EntityAPIView(HttpResponseMixin,
             self.check_object_permissions(self.request, obj)
         return obj
     def get(self, request, *args, **kwargs):
+        """This method will return the list of the Entity items based on the
+        filter values specified. The number of items can be controlled by the
+        limit parameter. 
+        ordering field can be set to either of (name, id, created, updated). It
+        will sort the returned results based on that. For example
+        entity/?ordering=updated or entity/?ordering=-name (Sort by name
+        descending)
+        If id of the Entity is appended to the url for example /entity/1, then
+        it would return only one entity corresponding to the id mentioned. 
+        """
         print(f"I am in get request {request.user}")
         self.input_id = get_id_from_request(request)
         if self.input_id is not None:
@@ -213,12 +226,15 @@ class EntityAPIView(HttpResponseMixin,
         return super().get(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
-        """Post method would create a apartment object"""
+        """This would create an entity object in database. Name, description,
+        latitute and longitude are mandatory fields. This method is only
+        allowed for users with staff (user manager) permissions"""
         return self.create(request, *args, **kwargs)
 
     def put(self, request, *args, **kwargs):
-        """put method will update the apartment object. All fields need to be
-        present"""
+        """This method would update the entity object, based on the id as
+        supplied in the data. ID can also be specified in the url for example,
+        'entity/id'. All fields will be updated."""
         self.input_id = get_id_from_request(request)
         if self.input_id is None:
             data = json.dumps({"message":"Need to specify the ID for this method"})
@@ -226,8 +242,9 @@ class EntityAPIView(HttpResponseMixin,
         return self.update(request, *args, **kwargs)
 
     def patch(self, request, *args, **kwargs):
-        """patch method will update the object, with the specified fields. All
-        fields need not be present"""
+        """This method would patch the existing entity object, based on the id as
+        supplied in the data. ID can also be specified in the url for example,
+        'entity/id'. Only the fields passed on in the data will be updated"""
         self.input_id = get_id_from_request(request)
         if self.input_id is None:
                 data = json.dumps({"message":"Need to specify the ID for this method"})
@@ -235,7 +252,9 @@ class EntityAPIView(HttpResponseMixin,
         return self.partial_update(request, *args, **kwargs)
 
     def delete(self, request, *args, **kwargs):
-        """Will delete the retrieved object"""
+        """This method would delete the existing entity object, based on the id as
+        supplied in the data. ID can also be specified in the url for example,
+        'entity/id'."""
         self.input_id = get_id_from_request(request)
         if self.input_id is None:
             data = json.dumps({"message":"Need to specify the ID for this method"})
