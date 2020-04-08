@@ -7,10 +7,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FormDisplayComponent implements OnInit {
     title:string = 'Display the Facility Form'
-    facility_form_url:string = "http://covid.libtech.in:8888/map/facility";
+    facility_form_url:string = 'http://covid.libtech.in:8888/forms/supportnetwork';
     data:any;
 
-    constructor() { }
+    constructor() {
+	this.facility_form_url = 'https://covid.libtech.in:/assets/form.json';
+    }
 
     ngOnInit() {
     }
