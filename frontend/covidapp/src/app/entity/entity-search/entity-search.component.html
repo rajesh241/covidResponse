@@ -39,13 +39,34 @@
       </agm-marker>
     </agm-map>
   </div>
+  <br />
+  <div class="row">
+    <div style="padding: 0px 15px;">
+      <div>
+        <button mat-raised-button
+	  (click)="clickedButton('help')">
+          Need Help
+        </button>
+      </div>
+      <br />
+      <div>
+        <button mat-raised-button
+	  (click)="clickedButton('volunteer')">
+          I want to Volunteer
+        </button>
+      </div>
+    </div>
+  </div>
+  <br />
   <div align="left">
-    <!-- <h3>Legends:</h3> -->
+   
+    <!-- <h3>Legends:</h3> 
     <h4>Support Organization<img src="assets/blue-dot.png"></h4>
     <h4>People Needing Support<img src="assets/red-dot.png"></h4>
     <h4>Public Relief Facility<img src="assets/green-dot.png"></h4>
     <h4>Public Relief Facility (Defunct)<img src="assets/yellow-dot.png"></h4>
     <h4>Official<img src="assets/purple-dot.png"></h4>
+    -->
   </div>
   <!--
       <h5>Address: {{address}}</h5>

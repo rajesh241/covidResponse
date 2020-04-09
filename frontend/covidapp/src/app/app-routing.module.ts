@@ -30,7 +30,7 @@ import { InviteComponent } from './user/invite/invite.component';
 import { ProfileEditComponent } from './user/profile-edit/profile-edit.component';
 
 const routes: Routes = [
-    {path : '', component : CovidSearchComponent},
+    {path : '', component : EntitySearchComponent},
     //{path : '', redirectTo: 'search', pathMatch:'full'},
     {path : 'locate', component : CovidLocateComponent},
     {path : 'nearby', component : CovidNearbyComponent},

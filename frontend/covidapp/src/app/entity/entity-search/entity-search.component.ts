@@ -11,8 +11,9 @@ import { EntityService } from "../../services/entity.service";
 import { AuthService } from "../../services/auth.service";
 import { Router } from "@angular/router"
 
-import {MatDialog, MatDialogConfig} from "@angular/material";
+import { MatDialog, MatDialogConfig } from "@angular/material";
 import { MarkerDialogComponent } from '../marker-dialog/marker-dialog.component';
+import { AddDialogComponent } from '../add-dialog/add-dialog.component';
 
 
 // just an interface for type safety.
@@ -244,6 +245,42 @@ export class EntitySearchComponent implements OnInit {
         console.log(marker);
         console.log(`clicked the marker: ${marker.name}`);
         this.openMarkerDialog(marker);
+    }
+
+    clickedButton(type) {
+        console.log(type);
+	    
+        const dialogConfig = new MatDialogConfig();
+
+        dialogConfig.disableClose = true;
+        dialogConfig.autoFocus = true;
+
+        dialogConfig.data = {
+	    'record_type' : type,
+	    'latitute' : this.latitute,
+	    'longitude' : this.longitude,
+	};
+
+        this.dialog.open(AddDialogComponent, dialogConfig);
+        
+        const dialogRef = this.dialog.open(AddDialogComponent, dialogConfig);
+
+        dialogRef.afterClosed().subscribe(
+            data => {
+		console.log("Dialog output:", data);
+		/*
+		    this.entityService.createFeedback({"entity":marker.id,"data_json":data})
+                      .subscribe(
+                        data1 => {
+                                console.log('login success', data1);
+                        },
+                        err => {
+                           console.log(err.error);
+                          }
+		      )
+		*/
+	     }
+         );            
     }
 
     openMarkerDialog(marker) {
