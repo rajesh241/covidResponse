@@ -1,4 +1,6 @@
 import { Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { FormBuilder, Validators, FormGroup } from "@angular/forms";
 
@@ -16,7 +18,8 @@ export class AddDialogComponent implements OnInit {
 
     constructor(
         private fb: FormBuilder,
-        private dialogRef: MatDialogRef<MarkerDialogComponent>,
+	@Inject(DOCUMENT) private document: Document,
+        private dialogRef: MatDialogRef<AddDialogComponent>,
         @Inject(MAT_DIALOG_DATA) marker) {
         this.marker = marker;
 	console.log("printing marker");
@@ -27,6 +30,15 @@ export class AddDialogComponent implements OnInit {
     }
 
     ngOnInit() {
+	console.log(this.document.location.href);
+	console.log("pritning the marker");
+	console.log(this.marker);
+	if (this.marker.record_type == "volunteer"){
+		this.form_url = this.document.location.href + "assets/forms/supportnetwork";
+	}else{
+		this.form_url = this.document.location.href + "assets/forms/helpseeker";
+	}
+	console.log("form url sis " + this.form_url);
         this.form = this.fb.group({
             //description: [this.description, []],
         });

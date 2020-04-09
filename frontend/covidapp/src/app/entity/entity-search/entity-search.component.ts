@@ -257,7 +257,7 @@ export class EntitySearchComponent implements OnInit {
 
         dialogConfig.data = {
 	    'record_type' : type,
-	    'latitute' : this.latitute,
+	    'latitude' : this.latitude,
 	    'longitude' : this.longitude,
 	};
 
