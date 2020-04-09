@@ -50,6 +50,7 @@ import { MarkerDialogComponent } from './entity/marker-dialog/marker-dialog.comp
 import { EntitySearchComponent } from './entity/entity-search/entity-search.component';
 import { FormCreateComponent } from './formio/form-create/form-create.component';
 import { FormDisplayComponent } from './formio/form-display/form-display.component';
+import { EntityCreateComponent } from './entity/entity-create/entity-create.component';
 
 //const google_oauth_client_id:string = '849540517607-9alj6fb3hoo3lhrlml4upqkme070bo2f.apps.googleusercontent.com';
 
@@ -96,6 +97,7 @@ export function provideConfig() {
         FormCreateComponent,
         EntitySearchComponent,
         FormDisplayComponent,
+        EntityCreateComponent,
     ],
     imports: [
         BrowserModule,
