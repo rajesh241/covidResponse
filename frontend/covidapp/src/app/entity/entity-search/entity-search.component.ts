@@ -248,6 +248,7 @@ export class EntitySearchComponent implements OnInit {
     }
 
     clickedButton(type) {
+        console.log(`Inside EntitySearchComponent.clickedButton(${type})`);
         console.log(type);
 	    
         const dialogConfig = new MatDialogConfig();
@@ -261,8 +262,6 @@ export class EntitySearchComponent implements OnInit {
 	    'longitude' : this.longitude,
 	};
 
-        this.dialog.open(AddDialogComponent, dialogConfig);
-        
         const dialogRef = this.dialog.open(AddDialogComponent, dialogConfig);
 
         dialogRef.afterClosed().subscribe(
@@ -280,7 +279,7 @@ export class EntitySearchComponent implements OnInit {
 		      )
 		*/
 	     }
-         );            
+         );
     }
 
     openMarkerDialog(marker) {
@@ -288,11 +287,8 @@ export class EntitySearchComponent implements OnInit {
 
         dialogConfig.disableClose = true;
         dialogConfig.autoFocus = true;
-
         dialogConfig.data = marker;
 
-        this.dialog.open(MarkerDialogComponent, dialogConfig);
-        
         const dialogRef = this.dialog.open(MarkerDialogComponent, dialogConfig);
 
         dialogRef.afterClosed().subscribe(
@@ -308,7 +304,7 @@ export class EntitySearchComponent implements OnInit {
                           }
 		      )
 	     }
-         );            
+         );
     }
 
     radiusDragEnd($event: any) {

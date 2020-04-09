@@ -20,16 +20,18 @@ export class AddDialogComponent implements OnInit {
         private fb: FormBuilder,
 	@Inject(DOCUMENT) private document: Document,
         private dialogRef: MatDialogRef<AddDialogComponent>,
-        @Inject(MAT_DIALOG_DATA) marker) {
+        @Inject(MAT_DIALOG_DATA) marker
+    ) {    
+        console.log(`Inside add-dialog constructor(${JSON.stringify(marker)})`);
+        console.log(marker);
         this.marker = marker;
 	console.log("printing marker");
 	console.log(this.marker.feedback_form_json);
 	console.log(this.marker);
-	this.form_url = 'https://covid.libtech.in/assets/${marker.record_type}.json';
-	this.form_url = 'http://covid.libtech.in:8012/assets/helpseeker';
     }
 
     ngOnInit() {
+        console.log('Inside add-dialog ngOnInit()');
 	console.log(this.document.location.href);
 	console.log("pritning the marker");
 	console.log(this.marker);
@@ -45,6 +47,7 @@ export class AddDialogComponent implements OnInit {
     }
 
     onSubmit($event) {
+        console.log(`Inside add-dialog onSubmit(${$event})`);
         console.log($event);
         this.data = $event.data;
         this.dialogRef.close(this.data);

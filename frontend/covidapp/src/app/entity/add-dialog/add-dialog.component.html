@@ -5,11 +5,12 @@
   <!--
    <div [ngSwitch]="marker.record_type">
      <div *ngSwitchCase="'facility'">
-	<formio [src]="form_url" (submit)="onSubmit($event)"></formio>
+       <formio [src]="form_url" (submit)="onSubmit($event)"></formio>
      </div>
    </div>
-   -->
    <formio src='https://examples.form.io/kitchensink' (submit)="onSubmit($event)"></formio>
+   -->
+   <formio [src]="form_url" (submit)="onSubmit($event)"></formio>
   <pre>{{ this.data | json }}</pre>
 </mat-dialog-content>
 
