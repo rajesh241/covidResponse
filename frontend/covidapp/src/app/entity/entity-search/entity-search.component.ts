@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef, NgZone } from '@angular/core'
 import { MapsAPILoader, MouseEvent } from '@agm/core';
 import { FormControl, FormGroup, FormArray } from '@angular/forms';
 import { Observable, Subject } from 'rxjs';
+import {Router} from "@angular/router"
 import { debounceTime, merge, share, startWith, switchMap } from 'rxjs/operators';
 import * as moment from "moment";
 
@@ -9,7 +10,6 @@ import { Page } from '../../pagination';
 import { Entity } from "../../models/entity";
 import { EntityService } from "../../services/entity.service";
 import { AuthService } from "../../services/auth.service";
-import { Router } from "@angular/router"
 
 import { MatDialog, MatDialogConfig } from "@angular/material";
 import { MarkerDialogComponent } from '../marker-dialog/marker-dialog.component';
@@ -86,6 +86,7 @@ export class EntitySearchComponent implements OnInit {
     constructor(
         private mapsAPILoader: MapsAPILoader,
         private entityService: EntityService,
+	private router:Router,
         public authService: AuthService,
         private ngZone: NgZone,
         private dialog: MatDialog
@@ -250,48 +251,40 @@ export class EntitySearchComponent implements OnInit {
     clickedButton(type) {
         console.log(`Inside EntitySearchComponent.clickedButton(${type})`);
         console.log(type);
-	    
-        const dialogConfig = new MatDialogConfig();
+	if (this.authService.isLoggedIn()){ 
+            const dialogConfig = new MatDialogConfig();
 
-        dialogConfig.disableClose = true;
-        dialogConfig.autoFocus = true;
+            dialogConfig.disableClose = true;
+            dialogConfig.autoFocus = true;
 
-        dialogConfig.data = {
-	    'record_type' : type,
-	    'latitude' : this.latitude,
-	    'longitude' : this.longitude,
-	};
+            dialogConfig.data = {
+                'record_type' : type,
+                'latitude' : this.latitude,
+                'longitude' : this.longitude,
+            };
 
-        const dialogRef = this.dialog.open(AddDialogComponent, dialogConfig);
+            const dialogRef = this.dialog.open(AddDialogComponent, dialogConfig);
 
-        dialogRef.afterClosed().subscribe(
-            data => {
-		 const replacer = (key, value) =>  String(value) === "null" || String(value) === "undefined" ? 0 : value; 
-                data = JSON.parse( JSON.stringify(data, replacer));
-		console.log("Dialog output:", data);
-                //this.entityService.createItem({'name':'default','latitude': this.latitude, 'longitude': this.longitude, 'record_type':type})
-                this.entityService.createItem({'name':'default','latitude': this.latitude, 'longitude': this.longitude, 'record_type':type, 'data_json':data})
-                  .subscribe(
-                    data => {
-                            console.log('Entity Creattion Successful', data);
-                    },
-                    err => {
-                       console.log("Entity Creation Failed");
-                    }
-                );
-		/*
-		    this.entityService.createFeedback({"entity":marker.id,"data_json":data})
+            dialogRef.afterClosed().subscribe(
+                data => {
+            	 const replacer = (key, value) =>  String(value) === "null" || String(value) === "undefined" ? 0 : value; 
+                    data = JSON.parse( JSON.stringify(data, replacer));
+            	console.log("Dialog output:", data);
+                    //this.entityService.createItem({'name':'default','latitude': this.latitude, 'longitude': this.longitude, 'record_type':type})
+                    this.entityService.createItem({'name':'default','latitude': this.latitude, 'longitude': this.longitude, 'record_type':type, 'data_json':data})
                       .subscribe(
-                        data1 => {
-                                console.log('login success', data1);
+                        data => {
+                                console.log('Entity Creattion Successful', data);
                         },
                         err => {
-                           console.log(err.error);
-                          }
-		      )
-		*/
-	     }
-         );
+                           console.log("Entity Creation Failed");
+                        }
+                    );
+                 }
+             );
+	}else{
+        this.router.navigate(['/login']);
+	}
     }
 
     openMarkerDialog(marker) {
