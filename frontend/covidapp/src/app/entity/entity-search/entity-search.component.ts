@@ -39,7 +39,8 @@ export class EntitySearchComponent implements OnInit {
     latitude: number;
     longitude: number;
     zoom:number;
-    address: string;
+    address: string = 'Please specify the address above';
+    gmap_details: any;
     displayFilter:boolean=true;
     patch_data:any;
     private geoCoder;
@@ -153,6 +154,7 @@ export class EntitySearchComponent implements OnInit {
                     this.radiusLat = this.latitude;
                     this.radiusLong = this.longitude;
                     this.zoom = ZOOM_DEFAULT;
+                    this.getAddress(this.latitude, this.longitude); // FIXME - test this
                 });
             });
         });
@@ -175,12 +177,14 @@ export class EntitySearchComponent implements OnInit {
                 this.setMarkers();
             }, err => {
                 console.log('Errored: ');
-                console.log(err);  // FIXME on screen modal or display
+                if (err)
+                    console.log(err);  // FIXME on screen modal or display
             });
         }
         else {
             console.log("Geolocation is not supported by this browser.");
             alert("Geolocation is not supported by this browser.");
+            /*
             this.latitude = 28.4720443;
             this.longitude = 77.1329417;
             this.radiusLat = this.latitude;
@@ -188,6 +192,7 @@ export class EntitySearchComponent implements OnInit {
             this.zoom = ZOOM_DEFAULT;
             this.getAddress(this.latitude, this.longitude);
             console.log(this.latitude, this.longitude, this.zoom)
+            */
         }
     }
 
@@ -380,6 +385,7 @@ export class EntitySearchComponent implements OnInit {
                 if (results[0]) {
                     this.zoom = ZOOM_DEFAULT;
                     this.address = results[0].formatted_address;
+                    this.gmap_details = results[0];
                 } else {
                     window.alert('No results found');
                 }
