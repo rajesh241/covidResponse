@@ -3,6 +3,8 @@ import { Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { FormBuilder, Validators, FormGroup } from "@angular/forms";
 
+import { formioConfig } from '../../formio/config';
+
 @Component({
     selector: 'app-add-dialog',
     templateUrl: './add-dialog.component.html',
@@ -33,9 +35,11 @@ export class AddDialogComponent implements OnInit {
 	console.log("pritning the marker");
 	console.log(this.marker);
 	if (this.marker.record_type == "volunteer"){
-		this.form_url = window.origin + "/assets/forms/supportnetwork.json";
+	    //this.form_url = 'https://formio.libtech.in/forms/supportnetwork';
+	    this.form_url = formioConfig.appUrl + '/forms/supportnetwork';
 	}else{
-		this.form_url = window.origin + "/assets/forms/helpseeker.json";
+	    //this.form_url = 'https://formio.libtech.in/data/helpseeker';
+	    this.form_url = formioConfig.appUrl + '/data/helpseeker';
 	}
 	console.log("form url sis " + this.form_url);
         this.form = this.fb.group({
