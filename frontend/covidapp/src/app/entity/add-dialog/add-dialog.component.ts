@@ -49,7 +49,7 @@ export class AddDialogComponent implements OnInit {
 
     onSubmit($event) {
         console.log(`Inside add-dialog onSubmit(${$event})`);
-        console.log($event);
+        console.log($event.data);
         this.data = $event.data;
         this.dialogRef.close(this.data);
     }

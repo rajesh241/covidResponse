@@ -266,7 +266,19 @@ export class EntitySearchComponent implements OnInit {
 
         dialogRef.afterClosed().subscribe(
             data => {
+		 const replacer = (key, value) =>  String(value) === "null" || String(value) === "undefined" ? 0 : value; 
+                data = JSON.parse( JSON.stringify(data, replacer));
 		console.log("Dialog output:", data);
+                //this.entityService.createItem({'name':'default','latitude': this.latitude, 'longitude': this.longitude, 'record_type':type})
+                this.entityService.createItem({'name':'default','latitude': this.latitude, 'longitude': this.longitude, 'record_type':type, 'data_json':data})
+                  .subscribe(
+                    data => {
+                            console.log('Entity Creattion Successful', data);
+                    },
+                    err => {
+                       console.log("Entity Creation Failed");
+                    }
+                );
 		/*
 		    this.entityService.createFeedback({"entity":marker.id,"data_json":data})
                       .subscribe(
