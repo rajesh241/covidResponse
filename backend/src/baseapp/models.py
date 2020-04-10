@@ -12,9 +12,9 @@ class Covid(models.Model):
     name = models.CharField(max_length=256)
     description = models.TextField(blank=True, null=True)
     phone = models.IntegerField(blank=True, null=True)
-    latitude = models.DecimalField(max_digits=9, decimal_places=6, null=True,
+    latitude = models.DecimalField(max_digits=20, decimal_places=20, null=True,
                                    blank=True)
-    longitude = models.DecimalField(max_digits=9, decimal_places=6, null=True,
+    longitude = models.DecimalField(max_digits=20, decimal_places=20, null=True,
                                    blank=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     created = models.DateTimeField(auto_now_add=True)
@@ -29,20 +29,26 @@ class Covid(models.Model):
 
 class Entity(models.Model):
     """This is the basic class for Aparment"""
-    name = models.CharField(max_length=256)
+    name = models.CharField(max_length=256, null=True, blank=True)
+    description = models.TextField(blank=True, null=True)
+    contact_numbers = models.CharField(max_length=1024, null=True, blank=True)
     record_type = models.CharField(max_length=1024, null=True, blank=True,
                                    default="needHelp")
+    address = models.TextField(null=True, blank=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True,
+                             blank=True)
+    latitude = models.DecimalField(max_digits=22, decimal_places=19, null=True,
+                                   blank=True)
+    longitude = models.DecimalField(max_digits=22, decimal_places=19, null=True,
+                                   blank=True)
+    data_json = JSONField(null=True, blank=True)  # requires Django-Mysql package
+    google_location_json = JSONField(null=True, blank=True)  # requires Django-Mysql package
+
     record_subtype = models.CharField(max_length=1024, null=True, blank=True)
-    contact_numbers = models.CharField(max_length=1024, null=True, blank=True)
     phone = models.BigIntegerField(blank=True, null=True)
-    description = models.TextField(blank=True, null=True)
     how_many_people = models.IntegerField(blank=True, null=True)
     what_help = models.CharField(max_length=1024, blank=True, null=True)
     how_urgent = models.CharField(max_length=1024, null=True, blank=True)
-    latitude = models.DecimalField(max_digits=9, decimal_places=6, null=True,
-                                   blank=True)
-    longitude = models.DecimalField(max_digits=9, decimal_places=6, null=True,
-                                   blank=True)
     native_latitude = models.DecimalField(max_digits=9, decimal_places=6, null=True,
                                    blank=True)
     native_longitude = models.DecimalField(max_digits=9, decimal_places=6, null=True,
@@ -50,8 +56,6 @@ class Entity(models.Model):
     who_are_you = models.CharField(max_length=1024, blank=True, null=True)
     email = models.EmailField(blank=True, null=True)
     information_source = models.CharField(max_length=1024, blank=True, null=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True,
-                             blank=True)
     is_active = models.BooleanField(default=True)
     is_functional = models.BooleanField(default=True)
     is_facility = models.BooleanField(default=False)

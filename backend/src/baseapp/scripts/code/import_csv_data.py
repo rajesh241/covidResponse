@@ -46,6 +46,7 @@ def main():
         data_dir = "../import_data"
         failed_index_array = []
         filename = args['filename']
+        filename = "volunteer.csv"
         filepath = f"{data_dir}/{filename}"
         df = pd.read_csv(filepath)
         logger.info(df.head())
@@ -85,9 +86,12 @@ def main():
         logger.info(f"failed index is {failed_index_array}")
 
             
-        exit(0)
         record_type = "facility"
+        filename = "indira.csv"
+        filepath = f"{data_dir}/{filename}"
+        df = pd.read_csv(filepath)
         icon_url = "http://maps.google.com/mapfiles/ms/icons/blue-dot.png"
+        
         record_subtype = "Indira Food Canteen"
         for index, row in df.iterrows():
             create_record = False

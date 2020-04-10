@@ -27,7 +27,7 @@ SECRET_KEY = BASE_CONFIG.get('secret_key')
 DEBUG = True
 
 
-ALLOWED_HOSTS = ["covidb.libtech.in","b.libtech.in","6f1bfde6.ngrok.io"]
+ALLOWED_HOSTS = ["covidb.libtech.in","b.libtech.in","f.libtech.in"]
 
 
 # Application definition

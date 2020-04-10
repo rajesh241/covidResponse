@@ -161,16 +161,7 @@ class EntityFilter(filters.FilterSet):
     @property
     def qs(self):
         parent_qs = super(EntityFilter, self).qs
-        record_types = ["needHelp", "facility", "volunteer"]
-        valid_record_types = []
-        print(self.request.query_params)
-        for record_type in record_types:
-            if record_type in self.request.query_params:
-                value = self.request.query_params.get(record_type)
-                if value == "true":
-                    valid_record_types.append(record_type)
-        qs = parent_qs.filter(record_type__in = valid_record_types)
-        return qs
+        return parent_qs
        #if 'finyear' in self.request.query_params:
        #    return parent_qs
        #else:
