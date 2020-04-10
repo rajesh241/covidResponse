@@ -36,8 +36,8 @@ export class EntityService {
   bulkDeleteItems(data){
     return this.http.post(this.bulkDeleteEndpoint,data,this.getHttpOptions());
   }
-  createItem(entity:Entity){
-    return this.http.post(this.endpoint,entity,this.getHttpOptions());
+  createItem(entity:any){
+    return this.http.post(this.endpoint,JSON.stringify(entity),this.getHttpOptions());
   }
   createFeedback(feedback:any){
     console.log("Creating feedback");

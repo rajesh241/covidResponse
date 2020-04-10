@@ -21,6 +21,7 @@ information_source: string;
 feedback_form_json: string;
 latitude : number;
 longitude: number;
+data_json: any;
 native_latitude : number;
 native_longitude: number;
 }

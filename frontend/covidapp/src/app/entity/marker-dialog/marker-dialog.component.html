@@ -1,24 +1,14 @@
 <h2 mat-dialog-title>{{marker.name}}</h2>
-<p> {{marker.description}}</p>
 
 <mat-dialog-content [formGroup]="form">
-   <div [ngSwitch]="marker.record_type">
-     <div *ngSwitchCase="'facility'">
-	<formio [src]="facility_form_url" (submit)="onSubmit($event)"></formio>
-     </div>
-   </div>
+  <p> {{marker.description}}</p>
+  <div [ngSwitch]="marker.record_type">
+    <div *ngSwitchCase="'facility'">
+      <formio [src]="form_url" (submit)="onSubmit($event)"></formio>
+    </div>
+  </div>
   <pre>{{ this.data | json }}</pre>
-  <!--
-	<formio [form]="marker.feedback_form_json" (submit)="onSubmit($event)"></formio>
-	<formio [src]="facility_form_url" (submit)="onSubmit($event)"></formio>
 
-  -->
-
-
-  <!--
-  <h2> COMPLICATED FORM - Source JSON - https://example.form.io/example</h2>
-  <formio src="https://pjmfogrfqptslvi.form.io/test" (submit)="onSubmit($event)"></formio>
-  -->
 </mat-dialog-content>
 
 <mat-dialog-actions>

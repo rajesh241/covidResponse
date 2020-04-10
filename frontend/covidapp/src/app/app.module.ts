@@ -7,6 +7,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AgmCoreModule } from '@agm/core';
 import { libtech } from '../libtech';
 
+import { AboutComponent } from './about/about.component';
 import { LoginComponent } from './user/login/login.component';
 import { UserListComponent } from './user/user-list/user-list.component';
 import { UserEditComponent } from './user/user-edit/user-edit.component';
@@ -42,22 +43,24 @@ import { MatButtonModule } from '@angular/material';
 import { MatCheckboxModule } from '@angular/material';
 import { MatCardModule } from '@angular/material/card';
 import { MatDialogModule } from "@angular/material";
-import { AboutComponent } from './about/about.component';
 
 // Angular FormIO - https://github.com/formio/angular-formio
-import { FormioModule } from 'angular-formio';
+import { FormioModule, FormioAppConfig } from 'angular-formio';
+import { formioConfig } from './formio/config';
+import { FormDisplayComponent } from './formio/form-display/form-display.component';
 import { MarkerDialogComponent } from './entity/marker-dialog/marker-dialog.component';
 import { EntitySearchComponent } from './entity/entity-search/entity-search.component';
 import { FormCreateComponent } from './formio/form-create/form-create.component';
-import { FormDisplayComponent } from './formio/form-display/form-display.component';
 import { EntityCreateComponent } from './entity/entity-create/entity-create.component';
+import { AddDialogComponent } from './entity/add-dialog/add-dialog.component';
+
 
 //const google_oauth_client_id:string = '849540517607-9alj6fb3hoo3lhrlml4upqkme070bo2f.apps.googleusercontent.com';
 
 let config = new AuthServiceConfig([
     {
         id: GoogleLoginProvider.PROVIDER_ID,
-        provider: new GoogleLoginProvider(libtech.GOOGLECLIENTID)
+        provider: new GoogleLoginProvider(libtech.GOOGLECLIENTID),
     }
 ]);
 
@@ -98,6 +101,7 @@ export function provideConfig() {
         EntitySearchComponent,
         FormDisplayComponent,
         EntityCreateComponent,
+        AddDialogComponent,
     ],
     imports: [
         BrowserModule,
@@ -122,11 +126,13 @@ export function provideConfig() {
         {
             provide: AuthServiceConfig,
             useFactory: provideConfig
-        }
+        },
+	{provide: FormioAppConfig, useValue: formioConfig},
     ],
     bootstrap: [AppComponent],
     entryComponents: [
         MarkerDialogComponent,
+        AddDialogComponent,
         // FormCreateComponent
     ]
 })

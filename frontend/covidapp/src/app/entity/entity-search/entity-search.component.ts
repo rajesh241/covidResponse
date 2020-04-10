@@ -11,8 +11,9 @@ import { EntityService } from "../../services/entity.service";
 import { AuthService } from "../../services/auth.service";
 import { Router } from "@angular/router"
 
-import {MatDialog, MatDialogConfig} from "@angular/material";
+import { MatDialog, MatDialogConfig } from "@angular/material";
 import { MarkerDialogComponent } from '../marker-dialog/marker-dialog.component';
+import { AddDialogComponent } from '../add-dialog/add-dialog.component';
 
 
 // just an interface for type safety.
@@ -246,16 +247,60 @@ export class EntitySearchComponent implements OnInit {
         this.openMarkerDialog(marker);
     }
 
-    openMarkerDialog(marker) {
+    clickedButton(type) {
+        console.log(`Inside EntitySearchComponent.clickedButton(${type})`);
+        console.log(type);
+	    
         const dialogConfig = new MatDialogConfig();
 
         dialogConfig.disableClose = true;
         dialogConfig.autoFocus = true;
 
+        dialogConfig.data = {
+	    'record_type' : type,
+	    'latitude' : this.latitude,
+	    'longitude' : this.longitude,
+	};
+
+        const dialogRef = this.dialog.open(AddDialogComponent, dialogConfig);
+
+        dialogRef.afterClosed().subscribe(
+            data => {
+		 const replacer = (key, value) =>  String(value) === "null" || String(value) === "undefined" ? 0 : value; 
+                data = JSON.parse( JSON.stringify(data, replacer));
+		console.log("Dialog output:", data);
+                //this.entityService.createItem({'name':'default','latitude': this.latitude, 'longitude': this.longitude, 'record_type':type})
+                this.entityService.createItem({'name':'default','latitude': this.latitude, 'longitude': this.longitude, 'record_type':type, 'data_json':data})
+                  .subscribe(
+                    data => {
+                            console.log('Entity Creattion Successful', data);
+                    },
+                    err => {
+                       console.log("Entity Creation Failed");
+                    }
+                );
+		/*
+		    this.entityService.createFeedback({"entity":marker.id,"data_json":data})
+                      .subscribe(
+                        data1 => {
+                                console.log('login success', data1);
+                        },
+                        err => {
+                           console.log(err.error);
+                          }
+		      )
+		*/
+	     }
+         );
+    }
+
+    openMarkerDialog(marker) {
+        const dialogConfig = new MatDialogConfig();
+
+        dialogConfig.disableClose = true;
+        dialogConfig.autoFocus = true;
         dialogConfig.data = marker;
 
-        this.dialog.open(MarkerDialogComponent, dialogConfig);
-        
         const dialogRef = this.dialog.open(MarkerDialogComponent, dialogConfig);
 
         dialogRef.afterClosed().subscribe(
@@ -271,7 +316,7 @@ export class EntitySearchComponent implements OnInit {
                           }
 		      )
 	     }
-         );            
+         );
     }
 
     radiusDragEnd($event: any) {

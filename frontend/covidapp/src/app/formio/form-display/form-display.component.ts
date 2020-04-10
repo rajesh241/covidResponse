@@ -11,10 +11,14 @@ export class FormDisplayComponent implements OnInit {
     data:any;
 
     constructor() {
-	this.facility_form_url = 'https://covid.libtech.in:/assets/form.json';
+        console.log('Inside form-dialog constructor()');
+	//this.facility_form_url = 'https://covid.libtech.in:/assets/form.json';
+	this.facility_form_url = window.origin + "/assets/forms/form.json";
+        console.log(`The Facility Form URL[${this.facility_form_url}]`);
     }
 
     ngOnInit() {
+        console.log('Inside form-dialog ngOnInit()');
     }
 
     onSubmit($event) {
