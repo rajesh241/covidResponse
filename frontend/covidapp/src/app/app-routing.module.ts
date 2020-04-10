@@ -9,6 +9,7 @@ import { CovidCreateComponent } from "./covid/covid-create/covid-create.componen
 import { FormCreateComponent } from "./formio/form-create/form-create.component";
 import { FormDisplayComponent } from './formio/form-display/form-display.component';
 import { ContextCreateComponent } from "./context/context-create/context-create.component";
+import { FormEditComponent } from "./formio/form-edit/form-edit.component";
 import { ContextFilterComponent } from "./context/context-filter/context-filter.component";
 import { ContextEditComponent } from "./context/context-edit/context-edit.component";
 import { ContextMapComponent } from "./context/context-map/context-map.component";
@@ -37,6 +38,7 @@ const routes: Routes = [
     {path : 'search', component : EntitySearchComponent},
     {path : 'form-create', component : FormCreateComponent},
     {path : 'form-display', component : FormDisplayComponent},
+    {path : 'form-edit', component : FormEditComponent},
     {path : 'invite', component : InviteComponent},
     {path : 'list', component : ContextFilterComponent},
     {path : 'map', component : ContextMapComponent},

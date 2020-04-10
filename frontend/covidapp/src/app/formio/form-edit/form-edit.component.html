@@ -1,0 +1,5 @@
+<div class="container">
+  <h2>{{title}}</h2>
+  <formio [form]='json_input' (submit)="onUpdate($event)"></formio>
+  <pre>{{ data | json }}</pre>
+</div>
