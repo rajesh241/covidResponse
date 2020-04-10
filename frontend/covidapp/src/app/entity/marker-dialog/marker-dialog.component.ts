@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { FormBuilder, Validators, FormGroup } from "@angular/forms";
+import { formioConfig } from '../../formio/config';
 
 @Component({
     selector: 'app-marker-dialog',
@@ -13,8 +14,8 @@ export class MarkerDialogComponent implements OnInit {
     marker;
     data;
     //form_url:string = "https://libtech-india-data.s3.ap-south-1.amazonaws.com/covid/json/example.json";    
-    form_url:string = "https://example.form.io/example";
-    facility_form_url:string = "http://covid.libtech.in:8888/map/facility";
+    form_url:string = "http://covid.libtech.in:8888/map/facility";
+    
     constructor(
         private fb: FormBuilder,
         private dialogRef: MatDialogRef<MarkerDialogComponent>,
@@ -23,6 +24,7 @@ export class MarkerDialogComponent implements OnInit {
 	console.log("printing marker");
 	console.log(this.marker.feedback_form_json);
 	console.log(this.marker);
+	this.form_url = formioConfig.appUrl + '/map/facility';
     }
 
     ngOnInit() {
