@@ -1,5 +1,23 @@
 <div class="container">
+  <div class="jumbotron">
+
+    <h2>Please check your location and update if changed</h2>
+
+    <div class="form-group">
+      <label>Enter address</label>
+      <input type="text" class="form-control" (keydown.enter)="$event.preventDefault()" placeholder="Search Nearest Location" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" #search>
+    </div>
+
+    <agm-map [latitude]="latitude" [longitude]="longitude" [zoom]="zoom">
+      <agm-marker [latitude]="latitude" [longitude]="longitude" [markerDraggable]="true"
+                  (dragEnd)="markerDragEnd($event)"></agm-marker>
+    </agm-map>
+
+    <h5>Address: {{address}}</h5>
+
+    <h5>Current Location - Latitude: {{latitude}} Longitude: {{longitude}}</h5>
+  </div>
   <h2>{{title}}</h2>
-  <formio [form]='json_input' (submit)="onUpdate($event)"></formio>
+  <formio [form]="json_input" [submission]="json_pre" (submit)="onUpdate($event)"></formio>
   <pre>{{ data | json }}</pre>
 </div>
