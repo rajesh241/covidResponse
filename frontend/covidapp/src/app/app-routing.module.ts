@@ -18,6 +18,8 @@ import { AvatarEditComponent } from "./avatar-edit/avatar-edit.component";
 import { Oauth2callbackComponent } from './oauth2callback/oauth2callback.component';
 
 import { EntitySearchComponent } from "./entity/entity-search/entity-search.component";
+import { EntityListComponent } from "./entity/entity-list/entity-list.component";
+import { EntityEditComponent } from "./entity/entity-edit/entity-edit.component";
 
 import { LoginComponent } from './user/login/login.component';
 import { UserListComponent } from './user/user-list/user-list.component';
@@ -40,7 +42,7 @@ const routes: Routes = [
     {path : 'form-display', component : FormDisplayComponent},
     {path : 'form-edit', component : FormEditComponent},
     {path : 'invite', component : InviteComponent},
-    {path : 'list', component : ContextFilterComponent},
+    {path : 'list', component : EntityListComponent},
     {path : 'map', component : ContextMapComponent},
     {path : 'about', component : AboutComponent},
     {path : 'users', component : UserListComponent},
@@ -49,7 +51,7 @@ const routes: Routes = [
     {path : 'regconfirm', component : RegisterConfirmComponent},
     {path : 'add/:form', component : ContextCreateComponent},
     {path : 'useredit/:id', component : UserEditComponent},
-    {path : 'item/:id', component : ContextEditComponent},
+    {path : 'item/:id', component : EntityEditComponent},
     {path : 'useradd', component : UserAddComponent},
     {path : 'profile', component : ProfileEditComponent},
     {path : 'avatar', component : AvatarEditComponent},

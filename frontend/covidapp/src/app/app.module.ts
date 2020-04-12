@@ -54,6 +54,8 @@ import { FormCreateComponent } from './formio/form-create/form-create.component'
 import { EntityCreateComponent } from './entity/entity-create/entity-create.component';
 import { AddDialogComponent } from './entity/add-dialog/add-dialog.component';
 import { FormEditComponent } from './formio/form-edit/form-edit.component';
+import { EntityListComponent } from './entity/entity-list/entity-list.component';
+import { EntityEditComponent } from './entity/entity-edit/entity-edit.component';
 
 
 //const google_oauth_client_id:string = '849540517607-9alj6fb3hoo3lhrlml4upqkme070bo2f.apps.googleusercontent.com';
@@ -104,6 +106,8 @@ export function provideConfig() {
         EntityCreateComponent,
         AddDialogComponent,
         FormEditComponent,
+        EntityListComponent,
+        EntityEditComponent,
     ],
     imports: [
         BrowserModule,
