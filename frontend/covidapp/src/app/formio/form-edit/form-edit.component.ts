@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef, NgZone } from '@angular/core';
 import { MapsAPILoader, MouseEvent } from '@agm/core';
+import { formioConfig } from '../../formio/config';
 
 @Component({
     selector: 'app-form-edit',
@@ -12,7 +13,7 @@ export class FormEditComponent implements OnInit {
     json_url = window.origin + '/assets/forms/form.json';
     json_input: any;
     json_pre: any;
-
+    form_url = formioConfig.appUrl + '/data/helpseeker';
     latitude: number;
     longitude: number;
     zoom:number;
@@ -32,8 +33,11 @@ export class FormEditComponent implements OnInit {
         this.json_pre = {
             data: {"groupId":"12345","contactContactperson":{"owner":null,"roles":[],"_id":"5e922b5c32812260855d8280","data":{"fullName":"APPI","mobile":[{"mobileNumber":"(098) 451-5544","mobileWhatsapp":false},{"mobileNumber":"(987) 654-3210","mobileWhatsapp":true}],"phoneLandline":["(098) 451-5544"],"email":["support@gmail.com","additional@gmail.com","third@gmail.com","4@gmail.com"],"regionalLanguages":{"assamese":true,"bengali":false,"gujarati":true,"hindi":false,"kannada":true,"malayalam":false,"manipuri":true,"marathi":false,"oriya":true,"punjabi":false,"tamil":true,"telugu":false,"urudu":true}},"access":[],"form":"5e8d13b27c06a565e7abcf27","externalIds":[],"created":"2020-04-11T20:41:00.277Z","modified":"2020-04-11T20:41:00.278Z"},"locationCurrentlocation":{"owner":null,"roles":[],"_id":"5e922b5c32812260855d8283","data":{"streetaddressorlandmark":"1C, 404, Senswe, Divyashree Elan","cityorvillage":"Bangalore","district":"Bengaluru","state":"Karnataka","howmany":13,"groupDetails":"Testing this entry for prefilling","howmanywomenchildren":7,"locationdate":"2020-04-12T06:30:00.000Z","sheltertype":"on the move"},"access":[],"form":"5e8d1bbe7c06a565e7abcf29","externalIds":[],"created":"2020-04-11T20:41:00.288Z","modified":"2020-04-11T20:41:00.289Z"},"groupFrom":[{"groupFromDistrict":"Koikod","groupFromState":"Kerala"},{"groupFromDistrict":"Surat","groupFromState":"Gujarat"},{"groupFromDistrict":"Jawaja","groupFromState":"Rajasthan"}],"panelNeedsform":{"owner":null,"roles":[],"_id":"5e922b5c32812260855d8282","data":{"needschecklist":{"foodSupplies":false,"shelter":true,"medicalHelp":false,"other":true,"cashAssistance":false,"transportToHome":true,"drinkingWater":false},"describeother":"How does <other> look?","needsdate":"2020-04-12T06:30:00.000Z"},"access":[],"form":"5e8d20667c06a565e7abcf2b","externalIds":[],"created":"2020-04-11T20:41:00.285Z","modified":"2020-04-11T20:41:00.286Z"},"source":"APPI","whoishelpingthem":"CORD","email":["support@gmail.com","additional@gmail.com","third@gmail.com","4@gmail.com"],"whathashappenedwiththisgroupsofar":"1. \n2. \n3.\n4. ","panel2Whendidthefollowuphappen":"2020-04-12T06:30:00.000Z"}
         };
+    this.json_pre = {
+	    data : {"email": [""], "source": "", "groupId": "rajesh", "groupFrom": [{"groupFromState": "", "groupFromDistrict": ""}], "panelNeedsform": {"_id": "5e92f8df32812260855d8290", "data": {"needsdate": null, "needschecklist": {"other": false, "shelter": false, "medicalHelp": false, "foodSupplies": false, "drinkingWater": false, "cashAssistance": false, "transportToHome": false}}, "form": "5e8d20667c06a565e7abcf2b", "owner": null, "roles": [], "access": [], "created": "2020-04-12T11:17:51.251Z", "modified": "2020-04-12T11:17:51.252Z", "externalIds": []}, "whoishelpingthem": "", "contactContactperson": {"_id": "5e92f8df32812260855d828e", "data": {"email": [""], "mobile": [{"mobileNumber": "(919) 845-0652", "mobileWhatsapp": false}, {"mobileNumber": "(932) 009-8687", "mobileWhatsapp": false}], "fullName": "golani", "phoneLandline": ["(098) 450-6524", "(098) 450-6524"], "regionalLanguages": {"hindi": false, "oriya": false, "tamil": false, "urudu": false, "telugu": false, "bengali": true, "kannada": false, "marathi": false, "punjabi": false, "assamese": true, "gujarati": true, "manipuri": false, "malayalam": false}}, "form": "5e8d13b27c06a565e7abcf27", "owner": null, "roles": [], "access": [], "created": "2020-04-12T11:17:51.246Z", "modified": "2020-04-12T11:17:51.247Z", "externalIds": []}, "locationCurrentlocation": {"_id": "5e92f8df32812260855d828f", "data": {"state": "", "district": "", "sheltertype": "", "groupDetails": "", "locationdate": null, "cityorvillage": "", "streetaddressorlandmark": ""}, "form": "5e8d1bbe7c06a565e7abcf29", "owner": null, "roles": [], "access": [], "created": "2020-04-12T11:17:51.248Z", "modified": "2020-04-12T11:17:51.249Z", "externalIds": []}, "panel2Whendidthefollowuphappen": null, "whathashappenedwiththisgroupsofar": ""} 
     }
-
+    }
+    
     ngOnInit() {
         console.log('Inside ngOnInit()')
         //load Places Autocomplete

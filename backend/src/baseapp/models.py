@@ -35,6 +35,7 @@ class Entity(models.Model):
     record_type = models.CharField(max_length=1024, null=True, blank=True,
                                    default="needHelp")
     address = models.TextField(null=True, blank=True)
+    keywords = models.TextField(null=True, blank=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True,
                              blank=True)
     latitude = models.DecimalField(max_digits=22, decimal_places=19, null=True,

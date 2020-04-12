@@ -156,7 +156,8 @@ class EntityFilter(filters.FilterSet):
                     'id': ['gte', 'lte'],
                     'latitude' : ['gte', 'lte'],
                     'longitude' : ['gte', 'lte'],
-                    'record_type' : ['exact']
+                    'record_type' : ['exact'],
+                    'user__email' : ['exact']
                 }
     @property
     def qs(self):
@@ -183,7 +184,7 @@ class EntityAPIView(HttpResponseMixin,
     serializer_class = EntitySerializer
     passed_id = None
     input_id = None
-    search_fields = ('name', 'description')
+    search_fields = ('keywords', 'name', 'description')
     ordering_fields = ('name', 'id', 'created', 'updated')
     filterset_class = EntityFilter
     queryset = Entity.objects.all()
