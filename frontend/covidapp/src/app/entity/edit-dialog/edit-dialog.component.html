@@ -1,0 +1,20 @@
+<h2 mat-dialog-title>{{entity.name}}</h2>
+<p> {{entity.description}}</p>
+
+<mat-dialog-content [formGroup]="form">
+  <!--
+   <div [ngSwitch]="entity.record_type">
+     <div *ngSwitchCase="'facility'">
+       <formio [src]="form_url" (submit)="onSubmit($event)"></formio>
+     </div>
+   </div>
+   <formio src='https://examples.form.io/kitchensink' (submit)="onSubmit($event)"></formio>
+   -->
+   <app-covid-locate [entity]='entity'></app-covid-locate>
+   <formio [src]="form_url" (submit)="onSubmit($event)"></formio>
+  <pre>{{ this.data | json }}</pre>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button mat-raised-button (click)="close()">Close</button>
+</mat-dialog-actions>

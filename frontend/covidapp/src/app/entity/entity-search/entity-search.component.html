@@ -1,4 +1,3 @@
-
 <div class="container" align="center">
 
   <h1>Directory Of Relief Facilities</h1>
@@ -44,14 +43,14 @@
     <div style="padding: 0px 15px;">
       <div>
         <button mat-raised-button
-	  (click)="clickedButton('help')">
+                (click)="clickedButton('help')">
           Help Seeker
         </button>
       </div>
       <br />
       <div>
         <button mat-raised-button
-	  (click)="clickedButton('volunteer')">
+                (click)="clickedButton('volunteer')">
           Support Organisation
         </button>
       </div>
@@ -59,14 +58,14 @@
   </div>
   <br />
   <div align="left">
-   
-    <!-- <h3>Legends:</h3> 
-    <h4>Support Organization<img src="assets/blue-dot.png"></h4>
-    <h4>People Needing Support<img src="assets/red-dot.png"></h4>
-    <h4>Public Relief Facility<img src="assets/green-dot.png"></h4>
-    <h4>Public Relief Facility (Defunct)<img src="assets/yellow-dot.png"></h4>
-    <h4>Official<img src="assets/purple-dot.png"></h4>
-    -->
+
+    <!-- <h3>Legends:</h3>
+         <h4>Support Organization<img src="assets/blue-dot.png"></h4>
+         <h4>People Needing Support<img src="assets/red-dot.png"></h4>
+         <h4>Public Relief Facility<img src="assets/green-dot.png"></h4>
+         <h4>Public Relief Facility (Defunct)<img src="assets/yellow-dot.png"></h4>
+         <h4>Official<img src="assets/purple-dot.png"></h4>
+         -->
   </div>
   <!--
       <h5>Address: {{address}}</h5>
@@ -75,11 +74,11 @@
       <br />
 
       <div *ngIf="displayFilter" [formGroup]="filterForm">
-	<div class="row">
+        <div class="row">
           <section align="center" class="cb-section cb-margin">
-		<div *ngFor="let rt of recordTypes;let i=index;">
-			<mat-checkbox class="cb-margin" [formControlName]="rt.value">{{ rt.name }}<img [src]="rt.img"></mat-checkbox>
-		</div>
+            <div *ngFor="let rt of recordTypes;let i=index;">
+              <mat-checkbox class="cb-margin" [formControlName]="rt.value">{{ rt.name }}<img [src]="rt.img"></mat-checkbox>
+            </div>
           </section>
           <br />
         </div>

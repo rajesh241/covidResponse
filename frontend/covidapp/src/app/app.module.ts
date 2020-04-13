@@ -48,14 +48,19 @@ import { MatDialogModule } from "@angular/material";
 import { FormioModule, FormioAppConfig } from 'angular-formio';
 import { formioConfig } from './formio/config';
 import { FormDisplayComponent } from './formio/form-display/form-display.component';
-import { MarkerDialogComponent } from './entity/marker-dialog/marker-dialog.component';
 import { EntitySearchComponent } from './entity/entity-search/entity-search.component';
 import { FormCreateComponent } from './formio/form-create/form-create.component';
 import { EntityCreateComponent } from './entity/entity-create/entity-create.component';
-import { AddDialogComponent } from './entity/add-dialog/add-dialog.component';
 import { FormEditComponent } from './formio/form-edit/form-edit.component';
 import { EntityListComponent } from './entity/entity-list/entity-list.component';
 import { EntityEditComponent } from './entity/entity-edit/entity-edit.component';
+
+
+// Dialogs
+import { AddDialogComponent } from './entity/add-dialog/add-dialog.component';
+import { EditDialogComponent } from './entity/edit-dialog/edit-dialog.component';
+import { MarkerDialogComponent } from './entity/marker-dialog/marker-dialog.component';
+import { GmapSearchComponent } from './gmap/gmap-search/gmap-search.component';
 
 
 //const google_oauth_client_id:string = '849540517607-9alj6fb3hoo3lhrlml4upqkme070bo2f.apps.googleusercontent.com';
@@ -108,6 +113,8 @@ export function provideConfig() {
         FormEditComponent,
         EntityListComponent,
         EntityEditComponent,
+        EditDialogComponent,
+        GmapSearchComponent,
     ],
     imports: [
         BrowserModule,
@@ -137,9 +144,9 @@ export function provideConfig() {
     ],
     bootstrap: [AppComponent],
     entryComponents: [
-        MarkerDialogComponent,
         AddDialogComponent,
-        // FormCreateComponent
+        EditDialogComponent,
+        MarkerDialogComponent,
     ]
 })
 export class AppModule { }

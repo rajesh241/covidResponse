@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, NgZone } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef, NgZone } from '@angular/core';
 import { MapsAPILoader, MouseEvent } from '@agm/core';
 
 @Component({
@@ -14,6 +14,9 @@ export class CovidLocateComponent implements OnInit {
     address: string;
     private geoCoder;
 
+    @Input() autoDetect: boolean = true;
+    @Input('entity') entity: any;
+
     @ViewChild('search', { static: false })
     public searchElementRef: ElementRef;
 
@@ -25,10 +28,14 @@ export class CovidLocateComponent implements OnInit {
 
     ngOnInit() {
         console.log('Inside ngOnInit()')
+        console.log(this.autoDetect);
+        if (this.entity)
+            console.log(this.entity);
+
         //load Places Autocomplete
         this.mapsAPILoader.load().then(() => {
-            this.setCurrentLocation();
             this.geoCoder = new google.maps.Geocoder;
+            this.setCurrentLocation();
 
             let autocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement, {});
             autocomplete.addListener("place_changed", () => {
@@ -53,7 +60,14 @@ export class CovidLocateComponent implements OnInit {
     // Get Current Location Coordinates
     private setCurrentLocation() {
         console.log('Inside setCurrentLocation()')
-        if ('geolocation' in navigator) {
+        if (this.entity) {
+            this.latitude = Number(this.entity.latitude);
+            this.longitude = Number(this.entity.longitude);
+            this.zoom = 8;
+            this.getAddress(this.latitude, this.longitude);
+            console.log(this.latitude, this.longitude, this.zoom)
+        }
+        else if ('geolocation' in navigator) {
             console.log('geolocation found in navigator')
             navigator.geolocation.getCurrentPosition((position) => {
                 console.log('Inside getCurrentLocation()')

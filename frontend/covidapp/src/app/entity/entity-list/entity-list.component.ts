@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from "@angular/router"
 
 import { Observable, Subject } from 'rxjs';
 import { map, debounceTime, merge, share, startWith, switchMap } from 'rxjs/operators';
@@ -9,6 +10,9 @@ import { Page } from '../../pagination';
 import { Entity } from "../../models/entity";
 import { EntityService } from "../../services/entity.service";
 import { AuthService } from "../../services/auth.service";
+
+import { MatDialog, MatDialogConfig } from "@angular/material";
+import { EditDialogComponent } from '../edit-dialog/edit-dialog.component';
 
 @Component({
   selector: 'app-entity-list',
@@ -22,7 +26,10 @@ export class EntityListComponent  {
   success: boolean = false;
   dataLoaded: Promise<boolean>;
   constructor(
-    public authService: AuthService, private entityService: EntityService
+      public authService: AuthService,
+      private entityService: EntityService,
+      private router:Router,      
+      private dialog: MatDialog
   ) {
     this.filterForm = new FormGroup({
       limit : new FormControl(10),
@@ -92,4 +99,40 @@ export class EntityListComponent  {
   }    
 
 
+    editDialog(entity) {
+        console.log(`Inside EntityListComponent.editDialog(${JSON.stringify(entity)})`);
+        console.log(entity);
+	if (this.authService.isLoggedIn()){ 
+            const dialogConfig = new MatDialogConfig();
+
+            dialogConfig.disableClose = true;
+            dialogConfig.autoFocus = true;
+
+            dialogConfig.data = entity;
+
+            const dialogRef = this.dialog.open(EditDialogComponent, dialogConfig);
+
+            dialogRef.afterClosed().subscribe(
+                data => {
+            	    //const replacer = (key, value) =>  String(value) === "null" || String(value) === "undefined" ? 0 : value; 
+                   // data = JSON.parse( JSON.stringify(data, replacer));
+                    console.log("Dialog output:", data);
+                    /*
+                    //this.entityService.createItem({'name':'default','latitude': this.latitude, 'longitude': this.longitude, 'record_type':type})
+                    this.entityService.createItem({'name':'default','latitude': this.latitude, 'longitude': this.longitude, 'record_type':type, 'data_json':data,'address':this.address,'google_location_json':this.gmap_details})
+                      .subscribe(
+                        data => {
+                                console.log('Entity Creattion Successful', data);
+                        },
+                        err => {
+                           console.log("Entity Creation Failed");
+                        }
+                    );
+                    */
+                 }
+             );
+	}else{
+        this.router.navigate(['/login']);
+	}
+    }
 }
