@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef, NgZone } from '@angular/core'
 import { MapsAPILoader, MouseEvent } from '@agm/core';
 import { FormControl, FormGroup, FormArray } from '@angular/forms';
 import { Observable, Subject } from 'rxjs';
-import {Router} from "@angular/router"
+import { Router } from "@angular/router"
 import { debounceTime, merge, share, startWith, switchMap } from 'rxjs/operators';
 import * as moment from "moment";
 

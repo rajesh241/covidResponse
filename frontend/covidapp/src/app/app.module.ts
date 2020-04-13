@@ -5,7 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { SocialLoginModule, AuthServiceConfig, GoogleLoginProvider } from 'angular4-social-login';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AgmCoreModule } from '@agm/core';
-import { libtech } from '../libtech';
+import { coastConfig } from '../config';
 
 import { AboutComponent } from './about/about.component';
 import { LoginComponent } from './user/login/login.component';
@@ -63,7 +63,7 @@ import { EntityEditComponent } from './entity/entity-edit/entity-edit.component'
 let config = new AuthServiceConfig([
     {
         id: GoogleLoginProvider.PROVIDER_ID,
-        provider: new GoogleLoginProvider(libtech.GOOGLECLIENTID),
+        provider: new GoogleLoginProvider(coastConfig.GOOGLECLIENTID),
     }
 ]);
 
@@ -120,7 +120,7 @@ export function provideConfig() {
         MatDialogModule,
         ReactiveFormsModule,
         AgmCoreModule.forRoot({
-            apiKey: libtech.googleAPIKey,
+            apiKey: coastConfig.googleAPIKey,
             libraries: ['places']
         }),
         HttpClientModule,
