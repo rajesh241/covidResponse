@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, NgZone } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef, NgZone } from '@angular/core';
 import { Observable } from "rxjs";
 import { Entity } from "../../models/entity";
 import { EntityService } from "../../services/entity.service";
@@ -10,7 +10,7 @@ import { Location } from '../../models/location';
 import { MapsAPILoader, MouseEvent } from '@agm/core';
 import { formioConfig } from '../../formio/config';
 
-const ZOOM_DEFAULT = 12;
+const ZOOM_DEFAULT = 15;
 
 @Component({
     selector: 'app-entity-edit',
@@ -18,10 +18,9 @@ const ZOOM_DEFAULT = 12;
     styleUrls: ['./entity-edit.component.css']
 })
 export class EntityEditComponent implements OnInit {
+    @Input('entity') entity: any;
     //entity : Observable<Entity>;
     data: any;
-    entity : any;
-    apt : Entity;
     entity_id: number;
     success: boolean=false; 
     errorMessage:string="";
@@ -60,16 +59,18 @@ export class EntityEditComponent implements OnInit {
 
     ngOnInit() {
         console.log('Inside FormEditComponent.ngOnInit()')
-        this.activatedRoute.paramMap.subscribe(
-            params => {
-                this.entity_id=Number(params.get("id"));
-            }  
-        )
-        this.loadEntityData();
+        if (!this.entity) {
+            this.activatedRoute.paramMap.subscribe(
+                params => {
+                    this.entity_id=Number(params.get("id"));
+                }
+            )
+            this.loadEntityData();
+        }
         //load Places Autocomplete 
         this.mapsAPILoader.load().then(() => {
-            this.setCurrentLocation();
             this.geoCoder = new google.maps.Geocoder;
+            this.setCurrentLocation();
 
             let autocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement, {});
             autocomplete.addListener("place_changed", () => {
@@ -158,7 +159,14 @@ export class EntityEditComponent implements OnInit {
 
     private setCurrentLocation() {
         console.log('Inside setCurrentLocation()')
-        if (this.address != '' && 'geolocation' in navigator) {
+        if (this.entity) {
+            this.latitude = Number(this.entity.latitude);
+            this.longitude = Number(this.entity.longitude);
+            this.zoom = ZOOM_DEFAULT;
+            this.getAddress(this.latitude, this.longitude);
+            console.log(this.latitude, this.longitude, this.zoom)
+        }
+        else if (this.address != '' && 'geolocation' in navigator) {
             console.log('geolocation found in navigator')
             navigator.geolocation.getCurrentPosition((position) => {
                 console.log('Inside getCurrentLocation()')
@@ -184,7 +192,7 @@ export class EntityEditComponent implements OnInit {
     markerDragEnd($event: MouseEvent) {
         console.log($event);
         this.latitude = $event.coords.lat;
-        this.longitude = $event.coords.lng;
+        this.longitude = $event.coords.lng;   // FIXME - Goli check this.apt.lat/lng
         this.getAddress(this.latitude, this.longitude);
     }
 

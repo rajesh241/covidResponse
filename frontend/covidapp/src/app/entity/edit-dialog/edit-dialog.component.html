@@ -2,17 +2,7 @@
 <p> {{entity.description}}</p>
 
 <mat-dialog-content [formGroup]="form">
-  <!--
-   <div [ngSwitch]="entity.record_type">
-     <div *ngSwitchCase="'facility'">
-       <formio [src]="form_url" (submit)="onSubmit($event)"></formio>
-     </div>
-   </div>
-   <formio src='https://examples.form.io/kitchensink' (submit)="onSubmit($event)"></formio>
-   -->
-   <app-covid-locate [entity]='entity'></app-covid-locate>
-   <formio [src]="form_url" (submit)="onSubmit($event)"></formio>
-  <pre>{{ this.data | json }}</pre>
+   <app-entity-edit [entity]='entity'></app-entity-edit>
 </mat-dialog-content>
 
 <mat-dialog-actions>
