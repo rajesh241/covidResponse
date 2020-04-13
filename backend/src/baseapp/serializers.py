@@ -65,7 +65,7 @@ class EntitySerializer(serializers.ModelSerializer):
         Model"""
         data_json = validated_data.get("data_json", None)
         keyword_array = []
-        address = obj.get("address", None)
+        address = obj.address
         if address is not None:
             keyword_array.append(address)
         if data_json is not None:

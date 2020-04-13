@@ -16,6 +16,7 @@ import { formioConfig } from '../../formio/config';
 })
 export class EntityEditComponent implements OnInit {
   //entity : Observable<Entity>;
+  data: any;
   entity : any;
   apt : Entity;
   entity_id: number;
@@ -34,6 +35,7 @@ export class EntityEditComponent implements OnInit {
   showLoginMessage:boolean=false;
   json_pre: any;
   form_url = formioConfig.appUrl + '/data/helpseeker';
+  gmap_details: any;
   constructor(private entityService:EntityService,
 	      private authService:AuthService,
               private activatedRoute:ActivatedRoute,
@@ -75,7 +77,7 @@ export class EntityEditComponent implements OnInit {
           );
   }
   updateEntity() {
-     this.entityService.updateItem(this.entity_id,this.entity)
+     this.entityService.patchItem(this.entity_id, {'latitude': this.latitude, 'longitude': this.longitude, 'data_json':this.data,'address':this.address,'google_location_json':this.gmap_details})
          .subscribe(
              data => {
                 this.entity = data as Observable<Entity>;
@@ -84,13 +86,13 @@ export class EntityEditComponent implements OnInit {
                 this.router.navigate(['/list/']);
 	     },
              err => {
-                console.log(err.error);
                 this.success=false;
-	        this.errorMessage=this.authService.getErrorMessage(err);
+	        this.errorMessage="Unable to update";
 		}
             );
    }
   onSubmit(event){
+       this.data = event.data;
        this.updateEntity();
     }
 
