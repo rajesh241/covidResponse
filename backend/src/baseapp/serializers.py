@@ -38,6 +38,31 @@ class EntitySerializer(serializers.ModelSerializer):
         #if (data['longitude'] > 180) or (data['longitude'] < -180):
         #    raise serializers.ValidationError({"detail":"Longitude must be between 180 and -180"})
         return data
+    
+    def create(self, validated_data):
+        """Over riding teh create method of serializer"""
+        obj = Entity.objects.create(**validated_data)
+        self.parse_data_json(obj, validated_data)
+        return obj
+
+    def update(self, instance, validated_data):
+        """Overriding the default instance method"""
+        instance.save()
+        self.parse_data_json(instance, validated_data)
+        return instance
+
+    def parse_data_json(self, obj, validated_data):
+        """This will parse the data json to populate few fields in Entity
+        Model"""
+        data_json = validated_data.get("data_json", None)
+        if data_json is not None:
+            print(f"Printing data_json")
+            print(f"{data_json}")
+            feedback_obj = Feedback.objects.create(entity=obj,
+                                                   data_json=data_json,
+                                                   user=obj.user)
+        print(f"Created object id is {obj.id}")
+
 
 class EntityPublicSerializer(serializers.ModelSerializer):
     """Serializer for Report Model"""
