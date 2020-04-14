@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  apiURL : "https://covidb.libtech.in"
+  apiURL : "https://backend.coastindia.org"
 };
 
 /*

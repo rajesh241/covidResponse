@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiURL : "https://covidb.libtech.in"
+  apiURL : "https://backend.coastindia.org"
 };
