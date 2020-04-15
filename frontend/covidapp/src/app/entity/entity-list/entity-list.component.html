@@ -37,6 +37,7 @@
           <table class="table">
             <thead>
               <tr>
+                <th *ngIf="authService.isRealtor()"><mat-checkbox class="cb-margin" (change)="allChecked()"></mat-checkbox></th>
                 <th>Name</th>
                 <th>Description</th>
                 <th>Posted On</th>
@@ -45,8 +46,14 @@
             </thead>
             <tbody>
               <tr *ngFor="let entity of (page | async)?.results;let i=index">
-                <td>
+                <td *ngIf="authService.isRealtor()">
+                  <mat-checkbox [ngModelOptions]="{standalone: true}" class="cb-margin" [(ngModel)]="selectedEntities[entity.id]"></mat-checkbox>
+                </td>
+                <td *ngIf="authService.isRealtor()">
                   <a [routerLink]="['/item',entity.id]">{{entity.name}}</a>
+                </td>
+                <td *ngIf="!authService.isRealtor()">
+                  {{entity.name}}
                 </td>
                 <td>{{entity.description}}</td>
                 <td>{{entity.created | date}}</td>
@@ -85,9 +92,14 @@
         </div>
       </div>
     </div>
-    <div class="row" *ngIf="authService.isRealtor()">
-      <button class="btn btn-primary" (click)="deleteAllEntitys()">
-        Delete All Entitys
+    <div class="row" *ngIf="authService.isRealtor()" align="center">
+      <button mat-raised-button
+              (click)="bulkEdit()">
+        Bulk Edit
+      </button>
+      <button mat-raised-button
+              (click)="deleteAllEntitys()">
+        Delete All Entities
       </button>
     </div>
   </div>
