@@ -15,53 +15,72 @@ import { MatDialog, MatDialogConfig } from "@angular/material";
 import { EditDialogComponent } from '../edit-dialog/edit-dialog.component';
 
 @Component({
-  selector: 'app-entity-list',
-  templateUrl: './entity-list.component.html',
-  styleUrls: ['./entity-list.component.css']
+    selector: 'app-entity-list',
+    templateUrl: './entity-list.component.html',
+    styleUrls: ['./entity-list.component.css']
 })
 export class EntityListComponent  {
-  filterForm: FormGroup;
-  page: Observable<Page<Entity>>;
-  pageUrl = new Subject<string>();
-  success: boolean = false;
-  dataLoaded: Promise<boolean>;
-  constructor(
-      public authService: AuthService,
-      private entityService: EntityService,
-      private router:Router,      
-      private dialog: MatDialog
-  ) {
-    this.filterForm = new FormGroup({
-      limit : new FormControl(10),
-      ordering : new FormControl('-updated'),
-      search: new FormControl()
-    });
-    this.page = this.filterForm.valueChanges.pipe(
-      debounceTime(200),
-      startWith(this.filterForm.value),
-      merge(this.pageUrl),
-      switchMap(urlOrFilter => this.entityService.list(urlOrFilter)),
-      share()
-    );
-    this.dataLoaded = Promise.resolve(true);
-  }
+    filterForm: FormGroup;
+    page: Observable<Page<Entity>>;
+    pageUrl = new Subject<string>();
+    success: boolean = false;
+    dataLoaded: Promise<boolean>;
+    selectedEntities: any = {}; // = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false];
+    checkState: boolean = false;
+    entities: any;
 
-  onPageChanged(url: string) {
-    this.pageUrl.next(url);
-  }
-  loadpage(){
-    console.log("Load page is getting executed")
-    this.page = this.filterForm.valueChanges.pipe(
-      debounceTime(200),
-      startWith(this.filterForm.value),
-      merge(this.pageUrl),
-      switchMap(urlOrFilter => this.entityService.list(urlOrFilter)),
-      share()
-    );
-    this.dataLoaded = Promise.resolve(true);
-  }
+    constructor(
+        public authService: AuthService,
+        private entityService: EntityService,
+        private router:Router,      
+        private dialog: MatDialog
+    ) {
+        this.filterForm = new FormGroup({
+            limit : new FormControl(10),
+            ordering : new FormControl('-updated'),
+            search: new FormControl()
+        });
+        this.page = this.filterForm.valueChanges.pipe(
+            debounceTime(200),
+            startWith(this.filterForm.value),
+            merge(this.pageUrl),
+            switchMap(urlOrFilter => this.entityService.list(urlOrFilter)),
+            share()
+        );
+        this.dataLoaded = Promise.resolve(true);
 
-  deleteEntity(id){
+        /*
+        this.page.subscribe(entities => {
+            entities.forEach( entity => {
+                this.selectedEntities[entity.id] = false;
+            });
+        });
+        */
+        this.page.subscribe(page => {
+            this.entities = page.results;
+            this.entities.forEach( entity => {
+                this.selectedEntities[entity.id] = false;
+            });
+        });
+    }
+
+    onPageChanged(url: string) {
+        this.pageUrl.next(url);
+    }
+
+    loadpage(){
+        console.log("Load page is getting executed")
+        this.page = this.filterForm.valueChanges.pipe(
+            debounceTime(200),
+            startWith(this.filterForm.value),
+            merge(this.pageUrl),
+            switchMap(urlOrFilter => this.entityService.list(urlOrFilter)),
+            share()
+        );
+        this.dataLoaded = Promise.resolve(true);
+    }
+
+    deleteEntity(id){
 	this.entityService.deleteItem(id)
 	    .subscribe(
 		data => {
@@ -73,8 +92,8 @@ export class EntityListComponent  {
     }
 
     deleteAllEntitys(){
-            console.log("this will delete all entitys");
-            this.entityService.bulkDeleteItems({'user_ids': ['all'] })
+        console.log("this will delete all entitys");
+        this.entityService.bulkDeleteItems({'user_ids': ['all'] })
 	    .subscribe(
 		data => {
 		    this.success=true;
@@ -85,19 +104,18 @@ export class EntityListComponent  {
 
     }
 
-  public isUserManager(){
-    return ( moment().isBefore(this.getExpiration()) && ( (this.getUserName() === "usermanager") || (this.getUserName() === "admin" )));
-  } 
-  getUserName(){
-      const username = localStorage.getItem("username");
-      return username
-  } 
-  getExpiration() {
-      const expiration = localStorage.getItem("expires_at");
-      const expiresAt = JSON.parse(expiration);
-      return moment(expiresAt);
-  }    
-
+    public isUserManager(){
+        return ( moment().isBefore(this.getExpiration()) && ( (this.getUserName() === "usermanager") || (this.getUserName() === "admin" )));
+    } 
+    getUserName(){
+        const username = localStorage.getItem("username");
+        return username
+    } 
+    getExpiration() {
+        const expiration = localStorage.getItem("expires_at");
+        const expiresAt = JSON.parse(expiration);
+        return moment(expiresAt);
+    }    
 
     editDialog(entity) {
         console.log(`Inside EntityListComponent.editDialog(${JSON.stringify(entity)})`);
@@ -115,24 +133,49 @@ export class EntityListComponent  {
             dialogRef.afterClosed().subscribe(
                 data => {
             	    //const replacer = (key, value) =>  String(value) === "null" || String(value) === "undefined" ? 0 : value; 
-                   // data = JSON.parse( JSON.stringify(data, replacer));
+                    // data = JSON.parse( JSON.stringify(data, replacer));
                     console.log("Dialog output:", data);
                     /*
                     //this.entityService.createItem({'name':'default','latitude': this.latitude, 'longitude': this.longitude, 'record_type':type})
                     this.entityService.createItem({'name':'default','latitude': this.latitude, 'longitude': this.longitude, 'record_type':type, 'data_json':data,'address':this.address,'google_location_json':this.gmap_details})
-                      .subscribe(
-                        data => {
-                                console.log('Entity Creattion Successful', data);
-                        },
-                        err => {
-                           console.log("Entity Creation Failed");
-                        }
+                    .subscribe(
+                    data => {
+                    console.log('Entity Creattion Successful', data);
+                    },
+                    err => {
+                    console.log("Entity Creation Failed");
+                    }
                     );
                     */
-                 }
-             );
+                }
+            );
 	}else{
-        this.router.navigate(['/login']);
+            this.router.navigate(['/login']);
 	}
+    }
+
+    allChecked() {
+        console.log('EntityListComponent.allChecked()');
+        this.checkState = !this.checkState;
+        this.entities.forEach( entity => {
+            this.selectedEntities[entity.id] = this.checkState;
+        });
+        console.log(this.selectedEntities);
+    }
+
+    bulkEdit() {
+        console.log('EntityListComponent.bulkEdit()');        
+        console.log(this.selectedEntities);
+
+        this.entities.forEach( entity => {
+            if (this.selectedEntities[entity.id]) {
+                this.bulkAction(entity);
+            }
+        });
+    }
+
+    bulkAction(entity) {
+        console.log(`EntityListComponent.bulkAction(${entity.id})`);
+        // Action - e.g ASSIGN
     }
 }

@@ -65,24 +65,24 @@ export class EntitySearchComponent implements OnInit {
     success: boolean = false;
     dataLoaded: Promise<boolean>;
     recordTypes: any = [
-     {
-       name: "Crisis",
-       value: "needHelp",
-       img: "./assets/red-dot.png",
-       selected: true
-     },
-     {
-       name: "Relief",
-       value: "facility",
-       img: "./assets/green-dot.png",
-       selected: true
-     },
-     {
-       name: "Volunteer",
-       value: "volunteer",
-       img: "./assets/blue-dot.png",
-       selected:"true"
-     }
+        {
+            name: "People Needing Support",
+            value: "needHelp",
+            img: "./assets/red-dot.png",
+            selected: true
+        },
+        {
+            name: "Public Relief Facility",
+            value: "facility",
+            img: "./assets/blue-dot.png",
+            selected: true
+        },
+        {
+            name: "Support Organization",
+            value: "volunteer",
+            img: "./assets/green-dot.png",
+            selected: true
+        }
     ];
     constructor(
         private mapsAPILoader: MapsAPILoader,
@@ -126,9 +126,9 @@ export class EntitySearchComponent implements OnInit {
         this.dataLoaded = Promise.resolve(true);
     }
     createRecordTypeCheckbox(recordTypeInputs) {
-      recordTypeInputs.map(recordType => {
-        this.filterForm.addControl(recordType.value, new FormControl(recordType.selected || false));
-      });
+        recordTypeInputs.map(recordType => {
+            this.filterForm.addControl(recordType.value, new FormControl(recordType.selected || false));
+        });
     }
     ngOnInit() {
         console.log('Inside ngOnInit()')
@@ -185,13 +185,13 @@ export class EntitySearchComponent implements OnInit {
             console.log("Geolocation is not supported by this browser.");
             alert("Geolocation is not supported by this browser.");
             /*
-            this.latitude = 28.4720443;
-            this.longitude = 77.1329417;
-            this.radiusLat = this.latitude;
-            this.radiusLong = this.longitude;
-            this.zoom = ZOOM_DEFAULT;
-            this.getAddress(this.latitude, this.longitude);
-            console.log(this.latitude, this.longitude, this.zoom)
+              this.latitude = 28.4720443;
+              this.longitude = 77.1329417;
+              this.radiusLat = this.latitude;
+              this.radiusLong = this.longitude;
+              this.zoom = ZOOM_DEFAULT;
+              this.getAddress(this.latitude, this.longitude);
+              console.log(this.latitude, this.longitude, this.zoom)
             */
         }
     }
@@ -273,22 +273,22 @@ export class EntitySearchComponent implements OnInit {
             dialogRef.afterClosed().subscribe(
                 data => {
             	    const replacer = (key, value) =>  String(value) === "null" || String(value) === "undefined" ? 0 : value; 
-                   // data = JSON.parse( JSON.stringify(data, replacer));
+                    // data = JSON.parse( JSON.stringify(data, replacer));
                     console.log("Dialog output:", data);
                     //this.entityService.createItem({'name':'default','latitude': this.latitude, 'longitude': this.longitude, 'record_type':type})
                     this.entityService.createItem({'name':'default','latitude': this.latitude, 'longitude': this.longitude, 'record_type':type, 'data_json':data,'address':this.address,'google_location_json':this.gmap_details})
-                      .subscribe(
-                        data => {
+                        .subscribe(
+                            data => {
                                 console.log('Entity Creattion Successful', data);
-                        },
-                        err => {
-                           console.log("Entity Creation Failed");
-                        }
-                    );
-                 }
-             );
+                            },
+                            err => {
+                                console.log("Entity Creation Failed");
+                            }
+                        );
+                }
+            );
 	}else{
-        this.router.navigate(['/login']);
+            this.router.navigate(['/login']);
 	}
     }
 
@@ -303,18 +303,18 @@ export class EntitySearchComponent implements OnInit {
 
         dialogRef.afterClosed().subscribe(
             data => {
-		    console.log("Dialog output:", data);
-		    this.entityService.createFeedback({"entity":marker.id,"data_json":data})
-                      .subscribe(
+		console.log("Dialog output:", data);
+		this.entityService.createFeedback({"entity":marker.id,"data_json":data})
+                    .subscribe(
                         data1 => {
-                                console.log('login success', data1);
+                            console.log('login success', data1);
                         },
                         err => {
-                           console.log(err.error);
-                          }
-		      )
-	     }
-         );
+                            console.log(err.error);
+                        }
+		    )
+	    }
+        );
     }
 
     radiusDragEnd($event: any) {
@@ -351,31 +351,31 @@ export class EntitySearchComponent implements OnInit {
         }
     }
     toggleFunctional(entity_id, is_functional, record_type){
-	    console.log(entity_id);
-	    console.log(is_functional);
-	    is_functional = !is_functional;
-	    if(is_functional){
-		   if(record_type == "needHelp"){
-		      this.patch_data = {'is_functional':1,'icon_url':'https://entityb.libtech.in/media/icons/red-dot.png'}
-		   }else if(record_type == "facility"){
-		      this.patch_data = {'is_functional':1,'icon_url':'https://entityb.libtech.in/media/icons/green-dot.png'}
-		   }else{
-		      this.patch_data = {'is_functional':1,'icon_url':'https://entityb.libtech.in/media/icons/blue-dot.png'}
-		   }
+	console.log(entity_id);
+	console.log(is_functional);
+	is_functional = !is_functional;
+	if(is_functional){
+	    if(record_type == "needHelp"){
+		this.patch_data = {'is_functional':1,'icon_url':'https://entityb.libtech.in/media/icons/red-dot.png'}
+	    }else if(record_type == "facility"){
+		this.patch_data = {'is_functional':1,'icon_url':'https://entityb.libtech.in/media/icons/green-dot.png'}
 	    }else{
-		   this.patch_data = {'is_functional':0,'icon_url':'https://entityb.libtech.in/media/icons/gray-dot.png'}
+		this.patch_data = {'is_functional':1,'icon_url':'https://entityb.libtech.in/media/icons/blue-dot.png'}
 	    }
-	    console.log(this.patch_data);
-            this.entityService.patchItem(entity_id,this.patch_data)
+	}else{
+	    this.patch_data = {'is_functional':0,'icon_url':'https://entityb.libtech.in/media/icons/gray-dot.png'}
+	}
+	console.log(this.patch_data);
+        this.entityService.patchItem(entity_id,this.patch_data)
             .subscribe(
                 data => {
-			console.log("Update Success");
-			this.loadpage();
+		    console.log("Update Success");
+		    this.loadpage();
 	        },
                 err => {
-                   console.log("Update Failed");
-	           }
-               );
+                    console.log("Update Failed");
+	        }
+            );
     }
     getAddress(latitude, longitude) {
         this.geoCoder.geocode({ 'location': { lat: latitude, lng: longitude } }, (results, status) => {
