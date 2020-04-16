@@ -29,7 +29,10 @@ class Covid(models.Model):
 
 class Entity(models.Model):
     """This is the basic class for Aparment"""
+    title = models.CharField(max_length=256, null=True, blank=True)
     name = models.CharField(max_length=256, null=True, blank=True)
+    full_name = models.CharField(max_length=256, null=True, blank=True)
+    org_name = models.CharField(max_length=256, null=True, blank=True)
     description = models.TextField(blank=True, null=True)
     contact_numbers = models.CharField(max_length=1024, null=True, blank=True)
     record_type = models.CharField(max_length=1024, null=True, blank=True,

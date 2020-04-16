@@ -9,7 +9,7 @@ class FeedbackModelAdmin(admin.ModelAdmin):
     search_fields = ["user"]
 class EntityModelAdmin(admin.ModelAdmin):
     """Model Adminf or class Location"""
-    list_display = ["id", "name", "latitude", "longitude"]
+    list_display = ["id", "title", "latitude", "longitude"]
     list_filter = ["record_type"]
     search_fields = ["name", "description"]
 class CovidModelAdmin(admin.ModelAdmin):

@@ -28,6 +28,9 @@ class FeedbackSerializer(serializers.ModelSerializer):
 class EntitySerializer(serializers.ModelSerializer):
     """Serializer for Report Model"""
     user = serializers.HiddenField(default=serializers.CurrentUserDefault())
+    can_edit = serializers.SerializerMethodField()
+    bulk_action_list = serializers.SerializerMethodField()
+    tags = serializers.SerializerMethodField()
     class Meta:
         """Meta Class"""
         model = Entity
@@ -47,6 +50,45 @@ class EntitySerializer(serializers.ModelSerializer):
         #if (data['longitude'] > 180) or (data['longitude'] < -180):
         #    raise serializers.ValidationError({"detail":"Longitude must be between 180 and -180"})
         return data
+
+    def get_tags(self, instance):
+        """This method allows us to tag the objects based on logged in user"""
+        request = self.context.get('request')
+        user = request.user
+        tags = []
+        if "A" in instance.title:
+            tags.append("a")
+        if "E" in instance.title:
+            tags.append("e")
+        if "I" in instance.title:
+            tags.append("i")
+        if "O" in instance.title:
+            tags.append("o")
+        if "U" in instance.title:
+            tags.append("u")
+        return tags
+
+    def get_bulk_action_list(self, instance):
+        """This will return the possible bulk actions that are possible on this object"""
+        request = self.context.get('request')
+        user = request.user
+        bulk_action_list = []
+        if "d" in instance.title:
+             bulk_action_list.append({"delete":"forms/delete"})
+        if "F" in instance.title:
+             bulk_action_list.append({"feedback": "forms/feedback"})
+        bulk_action_list.append({"assignto": "forms/assignto"})
+        return bulk_action_list
+        
+    def get_can_edit(self, instance):
+        """This method will return if the user has edit permissions or not"""
+        request = self.context.get('request')
+        user = request.user
+        if user.is_authenticated and user.is_admin:
+            can_edit = True
+        else:
+            can_edit = False
+        return can_edit
     
     def create(self, validated_data):
         """Over riding teh create method of serializer"""
