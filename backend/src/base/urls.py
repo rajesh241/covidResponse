@@ -48,6 +48,8 @@ urlpatterns = [
     path('api/public/', include('baseapp.urls')),
     path('api/user/', include('user.urls')),
     path('api/passwordreset/', include('passwordreset.urls')),
+    path('', schema_view.with_ui('swagger', cache_timeout=0),
+           name='schema-swagger-ui'),
     path('api/docs/', schema_view.with_ui('swagger', cache_timeout=0),
            name='schema-swagger-ui'),
 

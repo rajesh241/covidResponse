@@ -126,6 +126,8 @@ class EntitySerializer(serializers.ModelSerializer):
             full_name = contact.get('fullName', None)
             if full_name is not None:
                 keyword_array.append(full_name)
+                obj.title = full_name
+                obj.full_name = full_name
                 
         keywords = ','.join(map(str, keyword_array)) 
         obj.keywords = keywords
