@@ -103,6 +103,9 @@ class EntitySerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
         """Overriding the default instance method"""
+        print(validated_data)
+        for key,value in validated_data.items():
+            setattr(instance, key, value)
         instance.save()
         self.parse_data_json(instance, validated_data)
         return instance
