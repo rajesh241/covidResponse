@@ -2,11 +2,16 @@
 from django.conf import settings
 
 def get_title_description(record_type, data):
-    print(data)
     about_dict = {}
     about_dict['title'] = ''
     about_dict['description'] = ''
     about_dict['formio_url'] = ''
+    try:
+        about_dict['latitude'] = data['contactGrid'][0]['contactForm']['data']['fullAddress']['geometry']['location']['lat']
+        about_dict['longitude'] = data['contactGrid'][0]['contactForm']['data']['fullAddress']['geometry']['location']['lng']
+    except:
+        about_dict['a'] = None
+    print(about_dict)
     if record_type == "helpseekers":
         about_dict['formio_url'] = f"{settings.FORMIO_URL}/forms/v1/helpseekers"
         try:

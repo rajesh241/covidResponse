@@ -103,6 +103,8 @@ class EntitySerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
         """Overriding the default instance method"""
+        for key,value in validated_data.items():
+            setattr(instance, key, value)
         instance.save()
         self.parse_data_json(instance, validated_data)
         return instance
@@ -112,9 +114,10 @@ class EntitySerializer(serializers.ModelSerializer):
         Model"""
         data_json = validated_data.get("data_json", None)
         if data_json is not None:
-            print(data_json)
             prefill_json = create_submission_data(data_json)
             about_dict = get_title_description(obj.record_type, data_json)
+            obj.latitude = about_dict.get("latitude", obj.latitude)
+            obj.longitude = about_dict.get("longitude", obj.longitude)
             obj.title = about_dict['title']
             obj.description = about_dict['description']
             obj.formio_url = about_dict['formio_url']
