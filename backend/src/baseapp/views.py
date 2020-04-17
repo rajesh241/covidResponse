@@ -13,7 +13,7 @@ from .serializers import (CovidSerializer,ItemSerializer1, EntitySerializer,
                          )
 from user.permissions import IsStaffReadWriteOrAuthReadOnly, IsStaffReadWriteOrReadOnly
 from user.utils import is_json
-
+from baseapp.permissions import EntityPermissions
 
 # Create your views here.
 def get_id_from_request(request):
@@ -179,7 +179,7 @@ class EntityAPIView(HttpResponseMixin,
                     generics.ListAPIView):
     """Primary view of Entity table. GET Methods do not require authentication,
     Other methods are allowed only for users with permissions of user manager"""
-    permission_classes = [IsStaffReadWriteOrReadOnly]
+    permission_classes = [EntityPermissions]
     #permission_classes = [permissions.IsAuthenticated]
     serializer_class = EntitySerializer
     passed_id = None

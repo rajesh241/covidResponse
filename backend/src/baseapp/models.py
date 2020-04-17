@@ -35,6 +35,7 @@ class Entity(models.Model):
     org_name = models.CharField(max_length=256, null=True, blank=True)
     description = models.TextField(blank=True, null=True)
     contact_numbers = models.CharField(max_length=1024, null=True, blank=True)
+    phone = models.CharField(max_length=256, null=True, blank=True)
     record_type = models.CharField(max_length=1024, null=True, blank=True,
                                    default="needHelp")
     address = models.TextField(null=True, blank=True)
@@ -49,7 +50,7 @@ class Entity(models.Model):
     google_location_json = JSONField(null=True, blank=True)  # requires Django-Mysql package
 
     record_subtype = models.CharField(max_length=1024, null=True, blank=True)
-    phone = models.BigIntegerField(blank=True, null=True)
+    phone1 = models.BigIntegerField(blank=True, null=True)
     how_many_people = models.IntegerField(blank=True, null=True)
     what_help = models.CharField(max_length=1024, blank=True, null=True)
     how_urgent = models.CharField(max_length=1024, null=True, blank=True)

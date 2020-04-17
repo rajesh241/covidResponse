@@ -56,6 +56,8 @@ class EntitySerializer(serializers.ModelSerializer):
         request = self.context.get('request')
         user = request.user
         tags = []
+        if instance.title is None:
+            instance.title = "default"
         if "A" in instance.title:
             tags.append("a")
         if "E" in instance.title:
@@ -73,6 +75,8 @@ class EntitySerializer(serializers.ModelSerializer):
         request = self.context.get('request')
         user = request.user
         bulk_action_list = []
+        if instance.title is None:
+            instance.title = "default"
         if "d" in instance.title:
              bulk_action_list.append({"delete":"forms/delete"})
         if "F" in instance.title:
@@ -84,7 +88,7 @@ class EntitySerializer(serializers.ModelSerializer):
         """This method will return if the user has edit permissions or not"""
         request = self.context.get('request')
         user = request.user
-        if user.is_authenticated and user.is_admin:
+        if user.is_authenticated:
             can_edit = True
         else:
             can_edit = False
@@ -93,13 +97,13 @@ class EntitySerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         """Over riding teh create method of serializer"""
         obj = Entity.objects.create(**validated_data)
-        self.parse_data_json(obj, validated_data)
+        #self.parse_data_json(obj, validated_data)
         return obj
 
     def update(self, instance, validated_data):
         """Overriding the default instance method"""
         instance.save()
-        self.parse_data_json(instance, validated_data)
+        #self.parse_data_json(instance, validated_data)
         return instance
 
     def parse_data_json(self, obj, validated_data):
