@@ -21,6 +21,8 @@ export class EntityEditComponent implements OnInit {
     @Input('entity') entity: any;
     //entity : Observable<Entity>;
     data: any;
+    prefill_json : any;
+    formio_url: any;
     entity_id: number;
     success: boolean=false; 
     errorMessage:string="";
@@ -66,7 +68,10 @@ export class EntityEditComponent implements OnInit {
                 }
             )
             this.loadEntityData();
-        }
+        }else{
+		this.formio_url = this.entity['formio_url'];
+                this.prefill_json = this.entity['prefill_json'];
+	}
         //load Places Autocomplete 
         this.mapsAPILoader.load().then(() => {
             this.geoCoder = new google.maps.Geocoder;
@@ -99,9 +104,7 @@ export class EntityEditComponent implements OnInit {
                 data => {
                     this.entity = data;
 	            console.log(data);
-                    this.data_json = {
-		        data : this.entity.data_json
-	            }
+                    this.data_json = this.prefill_json
 	            if (this.entity['record_type'] == "needHelp"){
 		        this.isVolunteer=false;
 	            }else{

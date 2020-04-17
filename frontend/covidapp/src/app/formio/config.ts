@@ -1,8 +1,8 @@
 import { FormioAppConfig } from 'angular-formio';
 
 export const formioConfig: FormioAppConfig = {
-    appUrl: 'https://formio.libtech.in',
-    apiUrl: 'https://formio.libtech.in',
+    appUrl: 'https://formio.coastindia.org',
+    apiUrl: 'https://formio.coastindia.org',
     icons: 'fontawesome'
 };
 

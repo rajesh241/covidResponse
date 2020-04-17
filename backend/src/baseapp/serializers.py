@@ -2,7 +2,8 @@
 import re
 from rest_framework import serializers, fields
 from baseapp.models import Covid, Entity, Feedback
-
+from baseapp.formio import helpseeker_v1_prefilling, create_submission_data, get_title_description
+from django.conf import settings
 
 def clean_phone_number(string):
     """Will extract the phone number from the string"""
@@ -97,45 +98,54 @@ class EntitySerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         """Over riding teh create method of serializer"""
         obj = Entity.objects.create(**validated_data)
-        #self.parse_data_json(obj, validated_data)
+        self.parse_data_json(obj, validated_data)
         return obj
 
     def update(self, instance, validated_data):
         """Overriding the default instance method"""
         instance.save()
-        #self.parse_data_json(instance, validated_data)
+        self.parse_data_json(instance, validated_data)
         return instance
 
     def parse_data_json(self, obj, validated_data):
         """This will parse the data json to populate few fields in Entity
         Model"""
         data_json = validated_data.get("data_json", None)
-        keyword_array = []
-        address = obj.address
-        if address is not None:
-            keyword_array.append(address)
         if data_json is not None:
-            feedback_obj = Feedback.objects.create(entity=obj,
-                                                   data_json=data_json,
-                                                   user=obj.user)
-            
-        
-            contact = data_json['contactContactperson']['data']
-            for item in contact['mobile']:
-                mobile_number = item.get('mobileNumber', None)
-                if mobile_number is not None:
-                    mobile_number = clean_phone_number(mobile_number)
-                    keyword_array.append(mobile_number)
-                    
-            full_name = contact.get('fullName', None)
-            if full_name is not None:
-                keyword_array.append(full_name)
-                obj.title = full_name
-                obj.full_name = full_name
-                
-        keywords = ','.join(map(str, keyword_array)) 
-        obj.keywords = keywords
-        obj.save()
+            print(data_json)
+            prefill_json = create_submission_data(data_json)
+            about_dict = get_title_description(obj.record_type, data_json)
+            obj.title = about_dict['title']
+            obj.description = about_dict['description']
+            obj.formio_url = about_dict['formio_url']
+            obj.prefill_json = prefill_json
+            obj.save()
+       #keyword_array = []
+       #address = obj.address
+       #if address is not None:
+       #    keyword_array.append(address)
+       #if data_json is not None:
+       #    feedback_obj = Feedback.objects.create(entity=obj,
+       #                                           data_json=data_json,
+       #                                           user=obj.user)
+       #    
+       #
+       #    contact = data_json['contactContactperson']['data']
+       #    for item in contact['mobile']:
+       #        mobile_number = item.get('mobileNumber', None)
+       #        if mobile_number is not None:
+       #            mobile_number = clean_phone_number(mobile_number)
+       #            keyword_array.append(mobile_number)
+       #            
+       #    full_name = contact.get('fullName', None)
+       #    if full_name is not None:
+       #        keyword_array.append(full_name)
+       #        obj.title = full_name
+       #        obj.full_name = full_name
+       #        
+       #keywords = ','.join(map(str, keyword_array)) 
+       #obj.keywords = keywords
+       #obj.save()
 
 
 class EntityPublicSerializer(serializers.ModelSerializer):

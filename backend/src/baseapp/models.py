@@ -47,6 +47,8 @@ class Entity(models.Model):
     longitude = models.DecimalField(max_digits=22, decimal_places=19, null=True,
                                    blank=True)
     data_json = JSONField(null=True, blank=True)  # requires Django-Mysql package
+    prefill_json = JSONField(null=True, blank=True)  # requires Django-Mysql package
+    formio_url = models.URLField(blank=True, null=True)
     google_location_json = JSONField(null=True, blank=True)  # requires Django-Mysql package
 
     record_subtype = models.CharField(max_length=1024, null=True, blank=True)

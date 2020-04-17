@@ -18,7 +18,7 @@
       <!-- <h5>Current Location - Latitude: {{latitude}} Longitude: {{longitude}}</h5> -->
     </div>
     <h3>Please update the form</h3>
-    <formio [src]="form_url" [submission]="json_pre" (submit)="onSubmit($event)"></formio>
+    <formio [src]="formio_url" [submission]="prefill_json" (submit)="onSubmit($event)"></formio>
     <pre>{{ data | json }}</pre>
   </div>
 </div>

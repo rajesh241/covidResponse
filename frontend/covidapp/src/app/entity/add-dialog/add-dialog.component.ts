@@ -36,10 +36,10 @@ export class AddDialogComponent implements OnInit {
 	console.log(this.marker);
 	if (this.marker.record_type == "volunteer"){
 	    //this.form_url = 'https://formio.libtech.in/forms/supportnetwork';
-	    this.form_url = formioConfig.appUrl + '/forms/supportnetwork';
+	    this.form_url = formioConfig.appUrl + '/forms/v1/supportnetwork';
 	}else{
 	    //this.form_url = 'https://formio.libtech.in/data/helpseeker';
-	    this.form_url = formioConfig.appUrl + '/data/helpseeker';
+	    this.form_url = formioConfig.appUrl + '/forms/v1/helpseekers';
 	}
 	console.log("form url sis " + this.form_url);
         this.form = this.fb.group({

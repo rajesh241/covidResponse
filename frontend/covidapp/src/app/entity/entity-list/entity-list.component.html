@@ -50,7 +50,7 @@
                   <mat-checkbox [ngModelOptions]="{standalone: true}" class="cb-margin" [(ngModel)]="selectedEntities[entity.id]"></mat-checkbox>
                 </td>
                 <td *ngIf="authService.isRealtor()">
-                  <a [routerLink]="['/item',entity.id]">{{entity.name}}</a>
+                  <a [routerLink]="['/item',entity.id]">{{entity.title}}</a>
                 </td>
                 <td *ngIf="!authService.isRealtor()">
                   {{entity.name}}
