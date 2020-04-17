@@ -1,0 +1,13 @@
+<h2 mat-dialog-title>Apply {{action}} to the following entities</h2>
+
+<ul *ngFor="let entity of entities">{{entity.id}}</ul>
+
+
+<mat-dialog-content [formGroup]="form">
+  <formio [src]="form_url" (submit)="onSubmit($event)"></formio>
+  <pre>{{ this.json_data | json }}</pre>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button mat-raised-button (click)="close()">Close</button>
+</mat-dialog-actions>

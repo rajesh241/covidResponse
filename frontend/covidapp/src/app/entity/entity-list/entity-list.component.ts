@@ -13,6 +13,7 @@ import { AuthService } from "../../services/auth.service";
 
 import { MatDialog, MatDialogConfig } from "@angular/material";
 import { EditDialogComponent } from '../edit-dialog/edit-dialog.component';
+import { BulkDialogComponent } from '../bulk-dialog/bulk-dialog.component';
 
 @Component({
     selector: 'app-entity-list',
@@ -25,9 +26,26 @@ export class EntityListComponent  {
     pageUrl = new Subject<string>();
     success: boolean = false;
     dataLoaded: Promise<boolean>;
-    selectedEntities: any = {}; // = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false];
+    selectedEntities: any;
     checkState: boolean = false;
     entities: any;
+    bulkAction: string = 'delete';
+    selected = 'defunct';
+    selectOptions = [
+	{
+	    'name': 'Assign to Support Org',
+	    'value': 'assign',
+	},
+	{
+	    'name': 'Delete seleted entities',
+	    'value': 'delete',
+	},
+	{
+	    'name': 'Mark as defunct',
+	    'value': 'defunct',
+	},
+    ];
+	
 
     constructor(
         public authService: AuthService,
@@ -49,17 +67,14 @@ export class EntityListComponent  {
         );
         this.dataLoaded = Promise.resolve(true);
 
-        /*
-        this.page.subscribe(entities => {
-            entities.forEach( entity => {
-                this.selectedEntities[entity.id] = false;
-            });
-        });
-        */
         this.page.subscribe(page => {
             this.entities = page.results;
+	    this.checkState = false;
+	    this.selectedEntities = {};   // FIXME - memory issues on reset?
+	    //console.log('Page Subscription');
+	    //console.log(this.entities);
             this.entities.forEach( entity => {
-                this.selectedEntities[entity.id] = false;
+                this.selectedEntities[entity.id] = this.checkState;
             });
         });
     }
@@ -156,26 +171,60 @@ export class EntityListComponent  {
 
     allChecked() {
         console.log('EntityListComponent.allChecked()');
-        this.checkState = !this.checkState;
+        //this.checkState = !this.checkState;
         this.entities.forEach( entity => {
             this.selectedEntities[entity.id] = this.checkState;
         });
-        console.log(this.selectedEntities);
     }
 
-    bulkEdit() {
-        console.log('EntityListComponent.bulkEdit()');        
+    applyBulkAction() {
+        console.log('EntityListComponent.applyBulkAction()');
         console.log(this.selectedEntities);
+	let chosenEntites = [];
 
-        this.entities.forEach( entity => {
-            if (this.selectedEntities[entity.id]) {
-                this.bulkAction(entity);
-            }
-        });
-    }
+        this.entities.forEach(
+	    entity => {
+		if (this.selectedEntities[entity.id]) {
+                    // this.bulkAction(entity);
+		    chosenEntites.push(entity);
+		}
+            });
+	
+	if (this.authService.isLoggedIn()){ 
+            const dialogConfig = new MatDialogConfig();
 
-    bulkAction(entity) {
-        console.log(`EntityListComponent.bulkAction(${entity.id})`);
-        // Action - e.g ASSIGN
+            dialogConfig.disableClose = true;
+            dialogConfig.autoFocus = true;
+
+            dialogConfig.data = {
+		'entities': chosenEntites,
+		'action': this.bulkAction,
+		'json': '',
+	    };
+
+            const dialogRef = this.dialog.open(BulkDialogComponent, dialogConfig);
+
+            dialogRef.afterClosed().subscribe(
+                data => {
+            	    //const replacer = (key, value) =>  String(value) === "null" || String(value) === "undefined" ? 0 : value; 
+                    // data = JSON.parse( JSON.stringify(data, replacer));
+                    console.log("Dialog output:", data);
+                    /*
+                    //this.entityService.createItem({'name':'default','latitude': this.latitude, 'longitude': this.longitude, 'record_type':type})
+                    this.entityService.createItem({'name':'default','latitude': this.latitude, 'longitude': this.longitude, 'record_type':type, 'data_json':data,'address':this.address,'google_location_json':this.gmap_details})
+                    .subscribe(
+                    data => {
+                    console.log('Entity Creattion Successful', data);
+                    },
+                    err => {
+                    console.log("Entity Creation Failed");
+                    }
+                    );
+                    */
+                }
+            );
+	}else{
+            this.router.navigate(['/login']);
+	}
     }
 }

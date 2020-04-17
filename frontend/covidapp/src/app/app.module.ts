@@ -43,6 +43,7 @@ import { MatButtonModule } from '@angular/material';
 import { MatCheckboxModule } from '@angular/material';
 import { MatCardModule } from '@angular/material/card';
 import { MatDialogModule } from "@angular/material";
+import { MatSelectModule } from '@angular/material/select';
 
 // Angular FormIO - https://github.com/formio/angular-formio
 import { FormioModule, FormioAppConfig } from 'angular-formio';
@@ -61,6 +62,7 @@ import { AddDialogComponent } from './entity/add-dialog/add-dialog.component';
 import { EditDialogComponent } from './entity/edit-dialog/edit-dialog.component';
 import { MarkerDialogComponent } from './entity/marker-dialog/marker-dialog.component';
 import { GmapSearchComponent } from './gmap/gmap-search/gmap-search.component';
+import { BulkDialogComponent } from './entity/bulk-dialog/bulk-dialog.component';
 
 
 //const google_oauth_client_id:string = '849540517607-9alj6fb3hoo3lhrlml4upqkme070bo2f.apps.googleusercontent.com';
@@ -115,6 +117,7 @@ export function provideConfig() {
         EntityEditComponent,
         EditDialogComponent,
         GmapSearchComponent,
+        BulkDialogComponent,
     ],
     imports: [
         BrowserModule,
@@ -125,6 +128,7 @@ export function provideConfig() {
         MatCardModule,
         MatCheckboxModule,
         MatDialogModule,
+	MatSelectModule,
         ReactiveFormsModule,
         AgmCoreModule.forRoot({
             apiKey: coastConfig.googleAPIKey,
@@ -147,6 +151,7 @@ export function provideConfig() {
         AddDialogComponent,
         EditDialogComponent,
         MarkerDialogComponent,
+	BulkDialogComponent,
     ]
 })
 export class AppModule { }
