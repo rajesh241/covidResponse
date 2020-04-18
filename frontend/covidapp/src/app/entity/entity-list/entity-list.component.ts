@@ -57,31 +57,14 @@ export class EntityListComponent  {
         this.page.subscribe(page => {
             this.entities = page.results;
 	    this.checkState = false;
-	    this.selectedEntities = {};   // FIXME - memory issues on reset?
+            delete this.selectedEntities;
+	    this.selectedEntities = {};
 	    console.log('Page Subscription');
 	    //console.log(this.entities);
             this.bulkActionList = []
             this.entities.forEach( entity => {
                 this.selectedEntities[entity.id] = this.checkState;
-                console.log(entity.bulk_action_list);
-                if (typeof this.bulkActionList !== 'undefined' && this.bulkActionList.length > 0) {
-                    // the array is defined and has at least one element
-                    console.log(`Before ${JSON.stringify(this.bulkActionList)}`);
-                    console.log(`Before ${JSON.stringify(entity.bulk_action_list)}`);
-                    //this.bulkActionList = this.bulkActionList.filter(item => item in entity.bulk_action_list);
-                    for(let key in this.bulkActionList) {
-                        console.log(key, this.bulkActionList[key]);
-                        if (!(key in entity.bulk_action_list)) {
-                            delete this.bulkActionList[key];
-                        }
-                    }
-                    console.log(`After ${JSON.stringify(this.bulkActionList)}`);
-                }
-                else
-                    this.bulkActionList = entity.bulk_action_list;
             });
-            this.bulkActionList.push({'none': 'None'});
-            console.log(`Final ${JSON.stringify(this.bulkActionList)}`);
         });
     }
 
@@ -122,16 +105,17 @@ export class EntityListComponent  {
 		},
 		error => console.log("could not delete" + error)
             )
-
     }
 
     public isUserManager(){
         return ( moment().isBefore(this.getExpiration()) && ( (this.getUserName() === "usermanager") || (this.getUserName() === "admin" )));
-    } 
+    }
+
     getUserName(){
         const username = localStorage.getItem("username");
         return username
-    } 
+    }
+
     getExpiration() {
         const expiration = localStorage.getItem("expires_at");
         const expiresAt = JSON.parse(expiration);
@@ -180,7 +164,48 @@ export class EntityListComponent  {
         //this.checkState = !this.checkState;
         this.entities.forEach( entity => {
             this.selectedEntities[entity.id] = this.checkState;
+            this.bulkActionIntersection(entity);
         });
+        if (!this.checkState) {
+            delete this.bulkActionList;
+            this.bulkActionList = [];
+        }
+        console.log(`Final ${JSON.stringify(this.bulkActionList)}`);
+    }
+
+    bulkActionIntersection(entity) {
+        console.log('EntityListComponent.bulkActionIntersection()');
+        let selectOptions = [];
+
+        if (!this.selectedEntities[entity.id])
+            return;
+        console.log(entity.bulk_action_list);
+        if (typeof this.bulkActionList !== 'undefined' && this.bulkActionList.length > 0) {
+            // the array is defined and has at least one element
+            console.log(`Before ${JSON.stringify(this.bulkActionList)}`);
+            console.log(`Before ${JSON.stringify(entity.bulk_action_list)}`);
+            // this.bulkActionList = this.bulkActionList.filter(item => {return item in entity.bulk_action_list;});
+
+            for(let key in this.bulkActionList) {
+                console.log(key, this.bulkActionList[key]);
+                if (!(key in entity.bulk_action_list)) {
+                    this.bulkActionList.splice(key, 1);
+                    console.log(`DELETION => ${JSON.stringify(this.bulkActionList)}`);
+                }
+            }
+            console.log(`After ${JSON.stringify(this.bulkActionList)}`);
+        }
+        else
+            this.bulkActionList = entity.bulk_action_list;
+
+        if (!('none' in Object.keys(this.bulkActionList)))
+            this.bulkActionList.push({'none': 'None'});
+    }
+
+    onCBChange(entity) {
+        console.log('EntityListComponent.onCBChange()');
+        this.bulkActionIntersection(entity);
+        console.log(`Final ${JSON.stringify(this.bulkActionList)}`);
     }
 
     applyBulkAction() {
