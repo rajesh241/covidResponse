@@ -88,7 +88,7 @@ class EntityBulkEdit(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True,
                              blank=True)
     bulk_action = models.CharField(max_length=256, null=True, blank=True)
-    data_json = JSONField()  # requires Django-Mysql package
+    data_json = JSONField(null=True, blank=True)  # requires Django-Mysql package
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     is_processed = models.BooleanField(default=False)

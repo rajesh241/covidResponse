@@ -174,6 +174,9 @@ class EntityFilter(filters.FilterSet):
 
 class EntityBulkEditAPIView(HttpResponseMixin,
                     mixins.CreateModelMixin,
+                    mixins.DestroyModelMixin,
+                    mixins.RetrieveModelMixin,
+                    mixins.UpdateModelMixin,
                     generics.ListAPIView):
     """Primary view of Entity Bulk Edit table"""
     permission_classes = [EntityPermissions]
@@ -184,9 +187,39 @@ class EntityBulkEditAPIView(HttpResponseMixin,
     search_fields = ('id')
     ordering_fields = ('id', "created")
     queryset = EntityBulkEdit.objects.all()
+    def get_queryset(self, *args, **kwargs):
+       if self.request.user.is_staff:
+           return EntityBulkEdit.objects.all()
+       return EntityBulkEdit.objects.all()
+    def get_object(self):
+        input_id = self.input_id
+        queryset = self.get_queryset()
+        obj = None
+        if input_id is not None:
+            obj = get_object_or_404(queryset, id=input_id)
+            self.check_object_permissions(self.request, obj)
+        return obj
+    def get(self, request, *args, **kwargs):
+        """This method will return the list of the Entity items based on the
+        filter values specified. The number of items can be controlled by the
+        limit parameter. 
+        ordering field can be set to either of (name, id, created, updated). It
+        will sort the returned results based on that. For example
+        entity/?ordering=updated or entity/?ordering=-name (Sort by name
+        descending)
+        If id of the Entity is appended to the url for example /entity/1, then
+        it would return only one entity corresponding to the id mentioned. 
+        """
+        print(f"I am in get Entity request {request.user}")
+        self.input_id = get_id_from_request(request)
+        if self.input_id is not None:
+            return self.retrieve(request, *args, **kwargs)
+        return super().get(request, *args, **kwargs)
+
 
     def post(self, request, *args, **kwargs):
         """This would create an Entity Bulk Edit  object in database"""
+        print("I am in post")
         return self.create(request, *args, **kwargs)
 
 class EntityAPIView(HttpResponseMixin,

@@ -33,6 +33,19 @@ class EntityBulkEditSerializer(serializers.ModelSerializer):
         """Meta Class"""
         model = EntityBulkEdit
         fields = '__all__'
+    def validate(self, data):
+        """
+        Check that the start is before the stop.
+        """
+        print("I am in validate")
+        return data
+
+    def create(self, validated_data):
+        """Over riding teh create method of serializer"""
+        print(validated_data)
+        obj = EntityBulkEdit.objects.create(**validated_data)
+        #self.parse_data_json(obj, validated_data)
+        return obj
 
 class EntitySerializer(serializers.ModelSerializer):
     """Serializer for Report Model"""
