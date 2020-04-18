@@ -189,7 +189,7 @@ export class EntityListComponent  {
             for(let key in this.bulkActionList) {
                 console.log(key, this.bulkActionList[key]);
                 if (!(key in entity.bulk_action_list)) {
-                    this.bulkActionList.splice(key, 1);
+                    this.bulkActionList.splice(Number(key), 1);
                     console.log(`DELETION => ${JSON.stringify(this.bulkActionList)}`);
                 }
             }
