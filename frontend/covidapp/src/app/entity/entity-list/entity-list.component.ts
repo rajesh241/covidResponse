@@ -237,20 +237,30 @@ export class EntityListComponent  {
 
             dialogRef.afterClosed().subscribe(
                 data => {
+		    let entity_ids = new  Array();
+		    var length;
+		    let ids_json : any;
+		    for (let entity of data.entities) {
+			      console.log("Printing entity id " + entity.id); // 1, "string", false
+			      entity_ids.push(entity.id)
+		    }
+		    console.log("Entity Ids is " + entity_ids);
+		    ids_json = { "ids" : entity_ids}
+                    this.entityService.createBulkOperation({'ids_json': ids_json,'bulk_action': data.action, 'data_json': data.json})
+                    .subscribe(
+                        data => {
+                        console.log('Bulk Operation Creattion Successful', data);
+                        },
+                        err => {
+                        console.log("Bulk Operation  Creation Failed");
+                        }
+                    );
             	    //const replacer = (key, value) =>  String(value) === "null" || String(value) === "undefined" ? 0 : value; 
                     // data = JSON.parse( JSON.stringify(data, replacer));
                     console.log("Dialog output:", data);
                     /*
                     //this.entityService.createItem({'name':'default','latitude': this.latitude, 'longitude': this.longitude, 'record_type':type})
                     this.entityService.createItem({'name':'default','latitude': this.latitude, 'longitude': this.longitude, 'record_type':type, 'data_json':data,'address':this.address,'google_location_json':this.gmap_details})
-                    .subscribe(
-                    data => {
-                    console.log('Entity Creattion Successful', data);
-                    },
-                    err => {
-                    console.log("Entity Creation Failed");
-                    }
-                    );
                     */
                 }
             );

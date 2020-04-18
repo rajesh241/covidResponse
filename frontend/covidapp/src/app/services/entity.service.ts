@@ -15,6 +15,7 @@ export class EntityService {
   private listEndPoint = environment.apiURL+"/api/public/entity/";
   private createEndPoint = environment.apiURL+"/api/public/create/";
   private bulkDeleteEndpoint = environment.apiURL+"/api/public/bulkdeleteapt/";
+  private bulkOperationEndpoint = environment.apiURL+"/api/public/bulkoperation/";
   constructor( private http :  HttpClient ) { }
   getItem(id:number):Observable<any>{
     return this.http.get(this.endpoint+"?id="+id,this.getHttpOptions());
@@ -38,6 +39,9 @@ export class EntityService {
   }
   createItem(entity:any){
     return this.http.post(this.endpoint,JSON.stringify(entity),this.getHttpOptions());
+  }
+  createBulkOperation(entity:any){
+    return this.http.post(this.bulkOperationEndpoint,JSON.stringify(entity),this.getHttpOptions());
   }
   createFeedback(feedback:any){
     console.log("Creating feedback");
