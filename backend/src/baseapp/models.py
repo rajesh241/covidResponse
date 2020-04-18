@@ -82,6 +82,24 @@ class Entity(models.Model):
         """Default str method for the class"""
         return f"{self.name}-{self.description}"
 
+class BulkOperation(models.Model):
+    """Bulk Operation for any field"""
+    ids_json = JSONField(null=True, blank=True)  # requires Django-Mysql package
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True,
+                             blank=True)
+    bulk_action = models.CharField(max_length=256, null=True, blank=True)
+    model_name = models.CharField(max_length=256, null=True, blank=True)
+    data_json = JSONField(null=True, blank=True)  # requires Django-Mysql package
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+    is_processed = models.BooleanField(default=False)
+    class Meta:
+        """To define meta data attributes"""
+        db_table = 'bulkOperation'
+    def __str__(self):
+        """Default str method for the class"""
+        return f"{self.id}"
+    
 class EntityBulkEdit(models.Model):
     """Class for bulk enditing Entity Model"""
     entities = models.ManyToManyField(Entity)

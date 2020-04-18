@@ -6,11 +6,11 @@ from rest_framework.response import Response
 from rest_framework.generics import GenericAPIView
 from django_filters import rest_framework as filters
 from rest_framework import mixins, generics, permissions
-from baseapp.models import Covid, Entity, Feedback, EntityBulkEdit
+from baseapp.models import Covid, Entity, Feedback, EntityBulkEdit, BulkOperation
 from user.mixins import HttpResponseMixin
 from .serializers import (CovidSerializer,ItemSerializer1, EntitySerializer,
                           EntityPublicSerializer, FeedbackSerializer,
-                          EntityBulkEditSerializer
+                          EntityBulkEditSerializer, BulkOperationSerializer
                          )
 from user.permissions import IsStaffReadWriteOrAuthReadOnly, IsStaffReadWriteOrReadOnly
 from user.utils import is_json
@@ -324,6 +324,70 @@ class FeedbackAPIView(HttpResponseMixin,
        if self.request.user.is_staff:
            return Feedback.objects.all()
        return Feedback.objects.all()
+    def get_object(self):
+        input_id = self.input_id
+        queryset = self.get_queryset()
+        obj = None
+        if input_id is not None:
+            obj = get_object_or_404(queryset, id=input_id)
+            self.check_object_permissions(self.request, obj)
+        return obj
+    def get(self, request, *args, **kwargs):
+        print(f"I am in get request {request.user}")
+        self.input_id = get_id_from_request(request)
+        if self.input_id is not None:
+            return self.retrieve(request, *args, **kwargs)
+        return super().get(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        """Post method would create a apartment object"""
+        return self.create(request, *args, **kwargs)
+
+    def put(self, request, *args, **kwargs):
+        """put method will update the apartment object. All fields need to be
+        present"""
+        self.input_id = get_id_from_request(request)
+        if self.input_id is None:
+            data = json.dumps({"message":"Need to specify the ID for this method"})
+            return self.render_to_response(data, status="404")
+        return self.update(request, *args, **kwargs)
+
+    def patch(self, request, *args, **kwargs):
+        """patch method will update the object, with the specified fields. All
+        fields need not be present"""
+        self.input_id = get_id_from_request(request)
+        if self.input_id is None:
+                data = json.dumps({"message":"Need to specify the ID for this method"})
+                return self.render_to_response(data, status="404")
+        return self.partial_update(request, *args, **kwargs)
+
+    def delete(self, request, *args, **kwargs):
+        """Will delete the retrieved object"""
+        self.input_id = get_id_from_request(request)
+        if self.input_id is None:
+            data = json.dumps({"message":"Need to specify the ID for this method"})
+            return self.render_to_response(data, status="404")
+        return self.destroy(request, *args, **kwargs)
+
+class BulkOperationAPIView(HttpResponseMixin,
+                    mixins.CreateModelMixin,
+                    mixins.DestroyModelMixin,
+                    mixins.RetrieveModelMixin,
+                    mixins.UpdateModelMixin,
+                    generics.ListAPIView):
+    """API View for the Report Model"""
+    permission_classes = [IsStaffReadWriteOrReadOnly]
+    #permission_classes = [permissions.IsAuthenticated]
+    serializer_class = BulkOperationSerializer
+    passed_id = None
+    input_id = None
+    search_fields = ('id')
+    ordering_fields = ('id', 'created', 'updated')
+    queryset = BulkOperation.objects.all()
+    def get_queryset(self, *args, **kwargs):
+       if self.request.user.is_staff:
+           return BulkOperation.objects.all()
+       return BulkOperation.objects.all()
     def get_object(self):
         input_id = self.input_id
         queryset = self.get_queryset()
