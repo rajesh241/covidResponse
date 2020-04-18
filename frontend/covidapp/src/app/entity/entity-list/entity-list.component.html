@@ -38,7 +38,7 @@
             <thead>
               <tr>
                 <th *ngIf="authService.isRealtor()">
-		  <mat-checkbox [ngModelOptions]="{standalone: true}" class="cb-margin" (change)="allChecked()" [(ngModel)]="checkState"></mat-checkbox></th>
+                  <mat-checkbox [ngModelOptions]="{standalone: true}" class="cb-margin" (change)="allChecked()" [(ngModel)]="checkState"></mat-checkbox></th>
                 <th>Name</th>
                 <th>Description</th>
                 <th>Posted On</th>
@@ -95,10 +95,10 @@
     </div>
     <div class="row" *ngIf="authService.isRealtor()" align="center">
       <mat-form-field>
-	<mat-label>Bulk Action</mat-label>
-	<mat-select [(value)]="bulkAction">
-	  <mat-option *ngFor="let option of selectOptions" [value]="option.value">{{ option.name }}</mat-option>
-	</mat-select>
+        <mat-label>Bulk Action</mat-label>
+        <mat-select [(value)]="bulkAction">
+          <mat-option *ngFor="let option of bulkActionList" [value]="objectKeys(option)[0]">{{ option[objectKeys(option)[0]] }}</mat-option>
+        </mat-select>
       </mat-form-field>
       <button mat-raised-button
               (click)="applyBulkAction()">

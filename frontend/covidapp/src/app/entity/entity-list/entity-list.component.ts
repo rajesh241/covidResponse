@@ -29,23 +29,10 @@ export class EntityListComponent  {
     selectedEntities: any;
     checkState: boolean = false;
     entities: any;
-    bulkAction: string = 'delete';
+    bulkAction: string = 'none';
+    bulkActionList = [];
     selected = 'defunct';
-    selectOptions = [
-	{
-	    'name': 'Assign to Support Org',
-	    'value': 'assign',
-	},
-	{
-	    'name': 'Delete seleted entities',
-	    'value': 'delete',
-	},
-	{
-	    'name': 'Mark as defunct',
-	    'value': 'defunct',
-	},
-    ];
-	
+    objectKeys = Object.keys;
 
     constructor(
         public authService: AuthService,
@@ -71,11 +58,30 @@ export class EntityListComponent  {
             this.entities = page.results;
 	    this.checkState = false;
 	    this.selectedEntities = {};   // FIXME - memory issues on reset?
-	    //console.log('Page Subscription');
+	    console.log('Page Subscription');
 	    //console.log(this.entities);
+            this.bulkActionList = []
             this.entities.forEach( entity => {
                 this.selectedEntities[entity.id] = this.checkState;
+                console.log(entity.bulk_action_list);
+                if (typeof this.bulkActionList !== 'undefined' && this.bulkActionList.length > 0) {
+                    // the array is defined and has at least one element
+                    console.log(`Before ${JSON.stringify(this.bulkActionList)}`);
+                    console.log(`Before ${JSON.stringify(entity.bulk_action_list)}`);
+                    //this.bulkActionList = this.bulkActionList.filter(item => item in entity.bulk_action_list);
+                    for(let key in this.bulkActionList) {
+                        console.log(key, this.bulkActionList[key]);
+                        if (!(key in entity.bulk_action_list)) {
+                            delete this.bulkActionList[key];
+                        }
+                    }
+                    console.log(`After ${JSON.stringify(this.bulkActionList)}`);
+                }
+                else
+                    this.bulkActionList = entity.bulk_action_list;
             });
+            this.bulkActionList.push({'none': 'None'});
+            console.log(`Final ${JSON.stringify(this.bulkActionList)}`);
         });
     }
 
