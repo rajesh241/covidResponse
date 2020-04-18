@@ -1,7 +1,7 @@
 """Serializer classes for the application"""
 import re
 from rest_framework import serializers, fields
-from baseapp.models import Covid, Entity, Feedback, EntityBulkEdit
+from baseapp.models import Covid, Entity, Feedback, EntityBulkEdit, BulkOperation
 from baseapp.formio import helpseeker_v1_prefilling, create_submission_data, get_title_description
 from django.conf import settings
 
@@ -17,6 +17,14 @@ class ItemSerializer1(serializers.Serializer):
     """Your Custom Serializer"""
     # Gets a list of Integers
     user_ids = serializers.ListField(child=serializers.CharField())
+
+class BulkOperationSerializer(serializers.ModelSerializer):
+    """Serializer for Report Model"""
+    user = serializers.HiddenField(default=serializers.CurrentUserDefault())
+    class Meta:
+        """Meta Class"""
+        model = BulkOperation
+        fields = '__all__'
 
 class FeedbackSerializer(serializers.ModelSerializer):
     """Serializer for Report Model"""
