@@ -40,7 +40,7 @@ export class EntityEditComponent implements OnInit {
     data_json: any;
     form_url = formioConfig.appUrl + '/data/helpseeker';
     private gmap_details: any;
-    private zoom = ZOOM_DEFAULT;
+    zoom = ZOOM_DEFAULT;
     private geoCoder;
     
     // FIXME: 2nd Argument added for Angular 8
