@@ -48,7 +48,9 @@ class Entity(models.Model):
                                    blank=True)
     data_json = JSONField(null=True, blank=True)  # requires Django-Mysql package
     prefill_json = JSONField(null=True, blank=True)  # requires Django-Mysql package
+    extra_fields = JSONField(null=True, blank=True)  # requires Django-Mysql package
     formio_url = models.URLField(blank=True, null=True)
+    from_ui = models.BooleanField(default=True)
     google_location_json = JSONField(null=True, blank=True)  # requires Django-Mysql package
 
     record_subtype = models.CharField(max_length=1024, null=True, blank=True)
@@ -80,6 +82,22 @@ class Entity(models.Model):
         """Default str method for the class"""
         return f"{self.name}-{self.description}"
 
+class EntityBulkEdit(models.Model):
+    """Class for bulk enditing Entity Model"""
+    entities = models.ManyToManyField(Entity)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True,
+                             blank=True)
+    bulk_action = models.CharField(max_length=256, null=True, blank=True)
+    data_json = JSONField()  # requires Django-Mysql package
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+    is_processed = models.BooleanField(default=False)
+    class Meta:
+        """To define meta data attributes"""
+        db_table = 'entityBulkEdit'
+    def __str__(self):
+        """Default str method for the class"""
+        return f"{self.id}"
 
 class Feedback(models.Model):
     """Class for collecting feedback on the entity"""

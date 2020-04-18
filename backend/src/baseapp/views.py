@@ -6,10 +6,11 @@ from rest_framework.response import Response
 from rest_framework.generics import GenericAPIView
 from django_filters import rest_framework as filters
 from rest_framework import mixins, generics, permissions
-from baseapp.models import Covid, Entity, Feedback
+from baseapp.models import Covid, Entity, Feedback, EntityBulkEdit
 from user.mixins import HttpResponseMixin
 from .serializers import (CovidSerializer,ItemSerializer1, EntitySerializer,
-                          EntityPublicSerializer, FeedbackSerializer
+                          EntityPublicSerializer, FeedbackSerializer,
+                          EntityBulkEditSerializer
                          )
 from user.permissions import IsStaffReadWriteOrAuthReadOnly, IsStaffReadWriteOrReadOnly
 from user.utils import is_json
@@ -170,6 +171,23 @@ class EntityFilter(filters.FilterSet):
 
 
 
+
+class EntityBulkEditAPIView(HttpResponseMixin,
+                    mixins.CreateModelMixin,
+                    generics.ListAPIView):
+    """Primary view of Entity Bulk Edit table"""
+    permission_classes = [EntityPermissions]
+    #permission_classes = [permissions.IsAuthenticated]
+    serializer_class = EntityBulkEditSerializer
+    passed_id = None
+    input_id = None
+    search_fields = ('id')
+    ordering_fields = ('id', "created")
+    queryset = EntityBulkEdit.objects.all()
+
+    def post(self, request, *args, **kwargs):
+        """This would create an Entity Bulk Edit  object in database"""
+        return self.create(request, *args, **kwargs)
 
 class EntityAPIView(HttpResponseMixin,
                     mixins.CreateModelMixin,

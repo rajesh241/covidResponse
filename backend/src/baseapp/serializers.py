@@ -1,7 +1,7 @@
 """Serializer classes for the application"""
 import re
 from rest_framework import serializers, fields
-from baseapp.models import Covid, Entity, Feedback
+from baseapp.models import Covid, Entity, Feedback, EntityBulkEdit
 from baseapp.formio import helpseeker_v1_prefilling, create_submission_data, get_title_description
 from django.conf import settings
 
@@ -25,7 +25,15 @@ class FeedbackSerializer(serializers.ModelSerializer):
         """Meta Class"""
         model = Feedback
         fields = '__all__'
- 
+
+class EntityBulkEditSerializer(serializers.ModelSerializer):
+    """Serializer for Entity Bulk Edit"""
+    user = serializers.HiddenField(default=serializers.CurrentUserDefault())
+    class Meta:
+        """Meta Class"""
+        model = EntityBulkEdit
+        fields = '__all__'
+
 class EntitySerializer(serializers.ModelSerializer):
     """Serializer for Report Model"""
     user = serializers.HiddenField(default=serializers.CurrentUserDefault())
@@ -72,17 +80,24 @@ class EntitySerializer(serializers.ModelSerializer):
         return tags
 
     def get_bulk_action_list(self, instance):
+        import random
         """This will return the possible bulk actions that are possible on this object"""
         request = self.context.get('request')
         user = request.user
         bulk_action_list = []
         if instance.title is None:
             instance.title = "default"
-        if "d" in instance.title:
-             bulk_action_list.append({"delete":"forms/delete"})
+        if True: # "d" in instance.title:
+             bulk_action_list.append({"delete":"Delete Items"})
         if "F" in instance.title:
-             bulk_action_list.append({"feedback": "forms/feedback"})
-        bulk_action_list.append({"assignto": "forms/assignto"})
+             bulk_action_list.append({"feedback": "FeedBack"})
+        if bool(random.getrandbits(1)):
+             bulk_action_list.append({"assignto": "Assign To Org"})
+        if bool(random.getrandbits(1)):
+             bulk_action_list.append({"defunct": "Mark as Defunct"})            
+        if bool(random.getrandbits(1)):
+             bulk_action_list.append({"full": "Out of Capacity"})            
+
         return bulk_action_list
         
     def get_can_edit(self, instance):
@@ -98,7 +113,7 @@ class EntitySerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         """Over riding teh create method of serializer"""
         obj = Entity.objects.create(**validated_data)
-        self.parse_data_json(obj, validated_data)
+        #self.parse_data_json(obj, validated_data)
         return obj
 
     def update(self, instance, validated_data):
@@ -106,7 +121,7 @@ class EntitySerializer(serializers.ModelSerializer):
         for key,value in validated_data.items():
             setattr(instance, key, value)
         instance.save()
-        self.parse_data_json(instance, validated_data)
+        #self.parse_data_json(instance, validated_data)
         return instance
 
     def parse_data_json(self, obj, validated_data):
