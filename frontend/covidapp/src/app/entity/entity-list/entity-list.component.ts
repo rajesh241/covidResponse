@@ -30,7 +30,7 @@ export class EntityListComponent  {
     checkState: boolean = false;
     entities: any;
     bulkAction: string = 'none';
-    bulkActionList = [];
+    bulkActionList = {};
     selected = 'defunct';
     objectKeys = Object.keys;
 
@@ -61,7 +61,7 @@ export class EntityListComponent  {
 	    this.selectedEntities = {};
 	    console.log('Page Subscription');
 	    //console.log(this.entities);
-            this.bulkActionList = []
+            this.bulkActionList = {};
             this.entities.forEach( entity => {
                 this.selectedEntities[entity.id] = this.checkState;
             });
@@ -175,21 +175,21 @@ export class EntityListComponent  {
 
     bulkActionIntersection(entity) {
         console.log('EntityListComponent.bulkActionIntersection()');
-        let selectOptions = [];
+        console.log('bulk_action_list');
+        console.log(entity.bulk_action_list);
 
         if (!this.selectedEntities[entity.id])
             return;
-        console.log(entity.bulk_action_list);
-        if (typeof this.bulkActionList !== 'undefined' && this.bulkActionList.length > 0) {
-            // the array is defined and has at least one element
+
+        if (Object.entries(this.bulkActionList).length > 0) {
+            // the dictionary has at least one element
             console.log(`Before ${JSON.stringify(this.bulkActionList)}`);
             console.log(`Before ${JSON.stringify(entity.bulk_action_list)}`);
-            // this.bulkActionList = this.bulkActionList.filter(item => {return item in entity.bulk_action_list;});
 
             for(let key in this.bulkActionList) {
-                console.log(key, this.bulkActionList[key]);
+                console.log(`bulkActionList[${key}] = ${this.bulkActionList[key]}`);
                 if (!(key in entity.bulk_action_list)) {
-                    this.bulkActionList.splice(Number(key), 1);
+                    delete this.bulkActionList[key];
                     console.log(`DELETION => ${JSON.stringify(this.bulkActionList)}`);
                 }
             }
@@ -198,8 +198,10 @@ export class EntityListComponent  {
         else
             this.bulkActionList = entity.bulk_action_list;
 
+        /*
         if (!('none' in Object.keys(this.bulkActionList)))
-            this.bulkActionList.push({'none': 'None'});
+            this.bulkActionList['none'] = 'None';
+        */
     }
 
     onCBChange(entity) {

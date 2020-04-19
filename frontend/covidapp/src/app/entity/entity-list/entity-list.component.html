@@ -100,7 +100,8 @@
       <mat-form-field>
         <mat-label>Bulk Action</mat-label>
         <mat-select [(value)]="bulkAction">
-          <mat-option *ngFor="let option of bulkActionList" [value]="objectKeys(option)[0]">{{ option[objectKeys(option)[0]] }}</mat-option>
+          <mat-option value="none">None</mat-option>
+          <mat-option *ngFor="let option of bulkActionList|keyvalue" [value]="option.key">{{ option.value }}</mat-option>
         </mat-select>
       </mat-form-field>
       <button mat-raised-button
