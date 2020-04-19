@@ -16,7 +16,7 @@ export class BulkDialogComponent implements OnInit {
     entities;
     data;
     json_data;
-    form_url:string = 'https://covid.libtech.in/assets/form.json';
+    form_url:string;
 
     constructor(
         private fb: FormBuilder,
@@ -30,12 +30,12 @@ export class BulkDialogComponent implements OnInit {
         this.action = data.action;
 	this.entities = data.entities;
 	console.log(this.entities);
+	this.form_url = formioConfig.appUrl + `/forms/v1/${this.action}`;
+	console.log(`Action From URL[${this.form_url}]`);
     }
 
     ngOnInit() {
         console.log('Inside add-dialog ngOnInit()');
-	this.form_url = formioConfig.appUrl + '/forms/v1/assigntoorg';
-	console.log("form url sis " + this.form_url);
         this.form = this.fb.group({
             //description: [this.description, []],
         });

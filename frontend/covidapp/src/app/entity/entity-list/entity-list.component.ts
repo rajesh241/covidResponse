@@ -208,7 +208,7 @@ export class EntityListComponent  {
     }
 
     onBulkAction(action) {
-        console.log('EntityListComponent.applyBulkAction()');
+        console.log(`EntityListComponent.applyBulkAction(${action})`);
         console.log(this.selectedEntities);
 	let chosenEntites = [];
 
