@@ -186,6 +186,7 @@ export class EntityListComponent  {
                     for (let key in this.bulkActionList) {
                         console.log(`bulkActionList[${key}] = ${this.bulkActionList[key]}`);
                         if (!(key in entity.bulk_action_list)) {
+                            console.log(`Deleting item[${this.bulkActionList[key]}]`);
                             delete this.bulkActionList[key];
                             console.log(`DELETION => ${JSON.stringify(this.bulkActionList)}`);
                         }
@@ -193,7 +194,7 @@ export class EntityListComponent  {
                     console.log(`After ${JSON.stringify(this.bulkActionList)}`);
                 }
                 else
-                    this.bulkActionList = entity.bulk_action_list;
+                    Object.assign(this.bulkActionList, entity.bulk_action_list);
             }
         });
 
@@ -206,7 +207,7 @@ export class EntityListComponent  {
         console.log(`Final ${JSON.stringify(this.bulkActionList)}`);
     }
 
-    applyBulkAction() {
+    onBulkAction(action) {
         console.log('EntityListComponent.applyBulkAction()');
         console.log(this.selectedEntities);
 	let chosenEntites = [];
@@ -227,7 +228,7 @@ export class EntityListComponent  {
 
             dialogConfig.data = {
 		'entities': chosenEntites,
-		'action': this.bulkAction,
+		'action': action,
 		'json': '',
 	    };
 

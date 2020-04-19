@@ -97,6 +97,20 @@
       </div>
     </div>
     <div class="row" *ngIf="authService.isRealtor()" align="center">
+      <mat-card>
+        <mat-card-content>
+          <mat-card-title align="center">Bulk Action</mat-card-title>
+          <mat-card-subtitle>Apply to Selected Entities</mat-card-subtitle>
+          <button *ngFor="let option of bulkActionList|keyvalue"
+                  mat-raised-button
+                  (click)="onBulkAction(option.key)">
+            {{ option.value }}
+          </button>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <br />
+    <div class="row" *ngIf="authService.isRealtor()" align="center">
       <mat-form-field>
         <mat-label>Bulk Action</mat-label>
         <mat-select [(value)]="bulkAction">
@@ -105,7 +119,7 @@
         </mat-select>
       </mat-form-field>
       <button mat-raised-button
-              (click)="applyBulkAction()">
+              (click)="onBulkAction(bulkAction)">
         Apply Bulk Action
       </button>
       <button mat-raised-button
