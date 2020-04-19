@@ -23,6 +23,7 @@ latitude : number;
 longitude: number;
 data_json: any;
 prefill_json: any;
+extra_fields: any;
 native_latitude : number;
 native_longitude: number;
 }
