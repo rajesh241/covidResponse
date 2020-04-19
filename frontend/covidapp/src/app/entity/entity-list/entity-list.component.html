@@ -30,7 +30,10 @@
   <div *ngIf="dataLoaded | async" class="col-lg-12 well">
     <div class="row">
       <div class="col-md-12">
+        <!--
         <h4 class="text-left">List Entitys</h4>
+        -->
+          <h3 class="text-center">List</h3>
       </div>
       <div class="col-lg-12 ml-auto mr-auto">
         <div class="table-responsive">
@@ -63,15 +66,17 @@
                 <td>{{entity.created | date}}</td>
                 <td *ngIf="authService.isRealtor()" class="td-actions">
                   <div>
-                    <button mat-raised-button
+                    <button mat-raised-button class="btn btn-warning"
                             (click)="editDialog(entity)">
                       Edit
                     </button>
+                    <!--
                     <span>    </span>
                     <button mat-raised-button
                             (click)="deleteEntity(entity.id)">
                       Delete
                     </button>
+                    -->
                   </div>
                   <!--
                       <a type="button" class="btn btn-success btn-just-icon btn-sm "
@@ -99,10 +104,30 @@
     <div class="row" *ngIf="authService.isRealtor()" align="center">
       <mat-card>
         <mat-card-content>
+          <!--
           <mat-card-title align="center">Bulk Action</mat-card-title>
           <mat-card-subtitle>Apply to Selected Entities</mat-card-subtitle>
+          -->
+          <h4>Bulk Action for the Selected Entities Above</h4>
           <button *ngFor="let option of bulkActionList|keyvalue"
-                  mat-raised-button
+                  mat-raised-button class="btn-danger"
+                  (click)="onBulkAction(option.key)">
+            {{ option.value }}
+          </button>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <br />
+    <div class="row" *ngIf="authService.isRealtor()" align="center">
+      <mat-card>
+        <mat-card-content>
+          <!--
+          <mat-card-title align="center">Bulk Action</mat-card-title>
+          <mat-card-subtitle>Apply to Selected Entities</mat-card-subtitle>
+          -->
+          <h4>Filter Based on Status</h4>
+          <button *ngFor="let option of bulkActionList|keyvalue"
+                  mat-raised-button class="btn-primary"
                   (click)="onBulkAction(option.key)">
             {{ option.value }}
           </button>
@@ -122,10 +147,12 @@
               (click)="onBulkAction(bulkAction)">
         Apply Bulk Action
       </button>
+      <!--
       <button mat-raised-button
               (click)="deleteAllEntitys()">
         Delete All Entities
       </button>
+      -->
     </div>
     <pre> {{ bulkAction }} </pre>
   </div>

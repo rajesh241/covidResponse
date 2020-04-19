@@ -239,6 +239,11 @@ export class EntityListComponent  {
 		    let entity_ids = new  Array();
 		    var length;
 		    let ids_json : any;
+                    
+                    if (!data)   // Close pressed without any action
+                        return;
+
+                    // FIXME - This is alredy there - this.selectedEntities[]
 		    for (let entity of data.entities) {
 			      console.log("Printing entity id " + entity.id); // 1, "string", false
 			      entity_ids.push(entity.id)
