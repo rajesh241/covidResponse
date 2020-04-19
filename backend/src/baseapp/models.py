@@ -32,6 +32,7 @@ class Entity(models.Model):
     title = models.CharField(max_length=256, null=True, blank=True)
     name = models.CharField(max_length=256, null=True, blank=True)
     full_name = models.CharField(max_length=256, null=True, blank=True)
+    status = models.CharField(max_length=256, null=True, blank=True)
     org_name = models.CharField(max_length=256, null=True, blank=True)
     description = models.TextField(blank=True, null=True)
     contact_numbers = models.CharField(max_length=1024, null=True, blank=True)
