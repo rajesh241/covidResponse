@@ -164,49 +164,45 @@ export class EntityListComponent  {
         //this.checkState = !this.checkState;
         this.entities.forEach( entity => {
             this.selectedEntities[entity.id] = this.checkState;
-            this.bulkActionIntersection(entity);
         });
-        if (!this.checkState) {
-            delete this.bulkActionList;
-            this.bulkActionList = [];
-        }
-        console.log(`Final ${JSON.stringify(this.bulkActionList)}`);
+        this.bulkActionIntersection();
     }
 
-    bulkActionIntersection(entity) {
+    bulkActionIntersection() {
         console.log('EntityListComponent.bulkActionIntersection()');
-        console.log('bulk_action_list');
-        console.log(entity.bulk_action_list);
 
-        if (!this.selectedEntities[entity.id])
-            return;
+        delete this.bulkActionList;
+        this.bulkActionList = {};
 
-        if (Object.entries(this.bulkActionList).length > 0) {
-            // the dictionary has at least one element
-            console.log(`Before ${JSON.stringify(this.bulkActionList)}`);
-            console.log(`Before ${JSON.stringify(entity.bulk_action_list)}`);
+        this.entities.forEach(entity => {
+            if (this.selectedEntities[entity.id]) {
+                console.log('bulk_action_list');
+                console.log(entity.bulk_action_list);
+                if (Object.entries(this.bulkActionList).length > 0) {
+                    // the dictionary has at least one element
+                    console.log(`Before ${JSON.stringify(this.bulkActionList)}`);
+                    console.log(`Before ${JSON.stringify(entity.bulk_action_list)}`);
 
-            for(let key in this.bulkActionList) {
-                console.log(`bulkActionList[${key}] = ${this.bulkActionList[key]}`);
-                if (!(key in entity.bulk_action_list)) {
-                    delete this.bulkActionList[key];
-                    console.log(`DELETION => ${JSON.stringify(this.bulkActionList)}`);
+                    for (let key in this.bulkActionList) {
+                        console.log(`bulkActionList[${key}] = ${this.bulkActionList[key]}`);
+                        if (!(key in entity.bulk_action_list)) {
+                            delete this.bulkActionList[key];
+                            console.log(`DELETION => ${JSON.stringify(this.bulkActionList)}`);
+                        }
+                    }
+                    console.log(`After ${JSON.stringify(this.bulkActionList)}`);
                 }
+                else
+                    this.bulkActionList = entity.bulk_action_list;
             }
-            console.log(`After ${JSON.stringify(this.bulkActionList)}`);
-        }
-        else
-            this.bulkActionList = entity.bulk_action_list;
+        });
 
-        /*
-        if (!('none' in Object.keys(this.bulkActionList)))
-            this.bulkActionList['none'] = 'None';
-        */
+        console.log(`Final ${JSON.stringify(this.bulkActionList)}`);
     }
 
     onCBChange(entity) {
         console.log('EntityListComponent.onCBChange()');
-        this.bulkActionIntersection(entity);
+        this.bulkActionIntersection();
         console.log(`Final ${JSON.stringify(this.bulkActionList)}`);
     }
 
