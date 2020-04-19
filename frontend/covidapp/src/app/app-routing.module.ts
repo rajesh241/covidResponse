@@ -30,12 +30,14 @@ import { RegisterConfirmComponent } from './user/register-confirm/register-confi
 import { PasswordresetComponent } from './user/passwordreset/passwordreset.component';
 import { PasswordresetConfirmComponent } from './user/passwordreset-confirm/passwordreset-confirm.component';
 import { InviteComponent } from './user/invite/invite.component';
+import { PrivacyComponent } from './user/privacy/privacy.component';
 import { ProfileEditComponent } from './user/profile-edit/profile-edit.component';
 
 const routes: Routes = [
     {path : '', component : EntitySearchComponent},
     //{path : '', redirectTo: 'search', pathMatch:'full'},
     {path : 'locate', component : CovidLocateComponent},
+    {path : 'privacy', component : PrivacyComponent},
     {path : 'nearby', component : CovidNearbyComponent},
     {path : 'search', component : EntitySearchComponent},
     {path : 'form-create', component : FormCreateComponent},

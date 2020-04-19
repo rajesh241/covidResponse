@@ -63,6 +63,7 @@ import { EditDialogComponent } from './entity/edit-dialog/edit-dialog.component'
 import { MarkerDialogComponent } from './entity/marker-dialog/marker-dialog.component';
 import { GmapSearchComponent } from './gmap/gmap-search/gmap-search.component';
 import { BulkDialogComponent } from './entity/bulk-dialog/bulk-dialog.component';
+import { PrivacyComponent } from './user/privacy/privacy.component';
 
 
 //const google_oauth_client_id:string = '849540517607-9alj6fb3hoo3lhrlml4upqkme070bo2f.apps.googleusercontent.com';
@@ -118,6 +119,7 @@ export function provideConfig() {
         EditDialogComponent,
         GmapSearchComponent,
         BulkDialogComponent,
+        PrivacyComponent,
     ],
     imports: [
         BrowserModule,
