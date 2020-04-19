@@ -33,6 +33,10 @@ def main():
     args = args_fetch()
     logger = logger_fetch(args.get('log_level'))
     if args['test']:
+        objs = Entity.objects.filter(extra_fields__volunteer = "Navmee")
+        for obj in objs:
+            logger.info(obj.id)
+        exit(0)
         facility_json = '{"_id":"5e8a81632776ff4e9ea73357","type":"resource","tags":["common"],"owner":"5e8a3d7bf1f3d54924170187","components":[{"autofocus":false,"input":true,"tableView":true,"inputType":"radio","label":"Is this facility functional?","key":"facilityFunctional","values":[{"value":"yes","label":"Yes","shortcut":"Y"},{"value":"no","label":"No","shortcut":"N"}],"defaultValue":"","protected":false,"fieldSet":false,"persistent":true,"hidden":false,"clearOnHide":true,"validate":{"required":false,"custom":"","customPrivate":false},"type":"radio","labelPosition":"top","optionsLabelPosition":"right","tags":[],"conditional":{"show":"","when":null,"eq":""},"properties":{},"lockKey":true},{"autofocus":false,"input":true,"label":"Submit","tableView":false,"key":"submit","size":"md","leftIcon":"","rightIcon":"","block":false,"action":"submit","disableOnInvalid":false,"theme":"primary","type":"button"}],"display":"form","submissionAccess":[{"roles":["5e8a3d73f1f3d5492417017a"],"type":"create_own"},{"roles":["5e8a3d73f1f3d5492417017a"],"type":"read_own"},{"roles":["5e8a3d73f1f3d5492417017a"],"type":"update_own"},{"roles":["5e8a3d73f1f3d5492417017a"],"type":"delete_own"}],"title":"Help facilities","name":"helpFacilities","path":"map/facility","access":[{"roles":["5e8a3d73f1f3d54924170179","5e8a3d73f1f3d5492417017a","5e8a3d73f1f3d5492417017b"],"type":"read_all"}],"created":"2020-04-06T01:09:55.726Z","modified":"2020-04-06T01:10:33.874Z","machineName":"helpFacilities"}'
         logger.info("Testing")
         objs = Entity.objects.all()
@@ -46,6 +50,32 @@ def main():
         data_dir = "../import_data"
         failed_index_array = []
         filename = args['filename']
+        filename = "import_workers.csv"
+        filepath = f"{data_dir}/{filename}"
+        df = pd.read_csv(filepath)
+        logger.info(df.columns)
+        record_type = "helpseekers"
+        for index, row in df.iterrows():
+            name = row['name']
+            contact_numbers = row['contact_numbers']
+            volunteer = row['volunteer']
+            extra_fields = {}
+            if isinstance(volunteer, str):
+                extra_fields["volunteer"] = volunteer
+            address = row['address']
+            how_many = row['how_many']
+            keywords = f"{name},{contact_numbers}"
+            obj = Entity.objects.filter(title=name, record_type=record_type).first()
+            if obj is None:
+                obj = Entity.objects.create(title=name, record_type=record_type)
+            obj.contact_numbers = contact_numbers
+            obj.address = address
+            obj.keywords = keywords
+            obj.extra_fields = extra_fields
+            obj.save()
+             
+            
+        exit(0)
         filename = "volunteer.csv"
         filepath = f"{data_dir}/{filename}"
         df = pd.read_csv(filepath)

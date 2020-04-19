@@ -163,6 +163,10 @@ class EntityFilter(filters.FilterSet):
     @property
     def qs(self):
         parent_qs = super(EntityFilter, self).qs
+        if "volunteer" in self.request.query_params:
+            volunteer = self.request.query_params['volunteer']
+            queryset = parent_qs.filter(extra_fields__volunteer = volunteer)
+            return queryset
         return parent_qs
        #if 'finyear' in self.request.query_params:
        #    return parent_qs

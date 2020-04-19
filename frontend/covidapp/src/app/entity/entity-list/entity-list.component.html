@@ -2,10 +2,16 @@
   <div class="form-group row">
     <label  class="col-md-2 col-form-label">Search</label>
     <div class="col-md-4">
-      <input formControlName="search" class="form-control" placeholder="Search by name, description">
+      <input formControlName="search" class="form-control" placeholder="Search by name, phone">
     </div>
   </div>
 
+  <div class="form-group row">
+    <label  class="col-md-2 col-form-label">Volunteer</label>
+    <div class="col-md-4">
+      <input formControlName="volunteer" class="form-control" placeholder="Search by Volunteer">
+    </div>
+  </div>
 
   <div class="form-group row">
     <label class="col-md-2 col-form-label">Results per Page</label>
@@ -43,7 +49,8 @@
                 <th *ngIf="authService.isRealtor()">
                   <mat-checkbox [ngModelOptions]="{standalone: true}" class="cb-margin" (change)="allChecked()" [(ngModel)]="checkState"></mat-checkbox></th>
                 <th>Name</th>
-                <th>Description</th>
+                <th>Contact Nos</th>
+                <th>Volunteer</th>
                 <th>Posted On</th>
                 <th *ngIf="authService.isRealtor()" align="center">Actions</th>
               </tr>
@@ -62,7 +69,8 @@
                 <td *ngIf="!authService.isRealtor()">
                   {{entity.name}}
                 </td>
-                <td>{{entity.description}}</td>
+                <td>{{entity.contact_numbers}}</td>
+                <td>{{entity.extra_fields.volunteer}}</td>
                 <td>{{entity.created | date}}</td>
                 <td *ngIf="authService.isRealtor()" class="td-actions">
                   <div>

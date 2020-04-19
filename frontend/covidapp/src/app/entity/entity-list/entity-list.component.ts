@@ -43,6 +43,7 @@ export class EntityListComponent  {
         this.filterForm = new FormGroup({
             limit : new FormControl(10),
             ordering : new FormControl('-updated'),
+            volunteer: new FormControl(),
             search: new FormControl()
         });
         this.page = this.filterForm.valueChanges.pipe(
