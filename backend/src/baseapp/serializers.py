@@ -105,19 +105,19 @@ class EntitySerializer(serializers.ModelSerializer):
         """This will return the possible bulk actions that are possible on this object"""
         request = self.context.get('request')
         user = request.user
-        bulk_action_list = []
+        bulk_action_list = {}
         if instance.title is None:
             instance.title = "default"
         if True: # "d" in instance.title:
-             bulk_action_list.append({"delete":"Delete Items"})
-        if "F" in instance.title:
-             bulk_action_list.append({"feedback": "FeedBack"})
+             bulk_action_list['delete'] = 'Delete Items'
         if bool(random.getrandbits(1)):
-             bulk_action_list.append({"assignto": "Assign To Org"})
+             bulk_action_list['feedback'] = 'FeedBack'
         if bool(random.getrandbits(1)):
-             bulk_action_list.append({"defunct": "Mark as Defunct"})            
+             bulk_action_list['assignto'] = 'Assign To Org'
         if bool(random.getrandbits(1)):
-             bulk_action_list.append({"full": "Out of Capacity"})            
+             bulk_action_list['defunct'] = 'Mark as Defunct'            
+        if bool(random.getrandbits(1)):
+             bulk_action_list['full'] = 'Out of Capacity'            
 
         return bulk_action_list
         
