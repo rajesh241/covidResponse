@@ -31,7 +31,14 @@ export class EntityListComponent  {
     entities: any;
     bulkAction: string = 'none';
     bulkActionList = {};
-    selected = 'defunct';
+    statusChosen = 'none';
+    statusOptions = [
+        {'value': 'to_call', 'name': 'To Call'},
+        {'value': 'assign_to_volunteer', 'name': 'Assign To Volunteer'},
+        {'value': 'assign_to_org', 'name': 'Assign to Org'},
+        {'value': 'followup', 'name': 'Follow Up'},
+        {'value': 'closed', 'name': 'Closed'}
+    ];
     objectKeys = Object.keys;
 
     constructor(
@@ -42,9 +49,10 @@ export class EntityListComponent  {
     ) {
         this.filterForm = new FormGroup({
             limit : new FormControl(10),
-            ordering : new FormControl('-updated'),
+            ordering : new FormControl('nearest'),
             volunteer: new FormControl(),
-            search: new FormControl()
+            search: new FormControl(),
+            statusSelect: new FormControl()
         });
         this.page = this.filterForm.valueChanges.pipe(
             debounceTime(200),
@@ -63,7 +71,7 @@ export class EntityListComponent  {
 	    console.log('Page Subscription');
 	    //console.log(this.entities);
             this.bulkActionList = {};
-            this.entities.forEach( entity => {
+            this.entities.forEach(entity => {
                 this.selectedEntities[entity.id] = this.checkState;
             });
         });
@@ -273,4 +281,10 @@ export class EntityListComponent  {
             this.router.navigate(['/login']);
 	}
     }
+
+    /*
+    getAddress(place: object) {
+        //this.address = place['formatted_address'];
+    }
+    */
 }

@@ -1,0 +1,25 @@
+<div *ngIf="dataLoaded | async" class="container">
+  <div class="row well center">
+    <div class="jumbotron">
+      <h2>{{ entity.title }}</h2>
+      <h3>{{ entity.name }}</h3>
+      <p>{{ entity.description }} </p>
+      <h5>Address: {{ entity.address }}</h5>
+      <h5>Current Location - Latitude: {{ entity.latitude }} Longitude: {{ entity.longitude }}</h5>
+      <h5>Phone: {{ entity.phone }}</h5>
+      <h5>Email: {{ entity.email }}</h5>
+      <h5>Status: {{ entity.status }}</h5>
+    </div>
+    <h3>Other Details:</h3>
+    <pre>{{ entity.data_json | json }}</pre>
+    <pre>{{ entity.extra_fields | json }}</pre>
+  </div>
+  <div class="row well center">
+    <div *ngIf="authService.isRealtor()" class="td-actions">
+      <button mat-raised-button class="btn btn-warning"
+              (click)="editDialog(entity)">
+        Edit
+      </button>
+    </div>
+  </div>
+</div>

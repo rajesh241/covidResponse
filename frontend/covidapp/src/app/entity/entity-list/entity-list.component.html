@@ -18,20 +18,34 @@
     <div class="col-md-2">
       <input  formControlName="limit" class="form-control" placeholder="min">
     </div>
+    <!--
+    <div class="col-md-2">
+      <app-address-search (setAddress)="getAddress($event)" adressType="geocode"></app-address-search>
+    </div>
+    -->
     <div class="col-md-2">
       <select formControlName="ordering" class="form-control">
-        <option value="null" selected>Sory by?</option>
+        <option value="null" selected>Sort by?</option>
         <option value="created">Oldest Listing First</option>
         <option value="-created">Newest Listing First</option>
-        <option value="price_per_month">Price per month Low to High</option>
-        <option value="-price_per_month">Price per month High to Low</option>
-        <option value="floor_area_size">Floor Area Size Low to High</option>
-        <option value="-floor_area_size">Floor Area Size High to Low</option>
+        <option value="updated">Recently Updated First</option>
+        <option value="-updated">Recently Updated Last</option>
+        <option value="nearest">Nearest to Farthest</option>
+        <option value="-nearest">Farthest to Nearest</option>
       </select>
     </div>
   </div>
-
-
+  <div class="form-group row">
+    <div *ngIf="authService.isRealtor()" align="center">
+      <mat-form-field>
+        <mat-label>By Status</mat-label>
+        <mat-select formControlName="statusSelect">
+          <mat-option value="none">None</mat-option>
+          <mat-option *ngFor="let option of statusOptions" [value]="option.value">{{ option.name }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
 
   <div *ngIf="dataLoaded | async" class="col-lg-12 well">
     <div class="row">

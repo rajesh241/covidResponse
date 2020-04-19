@@ -20,6 +20,7 @@ import { Oauth2callbackComponent } from './oauth2callback/oauth2callback.compone
 import { EntitySearchComponent } from "./entity/entity-search/entity-search.component";
 import { EntityListComponent } from "./entity/entity-list/entity-list.component";
 import { EntityEditComponent } from "./entity/entity-edit/entity-edit.component";
+import { EntityDetailComponent } from "./entity/entity-detail/entity-detail.component";
 
 import { LoginComponent } from './user/login/login.component';
 import { UserListComponent } from './user/user-list/user-list.component';
@@ -34,7 +35,7 @@ import { PrivacyComponent } from './user/privacy/privacy.component';
 import { ProfileEditComponent } from './user/profile-edit/profile-edit.component';
 
 const routes: Routes = [
-    {path : '', component : EntitySearchComponent},
+    {path : '', component : EntityListComponent},
     //{path : '', redirectTo: 'search', pathMatch:'full'},
     {path : 'locate', component : CovidLocateComponent},
     {path : 'privacy', component : PrivacyComponent},
@@ -53,7 +54,7 @@ const routes: Routes = [
     {path : 'regconfirm', component : RegisterConfirmComponent},
     {path : 'add/:form', component : ContextCreateComponent},
     {path : 'useredit/:id', component : UserEditComponent},
-    {path : 'item/:id', component : EntityEditComponent},
+    {path : 'item/:id', component : EntityDetailComponent},
     {path : 'useradd', component : UserAddComponent},
     {path : 'profile', component : ProfileEditComponent},
     {path : 'avatar', component : AvatarEditComponent},

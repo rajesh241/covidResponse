@@ -64,6 +64,8 @@ import { MarkerDialogComponent } from './entity/marker-dialog/marker-dialog.comp
 import { GmapSearchComponent } from './gmap/gmap-search/gmap-search.component';
 import { BulkDialogComponent } from './entity/bulk-dialog/bulk-dialog.component';
 import { PrivacyComponent } from './user/privacy/privacy.component';
+import { EntityDetailComponent } from './entity/entity-detail/entity-detail.component';
+import { AddressSearchComponent } from './gmap/address-search/address-search.component';
 
 
 //const google_oauth_client_id:string = '849540517607-9alj6fb3hoo3lhrlml4upqkme070bo2f.apps.googleusercontent.com';
@@ -120,6 +122,8 @@ export function provideConfig() {
         GmapSearchComponent,
         BulkDialogComponent,
         PrivacyComponent,
+        EntityDetailComponent,
+        AddressSearchComponent,
     ],
     imports: [
         BrowserModule,
