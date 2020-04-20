@@ -67,7 +67,7 @@ export class EntitySearchComponent implements OnInit {
     recordTypes: any = [
         {
             name: "People Needing Support",
-            value: "needHelp",
+            value: "helpseekers",
             img: "./assets/red-dot.png",
             selected: true
         },
@@ -79,7 +79,7 @@ export class EntitySearchComponent implements OnInit {
         },
         {
             name: "Support Organization",
-            value: "volunteer",
+            value: "supportnetwork",
             img: "./assets/green-dot.png",
             selected: true
         }
@@ -115,6 +115,7 @@ export class EntitySearchComponent implements OnInit {
     onPageChanged(url: string) {
         this.pageUrl.next(url);
     }
+
     loadpage(){
         this.page = this.filterForm.valueChanges.pipe(
             debounceTime(200),
@@ -125,11 +126,13 @@ export class EntitySearchComponent implements OnInit {
         );
         this.dataLoaded = Promise.resolve(true);
     }
+
     createRecordTypeCheckbox(recordTypeInputs) {
         recordTypeInputs.map(recordType => {
             this.filterForm.addControl(recordType.value, new FormControl(recordType.selected || false));
         });
     }
+
     ngOnInit() {
         console.log('Inside ngOnInit()')
         //load Places Autocomplete
@@ -350,20 +353,22 @@ export class EntitySearchComponent implements OnInit {
             return false;
         }
     }
+
     toggleFunctional(entity_id, is_functional, record_type){
+        console.log(`EntitySearchComponent.toggleFunctional(${entity_id}, ${is_functional}, ${record_type})`);
 	console.log(entity_id);
 	console.log(is_functional);
 	is_functional = !is_functional;
 	if(is_functional){
-	    if(record_type == "needHelp"){
-		this.patch_data = {'is_functional':1,'icon_url':'https://entityb.libtech.in/media/icons/red-dot.png'}
+	    if(record_type == "helpseekers"){
+		this.patch_data = {'is_functional':1,'icon_url':'./assets/red-dot.png'}
 	    }else if(record_type == "facility"){
-		this.patch_data = {'is_functional':1,'icon_url':'https://entityb.libtech.in/media/icons/green-dot.png'}
+		this.patch_data = {'is_functional':1,'icon_url':'./assets/blue-dot.png'}
 	    }else{
-		this.patch_data = {'is_functional':1,'icon_url':'https://entityb.libtech.in/media/icons/blue-dot.png'}
+		this.patch_data = {'is_functional':1,'icon_url':'./assets/green-dot.png'}
 	    }
 	}else{
-	    this.patch_data = {'is_functional':0,'icon_url':'https://entityb.libtech.in/media/icons/gray-dot.png'}
+	    this.patch_data = {'is_functional':0,'icon_url':'./assets/purple-dot.png'}
 	}
 	console.log(this.patch_data);
         this.entityService.patchItem(entity_id,this.patch_data)
@@ -377,6 +382,7 @@ export class EntitySearchComponent implements OnInit {
 	        }
             );
     }
+
     getAddress(latitude, longitude) {
         this.geoCoder.geocode({ 'location': { lat: latitude, lng: longitude } }, (results, status) => {
             console.log(results);
@@ -394,10 +400,12 @@ export class EntitySearchComponent implements OnInit {
             }
         });
     }
+
     onSubmit($event) {
         console.log($event);
         this.data = $event.data;
     }
+
     onChange(event) {
         console.log(event.form);
         this.data = (event.form)

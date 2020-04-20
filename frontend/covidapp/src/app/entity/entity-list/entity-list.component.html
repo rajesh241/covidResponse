@@ -1,4 +1,12 @@
 <div class="container" [formGroup]="filterForm">
+  <!--
+  <div class="form-group row">
+    <label  class="col-md-2 col-form-label">Specify the Address</label>
+    <div class="col-md-4">
+      <app-address-search (setAddress)="getAddress($event)" adressType="geocode"></app-address-search>
+    </div>
+  </div>
+  -->
   <div class="form-group row">
     <label  class="col-md-2 col-form-label">Search</label>
     <div class="col-md-4">
@@ -18,11 +26,6 @@
     <div class="col-md-2">
       <input  formControlName="limit" class="form-control" placeholder="min">
     </div>
-    <!--
-    <div class="col-md-2">
-      <app-address-search (setAddress)="getAddress($event)" adressType="geocode"></app-address-search>
-    </div>
-    -->
     <div class="col-md-2">
       <select formControlName="ordering" class="form-control">
         <option value="null" selected>Sort by?</option>
