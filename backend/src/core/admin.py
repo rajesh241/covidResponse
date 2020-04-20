@@ -15,7 +15,7 @@ class UserAdmin(BaseUserAdmin):
     list_display = ['email', 'name']
     fieldsets = (
         (None, {'fields': ('email', 'password')}),
-        (_('Personal Info'), {'fields': ('name', 'user_role', 'avatar',
+        (_('Personal Info'), {'fields': ('name', 'group', 'user_role', 'avatar',
                                          'login_attempt_count', 'is_locked',
                                          'avatar_url')}),
         (
@@ -31,5 +31,11 @@ class UserAdmin(BaseUserAdmin):
         }),
     )
 
+class OrganizationModelAdmin(admin.ModelAdmin):
+    """Model Adminf or class Organization"""
+    list_display = ["id", "title"]
+    list_filter = ["title"]
+    search_fields = ["title"]
 
 admin.site.register(models.User, UserAdmin)
+admin.site.register(models.Organization, OrganizationModelAdmin)

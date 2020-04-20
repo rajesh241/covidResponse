@@ -27,6 +27,7 @@ class Covid(models.Model):
         """Default str method for the class"""
         return f"{self.name}-{self.description}"
 
+    
 class Entity(models.Model):
     """This is the basic class for Aparment"""
     title = models.CharField(max_length=256, null=True, blank=True)

@@ -11,7 +11,7 @@ from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes
 from django.utils.encoding import force_text
 from rest_framework import exceptions
-
+from core.models import Organization
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
@@ -20,6 +20,13 @@ class ItemSerializer(serializers.Serializer):
     # Gets a list of Integers
     user_ids = serializers.ListField(child=serializers.CharField())
 
+
+class OrganizationSerializer(serializers.ModelSerializer):
+    """Serializer for Report Model"""
+    class Meta:
+        """Meta Class"""
+        model = Organization
+        fields = '__all__'
 
 class ModifyUserSerializer(serializers.ModelSerializer):
     password2 = serializers.CharField(style={'input_type': 'password'}, write_only=True)

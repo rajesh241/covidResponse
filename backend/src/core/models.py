@@ -41,11 +41,27 @@ class UserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
+class Organization(models.Model):
+    """This is the class for Group"""
+    title = models.CharField(max_length=256, null=True, blank=True)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        """To define meta data attributes"""
+        db_table = 'org'
+    def __str__(self):
+        """Default str method for the class"""
+        return f"{self.title}"
+
+
 
 class User(AbstractBaseUser, PermissionsMixin):
     """custom user model that supports using email instead of username"""
     email = models.EmailField(max_length=255, unique=True)
     name = models.CharField(max_length=255)
+    group = models.ForeignKey(Organization, on_delete=models.CASCADE, null=True,
+                             blank=True)
     user_role = models.CharField(max_length=20, blank=True, null=True)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
@@ -104,11 +120,11 @@ def get_user_role(user):
     if user.is_superuser:
         my_role = 'admin'
     elif user.is_staff:
-        my_role = 'realtor'
+        my_role = 'manager'
     elif user.is_active:
-        my_role = 'client'
+        my_role = 'volunteer'
     else:
-        my_role = 'client'
+        my_role = 'volunteer'
     return my_role
 
 def user_post_save_receiver(sender, instance, *args, **kwargs):
@@ -117,5 +133,6 @@ def user_post_save_receiver(sender, instance, *args, **kwargs):
     if instance.user_role != my_role:
         instance.user_role = my_role
         instance.save()
+
 
 post_save.connect(user_post_save_receiver, sender=User)

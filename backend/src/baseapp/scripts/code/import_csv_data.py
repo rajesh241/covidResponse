@@ -4,12 +4,15 @@ import os
 import django
 import pandas as pd
 from django.utils.text import slugify
+from django.contrib.auth import get_user_model
 from commons import logger_fetch, ms_transliterate_word
 from defines import DJANGO_SETTINGS, STATE_SHORT_CODE_DICT
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", DJANGO_SETTINGS)
 django.setup()
 from baseapp.models import Entity
 
+User = get_user_model()
+from core.models import Organization
 def args_fetch():
     '''
     Paser for the argument list that returns the args list
@@ -22,6 +25,8 @@ def args_fetch():
                         required=False, action='store_const', const=1)
     parser.add_argument('-i', '--import', help='Import',
                         required=False, action='store_const', const=1)
+    parser.add_argument('-isu', '--importSwanUsers', help='Import',
+                        required=False, action='store_const', const=1)
     parser.add_argument('-fn', '--filename', help='filename to be imported', required=False)
     parser.add_argument('-ti2', '--testInput2', help='Test Input 2', required=False)
     args = vars(parser.parse_args())
@@ -32,6 +37,25 @@ def main():
     """Main Module of this program"""
     args = args_fetch()
     logger = logger_fetch(args.get('log_level'))
+    if args['importSwanUsers']:
+        logger.info("Importing swan users")
+        df = pd.read_csv("../import_data/swan_users.csv")
+        for index, row in df.iterrows():
+            email = row['email']
+            name = row['name']
+            if isinstance(email, str):
+                if "@" in email:
+                    password = User.objects.make_random_password()
+                    logger.info(f"email is {email} and password is {password}")
+                    myuser = User.objects.filter(email=email).first()
+                    if myuser is None:
+                        myuser = User.objects.create(email=email)
+                    org = Organization.objects.filter(title="swan").first()
+                    myuser.group = org
+                    myuser.name = name
+                    myuser.set_password(password) 
+                    myuser.save()
+           
     if args['test']:
         objs = Entity.objects.filter(extra_fields__volunteer = "Navmee")
         for obj in objs:
