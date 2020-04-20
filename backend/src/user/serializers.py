@@ -57,6 +57,7 @@ class ModifyUserSerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
     """ Serializer for the user object """
     password2 = serializers.CharField(style={'input_type': 'password'}, write_only=True)
+    group = OrganizationSerializer()
     def __init__(self, *args, **kwargs):
         super(UserSerializer, self).__init__(*args, **kwargs) # call the super() 
         for field in self.fields: # iterate over the serializer fields
@@ -64,7 +65,7 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         """Default Meta Class"""
         model = get_user_model()
-        fields = ('id', 'email', 'password', 'password2', 'name', 'avatar',
+        fields = ('id', 'email', 'password', 'password2', 'group', 'name', 'avatar',
                   'is_active', 'is_locked', 'is_staff', 'provider'
                   ,'avatar_url', 'is_superuser', 'user_role',
                   'login_attempt_count')
