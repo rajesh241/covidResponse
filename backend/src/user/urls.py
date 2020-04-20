@@ -22,6 +22,7 @@ urlpatterns = [
     path('me/', views.ManageUserView.as_view(), name='me'),
     path('activate/', views.UserActivateView.as_view(), name='user_activate_view'),
     path('', views.UserAPIView.as_view(), name='user_api_view'),
+    path('public', views.UserPublicAPIView.as_view(), name='user_public_api_view'),
     path('orgs', views.OrganizationAPIView.as_view(), name='org_api_view'),
     path('token/', views.MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),

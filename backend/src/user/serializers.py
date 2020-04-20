@@ -54,6 +54,15 @@ class ModifyUserSerializer(serializers.ModelSerializer):
 
         return user
 
+
+class UserPublicSerializer(serializers.ModelSerializer):
+    """ Serializer for the User Public object """
+    group = OrganizationSerializer()
+    class Meta:
+        """Meta Class"""
+        model = get_user_model()
+        fields = ('id', 'name', 'group')
+
 class UserSerializer(serializers.ModelSerializer):
     """ Serializer for the user object """
     password2 = serializers.CharField(style={'input_type': 'password'}, write_only=True)

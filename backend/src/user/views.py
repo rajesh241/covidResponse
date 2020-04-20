@@ -27,7 +27,7 @@ from user.serializers import (UserSerializer, AuthTokenSerializer,
                               MyTokenObtainPairSerializer,
                               RegistrationActivationSerializer,
                               ModifyUserSerializer, ItemSerializer,
-                              OrganizationSerializer)
+                              OrganizationSerializer, UserPublicSerializer)
 User = get_user_model()
 from core.models import Organization
 
@@ -161,6 +161,47 @@ class UserBulkDeleteView(GenericAPIView):
         else:
             User.objects.filter(id__in=user_ids).delete()
         return Response({'status': 'OK'})
+
+class UserPublicAPIView(HttpResponseMixin,
+                           mixins.CreateModelMixin,
+                           mixins.DestroyModelMixin,
+                           mixins.RetrieveModelMixin,
+                           mixins.UpdateModelMixin,
+                           generics.ListAPIView):
+  permission_classes=[permissions.IsAuthenticatedOrReadOnly]
+  serializer_class = UserPublicSerializer
+  passedID=None
+  inputID=None
+  search_fields = ('name')
+  ordering_fields = ('name', 'id')
+  #filter_fields=("name")
+  queryset=User.objects.all()
+  def get_object(self):
+    inputID=self.inputID
+    queryset=self.get_queryset()
+    obj=None
+    if inputID is not None:
+      obj=get_object_or_404(queryset,id=inputID)
+      self.check_object_permissions(self.request,obj)
+    return obj
+  def get(self,request,*args,**kwargs):
+    """This method is available only to the users with is_staff(user_manager)
+    permissions.This method will return the list of Users based on the
+    parameters values specified. The number of items can be controlled by the
+    limit parameter. 
+    ordering field can be set to either of (name, id, created, updated). It
+    will sort the returned results based on that. For example
+    entity/?ordering=updated or entity/?ordering=-name (Sort by name
+    descending)
+    If id of the User is appended to the url for example /entity/1, then
+    it would return only one user corresponding to the id mentioned. 
+    """
+    print(f"request user {request.user}")
+    self.inputID=getID(request)
+    if self.inputID is not None:
+      return self.retrieve(request,*args,**kwargs)
+    return super().get(request,*args,**kwargs)
+
 
 class UserAPIView(HttpResponseMixin,
                            mixins.CreateModelMixin,
