@@ -31,7 +31,7 @@ export class EntityListComponent  {
     entities: any;
     bulkAction: string = 'none';
     bulkActionList = {};
-    statusChosen = 'none';
+    //statusChosen = 'none';
     statusOptions = [
         {'value': 'to_call', 'name': 'To Call'},
         {'value': 'assign_to_volunteer', 'name': 'Assign To Volunteer'},
@@ -39,7 +39,7 @@ export class EntityListComponent  {
         {'value': 'followup', 'name': 'Follow Up'},
         {'value': 'closed', 'name': 'Closed'}
     ];
-    objectKeys = Object.keys;
+    address: string;
 
     constructor(
         public authService: AuthService,
@@ -52,6 +52,7 @@ export class EntityListComponent  {
             ordering : new FormControl('nearest'),
             volunteer: new FormControl(),
             search: new FormControl(),
+            address: new FormControl(),
             statusSelect: new FormControl()
         });
         this.page = this.filterForm.valueChanges.pipe(
@@ -282,9 +283,8 @@ export class EntityListComponent  {
 	}
     }
 
-    /*
     getAddress(place: object) {
-        //this.address = place['formatted_address'];
+        this.address = place['formatted_address']
+        console.log(`EntityListComponent.getAddress() => ${this.address}`);
     }
-    */
 }
