@@ -10,7 +10,7 @@ class FeedbackModelAdmin(admin.ModelAdmin):
 class EntityModelAdmin(admin.ModelAdmin):
     """Model Adminf or class Location"""
     list_display = ["id", "title", "latitude", "longitude"]
-    list_filter = ["record_type"]
+    list_filter = ["record_type", "status"]
     search_fields = ["name", "description"]
 class BulkOperationModelAdmin(admin.ModelAdmin):
     """Model Admin for Entity Bulk Edit"""

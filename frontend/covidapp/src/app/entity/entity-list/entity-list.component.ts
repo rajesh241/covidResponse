@@ -39,6 +39,11 @@ export class EntityListComponent  {
         {'value': 'followup', 'name': 'Follow Up'},
         {'value': 'closed', 'name': 'Closed'}
     ];
+    recordTypeOptions = [
+        {'value': 'helpseekers', 'name': 'Help Seekers'},
+        {'value': 'supportnetwork', 'name': 'Organization/NGO/Help Provider'},
+        {'value': 'facility', 'name': 'Government Facilities'}
+    ];
     address: string;
 
     constructor(
@@ -49,11 +54,12 @@ export class EntityListComponent  {
     ) {
         this.filterForm = new FormGroup({
             limit : new FormControl(10),
-            ordering : new FormControl('nearest'),
+            ordering : new FormControl('-created'),
             volunteer: new FormControl(),
             search: new FormControl(),
             address: new FormControl(),
-            statusSelect: new FormControl()
+            status: new FormControl(),
+            record_type: new FormControl()
         });
         this.page = this.filterForm.valueChanges.pipe(
             debounceTime(200),

@@ -158,6 +158,7 @@ class EntityFilter(filters.FilterSet):
                     'latitude' : ['gte', 'lte'],
                     'longitude' : ['gte', 'lte'],
                     'record_type' : ['exact'],
+                    'status' : ['exact'],
                     'user__email' : ['exact']
                 }
     @property
