@@ -1,12 +1,13 @@
 <div class="container" [formGroup]="filterForm">
   <div class="form-group row">
-    <label  class="col-md-2 col-form-label">Specify the Address</label>
-    <div class="col-md-8">
+    <label  class="col-md-3 col-form-label"></label>
+    <div class="col-md-6">
       <!-- <app-address-search formControlName="address" class="form-control" (setAddress)="getAddress($event)" adressType="geocode"></app-address-search> -->
       <app-address-search (setAddress)="getAddress($event)" adressType="geocode"></app-address-search>
     </div>
   </div>
   <div class="form-group row">
+    <label class="col-md-3 col-form-label"></label>
     <label  class="col-md-2 col-form-label">Search</label>
     <div class="col-md-4">
       <input formControlName="search" class="form-control" placeholder="Search by name, phone">
@@ -14,6 +15,7 @@
   </div>
 
   <div class="form-group row">
+    <label class="col-md-3 col-form-label"></label>
     <label  class="col-md-2 col-form-label">Volunteer</label>
     <div class="col-md-4">
       <input formControlName="volunteer" class="form-control" placeholder="Search by Volunteer">
@@ -21,11 +23,12 @@
   </div>
 
   <div class="form-group row">
+    <label class="col-md-3 col-form-label"></label>
     <label class="col-md-2 col-form-label">Results per Page</label>
-    <div class="col-md-2">
+    <div class="col-md-1">
       <input  formControlName="limit" class="form-control" placeholder="min">
     </div>
-    <div class="col-md-2">
+    <div class="col-md-3">
       <select formControlName="ordering" class="form-control">
         <option value="null" selected>Sort by?</option>
         <option value="created">Oldest Listing First</option>
@@ -38,6 +41,7 @@
     </div>
   </div>
   <div class="form-group row">
+    <label class="col-md-3 col-form-label"></label>
     <div *ngIf="authService.isRealtor()" align="center">
       <mat-form-field>
         <mat-label>By Status</mat-label>
