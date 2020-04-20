@@ -87,7 +87,7 @@ export class AuthService {
     localStorage.setItem("expires_at", JSON.stringify(decoded.exp ));
     localStorage.setItem("username", decoded.name);
     localStorage.setItem("ur", decoded.ur);
-    this.mealService.getAllMeals();
+    localStorage.setItem("group", decoded.group);
     setTimeout(() => {
         this.router.navigate(['/search']);
     }, 500);

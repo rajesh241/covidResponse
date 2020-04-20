@@ -183,6 +183,10 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         # Add custom claims
         token['name'] = user.email
         token['ur'] = user.user_role
+        if user.group is not None:
+            token['group'] = user.group.title
+        else:
+            token['group'] = 'general'
         return token
     def validate(self, attrs):
         username_field = get_user_model().USERNAME_FIELD
