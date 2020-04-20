@@ -12,6 +12,7 @@ import { Page, queryPaginated, queryPaginatedLocations} from '../pagination';
 export class UserService {
   private endpoint = environment.apiURL+"/api/user/";
   private listEndPoint = environment.apiURL+"/api/user/";
+  private publicListEndPoint = environment.apiURL+"/api/user/public/";
   private editEndPoint = environment.apiURL+"/api/user/modify/profile/";
   private bulkDeleteEndpoint = environment.apiURL+"/api/user/bulkdelete/";
   private profileEndPoint = environment.apiURL+"/api/user/me/";
@@ -28,13 +29,17 @@ export class UserService {
     return this.http.get(this.endpoint+"?id="+id,this.getHttpOptions());
   }
   getAllUsers(): Observable<any>{
-    console.log("print http headers");
-    console.log(this.getHttpOptions());
     return this.http.get(this.listEndPoint,this.getHttpOptions());
   }
-  
+  getAllUsersPublic(): Observable<any>{
+    return this.http.get(this.publicListEndPoint,this.getPublicHttpOptions());
+  }
+   
   list(urlOrFilter?: string | object): Observable<Page<User>> {
     return queryPaginated<User>(this.http, this.listEndPoint, this.insertToken, urlOrFilter);
+  }
+  publicList(urlOrFilter?: string | object): Observable<Page<User>> {
+    return queryPaginated<User>(this.http, this.publicListEndPoint, this.insertToken, urlOrFilter);
   }
   userCreate(payload:any){
     return this.http.post(this.endpoint,payload,this.getEditHttpOptions());
@@ -61,12 +66,21 @@ export class UserService {
       })
     };
   }
+  
   getHttpOptions() {
    const token = localStorage.getItem("id_token");
     return {
       headers: new HttpHeaders({
       'content-type':'application/json',
       "Authorization" : "Bearer " + token
+      })
+    };
+  }
+
+  getPublicHttpOptions() {
+    return {
+      headers: new HttpHeaders({
+      'content-type':'application/json',
       })
     };
   }

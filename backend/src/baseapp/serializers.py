@@ -1,9 +1,11 @@
 """Serializer classes for the application"""
 import re
 from rest_framework import serializers, fields
+from django.contrib.auth import get_user_model, authenticate
 from baseapp.models import Covid, Entity, Feedback, EntityBulkEdit, BulkOperation
 from baseapp.formio import helpseeker_v1_prefilling, create_submission_data, get_title_description
 from django.conf import settings
+User = get_user_model()
 
 def clean_phone_number(string):
     """Will extract the phone number from the string"""
@@ -18,6 +20,35 @@ class ItemSerializer1(serializers.Serializer):
     # Gets a list of Integers
     user_ids = serializers.ListField(child=serializers.CharField())
 
+def perform_bulk_action(data):
+    ids_json = data.get("ids_json", None)
+    if ids_json is None:
+        return
+    id_array = ids_json.get("ids", None)
+    if id_array is None:
+        return
+    formio_json = data.get("data_json", None)
+    if formio_json is None:
+        return
+    print(id_array)
+    bulk_action = data.get("bulk_action", None)
+    if bulk_action == "assigntovolunteer":
+        print("I am in assign volunteer")
+        user_id = formio_json.get("assigntovolunteer", None)
+        if user_id is None:
+            return
+        myuser = User.objects.filter(id=user_id).first()
+        if myuser is None:
+            return
+        for each_id in id_array:
+            obj = Entity.objects.filter(id=each_id).first()
+            if obj is not None:
+                extra_fields = obj.extra_fields
+                extra_fields['volunteer'] = myuser.name
+                obj.extra_fields = extra_fields
+                obj.assigned_to_user = myuser
+                obj.save()
+
 class BulkOperationSerializer(serializers.ModelSerializer):
     """Serializer for Report Model"""
     user = serializers.HiddenField(default=serializers.CurrentUserDefault())
@@ -25,6 +56,14 @@ class BulkOperationSerializer(serializers.ModelSerializer):
         """Meta Class"""
         model = BulkOperation
         fields = '__all__'
+
+    def create(self, validated_data):
+        """Over riding teh create method of serializer"""
+        print(validated_data)
+        obj = BulkOperation.objects.create(**validated_data)
+        perform_bulk_action(validated_data)
+        #self.parse_data_json(obj, validated_data)
+        return obj
 
 class FeedbackSerializer(serializers.ModelSerializer):
     """Serializer for Report Model"""
