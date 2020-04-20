@@ -44,7 +44,6 @@ export class EntityListComponent  {
         {'value': 'supportnetwork', 'name': 'Organization/NGO/Help Provider'},
         {'value': 'facility', 'name': 'Government Facilities'}
     ];
-    address: string;
 
     constructor(
         public authService: AuthService,
@@ -57,7 +56,7 @@ export class EntityListComponent  {
             ordering : new FormControl('-created'),
             volunteer: new FormControl(),
             search: new FormControl(),
-            address: new FormControl(),
+            location: new FormControl(),
             status: new FormControl(),
             record_type: new FormControl()
         });
@@ -287,10 +286,5 @@ export class EntityListComponent  {
 	}else{
             this.router.navigate(['/login']);
 	}
-    }
-
-    getAddress(place: object) {
-        this.address = place['formatted_address']
-        console.log(`EntityListComponent.getAddress() => ${this.address}`);
     }
 }

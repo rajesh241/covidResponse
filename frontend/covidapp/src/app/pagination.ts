@@ -54,6 +54,24 @@ export function queryPaginated<T>(http: HttpClient, baseUrl: string, insertToken
       else if ( (value != null) && (key === "ordering")){
         params = params.set(key, value.toString());
       }
+        else if ( (value != null) && (key === "location")){
+            let latitute = value.lat;
+            let longitude = value.lng;
+            console.log(latitute, longitude);
+            let latitude__gte = latitute - 1;
+            let longitude__gte = longitude - 1;
+            let latitude__lte = latitute + 1;
+            let longitude__lte = longitude + 1;
+            console.log(`latitude__gte = ${latitude__gte}`);
+            console.log(`longitude__gte = ${longitude__gte}`);
+            console.log(`latitude__lte = ${latitude__lte}`);
+            console.log(`longitude__lte = ${longitude__lte}`);
+
+            params = params.set('latitude__gte', latitude__gte.toString());
+            params = params.set('longitude__gte', longitude__gte.toString());
+            params = params.set('latitude__lte', latitude__lte.toString());
+            params = params.set('longitude__lte', longitude__lte.toString());
+        }
     });
   }
 

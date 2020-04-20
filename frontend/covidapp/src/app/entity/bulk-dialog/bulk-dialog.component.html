@@ -1,6 +1,7 @@
-<h2 mat-dialog-title>Apply {{action}} to the following entities</h2>
-
+<h5 mat-dialog-title>Update {{ entities.length }} entities</h5>
+<!--
 <ul *ngFor="let entity of entities">{{entity.id}}</ul>
+-->
 
 
 <mat-dialog-content [formGroup]="form">
@@ -11,3 +12,5 @@
 <mat-dialog-actions>
   <button mat-raised-button (click)="close()">Close</button>
 </mat-dialog-actions>
+
+<pre style="border: 0; background-color: transparent;">                                                                                </pre>
