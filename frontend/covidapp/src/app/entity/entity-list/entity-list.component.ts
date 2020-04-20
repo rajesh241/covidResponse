@@ -135,7 +135,7 @@ export class EntityListComponent  {
         const expiration = localStorage.getItem("expires_at");
         const expiresAt = JSON.parse(expiration);
         return moment(expiresAt);
-    }    
+    }
 
     editDialog(entity) {
         console.log(`Inside EntityListComponent.editDialog(${JSON.stringify(entity)})`);
@@ -260,20 +260,20 @@ export class EntityListComponent  {
 
                     // FIXME - This is alredy there - this.selectedEntities[]
 		    for (let entity of data.entities) {
-			      console.log("Printing entity id " + entity.id); // 1, "string", false
-			      entity_ids.push(entity.id)
+			console.log("Printing entity id " + entity.id); // 1, "string", false
+			entity_ids.push(entity.id)
 		    }
 		    console.log("Entity Ids is " + entity_ids);
 		    ids_json = { "ids" : entity_ids}
                     this.entityService.createBulkOperation({'ids_json': ids_json,'bulk_action': data.action, 'data_json': data.json})
-                    .subscribe(
-                        data => {
-                        console.log('Bulk Operation Creattion Successful', data);
-                        },
-                        err => {
-                        console.log("Bulk Operation  Creation Failed");
-                        }
-                    );
+                        .subscribe(
+                            data => {
+                                console.log('Bulk Operation Creattion Successful', data);
+                            },
+                            err => {
+                                console.log("Bulk Operation  Creation Failed");
+                            }
+                        );
             	    //const replacer = (key, value) =>  String(value) === "null" || String(value) === "undefined" ? 0 : value; 
                     // data = JSON.parse( JSON.stringify(data, replacer));
                     console.log("Dialog output:", data);
