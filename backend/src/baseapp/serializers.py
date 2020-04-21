@@ -81,8 +81,8 @@ class EntitySerializer(serializers.ModelSerializer):
     can_edit = serializers.SerializerMethodField()
     bulk_action_list = serializers.SerializerMethodField()
     tags = serializers.SerializerMethodField()
-    assigned_to_org = SmallEntitySerializer()
-    assigned_to_user = UserPublicSerializer()
+    assigned_to_org = SmallEntitySerializer(required=False)
+    assigned_to_user = UserPublicSerializer(required=False)
     class Meta:
         """Meta Class"""
         model = Entity
