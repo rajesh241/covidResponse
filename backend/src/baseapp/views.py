@@ -159,7 +159,8 @@ class EntityFilter(filters.FilterSet):
                     'longitude' : ['gte', 'lte'],
                     'record_type' : ['exact'],
                     'status' : ['exact'],
-                    'user__email' : ['exact']
+                    'assigned_to_user__name' : ['contains', 'icontains'],
+                    'user__email' : ['exact'],
                 }
     @property
     def qs(self):

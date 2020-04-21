@@ -55,6 +55,7 @@ export class EntityListComponent  {
             limit : new FormControl(10),
             ordering : new FormControl('-created'),
             volunteer: new FormControl(),
+            assigned_to_user__name__icontains: new FormControl(),
             search: new FormControl(),
             location: new FormControl(),
             status: new FormControl(),

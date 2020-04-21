@@ -52,6 +52,9 @@ export function queryPaginated<T>(http: HttpClient, baseUrl: string, insertToken
                 key = 'extra_fields__volunteer';
                 params = params.set(key, value.toString());
             }
+            else if ( (value != null) && (key === "assigned_to_user__name__icontains")){
+                params = params.set(key, value.toString());
+            }
             else if ( (value != null) && (key === "ordering")){
                 params = params.set(key, value.toString());
             }
