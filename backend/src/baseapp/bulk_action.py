@@ -25,7 +25,7 @@ def perform_bulk_action(data):
             obj = Entity.objects.filter(id=each_id).first()
             if obj is not None:
                 extra_fields = obj.extra_fields
-                extra_fields['volunteer'] = myuser.name
+                extra_fields['assigned_to_volunteer'] = myuser.name
                 obj.extra_fields = extra_fields
                 obj.assigned_to_user = myuser
                 obj.save()
@@ -46,8 +46,9 @@ def perform_bulk_action(data):
             obj = Entity.objects.filter(id=each_id).first()
             if obj is not None:
                 extra_fields = obj.extra_fields
-                extra_fields['org'] = myentity.title
+                extra_fields['assigned_to_org'] = myentity.title
                 obj.extra_fields = extra_fields
+                obj.assigned_to_org = myentity
                 obj.save()
 
 
