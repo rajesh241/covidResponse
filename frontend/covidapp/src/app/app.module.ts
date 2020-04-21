@@ -9,6 +9,7 @@ import { coastConfig } from '../config';
 
 import { AboutComponent } from './about/about.component';
 import { LoginComponent } from './user/login/login.component';
+import { MatloginComponent } from './user/matlogin/matlogin.component';
 import { UserListComponent } from './user/user-list/user-list.component';
 import { UserEditComponent } from './user/user-edit/user-edit.component';
 import { UserAddComponent } from './user/user-add/user-add.component';
@@ -87,6 +88,7 @@ export function provideConfig() {
     declarations: [
         AppComponent,
         LoginComponent,
+	MatloginComponent,
         ProfileEditComponent,
         DateFilterPipe,
         RegisterComponent,

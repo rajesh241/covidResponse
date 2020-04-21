@@ -87,12 +87,14 @@ class EntitySerializer(serializers.ModelSerializer):
         """Meta Class"""
         model = Entity
         fields = '__all__'
-      # extra_kwargs = {
+       # extra_kwargs = {
+       #           'assinged_to_org' :  { 'required': False},
+       #           'assinged_to_user' :  { 'required': False}
       #            'description' :  { 'required': True,'error_messages': {'required':'field is required'}},
       #             'name' :  { 'error_messages': { 'required': 'field is required'}},
       #            'latitude' :  { 'required': True,'error_messages':{'required':'field is required'}},
       #            'longitude' :  { 'required': True,'error_messages':{'required':'field is required'}},
-      #                }
+     #                 }
     def validate(self, data):
         """
         Check that the start is before the stop.
