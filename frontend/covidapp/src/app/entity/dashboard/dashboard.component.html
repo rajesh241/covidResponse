@@ -1,0 +1,128 @@
+<section class="container-fluid">
+  <div class="row" style="padding: 0px 15px;">
+    <mat-card class="col-md-12" style="padding:5px;">
+      <mat-accordion>
+        <mat-expansion-panel (opened)="panelOpen = true"
+                             (closed)="panelOpen = false"
+                             [expanded]="panelOpen">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <h3 align="center">Filters</h3>
+            </mat-panel-title>
+            <mat-panel-description style="text-align-vertical:center; text-align:center;">
+              Click to {{!panelOpen ? 'Open' : 'Close'}}
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <div class="row">
+            <mat-card-content class="col-md-12" style="background-color:red">
+              <mat-card class="col-md-8" style="background-color:yellow">
+                <mat-card-header>
+                  <mat-card-title><h4>Map View</h4></mat-card-title>
+                  <mat-card-subtitle></mat-card-subtitle>
+                </mat-card-header>
+                <mat-card-content>
+                  <app-covid-nearby>Loading...</app-covid-nearby>
+                </mat-card-content>
+              </mat-card>
+              <mat-card class="col-md-4" style="background-color:green">
+                <mat-card-header>
+                  <mat-card-title><h4>List Filters</h4></mat-card-title>
+                  <mat-card-subtitle><- Choose an address for regional filtering</mat-card-subtitle>
+                                        </mat-card-header>
+                <mat-card-content>
+
+<div [formGroup]="filterForm">
+  <mat-card style="padding:5px;">
+      <mat-card-content>
+        <div class="form-group row">
+          <div class="col-sm-12">
+            <!-- <app-address-search formControlName="location" (setAddress)="location=$event"></app-address-search> -->
+            <app-address-search formControlName="location" (setAddress)="location=$event"></app-address-search>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label  class="col-sm-4 col-form-label">Search</label>
+          <div class="col-sm-8">
+            <input formControlName="search" class="form-control" placeholder="Search by name, phone">
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label  class="col-sm-4 col-form-label">Volunteer</label>
+          <div class="col-sm-8">
+            <input formControlName="assigned_to_user__name__icontains" class="form-control" placeholder="Search by Volunteer">
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label class="col-sm-4 col-form-label">Results per Page</label>
+          <div class="col-sm-1">
+            <input  formControlName="limit" class="form-control" placeholder="min">
+          </div>
+          <div class="col-sm-6">
+            <select formControlName="ordering" class="form-control">
+              <option value="created">Oldest Listing First</option>
+              <option value="-created">Newest Listing First</option>
+              <option value="updated">Recently Updated First</option>
+              <option value="-updated">Recently Updated Last</option>
+              <!--
+                  <option value="nearest">Nearest to Farthest</option>
+              <option value="-nearest">Farthest to Nearest</option>
+              <option value="null" selected>Sort by?</option>
+              -->
+            </select>
+          </div>
+        </div>
+        <div class="form-group row">
+          <div align="center" class="col-sm-6">
+            <mat-form-field>
+              <mat-label>By Status</mat-label>
+              <mat-select formControlName="status">
+                <mat-option value="">None</mat-option>
+                <mat-option *ngFor="let option of statusOptions" [value]="option.value">{{ option.name }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div align="center" class="col-sm-6">
+            <mat-form-field>
+              <mat-label>By Type</mat-label>
+              <mat-select formControlName="record_type">
+                <mat-option value="">None</mat-option>
+                <mat-option *ngFor="let option of recordTypeOptions" [value]="option.value">{{ option.name }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="form-group row">
+          <div class = "col-sm-12 well">
+            <button mat-raised-button class="btn-success"
+                    (click)="onBulkAction(option.key)"
+                    *ngFor="let option of bulkActionList|keyvalue;">
+              {{ option.value }}
+            </button>
+          </div>
+        </div>
+      </mat-card-content>
+  </mat-card>
+</div>
+
+                </mat-card-content>
+              </mat-card>
+            </mat-card-content>
+          </div>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </mat-card>
+  </div>
+  <div>
+    <mat-card style="padding-top:0px;">
+      <mat-card-header>
+        <mat-card-title><h3>List View</h3></mat-card-title>
+        <mat-card-subtitle>The List can show up here ---vvv</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <app-entity-list>Loading...</app-entity-list>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</section>

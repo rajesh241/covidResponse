@@ -21,6 +21,7 @@ import { EntitySearchComponent } from "./entity/entity-search/entity-search.comp
 import { EntityListComponent } from "./entity/entity-list/entity-list.component";
 import { EntityEditComponent } from "./entity/entity-edit/entity-edit.component";
 import { EntityDetailComponent } from "./entity/entity-detail/entity-detail.component";
+import { DashboardComponent } from './entity/dashboard/dashboard.component';
 
 import { LoginComponent } from './user/login/login.component';
 import { UserListComponent } from './user/user-list/user-list.component';
@@ -37,6 +38,7 @@ import { ProfileEditComponent } from './user/profile-edit/profile-edit.component
 const routes: Routes = [
     {path : '', component : EntityListComponent},
     //{path : '', redirectTo: 'search', pathMatch:'full'},
+    {path : 'dashboard', component : DashboardComponent},
     {path : 'locate', component : CovidLocateComponent},
     {path : 'privacy', component : PrivacyComponent},
     {path : 'nearby', component : CovidNearbyComponent},

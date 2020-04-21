@@ -69,6 +69,7 @@ import { BulkDialogComponent } from './entity/bulk-dialog/bulk-dialog.component'
 import { PrivacyComponent } from './user/privacy/privacy.component';
 import { EntityDetailComponent } from './entity/entity-detail/entity-detail.component';
 import { AddressSearchComponent } from './gmap/address-search/address-search.component';
+import { DashboardComponent } from './entity/dashboard/dashboard.component';
 
 
 //const google_oauth_client_id:string = '849540517607-9alj6fb3hoo3lhrlml4upqkme070bo2f.apps.googleusercontent.com';
@@ -128,6 +129,7 @@ export function provideConfig() {
         PrivacyComponent,
         EntityDetailComponent,
         AddressSearchComponent,
+        DashboardComponent,
     ],
     imports: [
         BrowserModule,
