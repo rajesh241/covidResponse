@@ -124,7 +124,8 @@
                   {{entity.name}}
                 </td>
                 <td>{{entity.contact_numbers}}</td>
-                <td>{{entity.extra_fields.volunteer}}</td>
+                <td *ngIf="!entity.assigned_to_user"></td>
+		<td *ngIf="entity.assigned_to_user">{{entity.assigned_to_user.name}}</td>
                 <td>{{entity.status}}</td>
                 <td *ngIf="authService.isRealtor()" class="td-actions">
                   <div>

@@ -1,5 +1,7 @@
 """This is the module to define Bulk Actions"""
+from django.contrib.auth import get_user_model, authenticate
 from baseapp.models import Entity
+User = get_user_model()
 
 def perform_bulk_action(data):
     ids_json = data.get("ids_json", None)
