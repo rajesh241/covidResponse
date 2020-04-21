@@ -6,6 +6,7 @@ from baseapp.models import Covid, Entity, Feedback, EntityBulkEdit, BulkOperatio
 from baseapp.formio import helpseeker_v1_prefilling, create_submission_data, get_title_description
 from django.conf import settings
 from baseapp.bulk_action import perform_bulk_action
+from user.serializers import UserPublicSerializer
 User = get_user_model()
 
 def clean_phone_number(string):
@@ -45,6 +46,14 @@ class FeedbackSerializer(serializers.ModelSerializer):
         model = Feedback
         fields = '__all__'
 
+class SmallEntitySerializer(serializers.ModelSerializer):
+    """Serializer for Report Model"""
+    class Meta:
+        """Meta Class"""
+        model = Entity
+        fields = ['id', 'name']
+
+
 class EntityBulkEditSerializer(serializers.ModelSerializer):
     """Serializer for Entity Bulk Edit"""
     user = serializers.HiddenField(default=serializers.CurrentUserDefault())
@@ -72,6 +81,8 @@ class EntitySerializer(serializers.ModelSerializer):
     can_edit = serializers.SerializerMethodField()
     bulk_action_list = serializers.SerializerMethodField()
     tags = serializers.SerializerMethodField()
+    assigned_to_org = SmallEntitySerializer()
+    assigned_to_user = UserPublicSerializer()
     class Meta:
         """Meta Class"""
         model = Entity
