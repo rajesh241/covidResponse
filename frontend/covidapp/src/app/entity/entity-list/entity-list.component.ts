@@ -31,7 +31,7 @@ export class EntityListComponent  {
     entities: any;
     bulkAction: string = 'none';
     bulkActionList = {};
-    //statusChosen = 'none';
+    panelOpen = true;
     statusOptions = [
         {'value': 'to_call', 'name': 'To Call'},
         {'value': 'assign_to_volunteer', 'name': 'Assign To Volunteer'},

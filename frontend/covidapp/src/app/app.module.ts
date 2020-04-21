@@ -43,7 +43,9 @@ import { MatButtonModule } from '@angular/material';
 import { MatCheckboxModule } from '@angular/material';
 import { MatCardModule } from '@angular/material/card';
 import { MatDialogModule } from "@angular/material";
+import { MatExpansionModule } from '@angular/material/expansion';
 import { MatSelectModule } from '@angular/material/select';
+
 
 // Angular FormIO - https://github.com/formio/angular-formio
 import { FormioModule, FormioAppConfig } from 'angular-formio';
@@ -135,6 +137,7 @@ export function provideConfig() {
         MatCheckboxModule,
         MatDialogModule,
 	MatSelectModule,
+        MatExpansionModule,
         ReactiveFormsModule,
         AgmCoreModule.forRoot({
             apiKey: coastConfig.googleAPIKey,
