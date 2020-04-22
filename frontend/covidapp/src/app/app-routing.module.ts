@@ -18,6 +18,7 @@ import { AvatarEditComponent } from "./avatar-edit/avatar-edit.component";
 import { Oauth2callbackComponent } from './oauth2callback/oauth2callback.component';
 
 import { EntitySearchComponent } from "./entity/entity-search/entity-search.component";
+import { EntityCreateComponent } from "./entity/entity-create/entity-create.component";
 import { EntityListComponent } from "./entity/entity-list/entity-list.component";
 import { EntityEditComponent } from "./entity/entity-edit/entity-edit.component";
 import { EntityDetailComponent } from "./entity/entity-detail/entity-detail.component";
@@ -56,7 +57,7 @@ const routes: Routes = [
     {path : 'login', component : MatloginComponent},
     {path : 'register', component : RegisterComponent},
     {path : 'regconfirm', component : RegisterConfirmComponent},
-    {path : 'add/:form', component : ContextCreateComponent},
+    {path : 'add/:form', component : EntityCreateComponent},
     {path : 'useredit/:id', component : UserEditComponent},
     {path : 'item/:id', component : EntityDetailComponent},
     {path : 'useradd', component : UserAddComponent},
