@@ -41,11 +41,23 @@ class UserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-class Organization(models.Model):
+class Region(models.Model):
+    """This is to classify help seekers in to Regions"""
+    name = models.CharField(max_length=256, null=True, blank=True)
+    class Meta:
+        """To define meta data attributes"""
+        db_table = 'region'
+    def __str__(self):
+        """Default str method for the class"""
+        return f"{self.name}"
+ 
+class Group(models.Model):
     """This is the class for Group"""
     title = models.CharField(max_length=256, null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
+    region = models.ForeignKey(Region, on_delete=models.CASCADE, null=True,
+                             blank=True, related_name="region_org")
 
     class Meta:
         """To define meta data attributes"""
@@ -60,7 +72,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     """custom user model that supports using email instead of username"""
     email = models.EmailField(max_length=255, unique=True)
     name = models.CharField(max_length=255)
-    group = models.ForeignKey(Organization, on_delete=models.CASCADE, null=True,
+    group = models.ForeignKey(Group, on_delete=models.CASCADE, null=True,
                              blank=True)
     user_role = models.CharField(max_length=20, blank=True, null=True)
     is_active = models.BooleanField(default=True)
@@ -71,6 +83,8 @@ class User(AbstractBaseUser, PermissionsMixin):
                                upload_to=avatar_upload_path)
     avatar_url = models.URLField(max_length=1024, null=True, blank=True)
     provider = models.CharField(max_length=32, default="native")
+    region = models.ForeignKey(Region, on_delete=models.CASCADE, null=True,
+                             blank=True, related_name="region_user")
     objects = UserManager()
     USERNAME_FIELD = 'email'
 

@@ -27,9 +27,9 @@ from user.serializers import (UserSerializer, AuthTokenSerializer,
                               MyTokenObtainPairSerializer,
                               RegistrationActivationSerializer,
                               ModifyUserSerializer, ItemSerializer,
-                              OrganizationSerializer, UserPublicSerializer)
+                              GroupSerializer, UserPublicSerializer)
 User = get_user_model()
-from core.models import Organization
+from core.models import Group
 
 def getID(request):
   urlID=request.GET.get('id',None)
@@ -314,14 +314,14 @@ class UserAPIView(HttpResponseMixin,
       return self.render_to_response(data,status="404")
     return self.destroy(request,*args,**kwargs)
 
-class OrganizationAPIView(HttpResponseMixin,
+class GroupAPIView(HttpResponseMixin,
                            mixins.CreateModelMixin,
                            mixins.DestroyModelMixin,
                            mixins.RetrieveModelMixin,
                            mixins.UpdateModelMixin,
                            generics.ListAPIView):
   permission_classes=[UserViewPermission]
-  serializer_class = OrganizationSerializer
+  serializer_class = GroupSerializer
   passedID=None
   inputID=None
   search_fields = ('title')
@@ -329,11 +329,11 @@ class OrganizationAPIView(HttpResponseMixin,
   #filterset_class = ReportFilter
 
   #filter_fields=("title")
-  queryset=Organization.objects.all()
+  queryset=Group.objects.all()
   def get_queryset(self, *args, **kwargs):
     if self.request.user.is_superuser:
-        return Organization.objects.all()
-    return Organization.objects.all()
+        return Group.objects.all()
+    return Group.objects.all()
   def get_object(self):
     inputID=self.inputID
     queryset=self.get_queryset()

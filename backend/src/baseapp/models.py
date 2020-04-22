@@ -3,7 +3,7 @@ from django.contrib.auth import get_user_model
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django_mysql.models import JSONField
-
+from core.models import Region, Group
 User = get_user_model()
 # Create your models here.
 
@@ -27,7 +27,7 @@ class Covid(models.Model):
         """Default str method for the class"""
         return f"{self.name}-{self.description}"
 
-    
+   
 class Entity(models.Model):
     """This is the basic class for Aparment"""
     title = models.CharField(max_length=256, null=True, blank=True)
@@ -49,6 +49,11 @@ class Entity(models.Model):
     assigned_to_org = models.ForeignKey('self', on_delete=models.SET_NULL,
                                         blank=True, null=True,
                                         related_name="org_assignment")
+    assigned_to_group = models.ForeignKey(Group, on_delete=models.SET_NULL,
+                                        blank=True, null=True,
+                                        related_name="org_group")
+    region = models.ForeignKey(Region, on_delete=models.CASCADE, null=True,
+                             blank=True, related_name="region_entity")
     latitude = models.DecimalField(max_digits=22, decimal_places=19, null=True,
                                    blank=True)
     longitude = models.DecimalField(max_digits=22, decimal_places=19, null=True,

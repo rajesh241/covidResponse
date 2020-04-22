@@ -31,11 +31,18 @@ class UserAdmin(BaseUserAdmin):
         }),
     )
 
-class OrganizationModelAdmin(admin.ModelAdmin):
-    """Model Adminf or class Organization"""
+class GroupModelAdmin(admin.ModelAdmin):
+    """Model Adminf or class Group"""
     list_display = ["id", "title"]
     list_filter = ["title"]
     search_fields = ["title"]
+class RegionModelAdmin(admin.ModelAdmin):
+    """Model Adminf or class Group"""
+    list_display = ["id", "name"]
+    list_filter = ["name"]
+    search_fields = ["name"]
+
 
 admin.site.register(models.User, UserAdmin)
-admin.site.register(models.Organization, OrganizationModelAdmin)
+admin.site.register(models.Group, GroupModelAdmin)
+admin.site.register(models.Region, RegionModelAdmin)
