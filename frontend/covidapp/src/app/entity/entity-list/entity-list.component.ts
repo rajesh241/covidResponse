@@ -51,6 +51,16 @@ export class EntityListComponent  {
         private router:Router,      
         private dialog: MatDialog
     ) {
+	if (localStorage.getItem('usergroup') === 'wassan') {
+	    this.statusOptions = [
+		{'value': 'not_started', 'name': 'Not started'},
+		{'value': 'contacted_the_followup', 'name': 'Contacted the follow-up person'},
+		{'value': 'in_process', 'name': 'In process'},
+		{'value': 'visited_the_migrant', 'name': 'Visited the migrant'},
+		{'value': 'closed', 'name': 'Closed'}
+	    ];
+	}
+
         this.filterForm = new FormGroup({
             limit : new FormControl(10),
             ordering : new FormControl('-created'),
