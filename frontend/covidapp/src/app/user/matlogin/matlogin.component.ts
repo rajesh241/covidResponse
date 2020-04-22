@@ -91,6 +91,80 @@ export class MatloginComponent implements OnInit {
       this.submitEM.emit(this.form.value);
     }
   }
+
+   fbLogin(){
+        console.log("submit login to facebook");
+        // FB.login();
+        FB.login((response)=>
+                 {
+                     console.log('submitLogin',response);
+                     if (response.authResponse)
+                     {
+                         //login success
+		         this.ngZone.run(() => 
+                                         this.authService.fblogin({'access_token': response.authResponse.accessToken})
+                                         .subscribe(
+                                             data => {
+                                                 console.log('login success', data);
+                                                 this.authService.setSession(data);
+		                                 this.onUserLogin();
+                                                 this.success=true;
+                                             },
+                                             err => {
+                                                 this.error = "Unable to login with Facebook";
+                                                 this.success=false;
+                                             }
+
+                                         )
+		                        );
+                     }
+                     else
+                     {
+                         console.log('User login failed');
+                     }
+                 }, {scope: 'email'});
+
+    }
+
+    glogin(platform : string): void {
+        platform = GoogleLoginProvider.PROVIDER_ID;
+        this._socioAuthServ.signIn(platform).then(
+            (response) => {
+                console.log(platform + " logged in user data is= " , response);
+                if (response.authToken)
+                {
+                    //login success
+                    this.authService.glogin({'access_token': response.authToken})
+                        .subscribe(
+                            data => {
+                                console.log('login success', data);
+                                this.authService.setSession(data);
+		                this.onUserLogin();
+                                this.success=true;
+                            },
+                            err => {
+                                this.error = "Unable to login wiht Google";
+                                this.success=false;
+                            }
+
+                        );
+                }
+                else
+                {
+                    console.log('User login failed');
+                }
+
+            }
+        );
+    }
+    
+    // Method to log out.
+    glogout(): void {
+        this._socioAuthServ.signOut();
+        console.log('User signed out.');
+    }
+
+
   @Input() error: string | null;
 
   @Output() submitEM = new EventEmitter();
