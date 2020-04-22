@@ -54,6 +54,7 @@ class Region(models.Model):
 class Group(models.Model):
     """This is the class for Group"""
     title = models.CharField(max_length=256, null=True, blank=True)
+    region = models.CharField(max_length=256, null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
@@ -74,6 +75,7 @@ class User(AbstractBaseUser, PermissionsMixin):
                              blank=True)
     formio_usergroup = models.CharField(max_length=256, null=True, blank=True,
                                        default='libtech')
+    region = models.CharField(max_length=256, null=True, blank=True)
     user_role = models.CharField(max_length=20, blank=True, null=True)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
