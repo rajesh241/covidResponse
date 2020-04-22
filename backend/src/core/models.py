@@ -56,8 +56,6 @@ class Group(models.Model):
     title = models.CharField(max_length=256, null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
-    region = models.ForeignKey(Region, on_delete=models.CASCADE, null=True,
-                             blank=True, related_name="region_org")
 
     class Meta:
         """To define meta data attributes"""
@@ -85,8 +83,6 @@ class User(AbstractBaseUser, PermissionsMixin):
                                upload_to=avatar_upload_path)
     avatar_url = models.URLField(max_length=1024, null=True, blank=True)
     provider = models.CharField(max_length=32, default="native")
-    region = models.ForeignKey(Region, on_delete=models.CASCADE, null=True,
-                             blank=True, related_name="region_user")
     objects = UserManager()
     USERNAME_FIELD = 'email'
 

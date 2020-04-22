@@ -54,8 +54,6 @@ class Entity(models.Model):
     assigned_to_group = models.ForeignKey(Group, on_delete=models.SET_NULL,
                                         blank=True, null=True,
                                         related_name="org_group")
-    region = models.ForeignKey(Region, on_delete=models.CASCADE, null=True,
-                             blank=True, related_name="region_entity")
     latitude = models.DecimalField(max_digits=22, decimal_places=19, null=True,
                                    blank=True)
     longitude = models.DecimalField(max_digits=22, decimal_places=19, null=True,
