@@ -35,6 +35,8 @@ class Entity(models.Model):
     full_name = models.CharField(max_length=256, null=True, blank=True)
     status = models.CharField(max_length=256, null=True, blank=True)
     org_name = models.CharField(max_length=256, null=True, blank=True)
+    formio_usergroup = models.CharField(max_length=256, null=True, blank=True,
+                                       default='libtech')
     description = models.TextField(blank=True, null=True)
     contact_numbers = models.CharField(max_length=1024, null=True, blank=True)
     phone = models.CharField(max_length=256, null=True, blank=True)

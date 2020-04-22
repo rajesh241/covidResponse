@@ -200,6 +200,7 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
             token['region'] = user.region.name
         else:
             token['region'] = "india"
+        token['formio_usergroup'] = user.formio_usergroup
         return token
     def validate(self, attrs):
         username_field = get_user_model().USERNAME_FIELD

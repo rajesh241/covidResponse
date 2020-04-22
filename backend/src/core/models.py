@@ -74,6 +74,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     name = models.CharField(max_length=255)
     group = models.ForeignKey(Group, on_delete=models.CASCADE, null=True,
                              blank=True)
+    formio_usergroup = models.CharField(max_length=256, null=True, blank=True,
+                                       default='libtech')
     user_role = models.CharField(max_length=20, blank=True, null=True)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
