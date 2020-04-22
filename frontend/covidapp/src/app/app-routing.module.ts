@@ -36,7 +36,7 @@ import { PrivacyComponent } from './user/privacy/privacy.component';
 import { ProfileEditComponent } from './user/profile-edit/profile-edit.component';
 
 const routes: Routes = [
-    {path : '', component : EntityListComponent},
+    {path : '', component : EntityListComponent, canActivate: [AuthGuard]},
     //{path : '', redirectTo: 'search', pathMatch:'full'},
     {path : 'dashboard', component : DashboardComponent},
     {path : 'locate', component : CovidLocateComponent},
@@ -47,7 +47,7 @@ const routes: Routes = [
     {path : 'form-display', component : FormDisplayComponent},
     {path : 'form-edit', component : FormEditComponent},
     {path : 'invite', component : InviteComponent},
-    {path : 'list', component : EntityListComponent},
+    {path : 'list', component : EntityListComponent, canActivate:[AuthGuard]},
     {path : 'map', component : ContextMapComponent},
     {path : 'about', component : AboutComponent},
     {path : 'users', component : UserListComponent},
