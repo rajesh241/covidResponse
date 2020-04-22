@@ -197,7 +197,7 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         else:
             token['group'] = 'general'
         if user.region is not None:
-            token['region'] = user.region.name
+            token['region'] = user.region
         else:
             token['region'] = "india"
         token['formio_usergroup'] = user.formio_usergroup
