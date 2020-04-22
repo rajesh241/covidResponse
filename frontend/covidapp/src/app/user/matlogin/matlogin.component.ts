@@ -14,6 +14,7 @@ export class MatloginComponent {
 
   submit() {
     if (this.form.valid) {
+      console.log(this.form.value);
       this.submitEM.emit(this.form.value);
     }
   }

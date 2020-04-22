@@ -24,6 +24,7 @@ import { EntityDetailComponent } from "./entity/entity-detail/entity-detail.comp
 import { DashboardComponent } from './entity/dashboard/dashboard.component';
 
 import { LoginComponent } from './user/login/login.component';
+import { MatloginComponent } from './user/matlogin/matlogin.component';
 import { UserListComponent } from './user/user-list/user-list.component';
 import { UserEditComponent } from './user/user-edit/user-edit.component';
 import { UserAddComponent } from './user/user-add/user-add.component';
@@ -52,6 +53,7 @@ const routes: Routes = [
     {path : 'about', component : AboutComponent},
     {path : 'users', component : UserListComponent},
     {path : 'login', component : LoginComponent},
+    {path : 'login1', component : MatloginComponent},
     {path : 'register', component : RegisterComponent},
     {path : 'regconfirm', component : RegisterConfirmComponent},
     {path : 'add/:form', component : ContextCreateComponent},
