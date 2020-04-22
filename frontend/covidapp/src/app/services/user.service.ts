@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import { Observable } from 'rxjs';
 import 'rxjs/add/operator/map';
+import {map, tap} from 'rxjs/operators';
 import { User } from "../models/user";
 import { environment } from '../../environments/environment';
 import { Page, queryPaginated, queryPaginatedLocations} from '../pagination';
@@ -38,6 +39,21 @@ export class UserService {
   list(urlOrFilter?: string | object): Observable<Page<User>> {
     return queryPaginated<User>(this.http, this.listEndPoint, this.insertToken, urlOrFilter);
   }
+
+    search(filter: {name: string} = {name: ''}, page = 1): Observable<User> {
+	return this.http.get(this.publicListEndPoint,this.getPublicHttpOptions())
+	    .pipe(
+		tap((response: any) => {
+		    response.results = response.results
+		    //.map(user => new User({'id': user.id, 'name': user.name}))
+		    // Not filtering in the server since in-memory-web-api has somewhat restricted api
+			.filter(user => user.name.includes(filter.name))
+
+		    return response;
+		})
+	    );
+    }
+
   publicList(urlOrFilter?: string | object): Observable<Page<User>> {
     return queryPaginated<User>(this.http, this.publicListEndPoint, this.insertToken, urlOrFilter);
   }

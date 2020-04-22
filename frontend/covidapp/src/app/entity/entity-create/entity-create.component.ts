@@ -13,7 +13,7 @@ import { PublicUser } from "../../models/publicuser";
   styleUrls: ['./entity-create.component.css']
 })
 export class EntityCreateComponent implements OnInit {
-
+    assignedTo;
   users : Observable<PublicUser[]>;
   form_type: string;
   form_url: string;

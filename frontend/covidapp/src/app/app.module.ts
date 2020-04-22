@@ -40,16 +40,17 @@ import { ContextEditComponent } from './context/context-edit/context-edit.compon
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 // Angular Material
+import { MatAutocompleteModule } from '@angular/material';
 import { MatButtonModule } from '@angular/material';
 import { MatCheckboxModule } from '@angular/material';
 import { MatCardModule } from '@angular/material/card';
 import { MatDialogModule } from "@angular/material";
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatProgressSpinnerModule } from '@angular/material';
+import { MatSelectModule } from '@angular/material/select';
 import { MatToolbarModule } from '@angular/material';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatInputModule} from '@angular/material/input';
-import {MatSelectModule} from '@angular/material/select';
-
 
 // Angular FormIO - https://github.com/formio/angular-formio
 import { FormioModule, FormioAppConfig } from 'angular-formio';
@@ -73,6 +74,7 @@ import { PrivacyComponent } from './user/privacy/privacy.component';
 import { EntityDetailComponent } from './entity/entity-detail/entity-detail.component';
 import { AddressSearchComponent } from './gmap/address-search/address-search.component';
 import { DashboardComponent } from './entity/dashboard/dashboard.component';
+import { AssignToComponent } from './entity/assign-to/assign-to.component';
 
 
 //const google_oauth_client_id:string = '849540517607-9alj6fb3hoo3lhrlml4upqkme070bo2f.apps.googleusercontent.com';
@@ -133,17 +135,20 @@ export function provideConfig() {
         EntityDetailComponent,
         AddressSearchComponent,
         DashboardComponent,
+        AssignToComponent,
     ],
     imports: [
         BrowserModule,
         AppRoutingModule,
         FormsModule,
         FormioModule,
+	MatAutocompleteModule,
         MatButtonModule,
         MatCardModule,
         MatCheckboxModule,
         MatDialogModule,
 	MatSelectModule,
+	MatProgressSpinnerModule,
 	MatToolbarModule,
         MatExpansionModule,
 	MatFormFieldModule,
