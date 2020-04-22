@@ -1,5 +1,3 @@
-<p>entity-create works!</p>
-
   <!--
    <div [ngSwitch]="marker.record_type">
      <div *ngSwitchCase="'facility'">
@@ -8,6 +6,6 @@
    </div>
    <formio src='https://examples.form.io/kitchensink' (submit)="onSubmit($event)"></formio>
    -->
-   <formio [src]="form_url" (submit)="onSubmit($event)"></formio>
+    <formio [src]="form_url" [submission]="prefill_json" (submit)="onSubmit($event)"></formio>
 
 

@@ -13,6 +13,7 @@ export class EntityCreateComponent implements OnInit {
 
   form_type: string;
   form_url: string;
+  prefill_json:any;
   constructor(
                 private activatedRoute:ActivatedRoute,
                 private entityService: EntityService,
@@ -21,19 +22,19 @@ export class EntityCreateComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+	this.prefill_json = {"data" : {"userGroup": "swan"}};
+	//this.prefill_json = {"data" :{}};
         this.activatedRoute.paramMap.subscribe(
             params => {
                 this.form_type=params.get("form");
+                if (this.form_type == "supportnetwork"){
+                    this.form_url = formioConfig.appUrl + '/forms/v1/supportnetwork';
+                }else{
+                    this.form_url = formioConfig.appUrl + '/forms/v1/helpseekers';
+                }
             }
 	);
 	console.log(this.form_type);
-	if (this.form_type == "supportnetwork"){
-	    //this.form_url = 'https://formio.libtech.in/forms/supportnetwork';
-	    this.form_url = formioConfig.appUrl + '/forms/v1/supportnetwork';
-	}else{
-	    //this.form_url = 'https://formio.libtech.in/data/helpseeker';
-	    this.form_url = formioConfig.appUrl + '/forms/v1/helpseekers';
-	}
   }
 
     onSubmit($event) {
