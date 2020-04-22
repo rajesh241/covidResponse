@@ -12,6 +12,7 @@ class EntityModelAdmin(admin.ModelAdmin):
     list_display = ["id", "title", "latitude", "longitude"]
     list_filter = ["record_type", "status"]
     search_fields = ["name", "description"]
+    readonly_fields = ["assigned_to_org", "assigned_to_user"]
 class BulkOperationModelAdmin(admin.ModelAdmin):
     """Model Admin for Entity Bulk Edit"""
     list_display = ["id", "user", "bulk_action"]

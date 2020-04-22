@@ -2,6 +2,7 @@
 import MySQLdb
 import argparse
 import os
+import json
 import django
 import pandas as pd
 from django.utils.text import slugify
@@ -27,6 +28,8 @@ def args_fetch():
                         required=False, action='store_const', const=1)
     parser.add_argument('-i', '--import', help='Import',
                         required=False, action='store_const', const=1)
+    parser.add_argument('-ie', '--importEntities', help='Import',
+                        required=False, action='store_const', const=1)
     parser.add_argument('-ir', '--importRegions', help='Import',
                         required=False, action='store_const', const=1)
     parser.add_argument('-fn', '--filename', help='filename to be imported', required=False)
@@ -48,10 +51,56 @@ def dbInitialize(host=dbhost, user=dbuser, passwd=dbpasswd, db="libtech", charse
 def dbFinalize(db):
   db.close()
 
+def create_entity(logger, record, myUser):
+    # This has to go as a string
+    # extra_fields = str(record['extra_fields'])
+    # revised['extra_fields'] = extra_fields
+    obj = Entity.objects.create(title="blankNewItem")
+    obj.user = myUser
+    for key, value in record.items():
+        setattr(obj,key,value)
+    obj.record_type = 'helpseekers'
+    # False if it does not come via formio
+    obj.form_ui = False
+    name = record['full_name']
+    title = f"{name}, {record['address']}"
+    title = title.replace('nan', '')
+    title = title.replace('  ', ' ')
+    if not (isinstance(obj.how_many_people, int)):
+        obj.how_many_people = None
+    obj.name = title
+    obj.title = title
+    obj.phone = record['mobile']
+    obj.backend_notes = 'Added from a dump of 20k plus records from Min on 22 April.'
+    
+    # entity_status = status[random.randint(0,len(status)-1)]
+    if isinstance(record['extra_fields'], str):
+        extra_fields = json.loads(record['extra_fields'].replace("'", '"'))
+    else:
+        extra_fields = record['extra_fields']
+    # extra_fields['status'] = entity_status    
+    obj.extra_fields = extra_fields
+    obj.formio_usergroup = 'wassan'
+    obj.region = record['state']
+    obj.save()
 def main():
     """Main Module of this program"""
     args = args_fetch()
     logger = logger_fetch(args.get('log_level'))
+    if args['importEntities']:
+        objs = Entity.objects.filter(formio_usergroup = "wassan")
+        for obj in objs:
+            logger.info(obj.id)
+            obj.delete()
+        logger.info("Importing Entities")
+        my_user = User.objects.filter(id=1).first()
+        with open('../import_data/wassan_dump.json', 'r') as f:
+                records = json.load(f)
+        for i,record in enumerate(records):
+            logger.info(i)
+            create_entity(logger, record, my_user)
+        usergroup = "wassan"
+        
     if args['test']:
         csv_array = []
         logger.info("test")
