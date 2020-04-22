@@ -1,7 +1,8 @@
 <div *ngIf="!success">    
-    <mat-card>
-            <mat-card-title>Login</mat-card-title>
-      <mat-card-content>
+  <mat-card>
+    <mat-card-title>Login</mat-card-title>
+    <mat-card-content>
+      <div>
         <form [formGroup]="form" (ngSubmit)="submit()">
           <p>
             <mat-form-field>
@@ -19,37 +20,45 @@
             {{ error }}
           </p>
 
-          <div class="button">
-            <button type="submit" mat-button>Login</button>
+          <div style="padding: 4px;">
+            <button mat-raised-button class="btn btn-block"
+		    type="submit">
+	      Login</button>
           </div>
 
+	  <br />
+	  
+	  <div style="padding: 4px;">
+            <button mat-raised-button class="btn btn-primary btn-block"
+                    (click)="fbLogin()">
+	      Login with Facebook
+	    </button>
+          </div>
+
+	  <div style="padding: 4px;">
+            <button mat-raised-button class="btn btn-danger btn-block"
+                    (click)="gLogin()">
+	      Login with Google
+	    </button>
+	  </div>
         </form>
-        <p>
-        <button mat-raised-button class="btn btn-primary"
-                (click)="fbLogin()">
-		Login with Facebook
-	</button>
-        <button mat-raised-button class="btn btn-primary"
-                (click)="gLogin()">
-		Login with Google
-	</button>
-	</p>
-      </mat-card-content>
-    </mat-card>
+      </div>
+    </mat-card-content>
+  </mat-card>
 </div>
 <div *ngIf="displaySelection">    
-    <mat-card>
-            <mat-card-title>Select User Group</mat-card-title>
-      <mat-card-content>
-	<div *ngFor="let option of userGroupOptions"> 
+  <mat-card>
+    <mat-card-title>Select User Group</mat-card-title>
+    <mat-card-content>
+      <div *ngFor="let option of userGroupOptions"> 
         <p>
-        <button mat-raised-button class="btn btn-primary"
-                (click)="submitUserGroup(option)">
-		{{ option }}
-	</button>
+          <button mat-raised-button class="btn btn-primary"
+                  (click)="submitUserGroup(option)">
+	    {{ option }}
+	  </button>
 	</p>
-	</div>
-      </mat-card-content>
-    </mat-card>
+      </div>
+    </mat-card-content>
+  </mat-card>
 </div>
 
