@@ -88,9 +88,10 @@ export class AuthService {
     localStorage.setItem("username", decoded.name);
     localStorage.setItem("ur", decoded.ur);
     localStorage.setItem("group", decoded.group);
-    setTimeout(() => {
-        this.router.navigate(['/list']);
-    }, 500);
+    localStorage.setItem("region", decoded.region);
+//    setTimeout(() => {
+//        this.router.navigate(['/list']);
+//    }, 500);
   }          
 
   logout() {
@@ -98,6 +99,9 @@ export class AuthService {
       localStorage.removeItem("expires_at");
       localStorage.removeItem("username");
       localStorage.removeItem("ur");
+      localStorage.removeItem("group");
+      localStorage.removeItem("usergroup");
+      localStorage.removeItem("region");
   }
   public isLoggedIn(){
       const now = Date.now().valueOf() / 1000;
@@ -120,6 +124,10 @@ export class AuthService {
     return ( moment().isBefore(this.getExpiration()) && ( (this.getUserName() === "usermanager") || (this.getUserName() === "admin" )));
   }
   public isRealtor(){
+      const ur = localStorage.getItem("ur")
+      return ( (this.isLoggedIn()) && ( (ur === "admin") || (ur === "realtor") ))
+  }
+  public isStaff(){
       const ur = localStorage.getItem("ur")
       return ( (this.isLoggedIn()) && ( (ur === "admin") || (ur === "realtor") ))
   }
