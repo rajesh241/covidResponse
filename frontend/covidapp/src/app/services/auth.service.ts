@@ -89,7 +89,7 @@ export class AuthService {
     localStorage.setItem("ur", decoded.ur);
     localStorage.setItem("group", decoded.group);
     setTimeout(() => {
-        this.router.navigate(['/search']);
+        this.router.navigate(['/list']);
     }, 500);
   }          
 

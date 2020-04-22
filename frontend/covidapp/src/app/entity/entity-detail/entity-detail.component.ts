@@ -38,7 +38,7 @@ export class EntityDetailComponent implements OnInit {
 
     constructor(
         private entityService:EntityService,
-	private authService:AuthService,
+	public authService:AuthService,
         private activatedRoute:ActivatedRoute,
         private router: Router,
         private dialog: MatDialog

@@ -11,7 +11,7 @@ from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes
 from django.utils.encoding import force_text
 from rest_framework import exceptions
-from core.models import Organization
+from core.models import Group
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
@@ -21,11 +21,11 @@ class ItemSerializer(serializers.Serializer):
     user_ids = serializers.ListField(child=serializers.CharField())
 
 
-class OrganizationSerializer(serializers.ModelSerializer):
+class GroupSerializer(serializers.ModelSerializer):
     """Serializer for Report Model"""
     class Meta:
         """Meta Class"""
-        model = Organization
+        model = Group
         fields = '__all__'
 
 class ModifyUserSerializer(serializers.ModelSerializer):
@@ -57,7 +57,7 @@ class ModifyUserSerializer(serializers.ModelSerializer):
 
 class UserPublicSerializer(serializers.ModelSerializer):
     """ Serializer for the User Public object """
-    group = OrganizationSerializer()
+    group = GroupSerializer()
     class Meta:
         """Meta Class"""
         model = get_user_model()
@@ -66,7 +66,7 @@ class UserPublicSerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
     """ Serializer for the user object """
     password2 = serializers.CharField(style={'input_type': 'password'}, write_only=True)
-    group = OrganizationSerializer()
+    group = GroupSerializer()
     def __init__(self, *args, **kwargs):
         super(UserSerializer, self).__init__(*args, **kwargs) # call the super() 
         for field in self.fields: # iterate over the serializer fields
@@ -196,6 +196,10 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
             token['group'] = user.group.title
         else:
             token['group'] = 'general'
+        if user.region is not None:
+            token['region'] = user.region.name
+        else:
+            token['region'] = "india"
         return token
     def validate(self, attrs):
         username_field = get_user_model().USERNAME_FIELD
