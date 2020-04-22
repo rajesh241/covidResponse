@@ -18,8 +18,8 @@
         <!--
         <li class="menu-item" routerLinkActive="active" ><a routerLink="locate">Locate</a></li>
         <li class="menu-item" routerLinkActive="active" ><a routerLink="nearby">Nearby</a></li>
-        -->
         <li class="menu-item" routerLinkActive="active" ><a routerLink="search">Search</a></li>
+        -->
         <li class="menu-item" routerLinkActive="active" *ngIf="authService.isLoggedIn()"><a routerLink="list">List</a></li>
         <li class="menu-item" routerLinkActive="active" *ngIf="authService.isLoggedIn()"><a [routerLink]="['add','helpseekers']">Add Helpseeker</a></li>
         <li class="menu-item" routerLinkActive="active" *ngIf="authService.isLoggedIn()"><a [routerLink]="['add','supportnetwork']">Add Supportnetwork</a></li>

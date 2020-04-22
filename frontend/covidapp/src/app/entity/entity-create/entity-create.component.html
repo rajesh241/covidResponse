@@ -6,6 +6,11 @@
    </div>
    <formio src='https://examples.form.io/kitchensink' (submit)="onSubmit($event)"></formio>
    -->
+   <div *ngIf="dataLoaded">
+          <div *ngFor="let user of (users | async).results;let i=index">
+		  <p>{{ user.name }}</p>
+	  </div>
+   </div>
     <formio [src]="form_url" [submission]="prefill_json" (submit)="onSubmit($event)"></formio>
 
 

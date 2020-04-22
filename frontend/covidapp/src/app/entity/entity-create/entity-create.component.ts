@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
 import { Router } from "@angular/router"
 import { ActivatedRoute } from "@angular/router";
 import { formioConfig } from '../../formio/config';
 import { EntityService } from "../../services/entity.service";
+import { UserService } from "../../services/user.service";
+import { PublicUser } from "../../models/publicuser";
 
 @Component({
   selector: 'app-entity-create',
@@ -11,18 +14,23 @@ import { EntityService } from "../../services/entity.service";
 })
 export class EntityCreateComponent implements OnInit {
 
+  users : Observable<PublicUser[]>;
   form_type: string;
   form_url: string;
   prefill_json:any;
+  dataLoaded: Promise<boolean>;
   constructor(
                 private activatedRoute:ActivatedRoute,
                 private entityService: EntityService,
+                private userService: UserService,
                 private router: Router
   
   ) { }
 
   ngOnInit() {
 	this.prefill_json = {"data" : {"userGroup": "swan"}};
+	this.users = this.userService.getAllUsersPublic();
+        this.dataLoaded = Promise.resolve(true);
 	//this.prefill_json = {"data" :{}};
         this.activatedRoute.paramMap.subscribe(
             params => {
