@@ -134,15 +134,15 @@ class EntitySerializer(serializers.ModelSerializer):
             instance.title = "default"
         if True: # "d" in instance.title:
              bulk_action_list['assigntovolunteer'] = 'Assign To Volunteer'
-        if bool(random.getrandbits(1)):
+        if False and bool(random.getrandbits(1)):
              bulk_action_list['feedback'] = 'FeedBack'
         if True or bool(random.getrandbits(1)):
              bulk_action_list['assigntoorg'] = 'Assign To Org'
-        if bool(random.getrandbits(1)):
+        if False and bool(random.getrandbits(1)):
              bulk_action_list['defunct'] = 'Mark as Defunct'            
-        if bool(random.getrandbits(1)):
+        if False and bool(random.getrandbits(1)):
              bulk_action_list['full'] = 'Out of Capacity'            
-        if bool(random.getrandbits(1)):
+        if False and bool(random.getrandbits(1)):
              bulk_action_list['delete'] = 'Delete Items'
 
         return bulk_action_list
