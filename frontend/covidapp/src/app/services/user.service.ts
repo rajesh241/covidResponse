@@ -14,6 +14,7 @@ export class UserService {
   private endpoint = environment.apiURL+"/api/user/";
   private listEndPoint = environment.apiURL+"/api/user/";
   private publicListEndPoint = environment.apiURL+"/api/user/public";
+  private groupPublicEndPoint = environment.apiURL+"/api/user/group/public";
   private editEndPoint = environment.apiURL+"/api/user/modify/profile/";
   private bulkDeleteEndpoint = environment.apiURL+"/api/user/bulkdelete/";
   private profileEndPoint = environment.apiURL+"/api/user/me/";
@@ -34,6 +35,9 @@ export class UserService {
   }
   getAllUsersPublic(): Observable<any>{
     return this.http.get(this.publicListEndPoint+"?limit=10000",this.getPublicHttpOptions());
+  }
+  getAllGroupsPublic(): Observable<any>{
+    return this.http.get(this.groupPublicEndPoint+"?limit=10000",this.getPublicHttpOptions());
   }
    
   list(urlOrFilter?: string | object): Observable<Page<User>> {

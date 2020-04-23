@@ -6,6 +6,7 @@ import { FormBuilder, Validators, FormGroup, FormControl } from "@angular/forms"
 import { formioConfig } from '../../formio/config';
 import { UserService } from "../../services/user.service";
 import { PublicUser } from "../../models/publicuser";
+import { PublicGroup } from "../../models/publicgroup";
 
 @Component({
   selector: 'app-bulk-dialog',
@@ -15,6 +16,7 @@ import { PublicUser } from "../../models/publicuser";
 export class BulkDialogComponent implements OnInit {
     form: FormGroup;
     users : Observable<PublicUser[]>;
+    groups : Observable<PublicGroup[]>;
     dataLoaded: Promise<boolean>;
     action;
     entities;
@@ -23,6 +25,8 @@ export class BulkDialogComponent implements OnInit {
     form_url:string;
     formioBased:boolean= false;
     assignForm: FormGroup;
+    loadVolunteerForm:boolean=false;
+    loadGroupForm:boolean=false;
     statusOptions = [
         {'value': 'to_call', 'name': 'To Call'},
         {'value': 'assign_to_volunteer', 'name': 'Assign To Volunteer'},
@@ -45,8 +49,10 @@ export class BulkDialogComponent implements OnInit {
 	console.log(this.action);
 	if (this.action == "assigntovolunteer"){
 		this.formioBased = false;
+		this.loadVolunteerForm = true;
 	}else if(this.action == "assigntogroup"){
 		this.formioBased = false;
+		this.loadGroupForm = true;
 	}else{
 		this.formioBased = true;
 	}
@@ -57,22 +63,38 @@ export class BulkDialogComponent implements OnInit {
     }
 
     ngOnInit() {
-      this.userService.getAllUsersPublic()
-            .subscribe(
-                data => {
-                    console.log(' success', data);
-                    this.users = data;
-                    this.dataLoaded = Promise.resolve(true);
-                },
-                err => {
-                    console.log("Failed");
-                    this.dataLoaded = Promise.resolve(false);
-                }
-            );
+	if (this.action == "assigntovolunteer"){
+             this.userService.getAllUsersPublic()
+                   .subscribe(
+                       data => {
+                           console.log(' success', data);
+                           this.users = data;
+                           this.dataLoaded = Promise.resolve(true);
+                       },
+                       err => {
+                           console.log("Failed");
+                           this.dataLoaded = Promise.resolve(false);
+                       }
+                   );
+         }else{
+             this.userService.getAllGroupsPublic()
+                   .subscribe(
+                       data => {
+                           console.log(' success', data);
+                           this.groups = data;
+                           this.dataLoaded = Promise.resolve(true);
+                       },
+                       err => {
+                           console.log("Failed");
+                           this.dataLoaded = Promise.resolve(false);
+                       }
+                   );
+	 }
 
 
         this.assignForm = new FormGroup({
             assigntovolunteer: new FormControl(),
+            assigntogroup: new FormControl(),
         });
         this.form = this.fb.group({
             //description: [this.description, []],

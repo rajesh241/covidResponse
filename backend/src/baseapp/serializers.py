@@ -137,7 +137,7 @@ class EntitySerializer(serializers.ModelSerializer):
         if False and bool(random.getrandbits(1)):
              bulk_action_list['feedback'] = 'FeedBack'
         if True or bool(random.getrandbits(1)):
-             bulk_action_list['assigntoorg'] = 'Assign To Org'
+             bulk_action_list['assigntogroup'] = 'Assign To Group'
         if False and bool(random.getrandbits(1)):
              bulk_action_list['defunct'] = 'Mark as Defunct'            
         if False and bool(random.getrandbits(1)):
