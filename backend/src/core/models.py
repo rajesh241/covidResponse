@@ -78,7 +78,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     formio_usergroup = models.CharField(max_length=256, null=True, blank=True,
                                        default='libtech')
     region = models.CharField(max_length=256, null=True, blank=True)
-    user_role = models.CharField(max_length=20, blank=True, null=True)
+    user_role = models.CharField(max_length=20, blank=True, null=True,
+                                 default='client')
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     login_attempt_count = models.PositiveSmallIntegerField(default=0)
@@ -145,11 +146,11 @@ def get_user_role(user):
     return my_role
 
 def user_post_save_receiver(sender, instance, *args, **kwargs):
-    '''Function to assign a role to user object'''
-    my_role = get_user_role(instance)
-    if instance.user_role != my_role:
-        instance.user_role = my_role
-        instance.save()
+   '''Function to assign a role to user object'''
+   my_role = get_user_role(instance)
+   if instance.user_role != my_role:
+       instance.user_role = my_role
+       instance.save()
 
 
-post_save.connect(user_post_save_receiver, sender=User)
+#post_save.connect(user_post_save_receiver, sender=User)
