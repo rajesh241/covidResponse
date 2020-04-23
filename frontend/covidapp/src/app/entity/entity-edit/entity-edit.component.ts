@@ -186,7 +186,7 @@ export class EntityEditComponent implements OnInit {
         }
         else {
             console.log("Geolocation is not supported by this browser.");
-            alert("Geolocation is not supported by this browser.");
+            // alert("Geolocation is not supported by this browser.");
             this.latitude = 28.4720443;
             this.longitude = 77.1329417;
             this.zoom = 15;
@@ -210,10 +210,10 @@ export class EntityEditComponent implements OnInit {
                     this.address = results[0].formatted_address;
                     this.gmap_details = results[0];
                 } else {
-                    window.alert('No results found');
+                    console.log('No results found');
                 }
             } else {
-                window.alert('Geocoder failed due to: ' + status);
+                console.log('Geocoder failed due to: ' + status);
             }
         });
     }
