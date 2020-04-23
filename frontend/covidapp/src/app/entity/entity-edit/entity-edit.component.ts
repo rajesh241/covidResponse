@@ -121,8 +121,9 @@ export class EntityEditComponent implements OnInit {
     }
 
     updateEntity() {
+	console.log("I am in update entity in entity edit component" + this.entity.id);
         this.entityService.patchItem(
-            this.entity_id,
+            this.entity.id,
             {
                 'latitude': this.latitude,
                 'longitude': this.longitude,

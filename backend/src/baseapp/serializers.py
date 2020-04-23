@@ -3,7 +3,7 @@ import re
 from rest_framework import serializers, fields
 from django.contrib.auth import get_user_model, authenticate
 from baseapp.models import Covid, Entity, Feedback, EntityBulkEdit, BulkOperation
-from baseapp.formio import helpseeker_v1_prefilling, create_submission_data, get_title_description
+from baseapp.formio import convert_formio_data_to_django
 from django.conf import settings
 from baseapp.bulk_action import perform_bulk_action
 from user.serializers import UserPublicSerializer
@@ -160,7 +160,7 @@ class EntitySerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         """Over riding teh create method of serializer"""
         obj = Entity.objects.create(**validated_data)
-        #self.parse_data_json(obj, validated_data)
+        self.parse_data_json(obj, validated_data)
         return obj
 
     def update(self, instance, validated_data):
@@ -168,7 +168,7 @@ class EntitySerializer(serializers.ModelSerializer):
         for key,value in validated_data.items():
             setattr(instance, key, value)
         instance.save()
-        #self.parse_data_json(instance, validated_data)
+        self.parse_data_json(instance, validated_data)
         return instance
 
     def parse_data_json(self, obj, validated_data):
@@ -176,14 +176,12 @@ class EntitySerializer(serializers.ModelSerializer):
         Model"""
         data_json = validated_data.get("data_json", None)
         if data_json is not None:
-            prefill_json = create_submission_data(data_json)
-            about_dict = get_title_description(obj.record_type, data_json)
-            obj.latitude = about_dict.get("latitude", obj.latitude)
-            obj.longitude = about_dict.get("longitude", obj.longitude)
-            obj.title = about_dict['title']
-            obj.description = about_dict['description']
-            obj.formio_url = about_dict['formio_url']
-            obj.prefill_json = prefill_json
+            try:
+                field_dict = convert_formio_data_to_django(data_json)
+            except:
+                field_dict = {}
+            for key, value in field_dict.items():
+                setattr(obj, key, value)
             obj.save()
        #keyword_array = []
        #address = obj.address

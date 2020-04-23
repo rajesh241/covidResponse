@@ -1,5 +1,74 @@
 """Module for formio related functions"""
 from django.conf import settings
+import json
+from dotty_dict import dotty
+from baseapp.formio_to_django_mapping import  mapping_dict
+revised_mapping = mapping_dict
+
+#with open('formio_to_django_mapping.json', 'r') as f:
+#    revised_mapping = json.load(f)
+
+def get_title(dot):
+    formattedAddress = dot.get('contactForm.data.formattedAddress', '')
+    if isinstance(formattedAddress, dict):
+        formattedAddress = formattedAddress.get('formatted_address', '')
+    fullName = dot['contactForm.data.fullName']
+
+    if formattedAddress != '':
+        address_for_title = formattedAddress
+    else:
+        givenAddress = dot.get('contactForm.data.givenAddress', '')
+        city = dot.get('contactForm.data.sourceSpecific.city', '')
+        district = dot.get('contactForm.data.district', '')
+        state = dot.get('contactForm.data.sourceSpecific.state', '')
+
+        address = f"{givenAddress} {city}, {district}, {state}"
+        address = address.replace(' ,', ',')
+        address = address.replace('  ', ' ')
+        address = address.replace(', ,', ',')
+        address = address.replace(',,', ',')
+        address_for_title = address
+    
+    title = f"{fullName} {address_for_title}".upper()
+
+    return title
+
+def convert_formio_data_to_django(data):
+    '''
+    Pass the response from Formio to this function. 
+    '''
+    for key, value in data.items():
+        print(key)
+    #dot = dotty(data['submission']['data'])
+    dot = dotty(data)
+    geo_json = ''
+    # Replace the full dict form google with just formatted address for prefilling
+    formattedAddress = dot.get('contactForm.data.formattedAddress', '')
+    if isinstance(formattedAddress, dict):
+        geo_json = formattedAddress.copy()
+        formattedAddress = formattedAddress.get('formatted_address', '')
+        dot['contactForm.data.formattedAddress'] = formattedAddress
+
+    prefill = {'data': dot.to_dict()}
+    
+    # Extract mapping
+
+    django_dict = dotty({'prefill_json': prefill})
+
+    formio_data = []
+    for fkey in revised_mapping:
+        dkey = revised_mapping[fkey]
+        try:
+            info = dot[fkey]
+            django_dict[dkey] = info
+        except:
+            pass
+
+    res = django_dict.to_dict()
+    res['extra_fields']['geo_json'] = geo_json
+    res['title'] = get_title(dot)
+    print(res)
+    return res
 
 def get_title_description(record_type, data):
     about_dict = {}
