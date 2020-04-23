@@ -137,6 +137,7 @@ def main():
             myuser.region = wasan_id#Temporary
             user_role = role_dict.get(str(role_id), "volunteer")
             myuser.user_role = user_role
+            myuser.formio_usergroup = 'wassan'
             myuser.save()
            
 
