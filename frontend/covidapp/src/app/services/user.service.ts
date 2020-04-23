@@ -33,7 +33,7 @@ export class UserService {
     return this.http.get(this.listEndPoint,this.getHttpOptions());
   }
   getAllUsersPublic(): Observable<any>{
-    return this.http.get(this.publicListEndPoint,this.getPublicHttpOptions());
+    return this.http.get(this.publicListEndPoint+"?limit=10000",this.getPublicHttpOptions());
   }
    
   list(urlOrFilter?: string | object): Observable<Page<User>> {
