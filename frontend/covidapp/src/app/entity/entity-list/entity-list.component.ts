@@ -66,6 +66,7 @@ export class EntityListComponent  {
             ordering : new FormControl('-created'),
             volunteer: new FormControl(),
             assigned_to_user__name__icontains: new FormControl(),
+            assigned_to_group__name__icontains: new FormControl(),
             search: new FormControl(),
             location: new FormControl(),
             status: new FormControl(),

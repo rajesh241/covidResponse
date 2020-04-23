@@ -37,6 +37,14 @@
 
         <div class="form-group row">
           <label class="col-sm-3 col-form-label"></label>
+          <label  class="col-sm-2 col-form-label">Group</label>
+          <div class="col-sm-4">
+            <input formControlName="assigned_to_group__name__icontains" class="form-control" placeholder="Search by Group">
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label class="col-sm-3 col-form-label"></label>
           <label class="col-sm-2 col-form-label">Results per Page</label>
           <div class="col-sm-1">
             <input  formControlName="limit" class="form-control" placeholder="min">
