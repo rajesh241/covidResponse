@@ -1,6 +1,7 @@
 """This is the module to define Bulk Actions"""
 from django.contrib.auth import get_user_model, authenticate
 from baseapp.models import Entity
+from core.models import Group
 User = get_user_model()
 
 def perform_bulk_action(data):
@@ -31,6 +32,23 @@ def perform_bulk_action(data):
                 obj.extra_fields = extra_fields
                 obj.assigned_to_user = myuser
                 obj.save()
+    if bulk_action == "assigntogroup":
+        print("I am in assign group")
+        input_id = formio_json.get("assigntogroup", None)
+        if input_id is None:
+            return
+        myobj = Group.objects.filter(id=input_id).first()
+        if myobj is None:
+            return
+        for each_id in id_array:
+            obj = Entity.objects.filter(id=each_id).first()
+            if obj is not None:
+                extra_fields = obj.extra_fields
+                extra_fields['assigned_to_grop'] = myobj.name
+                obj.extra_fields = extra_fields
+                obj.assigned_to_group = myobj
+                obj.save()
+
     if bulk_action == "assigntoorg":
         print("I am in assign volunteer")
         try:
