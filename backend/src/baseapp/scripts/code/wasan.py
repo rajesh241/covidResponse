@@ -105,6 +105,14 @@ def main():
                 obj.save()
     if args['importUsers']:
         logger.info("Importing Users")
+        role_dict = {
+            '1' : 'usergroupadmin',
+            '2' : 'groupadmin',
+            '3' : 'volunteer',
+            '4' : 'volunteer',
+            '5' : 'volunteer',
+            '6' : 'usergroupadmin'
+        }
         df = pd.read_csv("../import_data/wassan_users.csv")
         for index, row in df.iterrows():
             wasan_id = row['Id']
@@ -127,7 +135,9 @@ def main():
             myuser.set_password(password) 
             myuser.phone = phone
             myuser.region = wasan_id#Temporary
-            myuser.user_role = role_id
+            user_role = role_dict.get(str(role_id), "volunteer")
+            myuser.user_role = user_role
+            myuser.formio_usergroup = 'wassan'
             myuser.save()
            
 
@@ -147,6 +157,16 @@ def main():
         usergroup = "wassan"
         
     if args['test']:
+        objs = Entity.objects.filter(formio_usergroup = "wassan")
+        for obj in objs:
+            try:
+                status = obj.extra_fields["common"]["status"]
+            except:
+                status = None
+            obj.status=status
+            logger.info(obj.id)
+            obj.save()
+        exit(0)
         csv_array = []
         logger.info("test")
         dbhost = "localhost"

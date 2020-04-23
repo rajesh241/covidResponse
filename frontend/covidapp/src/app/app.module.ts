@@ -75,6 +75,7 @@ import { EntityDetailComponent } from './entity/entity-detail/entity-detail.comp
 import { AddressSearchComponent } from './gmap/address-search/address-search.component';
 import { DashboardComponent } from './entity/dashboard/dashboard.component';
 import { AssignToComponent } from './entity/assign-to/assign-to.component';
+import { MyEntityListComponent } from './entity/my-entity-list/my-entity-list.component';
 
 
 //const google_oauth_client_id:string = '849540517607-9alj6fb3hoo3lhrlml4upqkme070bo2f.apps.googleusercontent.com';
@@ -136,6 +137,7 @@ export function provideConfig() {
         AddressSearchComponent,
         DashboardComponent,
         AssignToComponent,
+        MyEntityListComponent,
     ],
     imports: [
         BrowserModule,

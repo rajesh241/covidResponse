@@ -198,6 +198,7 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         """Overriding get token method"""
         token = super(MyTokenObtainPairSerializer, cls).get_token(user)
         # Add custom claims
+        token['id'] = user.id
         token['name'] = user.email
         token['ur'] = user.user_role
         if user.group is not None:
@@ -208,7 +209,7 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
             token['region'] = user.region
         else:
             token['region'] = "india"
-        token['formio_usergroup'] = user.formio_usergroup
+        token['usergroup'] = user.formio_usergroup
         return token
     def validate(self, attrs):
         username_field = get_user_model().USERNAME_FIELD

@@ -20,6 +20,7 @@ import { Oauth2callbackComponent } from './oauth2callback/oauth2callback.compone
 import { EntitySearchComponent } from "./entity/entity-search/entity-search.component";
 import { EntityCreateComponent } from "./entity/entity-create/entity-create.component";
 import { EntityListComponent } from "./entity/entity-list/entity-list.component";
+import { MyEntityListComponent } from "./entity/my-entity-list/my-entity-list.component";
 import { EntityEditComponent } from "./entity/entity-edit/entity-edit.component";
 import { EntityDetailComponent } from "./entity/entity-detail/entity-detail.component";
 import { DashboardComponent } from './entity/dashboard/dashboard.component';
@@ -50,6 +51,7 @@ const routes: Routes = [
     {path : 'form-edit', component : FormEditComponent},
     {path : 'invite', component : InviteComponent},
     {path : 'list', component : EntityListComponent, canActivate:[AuthGuard]},
+    {path : 'mylist', component : MyEntityListComponent, canActivate:[AuthGuard]},
     {path : 'map', component : ContextMapComponent},
     {path : 'about', component : AboutComponent},
     {path : 'users', component : UserListComponent},

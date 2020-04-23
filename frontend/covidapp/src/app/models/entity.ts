@@ -14,6 +14,8 @@ what_help: string;
 how_urgent: string;
 who_are_you: string;
 email: string;
+status: string;
+urgency: string;
 created: Date;
 updated: Date;
 icon_url: string;
