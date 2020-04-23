@@ -27,7 +27,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li class="menu-item" routerLinkActive="active" *ngIf="!authService.isLoggedIn()"><a routerLink="login">Login</a></li>
         <li class="menu-item" routerLinkActive="active" *ngIf="authService.isRealtor()"><a routerLink="users">Users</a></li>
-        <li class="menu-item" routerLinkActive="active" *ngIf="authService.isLoggedIn()"><a routerLink="profile">Profile</a></li>
+        <li class="menu-item" routerLinkActive="active" *ngIf="authService.isLoggedIn()"><a routerLink="mylist">My List</a></li>
         <li><a href="#" (click)="authService.logout()"  *ngIf="authService.isLoggedIn()">Logout</a></li>
       </ul>
     </div><!-- /.navbar-collapse -->

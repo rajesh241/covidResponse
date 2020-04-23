@@ -123,19 +123,19 @@
           <table class="table">
             <thead>
               <tr>
-                <th *ngIf="authService.isLoggedIn()">
+                <th *ngIf="!authService.isVolunteer()">
                   <mat-checkbox [ngModelOptions]="{standalone: true}" class="cb-margin" (change)="allChecked()" [(ngModel)]="checkState"></mat-checkbox></th>
                 <th>Name</th>
                 <th>Contact Nos</th>
 		<th>Group</th>
                 <th>Volunteer</th>
-                <th>Posted On</th>
-                <th *ngIf="authService.isLoggedIn()" align="center">Actions</th>
+                <th>Status</th>
+                <th *ngIf="!authService.isVolunteer()" align="center">Actions</th>
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="let entity of (page | async)?.results;let i=index">
-                <td *ngIf="authService.isLoggedIn()">
+                <td *ngIf="!authService.isVolunteer()">
                   <mat-checkbox
                     [ngModelOptions]="{standalone: true}"
                     class="cb-margin" (change)="onCBChange(entity)"
@@ -153,7 +153,7 @@
                 <td *ngIf="!entity.assigned_to_user"></td>
                 <td *ngIf="entity.assigned_to_user">{{entity.assigned_to_user.name}}</td>
                 <td>{{entity.status}}</td>
-                <td *ngIf="authService.isLoggedIn()" class="td-actions">
+                <td *ngIf="!authService.isVolunteer()" class="td-actions">
                   <div>
                     <button mat-raised-button class="btn btn-primary"
                             (click)="editDialog(entity)">

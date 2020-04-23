@@ -83,7 +83,7 @@
                   <a [routerLink]="['/item',entity.id]">{{entity.title}}</a>
                 </td>
                 <td *ngIf="!authService.isLoggedIn()">
-                  {{entity.name}}
+                  {{entity.title}}
                 </td>
                 <td>{{entity.phone}}</td>
                 <td>{{entity.status}}</td>

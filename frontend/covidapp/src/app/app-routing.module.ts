@@ -39,7 +39,7 @@ import { PrivacyComponent } from './user/privacy/privacy.component';
 import { ProfileEditComponent } from './user/profile-edit/profile-edit.component';
 
 const routes: Routes = [
-    {path : '', component : EntityListComponent, canActivate: [AuthGuard]},
+    {path : '', component : MyEntityListComponent, canActivate: [AuthGuard]},
     //{path : '', redirectTo: 'search', pathMatch:'full'},
     {path : 'dashboard', component : DashboardComponent},
     {path : 'locate', component : CovidLocateComponent},
