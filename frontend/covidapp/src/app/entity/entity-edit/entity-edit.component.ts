@@ -136,7 +136,7 @@ export class EntityEditComponent implements OnInit {
                     this.entity = data as Observable<Entity>;
                     this.success = true;
                     //this.router.navigate(['/view/'+this.entity["id"]]);
-                    this.router.navigate(['/list/']);
+                   // this.router.navigate(['/list/']);
 	        },
                 err => {
                     this.success=false;

@@ -46,6 +46,7 @@ export class MyEntityListComponent implements OnInit {
   constructor(
         public authService: AuthService,
         private entityService: EntityService,
+        private dialog: MatDialog,
         private router:Router
   ) { 
         this.userid = localStorage.getItem("userid");  
@@ -86,4 +87,43 @@ export class MyEntityListComponent implements OnInit {
     onPageChanged(url: string) {
         this.pageUrl.next(url);
     }
+
+   editDialog(entity) {
+        console.log(`Inside EntityListComponent.editDialog(${JSON.stringify(entity)})`);
+        console.log(entity);
+	if (this.authService.isLoggedIn()){ 
+            const dialogConfig = new MatDialogConfig();
+
+            dialogConfig.disableClose = true;
+            dialogConfig.autoFocus = true;
+
+            dialogConfig.data = entity;
+
+            const dialogRef = this.dialog.open(EditDialogComponent, dialogConfig);
+
+            dialogRef.afterClosed().subscribe(
+                data => {
+            	    //const replacer = (key, value) =>  String(value) === "null" || String(value) === "undefined" ? 0 : value; 
+                    // data = JSON.parse( JSON.stringify(data, replacer));
+                    console.log("Dialog output:", data);
+                    /*
+                    //this.entityService.createItem({'name':'default','latitude': this.latitude, 'longitude': this.longitude, 'record_type':type})
+                    this.entityService.createItem({'name':'default','latitude': this.latitude, 'longitude': this.longitude, 'record_type':type, 'data_json':data,'address':this.address,'google_location_json':this.gmap_details})
+                    .subscribe(
+                    data => {
+                    console.log('Entity Creattion Successful', data);
+                    },
+                    err => {
+                    console.log("Entity Creation Failed");
+                    }
+                    );
+                    */
+                }
+            );
+	}else{
+            this.router.navigate(['/login']);
+	}
+    }
+
+
 }
