@@ -24,6 +24,7 @@ urlpatterns = [
     path('', views.UserAPIView.as_view(), name='user_api_view'),
     path('public', views.UserPublicAPIView.as_view(), name='user_public_api_view'),
     path('group', views.GroupAPIView.as_view(), name='group_api_view'),
+    path('group/public', views.GroupPublicAPIView.as_view(), name='public_group_api_view'),
     path('token/', views.MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 #    path('bulkdelete/', views.UserBulkDeleteView.as_view(), name='bulk_delete'),

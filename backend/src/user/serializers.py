@@ -63,6 +63,14 @@ class UserPublicSerializer(serializers.ModelSerializer):
         model = get_user_model()
         fields = ('id', 'name', 'group')
 
+class GroupPublicSerializer(serializers.ModelSerializer):
+    """ Serializer for the User Public object """
+    class Meta:
+        """Meta Class"""
+        model = Group
+        fields = ('id', 'name')
+
+
 class UserSerializer(serializers.ModelSerializer):
     """ Serializer for the user object """
     password2 = serializers.CharField(style={'input_type': 'password'}, write_only=True)

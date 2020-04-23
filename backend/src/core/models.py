@@ -53,7 +53,7 @@ class Region(models.Model):
  
 class Group(models.Model):
     """This is the class for Group"""
-    title = models.CharField(max_length=256, null=True, blank=True)
+    name = models.CharField(max_length=256, null=True, blank=True)
     region = models.CharField(max_length=256, null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
@@ -63,7 +63,7 @@ class Group(models.Model):
         db_table = 'org'
     def __str__(self):
         """Default str method for the class"""
-        return f"{self.title}"
+        return f"{self.name}"
 
 
 

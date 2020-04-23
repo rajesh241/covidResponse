@@ -34,9 +34,9 @@ class UserAdmin(BaseUserAdmin):
 
 class GroupModelAdmin(admin.ModelAdmin):
     """Model Adminf or class Group"""
-    list_display = ["id", "title"]
-    list_filter = ["title"]
-    search_fields = ["title"]
+    list_display = ["id", "name"]
+    list_filter = ["name"]
+    search_fields = ["name"]
 class RegionModelAdmin(admin.ModelAdmin):
     """Model Adminf or class Group"""
     list_display = ["id", "name"]
