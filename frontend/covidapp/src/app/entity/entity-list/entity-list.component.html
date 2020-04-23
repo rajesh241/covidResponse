@@ -127,6 +127,7 @@
                   <mat-checkbox [ngModelOptions]="{standalone: true}" class="cb-margin" (change)="allChecked()" [(ngModel)]="checkState"></mat-checkbox></th>
                 <th>Name</th>
                 <th>Contact Nos</th>
+		<th>Group</th>
                 <th>Volunteer</th>
                 <th>Posted On</th>
                 <th *ngIf="authService.isRealtor()" align="center">Actions</th>
@@ -147,6 +148,8 @@
                   {{entity.name}}
                 </td>
                 <td>{{entity.contact_numbers}}</td>
+                <td *ngIf="!entity.assigned_to_group"></td>
+                <td *ngIf="entity.assigned_to_group">{{entity.assigned_to_group.name}}</td>
                 <td *ngIf="!entity.assigned_to_user"></td>
                 <td *ngIf="entity.assigned_to_user">{{entity.assigned_to_user.name}}</td>
                 <td>{{entity.status}}</td>
