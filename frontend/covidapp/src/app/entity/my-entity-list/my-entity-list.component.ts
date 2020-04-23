@@ -35,6 +35,7 @@ export class MyEntityListComponent implements OnInit {
     bulkAction: string = 'none';
     bulkActionList = {};
     panelOpen = true;
+    userid:string;
     statusOptions = [
         {'value': 'to_call', 'name': 'To Call'},
         {'value': 'assign_to_volunteer', 'name': 'Assign To Volunteer'},
@@ -47,7 +48,7 @@ export class MyEntityListComponent implements OnInit {
         private entityService: EntityService,
         private router:Router
   ) { 
-  
+        this.userid = localStorage.getItem("userid");  
 	if (localStorage.getItem('usergroup') === 'wassan') {
 	    this.statusOptions = [
 		{'value': 'not_started', 'name': 'Not started'},
@@ -61,7 +62,7 @@ export class MyEntityListComponent implements OnInit {
         this.filterForm = new FormGroup({
             limit : new FormControl(10),
             ordering : new FormControl('-created'),
-            assigned_to_user__id: new FormControl(113),
+            assigned_to_user__id: new FormControl(this.userid),
             search: new FormControl(),
             status: new FormControl()
         });

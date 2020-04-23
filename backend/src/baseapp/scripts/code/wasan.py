@@ -157,6 +157,16 @@ def main():
         usergroup = "wassan"
         
     if args['test']:
+        objs = Entity.objects.filter(formio_usergroup = "wassan")
+        for obj in objs:
+            try:
+                status = obj.extra_fields["common"]["status"]
+            except:
+                status = None
+            obj.status=status
+            logger.info(obj.id)
+            obj.save()
+        exit(0)
         csv_array = []
         logger.info("test")
         dbhost = "localhost"
