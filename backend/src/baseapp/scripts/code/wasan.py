@@ -15,7 +15,7 @@ from core.models import Region
 from baseapp.models import Entity
 
 User = get_user_model()
-from core.models import Group
+from core.models import Group, Region
 def args_fetch():
     '''
     Paser for the argument list that returns the args list
@@ -29,6 +29,10 @@ def args_fetch():
     parser.add_argument('-i', '--import', help='Import',
                         required=False, action='store_const', const=1)
     parser.add_argument('-ie', '--importEntities', help='Import',
+                        required=False, action='store_const', const=1)
+    parser.add_argument('-iu', '--importUsers', help='Import',
+                        required=False, action='store_const', const=1)
+    parser.add_argument('-cue', '--connectUsersEntity', help='Import',
                         required=False, action='store_const', const=1)
     parser.add_argument('-ir', '--importRegions', help='Import',
                         required=False, action='store_const', const=1)
@@ -87,6 +91,47 @@ def main():
     """Main Module of this program"""
     args = args_fetch()
     logger = logger_fetch(args.get('log_level'))
+    if args['connectUsersEntity']:
+        objs = Entity.objects.filter(formio_usergroup = "wassan")
+        for obj in objs:
+            extra_fields = obj.extra_fields
+            try:
+                wasan_user_id = obj.extra_fields['common']['assigned_to_id']
+            except:
+                wasan_user_id = None
+            myUser = User.objects.filter(region=wasan_user_id).first()
+            if myUser is not None:
+                obj.assigned_to_user = myUser
+                obj.save()
+    if args['importUsers']:
+        logger.info("Importing Users")
+        df = pd.read_csv("../import_data/wassan_users.csv")
+        for index, row in df.iterrows():
+            wasan_id = row['Id']
+            name = row['FullName']
+            email = row['Username']
+            if "@" not in email:
+                email = f"{email}@abcd.com"
+            password = row['Password']
+            role_id = row['RoleId']
+            group_name = row['OrganizationName']
+            phone = row['Mobile']
+            myGroup = Group.objects.filter(name=group_name).first()
+            if myGroup is None:
+                myGroup = Group.objects.create(name=group_name)
+            myuser = User.objects.filter(email=email).first()
+            if myuser is None:
+                myuser = User.objects.create(email=email)
+          #  myuser.group = myGroup
+            myuser.name = name
+            myuser.set_password(password) 
+            myuser.phone = phone
+            myuser.region = wasan_id#Temporary
+            myuser.user_role = role_id
+            myuser.save()
+           
+
+
     if args['importEntities']:
         objs = Entity.objects.filter(formio_usergroup = "wassan")
         for obj in objs:

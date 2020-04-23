@@ -15,8 +15,8 @@ import { PublicGroup } from "../../models/publicgroup";
 })
 export class BulkDialogComponent implements OnInit {
     form: FormGroup;
-    users : Observable<PublicUser[]>;
-    groups : Observable<PublicGroup[]>;
+    users : any;//Observable<PublicUser[]>;
+    groups : any;//Observable<PublicGroup[]>;
     dataLoaded: Promise<boolean>;
     action;
     entities;

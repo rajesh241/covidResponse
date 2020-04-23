@@ -12,7 +12,7 @@
         </mat-panel-description>
       </mat-expansion-panel-header>
       <mat-card-content class="col-md-12">
-        <div class="form-group row">
+        <div *ngIf="showAddressBar" class="form-group row">
           <label  class="col-sm-3 col-form-label"></label>
           <div class="col-sm-6">
             <!-- <app-address-search formControlName="location" (setAddress)="location=$event"></app-address-search> -->
@@ -123,28 +123,28 @@
           <table class="table">
             <thead>
               <tr>
-                <th *ngIf="authService.isRealtor()">
+                <th *ngIf="authService.isLoggedIn()">
                   <mat-checkbox [ngModelOptions]="{standalone: true}" class="cb-margin" (change)="allChecked()" [(ngModel)]="checkState"></mat-checkbox></th>
                 <th>Name</th>
                 <th>Contact Nos</th>
 		<th>Group</th>
                 <th>Volunteer</th>
                 <th>Posted On</th>
-                <th *ngIf="authService.isRealtor()" align="center">Actions</th>
+                <th *ngIf="authService.isLoggedIn()" align="center">Actions</th>
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="let entity of (page | async)?.results;let i=index">
-                <td *ngIf="authService.isRealtor()">
+                <td *ngIf="authService.isLoggedIn()">
                   <mat-checkbox
                     [ngModelOptions]="{standalone: true}"
                     class="cb-margin" (change)="onCBChange(entity)"
                     [(ngModel)]="selectedEntities[entity.id]"></mat-checkbox>
                 </td>
-                <td *ngIf="authService.isRealtor()">
+                <td *ngIf="authService.isLoggedIn()">
                   <a [routerLink]="['/item',entity.id]">{{entity.title}}</a>
                 </td>
-                <td *ngIf="!authService.isRealtor()">
+                <td *ngIf="!authService.isLoggedIn()">
                   {{entity.name}}
                 </td>
                 <td>{{entity.contact_numbers}}</td>
@@ -153,7 +153,7 @@
                 <td *ngIf="!entity.assigned_to_user"></td>
                 <td *ngIf="entity.assigned_to_user">{{entity.assigned_to_user.name}}</td>
                 <td>{{entity.status}}</td>
-                <td *ngIf="authService.isRealtor()" class="td-actions">
+                <td *ngIf="authService.isLoggedIn()" class="td-actions">
                   <div>
                     <button mat-raised-button class="btn btn-primary"
                             (click)="editDialog(entity)">

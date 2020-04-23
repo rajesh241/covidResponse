@@ -21,6 +21,7 @@ import { BulkDialogComponent } from '../bulk-dialog/bulk-dialog.component';
     styleUrls: ['./entity-list.component.css']
 })
 export class EntityListComponent  {
+    showAddressBar: boolean = false;
     filterForm: FormGroup;
     page: Observable<Page<Entity>>;
     pageUrl = new Subject<string>();
