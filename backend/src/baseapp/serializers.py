@@ -6,7 +6,7 @@ from baseapp.models import Covid, Entity, Feedback, EntityBulkEdit, BulkOperatio
 from baseapp.formio import convert_formio_data_to_django
 from django.conf import settings
 from baseapp.bulk_action import perform_bulk_action
-from user.serializers import UserPublicSerializer
+from user.serializers import UserPublicSerializer, GroupPublicSerializer
 User = get_user_model()
 
 def clean_phone_number(string):
@@ -83,6 +83,7 @@ class EntitySerializer(serializers.ModelSerializer):
     tags = serializers.SerializerMethodField()
     assigned_to_org = SmallEntitySerializer(required=False)
     assigned_to_user = UserPublicSerializer(required=False)
+    assigned_to_group = GroupPublicSerializer(required=False)
     class Meta:
         """Meta Class"""
         model = Entity
