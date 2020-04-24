@@ -1,0 +1,90 @@
+Id,FullName,Username,Password,RoleId,OrganisationId,MainOrganisationId,Mobile,orgID,OrganizationName,mainOrgId,MainOrganization
+1,VINAYKUMAR,vinay@wassan.org,Shizuka@9,6,2,1,8143030693,2,WASSAN,1,WASSAN
+2,JAYA PRAKASH,Jp@wassan.org,jaya@2020,2,2,1,9182504677,2,WASSAN,1,WASSAN
+3,RADHA,Radha@wassan.org,covid@19,2,2,1,9493211984,2,WASSAN,1,WASSAN
+4,ANUPRIYA,Anupriya@wassan.org,anu@2020,2,2,1,8897311538,2,WASSAN,1,WASSAN
+5,UDAY,Uday@wassan.org,covid@19,3,2,1,,2,WASSAN,1,WASSAN
+6,SURYA,Surya@wassan.org,covid@19,3,2,1,,2,WASSAN,1,WASSAN
+7,ANEETHA,Aneetha@wassan.org,covid@19,3,2,1,7763850707,2,WASSAN,1,WASSAN
+8,SAJALA,Sajala@wassan.org,covid@19,3,2,1,,2,WASSAN,1,WASSAN
+9,GIJIVISHA,Gijivisha@wassan.org,covid@19,3,2,1,8299300402,2,WASSAN,1,WASSAN
+10,JYOTI,Jyoti@wassan.org,covid@19,3,2,1,,2,WASSAN,1,WASSAN
+11,MALRAJ,Malraj@wassan.org,covid@19,3,2,1,,2,WASSAN,1,WASSAN
+12,KOTI,koti@wassan.org,covid@19,3,2,1,,2,WASSAN,1,WASSAN
+13,RAVINDRA,Ravindra@wassan.org,RAVINDRA@1,2,2,1,9440621861,2,WASSAN,1,WASSAN
+14,SATISH,Satish@wassan.org,covid@19,3,2,1,,2,WASSAN,1,WASSAN
+15,NARASIMHA RAO,Narasimha@wassan.org,covid@19,3,2,1,,2,WASSAN,1,WASSAN
+16,SUDHAKAR,Sudhakar@wassan.org,covid@19,3,2,1,,2,WASSAN,1,WASSAN
+17,SUNNY,Sunny@wassan.org,covid@19,3,2,1,,2,WASSAN,1,WASSAN
+18,PATRO,Patro@wassan.org,covid@19,3,2,1,,2,WASSAN,1,WASSAN
+19,SABYA,sabyasachi@wassan.org,sabya@2020,1,2,1,9440804860,2,WASSAN,1,WASSAN
+20,MANOJ,Manoj@wassan.org,covid@19,3,2,1,,2,WASSAN,1,WASSAN
+22,NARSING,Narasing@wassan.org,covid@19,3,2,1,,2,WASSAN,1,WASSAN
+23,RAKESH,Rakesh@wassan.org,covid@19,3,2,1,,2,WASSAN,1,WASSAN
+24,ROHITH,Rohith@wassan.org,covid@19,3,2,1,,2,WASSAN,1,WASSAN
+25,ROOPA,Roopa@wassan.org,covid@19,3,2,1,,2,WASSAN,1,WASSAN
+26,SIMHACHALAM,Simhachalam@wassan.org,covid@19,3,2,1,,2,WASSAN,1,WASSAN
+27,SRINU,Srinu@wassan.org,covid@19,3,2,1,,2,WASSAN,1,WASSAN
+28,SUBHASHINI,Subhashini@wassan.org,covid@19,3,2,1,,2,WASSAN,1,WASSAN
+30,SUSMI,Susmi@wassan.org,covid@19,3,2,1,,2,WASSAN,1,WASSAN
+31,UTHAPPA,Uthappa@wassan.org,covid@19,3,2,1,,2,WASSAN,1,WASSAN
+32,VENU,Venu@wassan.org,covid@19,3,2,1,,2,WASSAN,1,WASSAN
+33,CHAITHANYA,Chaitanya@wassan.org,covid@19,3,2,1,,2,WASSAN,1,WASSAN
+34,ERAJU,Eraju@wassan.org,covid@19,3,2,1,,2,WASSAN,1,WASSAN
+35,NOT ASSIGNED,notassigned@wassan.org,covid@19,3,2,1,,2,WASSAN,1,WASSAN
+36,TESTUSER,testuser@wassan.org,testuser,4,2,1,8143030693,2,WASSAN,1,WASSAN
+37,DINESH BALAM,dinesh@wassan.org,covid@19,3,2,1,,2,WASSAN,1,WASSAN
+38,LALBIJAY,lalbijay@wassan.org,covid@19,3,2,1,,2,WASSAN,1,WASSAN
+39,SAILAJA,sailaja@wassan.org,covid@19,3,2,1,,2,WASSAN,1,WASSAN
+40,PRAKASH,prakash@wassan.org,covid@19,3,2,1,,2,WASSAN,1,WASSAN
+41,ANIKET,aniket@wassan.org,covid@19,3,2,1,,2,WASSAN,1,WASSAN
+42,SATYAYP,satyayp@wassan.org,covid@19,3,2,1,,2,WASSAN,1,WASSAN
+43,SHUBHRANSHU,shubhranshu@wassan.org,covid@19,3,2,1,,2,WASSAN,1,WASSAN
+44,KAMALABARIK,kamalabarik@wassan.org,covid@19,3,2,1,,2,WASSAN,1,WASSAN
+45,SOUMYARANJAN,soumyaranjan@wassan.org,covid@19,3,2,1,,2,WASSAN,1,WASSAN
+47,Vinay A,vinayA@wassan.org,9989970066,3,2,1,9989970066,2,WASSAN,1,WASSAN
+48,Srinivas Borra,borra@wassan.org,9160198832,3,2,1,9160198832,2,WASSAN,1,WASSAN
+49,Ramachanduru,ram@wassan.org,9440621860,3,2,1,9440621860,2,WASSAN,1,WASSAN
+50,Naveen RSV,naveen@rsv.org,9160309301,4,2,1,9160309301,2,WASSAN,1,WASSAN
+51,TARUN J90,tarun.j90@gmail.com,tarun@2020,1,2,1,9876543210,2,WASSAN,1,WASSAN
+82,Lakshmi Priya,luckypriya@gmail.com,9663604463,7,2,1,9663604463,2,WASSAN,1,WASSAN
+83,Rahul,rahulkr@gmail.com,8977827024,7,2,1,8977827024,2,WASSAN,1,WASSAN
+86,Shrimayee,shrimayi299@gmail.com,9840507447,7,2,1,9840507447,2,WASSAN,1,WASSAN
+87,Bidyabhushan,bidya@wassan.org,8210373562,3,2,1,8210373562,2,WASSAN,1,WASSAN
+88,Sonal,sonalmattoo@gmail.com,9810740465,7,2,1,9810740465,2,WASSAN,1,WASSAN
+91,vijaya@wassan.org,Vijaya,9848853195,3,2,1,9848853195,2,WASSAN,1,WASSAN
+21,MIN,Min@wassan.org,min@2020,1,3,3,9486750671,3,Jharkhand Organisation data,3,JHARKHAND
+54,JP_Jharkhand,JP_Jharkhand,123456,1,323,3,1234567890,323,Jharkhand,3,JHARKHAND
+55,Anu_Jharkhand,Anu_Jharkhand,123456,1,323,3,1234567890,323,Jharkhand,3,JHARKHAND
+56,PravinMote_Chat,PravinMote_Chat,123456,2,325,3,1234567890,325,Chhattisgarh,3,JHARKHAND
+57,Anushree_Chat,Anushree_Chat,123456,1,325,3,1234567890,325,Chhattisgarh,3,JHARKHAND
+58,Swomya_Guj,Swomya_Guj,123456,2,326,3,1234567890,326,Gujarat,3,JHARKHAND
+59,PravinMote_MP,PravinMote_MP,123456,2,324,3,1234567890,324,MP,3,JHARKHAND
+60,Parmesh_MP,Parmesh_MP,123456,2,324,3,1234567890,324,MP,3,JHARKHAND
+61,Sajal_Maha,Sajal_Maha,123456,2,327,3,1234567890,327,Maharashtra,3,JHARKHAND
+62,PravinMote_Maha,PravinMote_Maha,123456,2,327,3,1234567890,327,Maharashtra,3,JHARKHAND
+63,Parmesh_Raj,Parmesh_Raj,123456,2,328,3,1234567890,328,Rajasthan,3,JHARKHAND
+64,ChandraP,ChandraP,123456,3,328,3,1234567890,328,Rajasthan,3,JHARKHAND
+65,Kirti M.,Kirti_Guj,123456,3,326,3,9925993588,326,Gujarat,3,JHARKHAND
+66,Karman M.,Karman_Guj,123456,3,326,3,9879348891,326,Gujarat,3,JHARKHAND
+67,Ramani Ranjan Nashik,Ramani_mahanashik,123456,3,327,3,9178896965,327,Maharashtra,3,JHARKHAND
+68,Gurudas Themaskar ,Gurudas_mahagad,123456,3,327,3,9421732317,327,Maharashtra,3,JHARKHAND
+69,Aditya Borkar ,adityagypm_mahabhan,123456,3,327,3,8149941204,327,Maharashtra,3,JHARKHAND
+70,Gautam Nitnaware,Gautamcpc_mahanag,123456,3,327,3,9545998702,327,Maharashtra,3,JHARKHAND
+71,Pravin M.,Pravin_Guj,123456,3,326,3,9099935122,326,Gujarat,3,JHARKHAND
+72,Rajesh Hiran,rajeshh_Raj,123456,3,328,3,1234567890,328,Rajasthan,3,JHARKHAND
+73,Raj Kumar Khatri,rajkk_Raj,123456,3,328,3,1234567890,328,Rajasthan,3,JHARKHAND
+74,Ishwar Bairwa,ishwarb_Raj,123456,3,328,3,1234567890,328,Rajasthan,3,JHARKHAND
+75,1,Burhan_Mahanag2,123456,3,327,3,8459373673,327,Maharashtra,3,JHARKHAND
+76,S Sharma,ssharma_Raj,123456,2,328,3,1234567890,328,Rajasthan,3,JHARKHAND
+77,V K Chandani,vkchandani_Raj,123456,3,328,3,1234567890,328,Rajasthan,3,JHARKHAND
+78,S Shubham,sshubham_Raj,123456,3,328,3,1234567890,328,Rajasthan,3,JHARKHAND
+79,Samriya Ankur,samriyaankur_Raj,123456,3,328,3,1234567890,328,Rajasthan,3,JHARKHAND
+80,R Samariya,rsamariya_Raj,123456,3,328,3,1234567890,328,Rajasthan,3,JHARKHAND
+81,R Beniwal,rbeniwal_Raj,123456,3,328,3,1234567890,328,Rajasthan,3,JHARKHAND
+84,2,Burhan_mahanag2,123456,3,327,3,7597963370,327,Maharashtra,3,JHARKHAND
+85,Burhan,yra_mahanag2,123456,3,327,3,7597963370,327,Maharashtra,3,JHARKHAND
+89,Amit Dave,Amit_Guj,123456,2,326,3,1234567890,326,Gujarat,3,JHARKHAND
+90,Sejal Joshi,Sejal_Guj,123456,2,326,3,1234567890,326,Gujarat,3,JHARKHAND
+52,TO1Admin1,to1admin1,to1admin1,2,322,2,1234567890,322,TestOrg1,2,KARNATAKA
+53,TO1User1,to1user1,to1user1,3,322,2,1234567890,322,TestOrg1,2,KARNATAKA
