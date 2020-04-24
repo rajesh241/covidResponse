@@ -92,7 +92,13 @@ def main():
     args = args_fetch()
     logger = logger_fetch(args.get('log_level'))
     if args['connectUsersEntity']:
-        objs = Entity.objects.filter(formio_usergroup = "wassan")
+        objs = Entity.objects.filter(record_type = "helpseekers")
+        myGroup = Group.objects.filter(id=10).first()
+        for obj in objs:
+            obj.assigned_to_group = myGroup
+            logger.info(obj.id)
+            obj.save()
+        exit(0)
         for obj in objs:
             extra_fields = obj.extra_fields
             try:

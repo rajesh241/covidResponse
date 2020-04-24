@@ -13,6 +13,7 @@ export class EntityService {
   private endpoint = environment.apiURL+"/api/public/entity/";
   private fbendpoint = environment.apiURL+"/api/public/feedback/";
   private listEndPoint = environment.apiURL+"/api/public/entity/";
+  private entityListEndPoint = environment.apiURL+"/api/public/entitylist/";
   private createEndPoint = environment.apiURL+"/api/public/create/";
   private bulkDeleteEndpoint = environment.apiURL+"/api/public/bulkdeleteapt/";
     private bulkOperationEndpoint = environment.apiURL+"/api/public/bulkoperation/";
@@ -28,13 +29,13 @@ export class EntityService {
   }
 
   list(urlOrFilter?: string | object): Observable<Page<Entity>> {
-    return queryPaginated<Entity>(this.http, this.listEndPoint, false, urlOrFilter);
+    return queryPaginated<Entity>(this.http, this.entityListEndPoint, false, urlOrFilter);
   }
   geoList(geoBounds:object, urlOrFilter?: string | object): Observable<Page<Entity>> {
-    return queryPaginatedLocations<Entity>(this.http, this.listEndPoint, geoBounds, urlOrFilter);
+    return queryPaginatedLocations<Entity>(this.http, this.entityListEndPoint, geoBounds, urlOrFilter);
   }
   getAllItems(): Observable<any>{
-    return this.http.get(this.listEndPoint,this.getHttpOptions());
+    return this.http.get(this.entityListEndPoint,this.getHttpOptions());
   }
   
   bulkDeleteItems(data){
