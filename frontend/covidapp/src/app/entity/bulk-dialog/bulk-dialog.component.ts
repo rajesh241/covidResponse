@@ -22,6 +22,7 @@ export class BulkDialogComponent implements OnInit {
     entities;
     data;
     json_data;
+    usergroup;
     form_url:string;
     formioBased:boolean= false;
     assignForm: FormGroup;
@@ -44,6 +45,7 @@ export class BulkDialogComponent implements OnInit {
         //console.log(`Inside BulkDialogComponent.constructor(${JSON.stringify(data)})`);
         console.log(`Inside BulkDialogComponent.constructor()`);
         console.log(data);
+	this.usergroup = localStorage.getItem('usergroup');
 	this.data = data;
         this.action = data.action;
 	console.log(this.action);
@@ -64,7 +66,7 @@ export class BulkDialogComponent implements OnInit {
 
     ngOnInit() {
 	if (this.action == "assigntovolunteer"){
-             this.userService.getAllUsersPublic()
+             this.userService.getAllUsersPublic(this.usergroup)
                    .subscribe(
                        data => {
                            console.log(' success', data);

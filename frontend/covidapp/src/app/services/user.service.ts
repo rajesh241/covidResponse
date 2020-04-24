@@ -33,8 +33,8 @@ export class UserService {
   getAllUsers(): Observable<any>{
     return this.http.get(this.listEndPoint,this.getHttpOptions());
   }
-  getAllUsersPublic(): Observable<any>{
-    return this.http.get(this.publicListEndPoint+"?limit=10000",this.getPublicHttpOptions());
+  getAllUsersPublic(usergroup:any): Observable<any>{
+    return this.http.get(this.publicListEndPoint+"?limit=10000&formio_usergroup="+usergroup,this.getPublicHttpOptions());
   }
   getAllGroupsPublic(): Observable<any>{
     return this.http.get(this.groupPublicEndPoint+"?limit=10000",this.getPublicHttpOptions());

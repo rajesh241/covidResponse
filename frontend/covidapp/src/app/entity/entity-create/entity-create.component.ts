@@ -18,6 +18,7 @@ export class EntityCreateComponent implements OnInit {
   form_type: string;
   form_url: string;
   prefill_json:any;
+  usergroup:any;
   dataLoaded: Promise<boolean>;
   constructor(
                 private activatedRoute:ActivatedRoute,
@@ -25,11 +26,13 @@ export class EntityCreateComponent implements OnInit {
                 private userService: UserService,
                 private router: Router
   
-  ) { }
+  ) { 
+	this.usergroup = localStorage.getItem('usergroup');
+  }
 
   ngOnInit() {
 	this.prefill_json = {"data" : {"userGroup": "swan"}};
-	this.users = this.userService.getAllUsersPublic();
+	this.users = this.userService.getAllUsersPublic(this.usergroup);
         this.dataLoaded = Promise.resolve(true);
 	//this.prefill_json = {"data" :{}};
         this.activatedRoute.paramMap.subscribe(
