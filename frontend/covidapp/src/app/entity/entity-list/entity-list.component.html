@@ -85,6 +85,17 @@
           </div>
         </div>
         <div class="form-group row">
+          <div align="center" class="col-sm-auto">
+            <mat-form-field>
+              <mat-label>By Urgency</mat-label>
+              <mat-select formControlName="urgency">
+                <mat-option value="">None</mat-option>
+                <mat-option *ngFor="let option of urgencyOptions" [value]="option.value">{{ option.name }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="form-group row">
           <label class="col-sm-3 col-form-label"></label>
           <mat-card class = "col-sm-6">
             <mat-card-content>
@@ -127,9 +138,10 @@
                   <mat-checkbox [ngModelOptions]="{standalone: true}" class="cb-margin" (change)="allChecked()" [(ngModel)]="checkState"></mat-checkbox></th>
                 <th>Name</th>
                 <th>Contact Nos</th>
-		<th>Group</th>
+                <th>Group</th>
                 <th>Volunteer</th>
                 <th>Status</th>
+                <th>Urgency</th>
                 <th *ngIf="!authService.isVolunteer()" align="center">Actions</th>
               </tr>
             </thead>
@@ -153,6 +165,7 @@
                 <td *ngIf="!entity.assigned_to_user"></td>
                 <td *ngIf="entity.assigned_to_user">{{entity.assigned_to_user.name}}</td>
                 <td>{{entity.status}}</td>
+                <td>{{entity.urgency}}</td>
                 <td *ngIf="!authService.isVolunteer()" class="td-actions">
                   <div>
                     <button mat-raised-button class="btn btn-primary"

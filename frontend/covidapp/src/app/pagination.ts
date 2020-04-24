@@ -42,6 +42,9 @@ export function queryPaginated<T>(http: HttpClient, baseUrl: string, insertToken
             else if ( (value != null) && (key === "status")){
                 params = params.set(key, value.toString());
             }
+            else if ( (value != null) && (key === "urgency")){
+                params = params.set(key, value.toString());
+            }
             else if ( (value != null) && (key === "record_type")){
                 params = params.set(key, value.toString());
             }

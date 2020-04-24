@@ -45,7 +45,12 @@ export class EntityListComponent  {
         {'value': 'supportnetwork', 'name': 'Organization/NGO/Help Provider'},
         {'value': 'facility', 'name': 'Government Facilities'}
     ];
-
+    urgencyOptions = [
+        {'value': 'low', 'name':  'Low'},
+        {'value': 'medium', 'name':  'Medium'},
+        {'value': 'high', 'name':  'High'},
+        {'value': 'not-needed', 'name':  'Not Needed'},
+    ];
     constructor(
         public authService: AuthService,
         private entityService: EntityService,
@@ -71,6 +76,7 @@ export class EntityListComponent  {
             search: new FormControl(),
             location: new FormControl(),
             status: new FormControl(),
+            urgency: new FormControl(),
             record_type: new FormControl()
         });
         this.page = this.filterForm.valueChanges.pipe(

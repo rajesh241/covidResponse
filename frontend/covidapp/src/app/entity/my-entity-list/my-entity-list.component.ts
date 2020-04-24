@@ -43,6 +43,12 @@ export class MyEntityListComponent implements OnInit {
         {'value': 'followup', 'name': 'Follow Up'},
         {'value': 'closed', 'name': 'Closed'}
     ];
+    urgencyOptions = [
+        {'value': 'low', 'name':  'Low'},
+        {'value': 'medium', 'name':  'Medium'},
+        {'value': 'high', 'name':  'High'},
+        {'value': 'not-needed', 'name':  'Not Needed'},
+    ];
   constructor(
         public authService: AuthService,
         private entityService: EntityService,
@@ -65,7 +71,8 @@ export class MyEntityListComponent implements OnInit {
             ordering : new FormControl('-created'),
             assigned_to_user__id: new FormControl(this.userid),
             search: new FormControl(),
-            status: new FormControl()
+            status: new FormControl(),
+            urgency: new FormControl()
         });
         this.page = this.filterForm.valueChanges.pipe(
             debounceTime(200),
