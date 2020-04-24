@@ -23,13 +23,16 @@ export class UserListComponent  {
   pageUrl = new Subject<string>();
   success: boolean = false;
   dataLoaded: Promise<boolean>;
+  usergroup:string;
   constructor(
     public authService: AuthService, private userService: UserService, private router : Router
   ) {
+    this.usergroup=localStorage.getItem('usergroup')
     this.filterForm = new FormGroup({
       is_staff: new FormControl(),
       limit : new FormControl(10),
       user_role : new FormControl(),
+      formio_usergroup : new FormControl(this.usergroup),
       ordering : new FormControl(),
       search: new FormControl()
     });

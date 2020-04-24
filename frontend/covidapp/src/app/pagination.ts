@@ -33,6 +33,9 @@ export function queryPaginated<T>(http: HttpClient, baseUrl: string, insertToken
             else if ( (value != null) && (key === "search")){
                 params = params.set(key, value.toString());
             }
+            else if ( (value != null) && (key === "formio_usergroup")){
+                params = params.set(key, value.toString());
+            }
             else if ( (value != null) && (key === "volunteer")){
                 params = params.set(key, value.toString());
             }

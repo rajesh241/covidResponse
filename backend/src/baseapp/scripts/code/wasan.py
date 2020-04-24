@@ -163,9 +163,15 @@ def main():
                 status = obj.extra_fields["common"]["status"]
             except:
                 status = None
-            obj.status=status
-            logger.info(obj.id)
+            try:
+                urgency = obj.extra_fields["needs"]["urgency"]
+            except:
+                urgency = None
+            obj.status=slugify(status)
+            obj.urgency=urgency
+            logger.info(obj.urgency)
             obj.save()
+
         exit(0)
         csv_array = []
         logger.info("test")
