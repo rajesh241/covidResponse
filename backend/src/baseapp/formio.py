@@ -37,8 +37,8 @@ def convert_formio_data_to_django(data):
     '''
     Pass the response from Formio to this function. 
     '''
-    for key, value in data.items():
-        print(key)
+    #for key, value in data.items():
+    #    print(key)
     #dot = dotty(data['submission']['data'])
     dot = dotty(data)
     geo_json = ''

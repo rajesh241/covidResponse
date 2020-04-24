@@ -51,7 +51,7 @@ class SmallEntitySerializer(serializers.ModelSerializer):
     class Meta:
         """Meta Class"""
         model = Entity
-        fields = ['id', 'name']
+        fields = ['id', 'title']
 
 
 class EntityBulkEditSerializer(serializers.ModelSerializer):
@@ -88,6 +88,57 @@ class EntityListSerializer(serializers.ModelSerializer):
         """Meta Class"""
         model = Entity
         fields = '__all__'
+    def get_tags(self, instance):
+        """This method allows us to tag the objects based on logged in user"""
+        request = self.context.get('request')
+        user = request.user
+        tags = []
+        if instance.title is None:
+            instance.title = "default"
+        if "A" in instance.title:
+            tags.append("a")
+        if "E" in instance.title:
+            tags.append("e")
+        if "I" in instance.title:
+            tags.append("i")
+        if "O" in instance.title:
+            tags.append("o")
+        if "U" in instance.title:
+            tags.append("u")
+        return tags
+
+    def get_bulk_action_list(self, instance):
+        import random
+        """This will return the possible bulk actions that are possible on this object"""
+        request = self.context.get('request')
+        user = request.user
+        bulk_action_list = {}
+        if instance.title is None:
+            instance.title = "default"
+        if True: # "d" in instance.title:
+             bulk_action_list['assigntovolunteer'] = 'Assign To Volunteer'
+        if False and bool(random.getrandbits(1)):
+             bulk_action_list['feedback'] = 'FeedBack'
+        if True or bool(random.getrandbits(1)):
+             bulk_action_list['assigntogroup'] = 'Assign To Group'
+        if False and bool(random.getrandbits(1)):
+             bulk_action_list['defunct'] = 'Mark as Defunct'            
+        if False and bool(random.getrandbits(1)):
+             bulk_action_list['full'] = 'Out of Capacity'            
+        if False and bool(random.getrandbits(1)):
+             bulk_action_list['delete'] = 'Delete Items'
+
+        return bulk_action_list
+        
+    def get_can_edit(self, instance):
+        """This method will return if the user has edit permissions or not"""
+        request = self.context.get('request')
+        user = request.user
+        if user.is_authenticated:
+            can_edit = True
+        else:
+            can_edit = False
+        return can_edit
  
 class EntitySerializer(serializers.ModelSerializer):
     """Serializer for Report Model"""

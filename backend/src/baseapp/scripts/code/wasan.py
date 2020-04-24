@@ -96,10 +96,10 @@ def main():
         for obj in objs:
             extra_fields = obj.extra_fields
             try:
-                wasan_user_id = obj.extra_fields['common']['assigned_to_id']
+                wasan_user_email = obj.extra_fields['common']['user_email']
             except:
                 wasan_user_id = None
-            myUser = User.objects.filter(region=wasan_user_id).first()
+            myUser = User.objects.filter(region=wasan_user_email).first()
             if myUser is not None:
                 obj.assigned_to_user = myUser
                 obj.save()
