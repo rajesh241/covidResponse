@@ -24,7 +24,7 @@ import { EntityListComponent } from "./entity/entity-list/entity-list.component"
 import { MyEntityListComponent } from "./entity/my-entity-list/my-entity-list.component";
 import { EntityEditComponent } from "./entity/entity-edit/entity-edit.component";
 import { EntityDetailComponent } from "./entity/entity-detail/entity-detail.component";
-import { EntityGridComponent } from './entity/entity-grid/entity-grid.component';
+//import { EntityGridComponent } from './entity/entity-grid/entity-grid.component';
 
 import { LoginComponent } from './user/login/login.component';
 import { MatloginComponent } from './user/matlogin/matlogin.component';
@@ -43,7 +43,7 @@ const routes: Routes = [
     {path : '', component : MyEntityListComponent, canActivate: [AuthGuard]},
     //{path : '', redirectTo: 'search', pathMatch:'full'},
     {path : 'dashboard', component : DashboardComponent},
-    {path : 'grid', component : EntityGridComponent},
+//    {path : 'grid', component : EntityGridComponent},
     {path : 'locate', component : CovidLocateComponent},
     {path : 'privacy', component : PrivacyComponent},
     {path : 'nearby', component : CovidNearbyComponent},

@@ -81,6 +81,7 @@ import { DashboardComponent } from './entity/dashboard/dashboard.component';
 import { AssignToComponent } from './entity/assign-to/assign-to.component';
 import { MyEntityListComponent } from './entity/my-entity-list/my-entity-list.component';
 
+/*
 // AG Grid
 import { AgGridModule } from 'ag-grid-angular';
 // import { Grid } from 'ag-grid-enterprise';  FIXME
@@ -89,8 +90,8 @@ import { DateComponent } from './entity/entity-grid/date/date.component';
 import { HeaderComponent } from './entity/entity-grid/header/header.component';
 import { HeaderGroupComponent } from './entity/entity-grid/header-group/header-group.component';
 import { DetailCellRendererComponent } from './entity/entity-grid/detail-cell-renderer/detail-cell-renderer.component';
-import { EntityGridComponent } from './entity/entity-grid/entity-grid.component';
-
+// import { EntityGridComponent } from './entity/entity-grid/entity-grid.component';
+*/
 
 
 //const google_oauth_client_id:string = '849540517607-9alj6fb3hoo3lhrlml4upqkme070bo2f.apps.googleusercontent.com';
@@ -153,21 +154,25 @@ export function provideConfig() {
         DashboardComponent,
         AssignToComponent,
         MyEntityListComponent,
-        EntityGridComponent,
+        // EntityGridComponent,
+	/*
         DateComponent,
         HeaderComponent,
         HeaderGroupComponent,
-        DetailCellRendererComponent,        
+        DetailCellRendererComponent,
+	*/
     ],
     imports: [
         BrowserModule,
         AppRoutingModule,
+	/*
         AgGridModule.withComponents([
             DateComponent,
             HeaderComponent,
             HeaderGroupComponent,
             DetailCellRendererComponent
-        ]),        
+        ]),
+        */
         FormsModule,
         FormioModule,
 	MatAutocompleteModule,
