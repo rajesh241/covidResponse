@@ -1,10 +1,3 @@
 <div class="container well">
-  <div>
-    <app-assign-to [(ngModel)]="assignedTo"></app-assign-to>
-    {{ assignedTo }}
-  </div>
-  <div *ngFor="let user of (users | async)?.results;let i=index">
-    <p>{{ user.name }}</p>
-  </div>
   <formio [src]="form_url" [submission]="prefill_json" (submit)="onSubmit($event)"></formio>
 </div>

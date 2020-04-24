@@ -75,7 +75,7 @@ class EntityBulkEditSerializer(serializers.ModelSerializer):
         #self.parse_data_json(obj, validated_data)
         return obj
 
-class EntitySerializer(serializers.ModelSerializer):
+class EntityListSerializer(serializers.ModelSerializer):
     """Serializer for Report Model"""
     user = serializers.HiddenField(default=serializers.CurrentUserDefault())
     can_edit = serializers.SerializerMethodField()
@@ -84,6 +84,20 @@ class EntitySerializer(serializers.ModelSerializer):
     assigned_to_org = SmallEntitySerializer(required=False)
     assigned_to_user = UserPublicSerializer(required=False)
     assigned_to_group = GroupPublicSerializer(required=False)
+    class Meta:
+        """Meta Class"""
+        model = Entity
+        fields = '__all__'
+ 
+class EntitySerializer(serializers.ModelSerializer):
+    """Serializer for Report Model"""
+    user = serializers.HiddenField(default=serializers.CurrentUserDefault())
+    can_edit = serializers.SerializerMethodField()
+    bulk_action_list = serializers.SerializerMethodField()
+    tags = serializers.SerializerMethodField()
+   # assigned_to_org = SmallEntitySerializer(required=False)
+   # assigned_to_user = UserPublicSerializer(required=False)
+   # assigned_to_group = GroupPublicSerializer(required=False)
     class Meta:
         """Meta Class"""
         model = Entity
@@ -184,6 +198,9 @@ class EntitySerializer(serializers.ModelSerializer):
             for key, value in field_dict.items():
                 setattr(obj, key, value)
             obj.save()
+        keywords = f"{obj.title},{obj.phone},{obj.email}"
+        obj.keywords = keywords
+        obj.save()
        #keyword_array = []
        #address = obj.address
        #if address is not None:

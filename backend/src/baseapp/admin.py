@@ -10,7 +10,7 @@ class FeedbackModelAdmin(admin.ModelAdmin):
 class EntityModelAdmin(admin.ModelAdmin):
     """Model Adminf or class Location"""
     list_display = ["id", "title", "latitude", "longitude"]
-    list_filter = ["record_type", "status"]
+    list_filter = ["record_type", "status", "urgency"]
     search_fields = ["name", "description"]
     readonly_fields = ["assigned_to_org", "assigned_to_user"]
 class BulkOperationModelAdmin(admin.ModelAdmin):

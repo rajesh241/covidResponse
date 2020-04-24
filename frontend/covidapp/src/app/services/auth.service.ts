@@ -129,6 +129,11 @@ export class AuthService {
       const ur = localStorage.getItem("ur")
       return ( (this.isLoggedIn()) && ( (ur === "admin") || (ur === "realtor") ))
   }
+
+  public isUserAdmin(){
+      const ur = localStorage.getItem("ur")
+      return !( (this.isLoggedIn()) && ( (ur === "client") || (ur === "volunteer") ))
+  }
   public isVolunteer(){
       const ur = localStorage.getItem("ur")
       return ( (this.isLoggedIn()) && ( (ur === "client") || (ur === "volunteer") ))
