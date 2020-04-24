@@ -175,7 +175,7 @@ class UserPublicAPIView(HttpResponseMixin,
   inputID=None
   search_fields = ('name')
   ordering_fields = ('name', 'id')
-  #filter_fields=("name")
+  filter_fields=("is_staff","is_locked","is_active","user_role","formio_usergroup")
   queryset=User.objects.all()
   def get_object(self):
     inputID=self.inputID
