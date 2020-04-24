@@ -103,68 +103,32 @@
       </mat-accordion>
     </mat-card>
   </div>
+  <!--
+  <div class="well">
+    <br />
+    <div *ngIf="dataLoaded | async" class="col-lg-12 well">
+      <div class="row">
+        <div class="col-md-12">
+          <div *ngIf="page">
+            <app-entity-grid [page]="page">Loading...</app-entity-grid>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  -->
+
   <div>
     <mat-card style="padding-top:0px;">
       <mat-card-header>
-        <mat-card-title><h3>List View</h3></mat-card-title>
+        <mat-card-title><h3>Grid View</h3></mat-card-title>
         <mat-card-subtitle>The List can show up here ---vvv</mat-card-subtitle>
       </mat-card-header>
       <mat-card-content>
         <!-- <app-entity-list>Loading...</app-entity-list> -->
-          <div *ngIf="dataLoaded | async" class="col-lg-12 well">
-    <div class="row">
-      <div class="col-md-12">
-      </div>
-      <div class="col-lg-12 ml-auto mr-auto">
-        <div class="table-responsive">
-          <table class="table">
-            <thead>
-              <tr>
-                <th *ngIf="authService.isRealtor()">
-                  <mat-checkbox [ngModelOptions]="{standalone: true}" class="cb-margin" (change)="allChecked()" [(ngModel)]="checkState"></mat-checkbox></th>
-                <th>Name</th>
-                <th>Contact Nos</th>
-                <th>Volunteer</th>
-                <th>Posted On</th>
-                <th *ngIf="authService.isRealtor()" align="center">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let entity of (page | async)?.results;let i=index">
-                <td *ngIf="authService.isRealtor()">
-                  <mat-checkbox
-                    [ngModelOptions]="{standalone: true}"
-                    class="cb-margin" (change)="onCBChange(entity)"
-                    [(ngModel)]="selectedEntities[entity.id]"></mat-checkbox>
-                </td>
-                <td *ngIf="authService.isRealtor()">
-                  <a [routerLink]="['/item',entity.id]">{{entity.title}}</a>
-                </td>
-                <td *ngIf="!authService.isRealtor()">
-                  {{entity.name}}
-                </td>
-                <td>{{entity.contact_numbers}}</td>
-                <td *ngIf="!entity.assigned_to_user"></td>
-                <td *ngIf="entity.assigned_to_user">{{entity.assigned_to_user.name}}</td>
-                <td>{{entity.status}}</td>
-                <td *ngIf="authService.isRealtor()" class="td-actions">
-                  <div>
-                    <button mat-raised-button class="btn btn-primary"
-                            (click)="editDialog(entity)">
-                      Edit
-                    </button>
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+        <div *ngIf="page">
+          <app-entity-grid [page]="page">Loading...</app-entity-grid>
         </div>
-      </div>
-    </div>
-
-  <app-paginator [page]="page | async" (pageChange)="onPageChanged($event)"></app-paginator>
-</div>
-
       </mat-card-content>
     </mat-card>
   </div>

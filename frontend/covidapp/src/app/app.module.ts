@@ -46,11 +46,15 @@ import { MatCheckboxModule } from '@angular/material';
 import { MatCardModule } from '@angular/material/card';
 import { MatDialogModule } from "@angular/material";
 import { MatExpansionModule } from '@angular/material/expansion';
+
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material';
+import { MatRadioModule } from '@angular/material';
 import { MatSelectModule } from '@angular/material/select';
 import { MatToolbarModule } from '@angular/material';
+import { MatSnackBarModule } from '@angular/material';
+
 
 // Angular FormIO - https://github.com/formio/angular-formio
 import { FormioModule, FormioAppConfig } from 'angular-formio';
@@ -76,6 +80,17 @@ import { AddressSearchComponent } from './gmap/address-search/address-search.com
 import { DashboardComponent } from './entity/dashboard/dashboard.component';
 import { AssignToComponent } from './entity/assign-to/assign-to.component';
 import { MyEntityListComponent } from './entity/my-entity-list/my-entity-list.component';
+
+// AG Grid
+import { AgGridModule } from 'ag-grid-angular';
+// import { Grid } from 'ag-grid-enterprise';  FIXME
+import 'ag-grid-enterprise';
+import { DateComponent } from './entity/entity-grid/date/date.component';
+import { HeaderComponent } from './entity/entity-grid/header/header.component';
+import { HeaderGroupComponent } from './entity/entity-grid/header-group/header-group.component';
+import { DetailCellRendererComponent } from './entity/entity-grid/detail-cell-renderer/detail-cell-renderer.component';
+import { EntityGridComponent } from './entity/entity-grid/entity-grid.component';
+
 
 
 //const google_oauth_client_id:string = '849540517607-9alj6fb3hoo3lhrlml4upqkme070bo2f.apps.googleusercontent.com';
@@ -138,10 +153,21 @@ export function provideConfig() {
         DashboardComponent,
         AssignToComponent,
         MyEntityListComponent,
+        EntityGridComponent,
+        DateComponent,
+        HeaderComponent,
+        HeaderGroupComponent,
+        DetailCellRendererComponent,        
     ],
     imports: [
         BrowserModule,
         AppRoutingModule,
+        AgGridModule.withComponents([
+            DateComponent,
+            HeaderComponent,
+            HeaderGroupComponent,
+            DetailCellRendererComponent
+        ]),        
         FormsModule,
         FormioModule,
 	MatAutocompleteModule,
@@ -149,9 +175,11 @@ export function provideConfig() {
         MatCardModule,
         MatCheckboxModule,
         MatDialogModule,
+        MatRadioModule,        
 	MatSelectModule,
 	MatProgressSpinnerModule,
 	MatToolbarModule,
+        MatSnackBarModule,
         MatExpansionModule,
 	MatFormFieldModule,
 	MatInputModule,

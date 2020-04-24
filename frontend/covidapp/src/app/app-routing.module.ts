@@ -17,13 +17,14 @@ import { AboutComponent } from "./about/about.component";
 import { AvatarEditComponent } from "./avatar-edit/avatar-edit.component";
 import { Oauth2callbackComponent } from './oauth2callback/oauth2callback.component';
 
+import { DashboardComponent } from './entity/dashboard/dashboard.component';
 import { EntitySearchComponent } from "./entity/entity-search/entity-search.component";
 import { EntityCreateComponent } from "./entity/entity-create/entity-create.component";
 import { EntityListComponent } from "./entity/entity-list/entity-list.component";
 import { MyEntityListComponent } from "./entity/my-entity-list/my-entity-list.component";
 import { EntityEditComponent } from "./entity/entity-edit/entity-edit.component";
 import { EntityDetailComponent } from "./entity/entity-detail/entity-detail.component";
-import { DashboardComponent } from './entity/dashboard/dashboard.component';
+import { EntityGridComponent } from './entity/entity-grid/entity-grid.component';
 
 import { LoginComponent } from './user/login/login.component';
 import { MatloginComponent } from './user/matlogin/matlogin.component';
@@ -42,6 +43,7 @@ const routes: Routes = [
     {path : '', component : MyEntityListComponent, canActivate: [AuthGuard]},
     //{path : '', redirectTo: 'search', pathMatch:'full'},
     {path : 'dashboard', component : DashboardComponent},
+    {path : 'grid', component : EntityGridComponent},
     {path : 'locate', component : CovidLocateComponent},
     {path : 'privacy', component : PrivacyComponent},
     {path : 'nearby', component : CovidNearbyComponent},

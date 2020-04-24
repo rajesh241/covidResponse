@@ -1,0 +1,66 @@
+p { font-size: 1em; margin-bottom: 1em; margin-top: 0; }
+
+.container {
+    max-width: 960px;
+    height: 100%;
+    margin: 10% auto;
+    padding: 2.5em;
+}
+
+form > div {
+    display: grid;
+    background-color: #EDF6FF;
+}
+
+//Defines a columnar grid to put different types of info
+.gridView {
+    display: grid;
+    width: 80%;
+    height: 90px;
+    font-family:Roboto;
+    font-size: 15px;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 20px 20px;
+    justify-items: center;
+
+
+//Defined it to present info on the item size, measure, qty, etc. critical for buyers
+    .grid1 {
+	color: purple;
+
+    }
+
+//Defined for background info including manufacturer
+    .grid2 {
+	color: green;
+
+    }
+
+    //Defined to get additional feedback
+    .grid3 {
+	padding: 10px;
+	color: blue;
+	grid-row:2/3;
+    }
+    
+}
+
+
+
+
+
+
+
+form > div > p {
+//    min-width: 33.33%;
+//    background-color: #EDF6FF;
+}
+
+form p { color: #0b0b18; }
+
+label {
+    display: block;
+    margin: 0.75em 25%;
+    font-weight: bold;
+}
+
