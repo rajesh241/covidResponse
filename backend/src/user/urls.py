@@ -22,6 +22,7 @@ urlpatterns = [
     path('me/', views.ManageUserView.as_view(), name='me'),
     path('activate/', views.UserActivateView.as_view(), name='user_activate_view'),
     path('', views.UserAPIView.as_view(), name='user_api_view'),
+    path('list', views.UserListAPIView.as_view(), name='user_list_view'),
     path('public', views.UserPublicAPIView.as_view(), name='user_public_api_view'),
     path('group', views.GroupAPIView.as_view(), name='group_api_view'),
     path('group/public', views.GroupPublicAPIView.as_view(), name='public_group_api_view'),

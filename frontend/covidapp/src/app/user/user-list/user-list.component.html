@@ -15,16 +15,21 @@
     </div>
   </div>
 
-  <div class="form-group row" *ngIf="authService.isRealtor()">
-    <label  class="col-md-2 col-form-label">User Role</label>
-    <div class="col-md-2">
-          <select formControlName="user_role" class="form-control">
-             <option value="">User Role</option>
-             <option *ngIf="authService.isAdmin()"  value="admin">admin</option>
-             <option value="client">client</option>
-             <option value="realtor">realtor</option>
-          </select>
-    </div>
+  <div class="form-group row">
+            <mat-form-field>
+              <mat-label>Group</mat-label>
+              <mat-select formControlName="group__id">
+                <mat-option value="">None</mat-option>
+                <mat-option *ngFor="let option of groups" [value]="option.id">{{ option.name }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>User Role</mat-label>
+              <mat-select formControlName="user_role">
+                <mat-option value="">None</mat-option>
+                <mat-option *ngFor="let option of roleOptions" [value]="option.value">{{ option.name }}</mat-option>
+              </mat-select>
+            </mat-form-field>
   </div>
 
   <div class="form-group row">
@@ -53,6 +58,7 @@
                         <th>Name</th>
                         <th>email</th>
                         <th>User Role</th>
+                        <th>Group</th>
                         <th >Actions</th>
                     </tr>
                 </thead>
@@ -62,6 +68,8 @@
 			<td>{{user.name}}</td>
                         <td>{{user.email}}</td>
                         <td>{{user.user_role}}</td>
+                        <td *ngIf="user.group">{{user.group.name}}</td>
+                        <td *ngIf="!user.group"></td>
                         <td *ngIf="authService.isUserAdmin()" class="td-actions text-right">                             
                           <button mat-raised-button class="btn btn-primary"
                                   [routerLink]="['/useraddedit',user.id]">

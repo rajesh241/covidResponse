@@ -70,6 +70,17 @@ class GroupPublicSerializer(serializers.ModelSerializer):
         model = Group
         fields = ('id', 'name')
 
+class UserListSerializer(serializers.ModelSerializer):
+    """ Serializer for the user object """
+    group = GroupSerializer()
+    class Meta:
+        """Default Meta Class"""
+        model = get_user_model()
+        fields = ('id', 'email', 'password', 'group', 'name', 'avatar',
+                  'is_active', 'is_locked', 'is_staff', 'provider'
+                  ,'avatar_url', 'is_superuser', 'user_role',
+                  'login_attempt_count', 'formio_usergroup')
+
 
 class UserSerializer(serializers.ModelSerializer):
     """ Serializer for the user object """

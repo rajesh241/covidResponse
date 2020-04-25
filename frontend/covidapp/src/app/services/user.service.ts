@@ -12,7 +12,7 @@ import { Page, queryPaginated, queryPaginatedLocations} from '../pagination';
 })
 export class UserService {
   private endpoint = environment.apiURL+"/api/user/";
-  private listEndPoint = environment.apiURL+"/api/user/";
+  private listEndPoint = environment.apiURL+"/api/user/list";
   private publicListEndPoint = environment.apiURL+"/api/user/public";
   private groupPublicEndPoint = environment.apiURL+"/api/user/group/public";
   private editEndPoint = environment.apiURL+"/api/user/modify/profile/";

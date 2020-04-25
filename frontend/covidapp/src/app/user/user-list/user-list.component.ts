@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 
 import { Observable, Subject } from 'rxjs';
@@ -10,6 +10,7 @@ import { Page } from '../../pagination';
 import { User } from "../../models/user";
 import { UserService } from "../../services/user.service";
 import { AuthService } from "../../services/auth.service";
+import { PublicGroup } from "../../models/publicgroup";
 
 @Component({
   selector: 'app-user-list',
@@ -17,22 +18,40 @@ import { AuthService } from "../../services/auth.service";
   styleUrls: ['./user-list.component.css']
 })
 
-export class UserListComponent  {
+export class UserListComponent  implements OnInit{
+  groups:any;
   filterForm: FormGroup;
   page: Observable<Page<User>>;
   pageUrl = new Subject<string>();
   success: boolean = false;
   dataLoaded: Promise<boolean>;
   usergroup:string;
+  roleOptions:any;
+  user_role:any;
+
   constructor(
     public authService: AuthService, private userService: UserService, private router : Router
   ) {
+    this.user_role = localStorage.getItem('ur');
     this.usergroup=localStorage.getItem('usergroup')
+	if (this.user_role =="usergroupadmin"){
+            this.roleOptions = [
+                {'value': 'usergroupadmin', 'name': 'Super User'},
+                {'value': 'groupadmin', 'name': 'Group Admin'},
+                {'value': 'volunteer', 'name': 'volunteer'}
+            ];
+	}else{
+            this.roleOptions = [
+                {'value': 'groupadmin', 'name': 'Group Admin'},
+                {'value': 'volunteer', 'name': 'volunteer'}
+            ];
+	}
     this.filterForm = new FormGroup({
       is_staff: new FormControl(),
       limit : new FormControl(10),
       user_role : new FormControl(),
       formio_usergroup : new FormControl(this.usergroup),
+      group__id : new FormControl(),
       ordering : new FormControl('-id'),
       search: new FormControl()
     });
@@ -45,6 +64,23 @@ export class UserListComponent  {
     );
     this.dataLoaded = Promise.resolve(true);
   }
+
+
+    ngOnInit() {
+
+          this.userService.getAllGroupsPublic()
+                .subscribe(
+                    data => {
+                        console.log(' success', data);
+                        this.groups = data.results;
+                        this.dataLoaded = Promise.resolve(true);
+                    },
+                    err => {
+                        console.log("Failed");
+                    }
+                );
+    }
+
 
   onPageChanged(url: string) {
     this.pageUrl.next(url);
