@@ -1,13 +1,11 @@
 <div class="container" [formGroup]="filterForm">
   <h1>User List</h1>
-  <div class="row" *ngIf="authService.isRealtor()">
+  <div class="row" *ngIf="authService.isUserAdmin()">
      <div class="col-md-2">
-                            <a type="button" class="btn btn-success btn-just-icon btn-sm "
-                            style="margin-left:10px;"
-                          [routerLink]="['/useraddedit','0']"
-                            >
-                                <i class="material-icons">Add User</i>
-                            </a>
+                          <button mat-raised-button class="btn btn-primary"
+                                  [routerLink]="['/useraddedit','0']">
+                            Add User
+                          </button>
      </div>
   </div>
   <div class="form-group row">
@@ -54,7 +52,6 @@
                     <tr>
                         <th>Name</th>
                         <th>email</th>
-                        <th>Is Active</th>
                         <th>User Role</th>
                         <th >Actions</th>
                     </tr>
@@ -64,19 +61,17 @@
                     >
 			<td>{{user.name}}</td>
                         <td>{{user.email}}</td>
-                        <td>{{user.is_active}}</td>
                         <td>{{user.user_role}}</td>
                         <td *ngIf="authService.isUserAdmin()" class="td-actions text-right">                             
-                            <a type="button" class="btn btn-success btn-just-icon btn-sm "
-                            style="margin-left:10px;"
-                          [routerLink]="['/useraddedit',user.id]"
-                            >
-                                <i class="material-icons">Edit</i>
-                            </a>
+                          <button mat-raised-button class="btn btn-primary"
+                                  [routerLink]="['/useraddedit',user.id]">
+                            Edit
+                          </button>
+                          <button mat-raised-button class="btn btn-primary"
+                                  (click)="deleteUser(user.id)">
+                            Delete
+                          </button>
 
-                            <button (click)="deleteUser(user.id)" type="button" rel="tooltip" class="btn btn-danger btn-just-icon btn-sm" data-original-title="" title="" style="margin-left:10px;">
-                                <i class="material-icons">Delete</i>
-                            </button>
                         </td>
                     </tr>
                 </tbody>
