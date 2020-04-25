@@ -81,6 +81,7 @@ import { DashboardComponent } from './entity/dashboard/dashboard.component';
 import { AssignToComponent } from './entity/assign-to/assign-to.component';
 import { MyEntityListComponent } from './entity/my-entity-list/my-entity-list.component';
 import { UserAddeditComponent } from './user/user-addedit/user-addedit.component';
+import { GroupAddComponent } from './user/group-add/group-add.component';
 
 /*
 // AG Grid
@@ -156,6 +157,7 @@ export function provideConfig() {
         AssignToComponent,
         MyEntityListComponent,
         UserAddeditComponent,
+        GroupAddComponent,
         // EntityGridComponent,
 	/*
         DateComponent,
