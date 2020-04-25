@@ -2,14 +2,12 @@
   <h1>User List</h1>
   <div class="row" *ngIf="authService.isRealtor()">
      <div class="col-md-2">
-        <button class="btn btn-primary" (click)="addUser()">
-        Add New User
-        </button>
-     </div>
-     <div class="col-md-2">
-        <button class="btn btn-primary" (click)="invite()">
-        Invite
-        </button>
+                            <a type="button" class="btn btn-success btn-just-icon btn-sm "
+                            style="margin-left:10px;"
+                          [routerLink]="['/useraddedit','0']"
+                            >
+                                <i class="material-icons">Add User</i>
+                            </a>
      </div>
   </div>
   <div class="form-group row">
@@ -71,7 +69,7 @@
                         <td *ngIf="authService.isUserAdmin()" class="td-actions text-right">                             
                             <a type="button" class="btn btn-success btn-just-icon btn-sm "
                             style="margin-left:10px;"
-                          [routerLink]="['/useredit',user.id]"
+                          [routerLink]="['/useraddedit',user.id]"
                             >
                                 <i class="material-icons">Edit</i>
                             </a>

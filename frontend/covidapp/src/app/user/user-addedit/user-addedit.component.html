@@ -1,0 +1,68 @@
+<div *ngIf="dataLoaded">    
+  <mat-card>
+    <mat-card-title>{{ title }}</mat-card-title>
+    <mat-card-content>
+      <div>
+        <form [formGroup]="form" (ngSubmit)="submit()">
+          <p>
+            <mat-form-field>
+              <input type="text" matInput placeholder="Name" formControlName="name">
+            </mat-form-field>
+          </p>
+
+          <p>
+            <mat-form-field>
+              <input type="text" matInput placeholder="Email" formControlName="email">
+            </mat-form-field>
+          </p>
+
+          <p>
+            <mat-form-field>
+              <input type="password" matInput placeholder="Password" formControlName="password">
+            </mat-form-field>
+          </p>
+
+          <p>
+            <mat-form-field>
+              <input type="password" matInput placeholder="Verify password" formControlName="password2">
+            </mat-form-field>
+          </p>
+
+          <p>
+            <mat-form-field>
+              <mat-label>User Role</mat-label>
+              <mat-select formControlName="user_role">
+                <mat-option value="">None</mat-option>
+                <mat-option *ngFor="let option of roleOptions" [value]="option.value">{{ option.name }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </p>
+
+          <p>
+            <mat-form-field>
+              <mat-label>Group</mat-label>
+              <mat-select formControlName="group">
+                <mat-option value="">None</mat-option>
+                <mat-option *ngFor="let option of groups" [value]="option.id">{{ option.name }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </p>
+
+          <p *ngIf="error" class="error">
+            {{ error }}
+          </p>
+
+          <div style="padding: 4px;">
+            <button mat-raised-button class="btn btn-block"
+		    type="submit">
+		    {{actionType}}</button>
+          </div>
+
+	  <br />
+	  
+        </form>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>
+

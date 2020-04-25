@@ -30,6 +30,7 @@ import { LoginComponent } from './user/login/login.component';
 import { MatloginComponent } from './user/matlogin/matlogin.component';
 import { UserListComponent } from './user/user-list/user-list.component';
 import { UserEditComponent } from './user/user-edit/user-edit.component';
+import { UserAddeditComponent } from './user/user-addedit/user-addedit.component';
 import { UserAddComponent } from './user/user-add/user-add.component';
 import { RegisterComponent } from './user/register/register.component';
 import { RegisterConfirmComponent } from './user/register-confirm/register-confirm.component';
@@ -63,6 +64,7 @@ const routes: Routes = [
     {path : 'regconfirm', component : RegisterConfirmComponent},
     {path : 'add/:form', component : EntityCreateComponent},
     {path : 'useredit/:id', component : UserEditComponent},
+    {path : 'useraddedit/:id', component : UserAddeditComponent},
     {path : 'item/:id', component : EntityDetailComponent},
     {path : 'useradd', component : UserAddComponent},
     {path : 'profile', component : ProfileEditComponent},

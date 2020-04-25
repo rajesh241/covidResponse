@@ -74,7 +74,7 @@ class GroupPublicSerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
     """ Serializer for the user object """
     password2 = serializers.CharField(style={'input_type': 'password'}, write_only=True)
-    group = GroupSerializer()
+    #group = GroupSerializer()
     def __init__(self, *args, **kwargs):
         super(UserSerializer, self).__init__(*args, **kwargs) # call the super() 
         for field in self.fields: # iterate over the serializer fields
@@ -95,6 +95,7 @@ class UserSerializer(serializers.ModelSerializer):
                        }
 
     def validate(self, data):
+        print(data)
         pass1 = data.get('password')
         pass2 = data.pop('password2', None)
         if pass1 != pass2:
