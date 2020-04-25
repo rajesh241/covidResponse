@@ -62,14 +62,14 @@
 	<div class="row" *ngIf="authService.isUserAdmin()">
 	  <div class="col-md-4" align="center" style="padding=15px;">
 	  </div>
-	  <div class="col-md-2" align="center" style="padding=15px;">
+	  <div *ngIf="authService.isGroupAdmin()" class="col-md-2" align="center" style="padding=15px;">
             <button mat-raised-button
 		    style="color: red;"
                     [routerLink]="['/useraddedit','0']">
               Add Group
             </button>
 	  </div>
-	  <div class="col-md-2" align="center" style="padding=15px;">
+	  <div *ngIf="authService.isUserAdmin()" class="col-md-2" align="center" style="padding=15px;">
             <button mat-raised-button
 		    style="color: red;"
                     [routerLink]="['/useraddedit','0']">
