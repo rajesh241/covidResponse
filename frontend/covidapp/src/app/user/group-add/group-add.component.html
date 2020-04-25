@@ -1,1 +1,26 @@
-<p>group-add works!</p>
+
+  <mat-card>
+    <mat-card-title>Add Group</mat-card-title>
+    <mat-card-content>
+      <div>
+        <form [formGroup]="form" (ngSubmit)="submit()">
+          <p>
+            <mat-form-field>
+              <input type="text" matInput placeholder="name" formControlName="name">
+            </mat-form-field>
+          </p>
+
+          <p *ngIf="error" class="error">
+            {{ error }}
+          </p>
+
+          <div style="padding: 4px;">
+            <button mat-raised-button class="btn btn-block"
+		    type="submit">
+	      Submit</button>
+          </div>
+        </form>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
