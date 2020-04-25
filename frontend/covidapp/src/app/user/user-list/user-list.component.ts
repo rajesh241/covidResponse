@@ -28,6 +28,7 @@ export class UserListComponent  implements OnInit{
   usergroup:string;
   roleOptions:any;
   user_role:any;
+  panelOpen = true;
 
   constructor(
     public authService: AuthService, private userService: UserService, private router : Router

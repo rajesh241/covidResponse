@@ -1,51 +1,87 @@
 <div class="container" [formGroup]="filterForm">
-  <h1>User List</h1>
-  <div class="row" *ngIf="authService.isUserAdmin()">
-     <div class="col-md-2">
-                          <button mat-raised-button class="btn btn-primary"
-                                  [routerLink]="['/useraddedit','0']">
-                            Add User
-                          </button>
-     </div>
-  </div>
-  <div class="form-group row">
-    <label  class="col-md-2 col-form-label">Search</label>
-    <div class="col-md-4">
-      <input formControlName="search" class="form-control" placeholder="Search by user name">
-    </div>
-  </div>
+  <h1 align="center">User List</h1>
+  <mat-card class="col-md-12" style="padding:5px;">
+    <mat-expansion-panel (opened)="panelOpen = true"
+                         (closed)="panelOpen = false"
+                         [expanded]="panelOpen">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <h3 align="center"></h3>
+        </mat-panel-title>
+        <mat-panel-description style="text-align-vertical:center; text-align:center;">
+          <label class="col-sm-3 col-form-label"></label>
+          Click to {{!panelOpen ? 'Open' : 'Close'}}
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <mat-card-content class="col-md-12">
+	<div class="form-group row">
+          <label  class="col-sm-3 col-form-label"></label>
+	  <label  class="col-md-2 col-form-label">Search</label>
+	  <div class="col-md-4">
+	    <input formControlName="search" class="form-control" placeholder="Search by user name">
+	  </div>
+	</div>
 
-  <div class="form-group row">
-            <mat-form-field>
-              <mat-label>Group</mat-label>
-              <mat-select formControlName="group__id">
-                <mat-option value="">None</mat-option>
-                <mat-option *ngFor="let option of groups" [value]="option.id">{{ option.name }}</mat-option>
-              </mat-select>
-            </mat-form-field>
-            <mat-form-field>
-              <mat-label>User Role</mat-label>
-              <mat-select formControlName="user_role">
-                <mat-option value="">None</mat-option>
-                <mat-option *ngFor="let option of roleOptions" [value]="option.value">{{ option.name }}</mat-option>
-              </mat-select>
-            </mat-form-field>
-  </div>
+	<div class="form-group row">
+          <label class="col-sm-3 col-form-label"></label>
+	  <label class="col-md-2 col-form-label">Results per Page</label>
+	  <div class="col-md-1">
+	    <input  formControlName="limit" class="form-control" placeholder="min">
+	  </div>
+	  <div class="col-md-3">
+            <select formControlName="ordering" class="form-control">
+              <option value="null" selected>Sort by?</option>
+              <option value="name">Name A-Z</option>
+              <option value="-name">Name Z-A</option>
+            </select>
+	  </div>
+	</div>
 
-  <div class="form-group row">
-    <label class="col-md-2 col-form-label">Results per Page</label>
-    <div class="col-md-2">
-      <input  formControlName="limit" class="form-control" placeholder="min">
-    </div>
-    <div class="col-md-2">
-          <select formControlName="ordering" class="form-control">
-             <option value="null" selected>Sort by?</option>
-             <option value="name">Name A-Z</option>
-             <option value="-name">Name Z-A</option>
-          </select>
-    </div>
-  </div>
-
+        <div class="form-group row">
+          <label class="col-sm-3 col-form-label"></label>
+          <div align="center" class="col-sm-3">
+	  <mat-form-field>
+            <mat-label>Group</mat-label>
+            <mat-select formControlName="group__id">
+              <mat-option value="">None</mat-option>
+              <mat-option *ngFor="let option of groups" [value]="option.id">{{ option.name }}</mat-option>
+            </mat-select>
+	  </mat-form-field>
+          </div>
+          <div align="center" class="col-sm-3">
+	  <mat-form-field>
+            <mat-label>User Role</mat-label>
+            <mat-select formControlName="user_role">
+              <mat-option value="">None</mat-option>
+              <mat-option *ngFor="let option of roleOptions" [value]="option.value">{{ option.name }}</mat-option>
+            </mat-select>
+	  </mat-form-field>
+	  </div>
+	</div>
+	
+	<div class="row" *ngIf="authService.isUserAdmin()">
+	  <div class="col-md-4" align="center" style="padding=15px;">
+	  </div>
+	  <div class="col-md-2" align="center" style="padding=15px;">
+            <button mat-raised-button
+		    style="color: red;"
+                    [routerLink]="['/useraddedit','0']">
+              Add Group
+            </button>
+	  </div>
+	  <div class="col-md-2" align="center" style="padding=15px;">
+            <button mat-raised-button
+		    style="color: red;"
+                    [routerLink]="['/useraddedit','0']">
+              Add User
+            </button>
+	  </div>
+	  <div class="col-md-4" align="center" style="padding=15px;">
+	  </div>
+	</div>
+      </mat-card-content>
+    </mat-expansion-panel>
+  </mat-card>
 
 
   <div *ngIf="dataLoaded | async" class="col-lg-12 well">
