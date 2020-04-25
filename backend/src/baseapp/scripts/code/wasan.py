@@ -163,6 +163,10 @@ def main():
         usergroup = "wassan"
         
     if args['test']:
+        objs = User.objects.all()
+        for obj in objs:
+            obj.save()
+        exit(0)
         objs = Entity.objects.filter(formio_usergroup = "wassan")
         for obj in objs:
             try:

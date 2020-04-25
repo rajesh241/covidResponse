@@ -4,9 +4,6 @@
     <h3 *ngIf="success" class="text-success">Successfully Updated</h3>
     <h3 *ngIf="!success" class="text-danger" [innerHTML]="errorMessage"> </h3>
     <div class="row">
-      <div class="col-lg-3">
-        <img class="avatarprofile" src={{avatar_url}}/>
-      </div>
       <div class="col-lg-5">
         <h3> {{user.name}}</h3>
         <h3> {{user.email}}</h3>
@@ -34,25 +31,19 @@
               <input type="password" class="form-control" name="password" [(ngModel)]="user.password2">
             </div>
           </div>
-
+          
           <div *ngIf="user" class="row">
-            <div class="col-sm-3 form-group">
-              <input type="checkbox" class="form-control" id="is_active" name="is_active" [(ngModel)]="user.is_active">
-              <label for="is_active">Is Active</label>
-            </div>
-            <div class="col-sm-3 form-group">
-              <input type="checkbox" class="form-control" id="is_locked" name="is_locked" [(ngModel)]="user.is_locked">
-              <label for="is_locked">Is Locked</label>
-            </div>
-            <div class="col-sm-3 form-group">
-              <input type="checkbox" class="form-control" id="is_staff" name="is_staff" [(ngModel)]="user.is_staff">
-              <label for="is_staff">Is Realtor</label>
-            </div>
-            <div class="col-sm-3 form-group" *ngIf="authService.isAdmin()">
-              <input type="checkbox" class="form-control" id="is_superuser" name="is_superuser" [(ngModel)]="user.is_superuser">
-              <label for="is_superuser">Is Admin</label>
+            <div class="col-sm-6 form-group">
+            <mat-form-field>
+              <mat-label>User Role</mat-label>
+              <mat-select name="user_role" [(ngModel)]="user.user_role">
+                <mat-option value="">None</mat-option>
+                <mat-option *ngFor="let option of roleOptions" [value]="option.value">{{ option.name }}</mat-option>
+              </mat-select>
+            </mat-form-field>
             </div>
           </div>
+
 
           <div *ngIf="user" class="row">
 

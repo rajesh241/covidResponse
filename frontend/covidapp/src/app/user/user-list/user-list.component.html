@@ -68,7 +68,7 @@
                         <td>{{user.email}}</td>
                         <td>{{user.is_active}}</td>
                         <td>{{user.user_role}}</td>
-                        <td *ngIf="authService.isRealtor()" class="td-actions text-right">                             
+                        <td *ngIf="authService.isUserAdmin()" class="td-actions text-right">                             
                             <a type="button" class="btn btn-success btn-just-icon btn-sm "
                             style="margin-left:10px;"
                           [routerLink]="['/useredit',user.id]"

@@ -4,9 +4,9 @@
 
 export const environment = {
     production: false,
-    apiURL : "https://backend.coastindia.org"
-    //apiURL : "https://f.libtech.in"
-};
+    //apiURL : "https://backend.coastindia.org"
+    apiURL : "https://f.libtech.in"
+}
 
 /*
  * For easier debugging in development mode, you can import the following file

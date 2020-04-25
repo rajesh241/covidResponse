@@ -26,7 +26,7 @@
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li class="menu-item" routerLinkActive="active" *ngIf="!authService.isLoggedIn()"><a routerLink="login">Login</a></li>
-        <li class="menu-item" routerLinkActive="active" *ngIf="authService.isRealtor()"><a routerLink="users">Users</a></li>
+        <li class="menu-item" routerLinkActive="active" *ngIf="authService.isUserAdmin()"><a routerLink="users">Users</a></li>
         <li class="menu-item" routerLinkActive="active" *ngIf="authService.isLoggedIn()"><a routerLink="mylist" style="color: red;"><b>My List</b></a></li>
         <li class="menu-item" routerLinkActive="active" *ngIf="authService.isLoggedIn()"><a routerLink="list" style="color: red;"><b>Full List</b></a></li>
         <li><a href="#" (click)="authService.logout()"  *ngIf="authService.isLoggedIn()">Logout</a></li>

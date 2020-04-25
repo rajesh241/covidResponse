@@ -251,6 +251,8 @@ class UserAPIView(HttpResponseMixin,
                            mixins.UpdateModelMixin,
                            generics.ListAPIView):
   permission_classes=[UserViewPermission]
+  #permission_classes=[permissions.IsAuthenticatedOrReadOnly]
+  #permission_classes=[permissions.IsAuthenticatedOrReadOnly]
   serializer_class = UserSerializer
   passedID=None
   inputID=None
@@ -258,7 +260,7 @@ class UserAPIView(HttpResponseMixin,
   ordering_fields = ('name', 'id', 'created', 'updated')
   #filterset_class = ReportFilter
 
-  filter_fields=("is_staff","is_locked","is_active","user_role")
+  filter_fields=("is_staff","is_locked","is_active","user_role","formio_usergroup")
   queryset=User.objects.all()
   def get_queryset(self, *args, **kwargs):
     if self.request.user.is_superuser:
@@ -285,8 +287,6 @@ class UserAPIView(HttpResponseMixin,
     it would return only one user corresponding to the id mentioned. 
     """
     print(f"request user {request.user}")
-    if not request.user.is_staff:
-       raise PermissionDenied()
     self.inputID=getID(request)
     if self.inputID is not None:
       return self.retrieve(request,*args,**kwargs)

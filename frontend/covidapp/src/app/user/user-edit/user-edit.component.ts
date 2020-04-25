@@ -5,6 +5,7 @@ import { Router } from "@angular/router"
 import { User } from "../../models/user";
 import { UserService } from "../../services/user.service";
 import { AuthService } from "../../services/auth.service";
+import { PublicGroup } from "../../models/publicgroup";
 
 @Component({
     selector: 'app-user-edit',
@@ -15,16 +16,34 @@ export class UserEditComponent implements OnInit {
 
     user: any; // Observable<User>;
     user_id: number;
+    groups : any;//Observable<PublicGroup[]>;
+    dataLoaded: Promise<boolean>;
     success: boolean=false;
     avatar:File;
     errorMessage:string="";
     is_social_user:boolean=true;
     avatar_url:string;
+    user_role:string;
+    roleOptions:any;
     // name:string='yesman';
     constructor(private userService:UserService,
                 public authService:AuthService,
                 private router:Router,
-                private activatedRoute:ActivatedRoute) { }
+                private activatedRoute:ActivatedRoute) { 
+	this.user_role = localStorage.getItem('ur');
+	if (this.user_role =="usergroupadmin"){
+            this.roleOptions = [
+                {'value': 'usergroupadmin', 'name': 'Super User'},
+                {'value': 'groupadmin', 'name': 'Group Admin'},
+                {'value': 'volunteer', 'name': 'volunteer'}
+            ];
+	}else{
+            this.roleOptions = [
+                {'value': 'groupadmin', 'name': 'Group Admin'},
+                {'value': 'volunteer', 'name': 'volunteer'}
+            ];
+	}
+    }
 
     ngOnInit() {
         this.activatedRoute.paramMap.subscribe(
@@ -33,6 +52,18 @@ export class UserEditComponent implements OnInit {
             }
         )
         console.log("User id is " + this.user_id)
+        this.userService.getAllGroupsPublic()
+              .subscribe(
+                  data => {
+                      console.log(' success', data);
+                      this.groups = data;
+                      this.dataLoaded = Promise.resolve(true);
+                  },
+                  err => {
+                      console.log("Failed");
+                      this.dataLoaded = Promise.resolve(false);
+                  }
+              );
         this.loadUserData();
 
     }
@@ -59,6 +90,7 @@ export class UserEditComponent implements OnInit {
     }
 
     updateUser() {
+	console.log(this.user);
         const uploadData = new FormData();
         if(this.avatar){
             uploadData.append('avatar', this.avatar, this.avatar["name"]);
@@ -72,6 +104,7 @@ export class UserEditComponent implements OnInit {
         uploadData.append('is_staff', this.user["is_staff"]);
         uploadData.append('is_locked', this.user["is_locked"]);
         uploadData.append('is_superuser', this.user["is_superuser"]);
+        uploadData.append('user_role', this.user["user_role"]);
         this.userService.userUpdate(this.user_id,uploadData)
             .subscribe(
                 data => {

@@ -93,9 +93,12 @@ class UserViewPermission(permissions.BasePermission):
     """
 
     def has_object_permission(self, request, view, obj):
-        if request.user.is_superuser:
-          return True
-        return ((request.user.is_staff) & (not obj.is_superuser))
+        print("I am in object permissions")
+        if request.user.is_user_manager:
+            print("I am here")
+            return True
+        else:
+            return False
         #if request.user.is_superuser:
         #  return True
         #return obj == request.user

@@ -19,7 +19,7 @@ class UserAdmin(BaseUserAdmin):
         (None, {'fields': ('email', 'password')}),
         (_('Personal Info'), {'fields': ('name', 'group', 'user_role', 'avatar',
                                          'login_attempt_count', 'is_locked',
-                                         'avatar_url')}),
+                                         'formio_usergroup', 'is_user_manager')}),
         (
             _('Permissions'),
             {'fields': ('is_active', 'is_staff', 'is_superuser')}

@@ -82,6 +82,7 @@ class User(AbstractBaseUser, PermissionsMixin):
                                  default='client')
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
+    is_user_manager = models.BooleanField(default=False)
     login_attempt_count = models.PositiveSmallIntegerField(default=0)
     is_locked = models.BooleanField(default=False)
     avatar = models.ImageField(blank=True, null=True,
@@ -148,9 +149,16 @@ def get_user_role(user):
 def user_post_save_receiver(sender, instance, *args, **kwargs):
    '''Function to assign a role to user object'''
    my_role = get_user_role(instance)
-   if instance.user_role != my_role:
-       instance.user_role = my_role
-       instance.save()
+   if not instance.is_user_manager:
+       if (instance.is_staff):
+           instance.is_user_manager = True
+           instance.save()
+       if (instance.is_superuser):
+           instance.is_user_manager = True
+           instance.save()
+       if ((instance.user_role == "usergroupadmin") or (instance.user_role == "groupadmin")):
+           instance.is_user_manager = True
+           instance.save()
 
 
-#post_save.connect(user_post_save_receiver, sender=User)
+post_save.connect(user_post_save_receiver, sender=User)
