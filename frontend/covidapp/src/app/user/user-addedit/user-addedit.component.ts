@@ -29,6 +29,7 @@ export class UserAddeditComponent implements OnInit {
     success:any;
     error:any;
     usergroup:any;
+    isEdit:boolean=false;
     constructor(private userService:UserService,
                   public authService:AuthService,
                   private router:Router,
@@ -62,7 +63,8 @@ export class UserAddeditComponent implements OnInit {
 	  }else{
 		  this.operation = "edit"
 	          this.title = "Edit User"
-	          this.title = "Submit"
+	          this.actionType = "Submit"
+	          this.isEdit = true;
 	  }
           console.log("User id is " + this.operation)
           this.userService.getAllGroupsPublic()
@@ -81,15 +83,23 @@ export class UserAddeditComponent implements OnInit {
                         this.dataLoaded = Promise.resolve(false);
                     }
                 );
-          this.form  = new FormGroup({
-            name: new FormControl(''),
-            email: new FormControl(''),
-            password: new FormControl(''),
-            password2: new FormControl(''),
-            user_role: new FormControl(''),
-            group: new FormControl(''),
-            formio_usergroup: new FormControl(this.usergroup),
-          });
+	  if (this.user_id == 0){
+              this.form  = new FormGroup({
+                name: new FormControl(''),
+                email: new FormControl(''),
+                password: new FormControl(''),
+                password2: new FormControl(''),
+                user_role: new FormControl(''),
+                group: new FormControl(''),
+                formio_usergroup: new FormControl(this.usergroup),
+              });
+	  }else{
+              this.form  = new FormGroup({
+                name: new FormControl(),
+                user_role: new FormControl(''),
+                group: new FormControl(''),
+              });
+	  }
     }
 
     loadUserData(){
@@ -99,6 +109,11 @@ export class UserAddeditComponent implements OnInit {
                     this.user = data;
 		    console.log(this.user)
                     this.avatar_url = this.user["avatar_url"]
+                    this.form  = new FormGroup({
+                      name: new FormControl(this.user.name),
+                      user_role: new FormControl(this.user.user_role),
+                      group: new FormControl(this.user.group),
+                    });
                     if (this.user["provider"] == "native"){
                         this.is_social_user = false;
                         this.avatar_url = this.user["avatar"];
@@ -111,21 +126,41 @@ export class UserAddeditComponent implements OnInit {
     submit() {
       if (this.form.valid) {
         console.log(this.form.value);
-        this.userService.userCreate(this.form.value)
-          .subscribe(
-            data => {
-                    console.log('register success', data);
-                    this.success=true;
-                    setTimeout(() => {
-                      this.router.navigate(['/users/']);
-                    }, 1000);
-            },
-             err => {
-                    console.log(err.error);
-                    this.success=false;
-                    this.error=this.authService.getErrorMessage(err);
-                 }
-          );
+
+	if (this.user_id == 0){
+            this.userService.userCreate(this.form.value)
+              .subscribe(
+                data => {
+                        console.log('register success', data);
+                        this.success=true;
+                        setTimeout(() => {
+                          this.router.navigate(['/users/']);
+                        }, 1000);
+                },
+                 err => {
+                        console.log(err.error);
+                        this.success=false;
+                        this.error=this.authService.getErrorMessage(err);
+                     }
+              );
+	}else{
+            this.userService.userUpdate(this.user.id, this.form.value)
+              .subscribe(
+                data => {
+                        console.log('register success', data);
+                        this.success=true;
+                        setTimeout(() => {
+                          this.router.navigate(['/users/']);
+                        }, 1000);
+                },
+                 err => {
+                        console.log(err.error);
+                        this.success=false;
+                        this.error="Unable to edit";
+                     }
+              );
+
+	}
 
       }
     }

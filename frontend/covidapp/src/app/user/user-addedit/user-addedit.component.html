@@ -10,19 +10,19 @@
             </mat-form-field>
           </p>
 
-          <p>
+          <p *ngIf="!isEdit">
             <mat-form-field>
               <input type="text" matInput placeholder="Email" formControlName="email">
             </mat-form-field>
           </p>
 
-          <p>
+          <p *ngIf="!isEdit">
             <mat-form-field>
               <input type="password" matInput placeholder="Password" formControlName="password">
             </mat-form-field>
           </p>
 
-          <p>
+          <p *ngIf="!isEdit">
             <mat-form-field>
               <input type="password" matInput placeholder="Verify password" formControlName="password2">
             </mat-form-field>

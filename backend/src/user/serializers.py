@@ -85,7 +85,7 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ('id', 'email', 'password', 'password2', 'group', 'name', 'avatar',
                   'is_active', 'is_locked', 'is_staff', 'provider'
                   ,'avatar_url', 'is_superuser', 'user_role',
-                  'login_attempt_count')
+                  'login_attempt_count', 'formio_usergroup')
         extra_kwargs = {'password': {'write_only': True,
                                      'min_length': 5,
                                      'error_messages': { 'blank': 'Password field is required'}

@@ -1,4 +1,5 @@
 """Views Module for User App"""
+import json
 from django.utils.http import urlsafe_base64_decode
 from django.contrib.auth import get_user_model
 from django.core.exceptions import PermissionDenied

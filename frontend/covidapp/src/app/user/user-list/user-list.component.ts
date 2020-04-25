@@ -33,7 +33,7 @@ export class UserListComponent  {
       limit : new FormControl(10),
       user_role : new FormControl(),
       formio_usergroup : new FormControl(this.usergroup),
-      ordering : new FormControl(),
+      ordering : new FormControl('-id'),
       search: new FormControl()
     });
     this.page = this.filterForm.valueChanges.pipe(
