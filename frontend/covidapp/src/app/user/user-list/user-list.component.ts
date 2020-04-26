@@ -35,7 +35,6 @@ export class UserListComponent  implements OnInit{
     public authService: AuthService, private userService: UserService, private router : Router
   ) {
     this.user_role = localStorage.getItem('ur');
-    
     this.usergroup=localStorage.getItem('usergroup')
 	if (this.user_role =="usergroupadmin"){
             this.groupID = "undefined"

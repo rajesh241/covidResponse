@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import 'rxjs/add/operator/map';
 import {map, tap} from 'rxjs/operators';
 import { User } from "../models/user";
+import { PublicUser } from "../models/publicuser";
 import { environment } from '../../environments/environment';
 import { Page, queryPaginated, queryPaginatedLocations} from '../pagination';
 
@@ -44,6 +45,9 @@ export class UserService {
   list(urlOrFilter?: string | object): Observable<Page<User>> {
     return queryPaginated<User>(this.http, this.listEndPoint, this.insertToken, urlOrFilter);
   }
+  publicList(urlOrFilter?: string | object): Observable<Page<PublicUser>> {
+    return queryPaginated<PublicUser>(this.http, this.publicListEndPoint, this.insertToken, urlOrFilter);
+  }
 
     search(filter: {name: string} = {name: ''}, page = 1): Observable<User> {
 	return this.http.get(this.publicListEndPoint,this.getPublicHttpOptions())
@@ -59,9 +63,6 @@ export class UserService {
 	    );
     }
 
-  publicList(urlOrFilter?: string | object): Observable<Page<User>> {
-    return queryPaginated<User>(this.http, this.publicListEndPoint, this.insertToken, urlOrFilter);
-  }
   userCreate(payload:any){
     return this.http.post(this.endpoint,payload,this.getEditHttpOptions());
   }

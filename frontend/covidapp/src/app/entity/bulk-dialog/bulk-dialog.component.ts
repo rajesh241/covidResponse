@@ -1,12 +1,14 @@
 import { Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
-import { Observable } from 'rxjs';
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { FormBuilder, Validators, FormGroup, FormControl } from "@angular/forms";
+import { Observable, Subject } from 'rxjs';
+import { debounceTime, merge, share, startWith, switchMap } from 'rxjs/operators';
 
 import { formioConfig } from '../../formio/config';
 import { UserService } from "../../services/user.service";
 import { PublicUser } from "../../models/publicuser";
 import { PublicGroup } from "../../models/publicgroup";
+import { Page } from '../../pagination';
 
 @Component({
   selector: 'app-bulk-dialog',
@@ -28,6 +30,11 @@ export class BulkDialogComponent implements OnInit {
     assignForm: FormGroup;
     loadVolunteerForm:boolean=false;
     loadGroupForm:boolean=false;
+    page: Observable<Page<PublicUser>>;
+    pageUrl = new Subject<string>();
+    user_role:any;
+    groupID:any;
+    filterForm: FormGroup;
     statusOptions = [
         {'value': 'to_call', 'name': 'To Call'},
         {'value': 'assign_to_volunteer', 'name': 'Assign To Volunteer'},
@@ -62,6 +69,28 @@ export class BulkDialogComponent implements OnInit {
 	console.log(this.entities);
 	this.form_url = formioConfig.appUrl + `/forms/v1/${this.action}`;
 	console.log(`Action From URL[${this.form_url}]`);
+
+        this.user_role = localStorage.getItem('ur');
+        this.usergroup=localStorage.getItem('usergroup')
+            if (this.user_role =="usergroupadmin"){
+                this.groupID = "undefined"
+            }else{
+                this.groupID = localStorage.getItem('groupid');
+            }
+        this.filterForm = new FormGroup({
+          limit : new FormControl(10000),
+          formio_usergroup : new FormControl(this.usergroup),
+          group__id : new FormControl(this.groupID),
+          ordering : new FormControl('name')
+        });
+        this.page = this.filterForm.valueChanges.pipe(
+          debounceTime(200),
+          startWith(this.filterForm.value),
+          merge(this.pageUrl),
+          switchMap(urlOrFilter => this.userService.publicList(urlOrFilter)),
+          share()
+        );
+
     }
 
     ngOnInit() {
