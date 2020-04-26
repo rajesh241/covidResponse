@@ -54,6 +54,17 @@ export class EntityListComponent  {
         {'value': 'high', 'name':  'High'},
         {'value': 'not-needed', 'name':  'Not Needed'},
     ];
+    helpOptions = [
+	{'value': 'cash', 'name': 'Cash'},
+	{'value': 'water', 'name': 'Water'},
+	{'value': 'shelter', 'name': 'Shelter'},
+	{'value': 'cookedFood', 'name': 'Cooked Food'},
+	{'value': 'dryRations', 'name': 'Dry Rations'},
+	{'value': 'medicalHelp', 'name': 'Medical Help'},
+	{'value': 'transportToHome', 'name': 'Transport to Home'},
+	{'value': 'other', 'name': 'Other'}
+    ];
+
     constructor(
         public authService: AuthService,
         private entityService: EntityService,
@@ -85,6 +96,7 @@ export class EntityListComponent  {
             volunteer: new FormControl(),
             assigned_to_user__name__icontains: new FormControl(),
             assigned_to_group__name__icontains: new FormControl(),
+	    what_help__contains: new FormControl(),
             search: new FormControl(),
             location: new FormControl(),
             status: new FormControl(),

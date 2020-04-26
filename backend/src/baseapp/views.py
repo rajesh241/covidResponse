@@ -167,6 +167,7 @@ class EntityFilter(filters.FilterSet):
                     'assigned_to_group__id' : ['exact'],
                     'user__email' : ['exact'],
                     'formio_usergroup' : ['exact'],
+                    'what_help' : ['contains', 'icontains'],
                 }
     @property
     def qs(self):

@@ -3,7 +3,7 @@ import re
 from rest_framework import serializers, fields
 from django.contrib.auth import get_user_model, authenticate
 from baseapp.models import Covid, Entity, Feedback, EntityBulkEdit, BulkOperation
-from baseapp.formio import convert_formio_data_to_django
+from baseapp.formio import convert_formio_data_to_django, help_sought
 from django.conf import settings
 from baseapp.bulk_action import perform_bulk_action
 from user.serializers import UserPublicSerializer, GroupPublicSerializer
@@ -235,6 +235,11 @@ class EntitySerializer(serializers.ModelSerializer):
             setattr(instance, key, value)
         instance.save()
         self.parse_data_json(instance, validated_data)
+        try:
+            instance.what_help = help_sought(instance.data_json)
+            instance.save()
+        except:
+            print('help_sought() failed')
         return instance
 
     def parse_data_json(self, obj, validated_data):
