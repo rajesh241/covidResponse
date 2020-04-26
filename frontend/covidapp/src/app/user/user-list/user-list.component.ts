@@ -54,7 +54,7 @@ export class UserListComponent  implements OnInit{
       is_staff: new FormControl(),
       limit : new FormControl(10),
       user_role : new FormControl(),
-      formio_usergroup : new FormControl(this.usergroup),
+      formio_usergroup : new FormControl(),
       group__id : new FormControl(this.groupID),
       ordering : new FormControl('-id'),
       search: new FormControl()

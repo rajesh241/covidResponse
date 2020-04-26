@@ -78,7 +78,7 @@ export class EntityListComponent  {
 	}
 
         this.filterForm = new FormGroup({
-            formio_usergroup : new FormControl(this.usergroup),
+            formio_usergroup : new FormControl(),
             assigned_to_group__id : new FormControl(this.groupID),
             limit : new FormControl(10),
             ordering : new FormControl('-created'),
