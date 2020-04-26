@@ -105,16 +105,16 @@
                   <mat-card-subtitle>Apply to Selected Entities</mat-card-subtitle>
                   <h4>Bulk Action for the Selected Entities Above</h4>
                   -->
-                  <ng-container
-                    *ngFor="let option of bulkActionList|keyvalue;">
-                    <button mat-raised-button class="btn-success"
-                            (click)="onBulkAction(option.key)">
-                      {{ option.value }}
-                    </button>
-                    <!--
-                        <pre style="border: 0; background-color: transparent;">   </pre>
-                        -->
-                  </ng-container>
+              <ng-container
+                *ngFor="let option of bulkActionList|keyvalue;">
+                <button mat-raised-button class="btn-success"
+                        (click)="onBulkAction(option.key)">
+                  {{ option.value }}
+                </button>
+                <!--
+                    <pre style="border: 0; background-color: transparent;">   </pre>
+                    -->
+              </ng-container>
             </mat-card-content>
           </mat-card>
         </div>
@@ -255,6 +255,9 @@
         <pre> {{ bulkAction }} </pre>
   </div>
   -->
+  </div>
 
-  <app-paginator [page]="page | async" (pageChange)="onPageChanged($event)"></app-paginator>
+  <div align="center">
+    <app-paginator [page]="page | async" (pageChange)="onPageChanged($event)"></app-paginator>
+  </div>
 </div>

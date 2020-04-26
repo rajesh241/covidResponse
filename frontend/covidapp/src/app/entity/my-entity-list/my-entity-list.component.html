@@ -186,6 +186,8 @@
         <pre> {{ bulkAction }} </pre>
   </div>
   -->
-
-  <app-paginator [page]="page | async" (pageChange)="onPageChanged($event)"></app-paginator>
+  </div>
+  <div align="center">
+    <app-paginator [page]="page | async" (pageChange)="onPageChanged($event)"></app-paginator>
+  </div>
 </div>

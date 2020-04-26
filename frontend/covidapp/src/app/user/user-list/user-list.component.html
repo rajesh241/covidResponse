@@ -40,22 +40,22 @@
         <div class="form-group row">
           <label class="col-sm-3 col-form-label"></label>
           <div align="center" class="col-sm-3">
-	  <mat-form-field>
-            <mat-label>Group</mat-label>
-            <mat-select formControlName="group__id">
-              <mat-option value="">None</mat-option>
-              <mat-option *ngFor="let option of groups" [value]="option.id">{{ option.name }}</mat-option>
-            </mat-select>
-	  </mat-form-field>
+	    <mat-form-field>
+              <mat-label>Group</mat-label>
+              <mat-select formControlName="group__id">
+		<mat-option value="">None</mat-option>
+		<mat-option *ngFor="let option of groups" [value]="option.id">{{ option.name }}</mat-option>
+              </mat-select>
+	    </mat-form-field>
           </div>
           <div align="center" class="col-sm-3">
-	  <mat-form-field>
-            <mat-label>User Role</mat-label>
-            <mat-select formControlName="user_role">
-              <mat-option value="">None</mat-option>
-              <mat-option *ngFor="let option of roleOptions" [value]="option.value">{{ option.name }}</mat-option>
-            </mat-select>
-	  </mat-form-field>
+	    <mat-form-field>
+              <mat-label>User Role</mat-label>
+              <mat-select formControlName="user_role">
+		<mat-option value="">None</mat-option>
+		<mat-option *ngFor="let option of roleOptions" [value]="option.value">{{ option.name }}</mat-option>
+              </mat-select>
+	    </mat-form-field>
 	  </div>
 	</div>
 	
@@ -86,49 +86,51 @@
 
   <div *ngIf="dataLoaded | async" class="col-lg-12 well">
     <div class="row">
-        <div class="col-lg-12 ml-auto mr-auto">
-            <div class="table-responsive">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>email</th>
-                        <th>User Role</th>
-                        <th>Group</th>
-                        <th >Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let user of (page | async)?.results;let i=index" 
-                    >
-			<td>{{user.name}}</td>
-                        <td>{{user.email}}</td>
-                        <td>{{user.user_role}}</td>
-                        <td *ngIf="user.group">{{user.group.name}}</td>
-                        <td *ngIf="!user.group"></td>
-                        <td *ngIf="authService.isUserAdmin()" class="td-actions text-right">                             
-                          <button mat-raised-button class="btn btn-primary"
-                                  [routerLink]="['/useraddedit',user.id]">
-                            Edit
-                          </button>
-                          <button mat-raised-button class="btn btn-primary"
-                                  (click)="deleteUser(user.id)">
-                            Delete
-                          </button>
+      <div class="col-lg-12 ml-auto mr-auto">
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>email</th>
+                <th>User Role</th>
+                <th>Group</th>
+                <th >Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let user of (page | async)?.results;let i=index" 
+                  >
+		<td>{{user.name}}</td>
+                <td>{{user.email}}</td>
+                <td>{{user.user_role}}</td>
+                <td *ngIf="user.group">{{user.group.name}}</td>
+                <td *ngIf="!user.group"></td>
+                <td *ngIf="authService.isUserAdmin()" class="td-actions text-right">                             
+                  <button mat-raised-button class="btn btn-primary"
+                          [routerLink]="['/useraddedit',user.id]">
+                    Edit
+                  </button>
+                  <button mat-raised-button class="btn btn-primary"
+                          (click)="deleteUser(user.id)">
+                    Delete
+                  </button>
 
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-            </div>
-     </div>
-  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
     <div class="row" *ngIf="authService.isAdmin()">
-        <button class="btn btn-primary" (click)="deleteAllUsers()">
+      <button class="btn btn-primary" (click)="deleteAllUsers()">
         Delete All Users
-        </button>
+      </button>
     </div>
   </div>
 
-  <app-paginator [page]="page | async" (pageChange)="onPageChanged($event)"></app-paginator>
+  <div align="center">
+    <app-paginator [page]="page | async" (pageChange)="onPageChanged($event)"></app-paginator>
+  </div>
 </div>
