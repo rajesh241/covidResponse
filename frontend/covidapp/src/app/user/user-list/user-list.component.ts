@@ -35,15 +35,17 @@ export class UserListComponent  implements OnInit{
     public authService: AuthService, private userService: UserService, private router : Router
   ) {
     this.user_role = localStorage.getItem('ur');
-    this.groupID = localStorage.getItem('groupid');
+    
     this.usergroup=localStorage.getItem('usergroup')
 	if (this.user_role =="usergroupadmin"){
+            this.groupID = "undefined"
             this.roleOptions = [
                 {'value': 'usergroupadmin', 'name': 'Super User'},
                 {'value': 'groupadmin', 'name': 'Group Admin'},
                 {'value': 'volunteer', 'name': 'volunteer'}
             ];
 	}else{
+            this.groupID = localStorage.getItem('groupid');
             this.roleOptions = [
                 {'value': 'groupadmin', 'name': 'Group Admin'},
                 {'value': 'volunteer', 'name': 'volunteer'}

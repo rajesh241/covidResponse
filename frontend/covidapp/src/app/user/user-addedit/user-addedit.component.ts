@@ -36,7 +36,7 @@ export class UserAddeditComponent implements OnInit {
                   private activatedRoute:ActivatedRoute) { 
 	this.user_role = localStorage.getItem('ur');
 	this.usergroup = localStorage.getItem('usergroup');
-	if (this.user_role =="usergroupadmin"){
+	if (this.authService.isGroupAdmin()){
             this.roleOptions = [
                 {'value': 'usergroupadmin', 'name': 'Super User'},
                 {'value': 'groupadmin', 'name': 'Group Admin'},

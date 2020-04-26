@@ -118,7 +118,7 @@ class UserSerializer(serializers.ModelSerializer):
         send_email = False
         is_active = True
         request=self.context.get('request')
-        if not(request.user.is_superuser or request.user.is_staff):
+        if not(request.user.is_superuser or request.user.is_user_manager):
             print("not authorized")
             validated_data.pop('is_staff',None)
             validated_data.pop('is_superuser',None)

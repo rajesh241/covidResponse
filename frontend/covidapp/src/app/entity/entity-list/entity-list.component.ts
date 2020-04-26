@@ -21,6 +21,9 @@ import { BulkDialogComponent } from '../bulk-dialog/bulk-dialog.component';
     styleUrls: ['./entity-list.component.css']
 })
 export class EntityListComponent  {
+    usergroup:any;
+    groupID:any;
+    user_role:any;
     showAddressBar: boolean = false;
     filterForm: FormGroup;
     page: Observable<Page<Entity>>;
@@ -57,6 +60,13 @@ export class EntityListComponent  {
         private router:Router,      
         private dialog: MatDialog
     ) {
+        this.usergroup=localStorage.getItem('usergroup')
+        this.user_role = localStorage.getItem('ur');
+	if (this.user_role =="usergroupadmin"){
+            this.groupID = "undefined"
+	}else{
+            this.groupID = localStorage.getItem('groupid');
+	}
 	if (localStorage.getItem('usergroup') === 'wassan') {
 	    this.statusOptions = [
 		{'value': 'not_started', 'name': 'Not started'},
@@ -68,6 +78,8 @@ export class EntityListComponent  {
 	}
 
         this.filterForm = new FormGroup({
+            formio_usergroup : new FormControl(this.usergroup),
+            assigned_to_group__id : new FormControl(this.groupID),
             limit : new FormControl(10),
             ordering : new FormControl('-created'),
             volunteer: new FormControl(),
