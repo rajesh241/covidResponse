@@ -88,6 +88,7 @@ export class AuthService {
     localStorage.setItem("username", decoded.name);
     localStorage.setItem("ur", decoded.ur);
     localStorage.setItem("group", decoded.group);
+    localStorage.setItem("groupid", decoded.groupid);
     localStorage.setItem("region", decoded.region);
     localStorage.setItem("usergroup", decoded.usergroup);
     localStorage.setItem("userid", decoded.id);

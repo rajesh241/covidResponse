@@ -215,6 +215,7 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         token['ur'] = user.user_role
         if user.group is not None:
             token['group'] = user.group.name
+            token['groupid'] = user.group.id
         else:
             token['group'] = 'general'
         if user.region is not None:

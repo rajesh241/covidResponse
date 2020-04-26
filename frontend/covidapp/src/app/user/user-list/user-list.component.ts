@@ -29,11 +29,13 @@ export class UserListComponent  implements OnInit{
   roleOptions:any;
   user_role:any;
   panelOpen = true;
+  groupID:any;
 
   constructor(
     public authService: AuthService, private userService: UserService, private router : Router
   ) {
     this.user_role = localStorage.getItem('ur');
+    this.groupID = localStorage.getItem('groupid');
     this.usergroup=localStorage.getItem('usergroup')
 	if (this.user_role =="usergroupadmin"){
             this.roleOptions = [
@@ -52,7 +54,7 @@ export class UserListComponent  implements OnInit{
       limit : new FormControl(10),
       user_role : new FormControl(),
       formio_usergroup : new FormControl(this.usergroup),
-      group__id : new FormControl(),
+      group__id : new FormControl(this.groupID),
       ordering : new FormControl('-id'),
       search: new FormControl()
     });

@@ -13,7 +13,7 @@ from .serializers import (CovidSerializer,ItemSerializer1, EntitySerializer,
                           EntityBulkEditSerializer, BulkOperationSerializer,
                           EntityListSerializer, SmallEntitySerializer
                          )
-from user.permissions import IsStaffReadWriteOrAuthReadOnly, IsStaffReadWriteOrReadOnly
+from user.permissions import IsStaffReadWriteOrAuthReadOnly, IsStaffReadWriteOrReadOnly, UserViewPermission
 from user.utils import is_json
 from baseapp.permissions import EntityPermissions
 
@@ -486,7 +486,7 @@ class BulkOperationAPIView(HttpResponseMixin,
                     mixins.UpdateModelMixin,
                     generics.ListAPIView):
     """API View for the Report Model"""
-    permission_classes = [IsStaffReadWriteOrReadOnly]
+    permission_classes = [UserViewPermission]
     #permission_classes = [permissions.IsAuthenticated]
     serializer_class = BulkOperationSerializer
     passed_id = None

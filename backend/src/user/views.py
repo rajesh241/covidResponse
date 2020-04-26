@@ -309,7 +309,8 @@ class UserAPIView(HttpResponseMixin,
   ordering_fields = ('name', 'id', 'created', 'updated')
   #filterset_class = ReportFilter
 
-  filter_fields=("is_staff","is_locked","is_active","user_role","formio_usergroup")
+  filter_fields=("is_staff","is_locked","is_active","user_role","formio_usergroup",
+                "group__id")
   queryset=User.objects.all()
   def get_queryset(self, *args, **kwargs):
     if self.request.user.is_superuser:
