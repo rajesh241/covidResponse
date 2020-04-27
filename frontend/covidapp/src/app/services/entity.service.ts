@@ -13,6 +13,7 @@ export class EntityService {
   private endpoint = environment.apiURL+"/api/public/entity/";
   private fbendpoint = environment.apiURL+"/api/public/feedback/";
   private listEndPoint = environment.apiURL+"/api/public/entity/";
+  private historyEndPoint = environment.apiURL+"/api/public/entityhistory/";
   private entityListEndPoint = environment.apiURL+"/api/public/entitylist/";
   private createEndPoint = environment.apiURL+"/api/public/create/";
   private bulkDeleteEndpoint = environment.apiURL+"/api/public/bulkdeleteapt/";
@@ -27,7 +28,9 @@ export class EntityService {
   getItemPublic(id:number):Observable<any>{
     return this.http.get(this.endpoint+"?id="+id,this.getPublicHttpOptions());
   }
-
+  getAllHistory(id:number):Observable<any>{
+    return this.http.get(this.historyEndPoint+"?entity__id="+id,this.getPublicHttpOptions());
+  }
   list(urlOrFilter?: string | object): Observable<Page<Entity>> {
     return queryPaginated<Entity>(this.http, this.entityListEndPoint, false, urlOrFilter);
   }

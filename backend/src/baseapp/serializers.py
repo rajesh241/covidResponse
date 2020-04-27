@@ -75,6 +75,7 @@ class EntityBulkEditSerializer(serializers.ModelSerializer):
         #self.parse_data_json(obj, validated_data)
         return obj
 
+
 class EntityListSerializer(serializers.ModelSerializer):
     """Serializer for Report Model"""
     user = serializers.HiddenField(default=serializers.CurrentUserDefault())
@@ -320,6 +321,12 @@ class EntityPublicSerializer(serializers.ModelSerializer):
         return data
 
 
+class EntityHistorySerializer(serializers.ModelSerializer):
+    entity = EntityListSerializer(required=False)
+    class Meta:
+        """Meta Class"""
+        model = EntityHistory
+        fields = '__all__'
 
 
 class CovidSerializer(serializers.ModelSerializer):

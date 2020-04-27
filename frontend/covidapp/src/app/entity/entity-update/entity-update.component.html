@@ -1,0 +1,34 @@
+<div class="container">
+  <div *ngIf="dataLoaded">
+
+       <div class="table-responsive">
+	  <h3>History</h3>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>updated</th>
+                <th>user name</th>
+                <th>status</th>
+                <th>urgency</th>
+                <th>remarks</th>
+                <th>what_help</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let archive of archives;let i=index">
+		<td>{{archive.updated}}</td>
+                <td>{{archive.user_name}}</td>
+                <td>{{archive.status}}</td>
+                <td>{{archive.urgency}}</td>
+                <td>{{archive.remarks}}</td>
+                <td>{{archive.what_help}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+    <h3>Please update the form</h3>
+    <formio [src]="entity.formio_url" [submission]="entity.prefill_json" (submit)="onSubmit($event)"></formio>
+    <!-- <pre>{{ data | json }}</pre> -->
+  </div>
+</div>

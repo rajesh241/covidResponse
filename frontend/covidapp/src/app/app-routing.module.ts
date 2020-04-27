@@ -24,6 +24,7 @@ import { EntityListComponent } from "./entity/entity-list/entity-list.component"
 import { MyEntityListComponent } from "./entity/my-entity-list/my-entity-list.component";
 import { EntityEditComponent } from "./entity/entity-edit/entity-edit.component";
 import { EntityDetailComponent } from "./entity/entity-detail/entity-detail.component";
+import { EntityUpdateComponent } from "./entity/entity-update/entity-update.component";
 //import { EntityGridComponent } from './entity/entity-grid/entity-grid.component';
 
 import { LoginComponent } from './user/login/login.component';
@@ -65,6 +66,7 @@ const routes: Routes = [
     {path : 'regconfirm', component : RegisterConfirmComponent},
     {path : 'add/:form', component : EntityCreateComponent},
     {path : 'useredit/:id', component : UserEditComponent},
+    {path : 'update/:id', component : EntityUpdateComponent},
     {path : 'useraddedit/:id', component : UserAddeditComponent},
     {path : 'item/:id', component : EntityDetailComponent},
     {path : 'useradd', component : UserAddComponent},

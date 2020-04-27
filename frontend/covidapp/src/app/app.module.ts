@@ -82,6 +82,7 @@ import { AssignToComponent } from './entity/assign-to/assign-to.component';
 import { MyEntityListComponent } from './entity/my-entity-list/my-entity-list.component';
 import { UserAddeditComponent } from './user/user-addedit/user-addedit.component';
 import { GroupAddComponent } from './user/group-add/group-add.component';
+import { EntityUpdateComponent } from './entity/entity-update/entity-update.component';
 
 /*
 // AG Grid
@@ -158,6 +159,7 @@ export function provideConfig() {
         MyEntityListComponent,
         UserAddeditComponent,
         GroupAddComponent,
+        EntityUpdateComponent,
         // EntityGridComponent,
 	/*
         DateComponent,
