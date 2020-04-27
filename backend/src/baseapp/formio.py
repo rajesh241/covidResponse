@@ -139,13 +139,12 @@ def help_sought(data):
     Return a csv for the type of help people are seeking
     '''
     needs = ''
-    # print(data)
     try:
         dot = dotty(data)
 
         # Extract needs
 
-        needs_json = dot['needsForm.data.needs']
+        needs_json = dot['data.needsForm.data.needs']
         # needs_json = data['needsForm']['data']['needs'] Works also
         # print(needs_json)
         for key, value in needs_json.items():

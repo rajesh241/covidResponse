@@ -166,11 +166,10 @@ def main():
         objs = Entity.objects.filter(record_type = "helpseekers")
         for obj in objs:
             logger.info(obj.id)
-            logger.info(obj.prefill_json)
+            #logger.info(obj.prefill_json)
             obj.what_help = help_sought(obj.prefill_json)
             logger.info(obj.what_help)
             obj.save()
-            break
         exit(0)
         objs = User.objects.all()
         for obj in objs:

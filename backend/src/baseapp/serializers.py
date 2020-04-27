@@ -264,7 +264,7 @@ class EntitySerializer(serializers.ModelSerializer):
                 field_dict = {}
             for key, value in field_dict.items():
                 setattr(obj, key, value)
-            obj.what_help = help_sought(obj.data_json)
+            obj.what_help = help_sought(obj.prefill_json)
             obj.save()
         keywords = f"{obj.title},{obj.phone},{obj.email}"
         obj.keywords = keywords
