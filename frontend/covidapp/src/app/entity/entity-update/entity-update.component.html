@@ -1,34 +1,57 @@
 <div class="container">
   <div *ngIf="dataLoaded">
+    <h3 align="center">Update</h3>
+    <mat-card class="col-md-12" style="padding:5px;">
+      <mat-expansion-panel (opened)="panelOpen = true"
+                           (closed)="panelOpen = false"
+                           [expanded]="panelOpen">
+	<mat-expansion-panel-header>
+          <mat-panel-title>
+            <h3 align="center">History</h3>
+          </mat-panel-title>
+          <mat-panel-description style="text-align-vertical:center; text-align:center;">
+            <label class="col-sm-2 col-form-label"></label>
+            Click to {{!panelOpen ? 'Open' : 'Close'}}
+          </mat-panel-description>
+	</mat-expansion-panel-header>
+	<mat-card-content class="col-md-12">
 
-       <div class="table-responsive">
-	  <h3>History</h3>
-          <table class="table">
-            <thead>
-              <tr>
-                <th>updated</th>
-                <th>user name</th>
-                <th>status</th>
-                <th>urgency</th>
-                <th>remarks</th>
-                <th>what_help</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let archive of archives;let i=index">
-		<td>{{archive.updated}}</td>
-                <td>{{archive.user_name}}</td>
-                <td>{{archive.status}}</td>
-                <td>{{archive.urgency}}</td>
-                <td>{{archive.remarks}}</td>
-                <td>{{archive.what_help}}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+	  <div class="table-responsive">
+            <table class="table">
+              <thead>
+		<tr>
+                  <th>Updated</th>
+                  <th>User Name</th>
+                  <th>Status</th>
+                  <th>Urgency</th>
+                  <th>Remarks</th>
+                  <th>Help Required</th>
+		</tr>
+              </thead>
+              <tbody>
+		<tr *ngFor="let archive of archives; let i=index">
+		  <td>{{archive.updated}}</td>
+                  <td>{{archive.user_name}}</td>
+                  <td>{{archive.status}}</td>
+                  <td>{{archive.urgency}}</td>
+                  <td>{{archive.remarks}}</td>
+                  <td>{{archive.what_help}}</td>
+		</tr>
+              </tbody>
+            </table>
+          </div>
 
-    <h3>Please update the form</h3>
-    <formio [src]="entity.formio_url" [submission]="entity.prefill_json" (submit)="onSubmit($event)"></formio>
+	</mat-card-content>
+      </mat-expansion-panel>
+    </mat-card>
+    <div class = row>
+      <br />
+    </div>
+    <div class=well>
+      <br />
+      <h3>Please update the form</h3>
+      <formio [src]="entity.formio_url" [submission]="entity.prefill_json" (submit)="onSubmit($event)"></formio>
+    </div>
     <!-- <pre>{{ data | json }}</pre> -->
   </div>
 </div>

@@ -4,9 +4,9 @@ import { formioConfig } from '../../formio/config';
 import { EntityService } from "../../services/entity.service";
 
 @Component({
-  selector: 'app-entity-update',
-  templateUrl: './entity-update.component.html',
-  styleUrls: ['./entity-update.component.css']
+    selector: 'app-entity-update',
+    templateUrl: './entity-update.component.html',
+    styleUrls: ['./entity-update.component.css']
 })
 export class EntityUpdateComponent implements OnInit {
     entity : any;
@@ -15,6 +15,8 @@ export class EntityUpdateComponent implements OnInit {
     success: boolean=false;
     errorMessage:any;
     archives:any;
+    panelOpen = true;
+
     constructor(
         private entityService:EntityService,
         private activatedRoute:ActivatedRoute,
@@ -31,7 +33,6 @@ export class EntityUpdateComponent implements OnInit {
     }
 
     loadHistory(){
-	   
         this.entityService.getAllHistory(this.entity_id)
             .subscribe(
                 data => {
@@ -41,6 +42,7 @@ export class EntityUpdateComponent implements OnInit {
             );
 
     }
+
     loadEntityData() {
         this.entityService.getItemPublic(this.entity_id)
             .subscribe(
@@ -51,6 +53,7 @@ export class EntityUpdateComponent implements OnInit {
                 }
             );
     }
+
     onSubmit($event){
 	console.log($event.data);
 
@@ -65,5 +68,4 @@ export class EntityUpdateComponent implements OnInit {
 		}
             );
     }
-
 }
