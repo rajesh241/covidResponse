@@ -86,6 +86,7 @@ class Entity(models.Model):
     icon_url = models.URLField(blank=True, null=True,
                                default='https://covidb.libtech.in/media/icons/red-dot.png')
     backend_remarks = models.TextField(blank=True, null=True)
+    remarks = models.TextField(blank=True, null=True)
     feedback_form_json = JSONField(null=True, blank=True)  # requires Django-Mysql package
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
@@ -132,6 +133,27 @@ class EntityBulkEdit(models.Model):
         """Default str method for the class"""
         return f"{self.id}"
 
+class EntityHistory(models.Model):
+    """Class for storing history of Entity"""
+    entity = models.ForeignKey(Entity, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True,
+                             blank=True)
+    title = models.CharField(max_length=256, null=True, blank=True)
+    what_help = models.CharField(max_length=1024, blank=True, null=True)
+    user_name = models.CharField(max_length=256, null=True, blank=True)
+    prefill_json = JSONField()  # requires Django-Mysql package
+    status = models.CharField(max_length=256, null=True, blank=True)
+    urgency = models.CharField(max_length=1024, null=True, blank=True)
+    remarks = models.TextField(blank=True, null=True)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+    class Meta:
+        """To define meta data attributes"""
+        db_table = 'entityhistory'
+    def __str__(self):
+        """Default str method for the class"""
+        return f"{self.id}"
+    
 class Feedback(models.Model):
     """Class for collecting feedback on the entity"""
     entity = models.ForeignKey(Entity, on_delete=models.CASCADE)

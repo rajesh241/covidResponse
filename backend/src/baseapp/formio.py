@@ -67,7 +67,6 @@ def convert_formio_data_to_django(data):
     res = django_dict.to_dict()
     res['extra_fields']['geo_json'] = geo_json
     res['title'] = get_title(dot)
-    print(res)
     return res
 
 def get_title_description(record_type, data):
@@ -139,16 +138,19 @@ def help_sought(data):
     '''
     Return a csv for the type of help people are seeking
     '''
-    # print(data)
-    dot = dotty(data)
-
-    # Extract needs
-
-    needs_json = dot['needsForm.data.needs']
-    # needs_json = data['needsForm']['data']['needs'] Works also
-    # print(needs_json)
     needs = ''
-    for key, value in needs_json.items():
-        if value:
-            needs += key + ','
+    # print(data)
+    try:
+        dot = dotty(data)
+
+        # Extract needs
+
+        needs_json = dot['needsForm.data.needs']
+        # needs_json = data['needsForm']['data']['needs'] Works also
+        # print(needs_json)
+        for key, value in needs_json.items():
+            if value:
+                needs += key + ','
+    except:
+        needs = ''
     return needs.rstrip(',')

@@ -2,7 +2,7 @@
 import re
 from rest_framework import serializers, fields
 from django.contrib.auth import get_user_model, authenticate
-from baseapp.models import Covid, Entity, Feedback, EntityBulkEdit, BulkOperation
+from baseapp.models import Covid, Entity, Feedback, EntityBulkEdit, BulkOperation, EntityHistory
 from baseapp.formio import convert_formio_data_to_django, help_sought
 from django.conf import settings
 from baseapp.bulk_action import perform_bulk_action
@@ -227,6 +227,7 @@ class EntitySerializer(serializers.ModelSerializer):
         """Over riding teh create method of serializer"""
         obj = Entity.objects.create(**validated_data)
         self.parse_data_json(obj, validated_data)
+        self.create_history(obj)
         return obj
 
     def update(self, instance, validated_data):
@@ -235,13 +236,23 @@ class EntitySerializer(serializers.ModelSerializer):
             setattr(instance, key, value)
         instance.save()
         self.parse_data_json(instance, validated_data)
-        try:
-            instance.what_help = help_sought(instance.data_json)
-            instance.save()
-        except:
-            print('help_sought() failed')
+        self.create_history(instance)
         return instance
-
+    def create_history(self, entity):
+        """This will enter the entity object in the entity history table to
+        maintain all the edit records"""
+        try:
+            obj = EntityHistory.objects.create(entity=entity)
+            obj.title = entity.title
+            obj.what_help = entity.what_help
+            obj.user_name = entity.user.name
+            obj.status = entity.status
+            obj.urgency = entity.urgency
+            obj.remarks = entity.remarks
+            obj.prefill_json = entity.prefill_json
+            obj.save()
+        except:
+            obj = None
     def parse_data_json(self, obj, validated_data):
         """This will parse the data json to populate few fields in Entity
         Model"""
@@ -253,6 +264,7 @@ class EntitySerializer(serializers.ModelSerializer):
                 field_dict = {}
             for key, value in field_dict.items():
                 setattr(obj, key, value)
+            obj.what_help = help_sought(obj.data_json)
             obj.save()
         keywords = f"{obj.title},{obj.phone},{obj.email}"
         obj.keywords = keywords

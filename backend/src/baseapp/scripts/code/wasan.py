@@ -13,7 +13,7 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", DJANGO_SETTINGS)
 django.setup()
 from core.models import Region
 from baseapp.models import Entity
-
+from baseapp.formio import help_sought
 User = get_user_model()
 from core.models import Group, Region
 def args_fetch():
@@ -163,6 +163,15 @@ def main():
         usergroup = "wassan"
         
     if args['test']:
+        objs = Entity.objects.filter(record_type = "helpseekers")
+        for obj in objs:
+            logger.info(obj.id)
+            logger.info(obj.prefill_json)
+            obj.what_help = help_sought(obj.prefill_json)
+            logger.info(obj.what_help)
+            obj.save()
+            break
+        exit(0)
         objs = User.objects.all()
         for obj in objs:
             obj.save()
