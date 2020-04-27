@@ -10,6 +10,7 @@ import { Page } from '../../pagination';
 import { Entity } from "../../models/entity";
 import { EntityService } from "../../services/entity.service";
 import { AuthService } from "../../services/auth.service";
+import { DownloadService } from "../../services/download.service";
 
 import { MatDialog, MatDialogConfig } from "@angular/material";
 import { EditDialogComponent } from '../edit-dialog/edit-dialog.component';
@@ -68,7 +69,8 @@ export class EntityListComponent  {
     constructor(
         public authService: AuthService,
         private entityService: EntityService,
-        private router:Router,      
+        private downloadService: DownloadService,
+        private router:Router,
         private dialog: MatDialog
     ) {
         this.usergroup=localStorage.getItem('usergroup')
@@ -267,6 +269,11 @@ export class EntityListComponent  {
 
     onBulkAction(action) {
         console.log(`EntityListComponent.applyBulkAction(${action})`);
+        if(action == 'export') {
+            this.exportSelected();
+            return;
+        }
+
         console.log(this.selectedEntities);
 	let chosenEntites = [];
 
@@ -329,5 +336,48 @@ export class EntityListComponent  {
 	}else{
             this.router.navigate(['/login']);
 	}
+    }
+
+    exportAll() {
+        console.log(`EntityListComponent.exportAll()`);
+    }
+
+    exportSelected() {
+        console.log(`EntityListComponent.exportSelected()`);
+        console.log(this.selectedEntities);
+	let chosenEntites: [];
+        let columns = [
+            {'key': 'title', 'value': 'Name'},
+            {'key': 'contact_numbers', 'value': 'Contact Nos'},
+            {'key': 'assigned_to_group', 'value': 'Group'},
+            {'key': 'assigned_to_user', 'value': 'Volunteer'},
+            {'key': 'status', 'value': 'Status'},
+            {'key': 'urgency', 'value': 'Urgency'},
+        ];
+
+        chosenEntites = this.entities
+            .filter(entity => this.selectedEntities[entity.id])
+            .map(entity => {
+                let trimmedEntity = [];
+                columns.forEach(
+                    col => {
+                        if (col.key == 'title') 
+                            trimmedEntity.push(`'${entity[col.key]}'`);
+                        else if (col.key == 'assigned_to_user' ||
+                            col.key == 'assigned_to_group') {
+                            if (entity[col.key])
+                                trimmedEntity.push(entity[col.key]['name']);
+                            else
+                                trimmedEntity.push('');
+                        }
+                        else
+                            trimmedEntity.push(entity[col.key]);
+                    });
+                return trimmedEntity;
+            });
+
+        console.log('The Chosen Entities are:')
+        console.log(chosenEntites);
+        this.downloadService.exportAsCSV(columns, chosenEntites, 'export.csv');
     }
 }
