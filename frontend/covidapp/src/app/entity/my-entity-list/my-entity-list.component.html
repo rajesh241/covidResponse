@@ -100,10 +100,10 @@
                 <td>{{entity.urgency}}</td>
                 <td *ngIf="authService.isLoggedIn()" class="td-actions">
                   <div>
-                    <button mat-raised-button class="btn btn-primary"
-                            (click)="editDialog(entity)">
-                      Edit
-                    </button>
+                      <button mat-raised-button class="btn btn-primary"
+                              [routerLink]="['/update',entity.id]">
+                        Edit
+                      </button>
                     <!--
                         <span>    </span>
                         <button mat-raised-button
