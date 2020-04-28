@@ -79,7 +79,7 @@ export class BulkDialogComponent implements OnInit {
             }
         this.filterForm = new FormGroup({
           limit : new FormControl(10000),
-          formio_usergroup : new FormControl(this.usergroup),
+          formio_usergroup : new FormControl(),
           group__id : new FormControl(this.groupID),
           ordering : new FormControl('name')
         });
