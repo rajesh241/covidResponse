@@ -159,7 +159,8 @@ def get_remarks(data):
     """Will parse the remarks field"""
     remarks = ''
     try:
-        remarks = dot['data.needsForm.data.needs.notes']
+        dot = dotty(data)
+        remarks = dot['data.needsForm.data.notes']
     except:
         remarks = ''
     return remarks
@@ -167,7 +168,8 @@ def get_status(data):
     """Will parse the remarks field"""
     status = ''
     try:
-       status = dot['data.needsForm.data.needs.status']
+        dot = dotty(data)
+        status = dot['data.needsForm.data.status']
     except:
-        status = ''
+         status = ''
     return status

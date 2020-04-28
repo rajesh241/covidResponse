@@ -302,7 +302,7 @@ class EntityHistoryAPIView(HttpResponseMixin,
     passed_id = None
     input_id = None
     search_fields = ('id')
-    ordering_fields = ('updated')
+    ordering_fields = ('title', 'id', 'created', 'updated')
     filter_fields=("id", "entity__id")
     
     queryset = EntityHistory.objects.all()

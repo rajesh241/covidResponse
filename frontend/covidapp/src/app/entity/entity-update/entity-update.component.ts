@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from "@angular/router";
 import { formioConfig } from '../../formio/config';
 import { EntityService } from "../../services/entity.service";
+import { Router } from "@angular/router"
 
 @Component({
     selector: 'app-entity-update',
@@ -19,6 +20,7 @@ export class EntityUpdateComponent implements OnInit {
 
     constructor(
         private entityService:EntityService,
+	private router:Router,
         private activatedRoute:ActivatedRoute,
     ) { 
         this.activatedRoute.paramMap.subscribe(
@@ -61,6 +63,9 @@ export class EntityUpdateComponent implements OnInit {
             .subscribe(
                 data => {
                     this.success = true;
+                    setTimeout(() => {
+                      this.router.navigate(['/list/']);
+                    }, 1000);
 	        },
                 err => {
                     this.success=false;

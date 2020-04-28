@@ -29,7 +29,7 @@ export class EntityService {
     return this.http.get(this.endpoint+"?id="+id,this.getPublicHttpOptions());
   }
   getAllHistory(id:number):Observable<any>{
-    return this.http.get(this.historyEndPoint+"?entity__id="+id,this.getPublicHttpOptions());
+    return this.http.get(this.historyEndPoint+"?ordering=-id&entity__id="+id,this.getPublicHttpOptions());
   }
   list(urlOrFilter?: string | object): Observable<Page<Entity>> {
     return queryPaginated<Entity>(this.http, this.entityListEndPoint, false, urlOrFilter);

@@ -30,7 +30,7 @@
               </thead>
               <tbody>
 		<tr *ngFor="let archive of archives; let i=index">
-		  <td>{{archive.updated}}</td>
+		  <td>{{archive.updated | date}}</td>
                   <td>{{archive.user_name}}</td>
                   <td>{{archive.status}}</td>
                   <td>{{archive.urgency}}</td>

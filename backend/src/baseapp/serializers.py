@@ -3,7 +3,7 @@ import re
 from rest_framework import serializers, fields
 from django.contrib.auth import get_user_model, authenticate
 from baseapp.models import Covid, Entity, Feedback, EntityBulkEdit, BulkOperation, EntityHistory
-from baseapp.formio import convert_formio_data_to_django, help_sought
+from baseapp.formio import convert_formio_data_to_django, help_sought, get_status, get_remarks
 from django.conf import settings
 from baseapp.bulk_action import perform_bulk_action
 from user.serializers import UserPublicSerializer, GroupPublicSerializer
@@ -230,7 +230,7 @@ class EntitySerializer(serializers.ModelSerializer):
         """Over riding teh create method of serializer"""
         obj = Entity.objects.create(**validated_data)
         self.parse_data_json(obj, validated_data)
-        self.create_history(obj)
+      #  self.create_history(obj)
         return obj
 
     def update(self, instance, validated_data):
@@ -239,7 +239,6 @@ class EntitySerializer(serializers.ModelSerializer):
             setattr(instance, key, value)
         instance.save()
         self.parse_data_json(instance, validated_data)
-        self.create_history(instance)
         return instance
     def create_history(self, entity):
         """This will enter the entity object in the entity history table to
@@ -268,9 +267,11 @@ class EntitySerializer(serializers.ModelSerializer):
             for key, value in field_dict.items():
                 setattr(obj, key, value)
             obj.what_help = help_sought(obj.prefill_json)
-            obj.save()
+            obj.status = get_status(obj.prefill_json)
+            obj.remarks = get_remarks(obj.prefill_json)
         keywords = f"{obj.title},{obj.phone},{obj.email}"
         obj.keywords = keywords
+        self.create_history(obj)
         obj.save()
        #keyword_array = []
        #address = obj.address
@@ -324,7 +325,7 @@ class EntityPublicSerializer(serializers.ModelSerializer):
 
 
 class EntityHistorySerializer(serializers.ModelSerializer):
-    entity = EntityListSerializer(required=False)
+    #entity = EntityListSerializer(required=False)
     class Meta:
         """Meta Class"""
         model = EntityHistory
