@@ -153,3 +153,21 @@ def help_sought(data):
     except:
         needs = ''
     return needs.rstrip(',')
+
+
+def get_remarks(data):
+    """Will parse the remarks field"""
+    remarks = ''
+    try:
+        remarks = dot['data.needsForm.data.needs.notes']
+    except:
+        remarks = ''
+    return remarks
+def get_status(data):
+    """Will parse the remarks field"""
+    status = ''
+    try:
+       status = dot['data.needsForm.data.needs.status']
+    except:
+        status = ''
+    return status

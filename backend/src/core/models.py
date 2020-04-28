@@ -76,7 +76,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     group = models.ForeignKey(Group, on_delete=models.CASCADE, null=True,
                              blank=True)
     formio_usergroup = models.CharField(max_length=256, null=True, blank=True,
-                                       default='libtech')
+                                       default='wassan')
     region = models.CharField(max_length=256, null=True, blank=True)
     user_role = models.CharField(max_length=20, blank=True, null=True,
                                  default='client')
