@@ -163,6 +163,12 @@ def main():
         usergroup = "wassan"
         
     if args['test']:
+        objs = User.objects.all()
+        for obj in objs:
+            obj.formio_usergroup = "wassan"
+            logger.info(obj.id)
+            obj.save()
+        exit(0)
         objs = Entity.objects.filter(record_type = "helpseekers")
         for obj in objs:
             logger.info(obj.id)
