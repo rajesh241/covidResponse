@@ -114,12 +114,10 @@ def main():
         for obj in objs:
             a = [obj.title, obj.state, obj.status, obj.urgency, obj.remarks]
             csv_array.append(a)
-            break
         df = pd.DataFrame(csv_array, columns=columns)
         filename = "export/data.csv"
         file_url = upload_s3(logger, filename, df)
         logger.info(file_url)
-        df.to_csv("/tmp/a.csv")
             
     logger.info("...END PROCESSING")
 
