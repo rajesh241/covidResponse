@@ -8,6 +8,7 @@ urlpatterns = [
 #    path('covid/', views.CovidAPIView.as_view(), name='create'),
     path('entity/', views.EntityAPIView.as_view(), name='entity'),
     path('entityhistory/', views.EntityHistoryAPIView.as_view(), name='history'),
+    path('entityexport/', views.EntityExportAPIView.as_view(), name='history'),
     path('entitylist/', views.EntityListAPIView.as_view(), name='entitylist'),
     path('entitysmall/', views.EntitySmallAPIView.as_view(), name='entitysmall'),
     path('entitybulkedit/', views.EntityBulkEditAPIView.as_view(), name='bulkedit'),

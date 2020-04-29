@@ -594,3 +594,13 @@ class BulkOperationAPIView(HttpResponseMixin,
             return self.render_to_response(data, status="404")
         return self.destroy(request, *args, **kwargs)
 
+class EntityExportAPIView(HttpResponseMixin,
+                    mixins.CreateModelMixin,
+                    mixins.DestroyModelMixin,
+                    mixins.RetrieveModelMixin,
+                    mixins.UpdateModelMixin,
+                    generics.ListAPIView):
+     def get(self, request):
+         url = "https://f.libtech.in/media.a.csv"
+         data = json.dumps({"url":url})
+         return self.render_to_response(data, status="200")

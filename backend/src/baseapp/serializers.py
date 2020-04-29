@@ -22,6 +22,7 @@ class ItemSerializer1(serializers.Serializer):
     # Gets a list of Integers
     user_ids = serializers.ListField(child=serializers.CharField())
 
+
 class BulkOperationSerializer(serializers.ModelSerializer):
     """Serializer for Report Model"""
     user = serializers.HiddenField(default=serializers.CurrentUserDefault())
