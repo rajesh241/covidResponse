@@ -179,6 +179,12 @@ class EntityFilter(filters.FilterSet):
             if "extra_fields__" in key:
                 value = self.request.query_params[key]
                 queryset = queryset.filter(**{ key: value })
+            if "what_help" in key:
+                value = self.request.query_params[key].lstrip(",").rstrip(",")
+                for item in value:
+                    queryset = queryset.filter(what_help__icontains=item)
+                
+                
         return queryset
        #if "volunteer" in self.request.query_params:
        #    volunteer = self.request.query_params['volunteer']
