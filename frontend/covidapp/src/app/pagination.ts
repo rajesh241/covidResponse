@@ -13,7 +13,7 @@ export class Page<T> {
 export function queryPaginated<T>(http: HttpClient, baseUrl: string, insertToken:boolean, urlOrFilter?: string | object): Observable<Page<T>> {
     let params = new HttpParams();
     let url = baseUrl;
-    
+    let helpcsv = ''; 
     if (typeof urlOrFilter === 'string') {
         // we were given a page URL, use it
         url = urlOrFilter;
@@ -68,11 +68,18 @@ export function queryPaginated<T>(http: HttpClient, baseUrl: string, insertToken
             else if ( (value != null) && (key === "assigned_to_user__name__icontains")){
                 params = params.set(key, value.toString());
             }
+            else if ( (value != null) && (key === "assigned_to_user__isnull")){
+                params = params.set(key, value.toString());
+            }
             else if ( (value != null) && (key === "assigned_to_user__id")){
                 params = params.set(key, value.toString());
             }
             else if ( (value != null) && (key === "assigned_to_group__name__icontains")){
                 params = params.set(key, value.toString());
+            }
+            else if ( (value == true) && (key === "water")){
+                console.log("water key"  +key+value);
+		helpcsv = helpcsv + ',' + key
             }
             else if ( (value != null) && (key === "what_help__contains")){
                 params = params.set(key, value.toString());
@@ -98,6 +105,8 @@ export function queryPaginated<T>(http: HttpClient, baseUrl: string, insertToken
                 params = params.set('latitude__lte', latitude__lte.toString());
                 params = params.set('longitude__lte', longitude__lte.toString());
             }
+	    console.log("help csv is " +helpcsv)
+            params = params.set('what_help', helpcsv);
         });
     }
 

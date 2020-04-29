@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from "@angular/router"
 
@@ -15,6 +16,7 @@ import { DownloadService } from "../../services/download.service";
 import { MatDialog, MatDialogConfig } from "@angular/material";
 import { EditDialogComponent } from '../edit-dialog/edit-dialog.component';
 import { BulkDialogComponent } from '../bulk-dialog/bulk-dialog.component';
+import { Location } from '@angular/common';
 
 @Component({
     selector: 'app-entity-list',
@@ -37,6 +39,10 @@ export class EntityListComponent  {
     bulkAction: string = 'none';
     bulkActionList = {};
     panelOpen = true;
+    isAssignedOptions = [
+        {'value': '1', 'name': 'False'},
+        {'value': '0', 'name': 'True'}
+    ];
     statusOptions = [
         {'value': 'to_call', 'name': 'To Call'},
         {'value': 'assign_to_volunteer', 'name': 'Assign To Volunteer'},
@@ -71,6 +77,8 @@ export class EntityListComponent  {
         private entityService: EntityService,
         private downloadService: DownloadService,
         private router:Router,
+	private location: Location,
+	@Inject(DOCUMENT) private document: Document,
         private dialog: MatDialog
     ) {
         this.usergroup=localStorage.getItem('usergroup')
@@ -97,6 +105,7 @@ export class EntityListComponent  {
             ordering : new FormControl('-created'),
             volunteer: new FormControl(),
             assigned_to_user__name__icontains: new FormControl(),
+            assigned_to_user__isnull:  new FormControl(),
             assigned_to_group__name__icontains: new FormControl(),
 	    what_help__contains: new FormControl(),
             search: new FormControl(),
@@ -386,5 +395,10 @@ export class EntityListComponent  {
         console.log('The Chosen Entities are:')
         console.log(chosenEntites);
         this.downloadService.exportAsCSV(columns, chosenEntites, 'export.csv');
+    }
+
+    onExport(){
+	    console.log("User has clicked export button");
+	    this.document.location.href = 'https://coast-india.s3.ap-south-1.amazonaws.com/export/data.csv';
     }
 }
