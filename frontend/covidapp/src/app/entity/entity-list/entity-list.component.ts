@@ -56,14 +56,14 @@ export class EntityListComponent  {
         {'value': 'not-needed', 'name':  'Not Needed'},
     ];
     helpOptions = [
-	{'value': 'cash', 'name': 'Cash'},
-	{'value': 'water', 'name': 'Water'},
-	{'value': 'shelter', 'name': 'Shelter'},
-	{'value': 'cookedFood', 'name': 'Cooked Food'},
-	{'value': 'dryRations', 'name': 'Dry Rations'},
-	{'value': 'medicalHelp', 'name': 'Medical Help'},
-	{'value': 'transportToHome', 'name': 'Transport to Home'},
-	{'value': 'other', 'name': 'Other'}
+	{'value': 'cash', 'name': 'Cash', 'selected': false, 'class': 'fa-money', 'color': 'green'},
+	{'value': 'water', 'name': 'Water', 'selected': false, 'class': 'fa-tint', 'color': 'lightblue'},
+	{'value': 'dryRations', 'name': 'Dry Rations', 'selected': false, 'class': 'fa-shopping-basket', 'color': '#DEA4ED'},
+	{'value': 'medicalHelp', 'name': 'Medical Help', 'selected': false, 'class': 'fa-plus-square', 'color': '#F47A7A'},
+	{'value': 'cookedFood', 'name': 'Cooked Food', 'selected': false, 'class': 'fa-cutlery', 'color': 'orange'},
+	{'value': 'transportToHome', 'name': 'Transport to Home', 'selected': false, 'class': 'fa-bus', 'color': 'purple'},
+	{'value': 'shelter', 'name': 'Shelter', 'selected': false, 'class': 'fa-bed', 'color': '#A5B6FA'},
+	{'value': 'other', 'name': 'Other', 'selected': false, 'class': 'fa-adjust', 'color': '#8A8A8A'},
     ];
 
     constructor(
@@ -105,6 +105,9 @@ export class EntityListComponent  {
             urgency: new FormControl(),
             record_type: new FormControl()
         });
+	this.helpOptions.forEach(option => {
+	    this.filterForm.addControl(option.value, new FormControl(option.selected));
+	});
         this.page = this.filterForm.valueChanges.pipe(
             debounceTime(200),
             startWith(this.filterForm.value),
@@ -228,6 +231,10 @@ export class EntityListComponent  {
         this.bulkActionIntersection();
     }
 
+    isEmpty(obj) {
+	return Object.entries(obj).length === 0;
+    }
+
     bulkActionIntersection() {
         console.log('EntityListComponent.bulkActionIntersection()');
 
@@ -238,7 +245,7 @@ export class EntityListComponent  {
             if (this.selectedEntities[entity.id]) {
                 console.log('bulk_action_list');
                 console.log(entity.bulk_action_list);
-                if (Object.entries(this.bulkActionList).length > 0) {
+                if (!this.isEmpty(this.bulkActionList)) {
                     // the dictionary has at least one element
                     console.log(`Before ${JSON.stringify(this.bulkActionList)}`);
                     console.log(`Before ${JSON.stringify(entity.bulk_action_list)}`);

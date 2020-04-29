@@ -75,8 +75,7 @@
           </div>
         </div>
         <div class="form-group row">
-          <label class="col-sm-3 col-form-label"></label>
-          <div align="center" class="col-sm-3">
+          <div align="center" class="col-sm-4">
             <mat-form-field>
               <mat-label>By Status</mat-label>
               <mat-select formControlName="status">
@@ -85,7 +84,7 @@
               </mat-select>
             </mat-form-field>
           </div>
-          <div align="center" class="col-sm-3">
+          <div align="center" class="col-sm-4">
             <mat-form-field>
               <mat-label>By Type</mat-label>
               <mat-select formControlName="record_type">
@@ -94,10 +93,7 @@
               </mat-select>
             </mat-form-field>
           </div>
-        </div>
-        <div class="form-group row">
-          <label class="col-sm-3 col-form-label"></label>
-          <div align="center" class="col-sm-3">
+          <div align="center" class="col-sm-4">
             <mat-form-field>
               <mat-label>By Urgency</mat-label>
               <mat-select formControlName="urgency">
@@ -106,38 +102,61 @@
               </mat-select>
             </mat-form-field>
           </div>
-          <div align="center" class="col-sm-3">
-            <mat-form-field>
-              <mat-label>By Help Required</mat-label>
-              <mat-select formControlName="what_help__contains">
-                <mat-option value="">None</mat-option>
-                <mat-option *ngFor="let option of helpOptions" [value]="option.value">{{ option.name }}</mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div>
         </div>
+	<div class="form-group row">
+          <section align="center">
+	    <span *ngFor="let option of helpOptions">
+              <mat-checkbox [formControlName]="option.value">
+		<i class="fa fa-lg" [ngClass]="option.class"
+		   [ngStyle]="{'color': option.color}"></i>
+		{{ option.name }}
+	      </mat-checkbox>
+	      <label style="margin: 10px;"></label>
+	    </span>
+          </section>
+	  
+	  <!--
+          <mat-checkbox class="margin-left: 50px;" [formControlName]="helpOptions[0].value">
+	    <i class="fa fa-lg" [ngClass]="helpOptions[0].class"
+	       [ngStyle]="{'color': helpOptions[0].color}"></i>
+	    {{ helpOptions[0].name }}
+	  </mat-checkbox>
+	  
+          <i class="fa fa-tint fa-lg" style="align:center; color:lightblue; margin-left: 50px;"></i><label style="margin: 2px;">Water</label>
+          <i class="fa fa-shopping-basket fa-lg" style="align:center; color:#DEA4ED; margin-left: 50px;"></i><label style="margin: 2px;">Dry Rations</label>
+          <i class="fa fa-plus-square fa-lg" style="align:center; color:red; margin-left: 50px;"></i><label style="margin: 2px;">Medical Help</label>
+          <i class="fa fa-cutlery fa-lg" style="align:center; color:orange; margin-left: 50px;"></i><label style="margin: 2px;">Cooked Food</label>
+          <i class="fa fa-bus fa-lg" style="align:center; color:purple; margin-left: 50px;"></i><label style="margin: 2px;">Transport</label>
+          <i class="fa fa-bed fa-lg" style="align:center; color:#A5B6FA; margin-left: 50px;"></i><label style="margin: 2px;">Shelter</label>
+          <i class="fa fa-circle-o fa-lg" style="align:center; color:#8A8A8A; margin-left: 50px;"></i><label style="margin: 2px;">Other</label>
+
+          <i class="fa fa-money fa-lg" style="align:center; color:#C0E48E; margin-left: 50px;"></i><label style="margin-left: 5px;">Cash</label>
+          <i class="fa fa-tint fa-lg" style="align:center; color:#FEBE89; margin-left: 50px;"></i><label style="margin-left: 5px;">Drinking Water</label>	  
+          <i class="fa fa-plus-square fa-lg" style="align:center; color:#F47A7A; margin-left: 50px;"></i><label style="margin-left: 5px;">Medical Help</label>
+          <i class="fa fa-cutlery fa-lg" style="align:center; color:#FEBE89; margin-left: 50px;"></i><label style="margin-left: 5px;">Cooked Food</label>
+          <i class="fa fa-bus fa-lg" style="align:center; color:#A5B6FA; margin-left: 50px;"></i><label style="margin-left: 5px;">Transport To Home</label>
+          <i class="fa fa-bug fa-lg" style="font-size: 25px; align:center; color:#8A8A8A; margin-left: 50px;"></i><label style="margin-left: 5px;">PET Meds </label>
+	  -->
+	</div>
         <div class="form-group row">
           <label class="col-sm-3 col-form-label"></label>
           <mat-card class = "col-sm-6">
             <mat-card-content>
-              <!--
-                  <mat-card-title align="center">Bulk Action</mat-card-title>
-                  <mat-card-subtitle>Apply to Selected Entities</mat-card-subtitle>
-                  <h4>Bulk Action for the Selected Entities Above</h4>
-                  -->
+	      <div *ngIf="isEmpty(bulkActionList)" align="center">
+		Please select items below for bulk actions to appear here
+	      </div>
               <ng-container
                 *ngFor="let option of bulkActionList|keyvalue;">
                 <button mat-raised-button class="btn-success"
                         (click)="onBulkAction(option.key)">
                   {{ option.value }}
                 </button>
-                <!--
-                    <pre style="border: 0; background-color: transparent;">   </pre>
-                    -->
+		<label style="margin: 10px;"></label>
               </ng-container>
             </mat-card-content>
           </mat-card>
         </div>
+
       </mat-card-content>
     </mat-expansion-panel>
   </mat-card>
