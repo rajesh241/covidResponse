@@ -93,8 +93,6 @@
               </mat-select>
             </mat-form-field>
           </div>
-        </div>
-        <div class="form-group row">
           <div align="center" class="col-sm-4">
             <mat-form-field>
               <mat-label>By Urgency</mat-label>
@@ -104,6 +102,7 @@
               </mat-select>
             </mat-form-field>
           </div>
+	  <!--
           <div align="center" class="col-sm-4">
             <mat-form-field>
               <mat-label>Is Assigned?</mat-label>
@@ -113,15 +112,18 @@
               </mat-select>
             </mat-form-field>
           </div>
+	  <mat-button-toggle-group formControlName="assigned_to_user__isnull">
+	    <mat-button-toggle mat-raised-button [value]="">None</mat-button-toggle>
+	    <mat-button-toggle *ngFor="let option of isAssignedOptions" [value]="option.value">{{ option.name }}</mat-button-toggle>
+	  </mat-button-toggle-group>
+	 	  
+          <div align="center" class="col-sm-2" style="margin-top: 20px;">
+	    <mat-slide-toggle formControlName="assigned_to_user__isnull">Unassigned</mat-slide-toggle>
+	  </div>	  
+          <div align="center" class="col-sm-3">
+	  </div>
+	  -->
         </div>
-	<div *ngIf="authService.isGroupAdmin()" class="form-group row">
-          <section align="center">
-                <button mat-raised-button class="btn-success"
-                        (click)="onExport()">
-                  Export all records to csv
-                </button>
-          </section>
-	</div>
 	<div class="form-group row">
           <section align="center">
 	    <span *ngFor="let option of helpOptions">
@@ -158,7 +160,12 @@
 	  -->
 	</div>
         <div class="form-group row">
-          <label class="col-sm-3 col-form-label"></label>
+          <div align="center" class="col-sm-4" style="padding: 5px;">
+	    <mat-button-toggle-group formControlName="assigned_to_user__isnull">
+	      <mat-button-toggle mat-raised-button [value]="">All</mat-button-toggle>
+	      <mat-button-toggle *ngFor="let option of isAssignedOptions" [value]="option.value">{{ option.name }}</mat-button-toggle>
+	    </mat-button-toggle-group>
+	  </div>
           <mat-card class = "col-sm-6">
             <mat-card-content>
 	      <div *ngIf="isEmpty(bulkActionList)" align="center">
@@ -174,6 +181,8 @@
               </ng-container>
             </mat-card-content>
           </mat-card>
+          <div align="center" class="col-sm-2">
+	  </div>	  
         </div>
 
       </mat-card-content>
@@ -315,7 +324,21 @@
   -->
   </div>
 
-  <div align="center">
-    <app-paginator [page]="page | async" (pageChange)="onPageChanged($event)"></app-paginator>
+  <div align="center row">
+    <div class="col-sm-3">
+    </div>
+    <div class="col-sm-6">
+      <app-paginator [page]="page | async" (pageChange)="onPageChanged($event)"></app-paginator>
+    </div>
+    <div class="col-sm-3">
+      <div *ngIf="authService.isGroupAdmin()" class="form-group row">
+        <section align="center">
+          <button mat-raised-button class="btn-success"
+                  (click)="onExport()">
+            Export all records to csv
+          </button>
+        </section>
+      </div>
+    </div>
   </div>
 </div>

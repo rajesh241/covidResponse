@@ -77,8 +77,36 @@ export function queryPaginated<T>(http: HttpClient, baseUrl: string, insertToken
             else if ( (value != null) && (key === "assigned_to_group__name__icontains")){
                 params = params.set(key, value.toString());
             }
+            else if ( (value == true) && (key === "cash")){
+                console.log("help key"  +key+value);
+		helpcsv = helpcsv + ',' + key
+            }
             else if ( (value == true) && (key === "water")){
-                console.log("water key"  +key+value);
+                console.log("help key"  +key+value);
+		helpcsv = helpcsv + ',' + key
+            }
+            else if ( (value == true) && (key === "dryRations")){
+                console.log("help key"  +key+value);
+		helpcsv = helpcsv + ',' + key
+            }
+            else if ( (value == true) && (key === "medicalHelp")){
+                console.log("help key"  +key+value);
+		helpcsv = helpcsv + ',' + key
+            }
+            else if ( (value == true) && (key === "cookedFood")){
+                console.log("help key"  +key+value);
+		helpcsv = helpcsv + ',' + key
+            }
+            else if ( (value == true) && (key === "transportToHome")){
+                console.log("help key"  +key+value);
+		helpcsv = helpcsv + ',' + key
+            }
+            else if ( (value == true) && (key === "shelter")){
+                console.log("help key"  +key+value);
+		helpcsv = helpcsv + ',' + key
+            }
+            else if ( (value == true) && (key === "other")){
+                console.log("help key"  +key+value);
 		helpcsv = helpcsv + ',' + key
             }
             else if ( (value != null) && (key === "what_help__contains")){

@@ -42,6 +42,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 // Angular Material
 import { MatAutocompleteModule } from '@angular/material';
 import { MatButtonModule } from '@angular/material';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatCheckboxModule } from '@angular/material';
 import { MatCardModule } from '@angular/material/card';
 import { MatDialogModule } from "@angular/material";
@@ -52,6 +53,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material';
 import { MatRadioModule } from '@angular/material';
 import { MatSelectModule } from '@angular/material/select';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatToolbarModule } from '@angular/material';
 import { MatSnackBarModule } from '@angular/material';
 
@@ -83,6 +85,7 @@ import { MyEntityListComponent } from './entity/my-entity-list/my-entity-list.co
 import { UserAddeditComponent } from './user/user-addedit/user-addedit.component';
 import { GroupAddComponent } from './user/group-add/group-add.component';
 import { EntityUpdateComponent } from './entity/entity-update/entity-update.component';
+import { SurveyComponent } from './formio/survey/survey.component';
 
 /*
 // AG Grid
@@ -160,6 +163,7 @@ export function provideConfig() {
         UserAddeditComponent,
         GroupAddComponent,
         EntityUpdateComponent,
+        SurveyComponent,
         // EntityGridComponent,
 	/*
         DateComponent,
@@ -183,12 +187,14 @@ export function provideConfig() {
         FormioModule,
 	MatAutocompleteModule,
         MatButtonModule,
+	MatButtonToggleModule,
         MatCardModule,
         MatCheckboxModule,
         MatDialogModule,
+	MatProgressSpinnerModule,
         MatRadioModule,        
 	MatSelectModule,
-	MatProgressSpinnerModule,
+	MatSlideToggleModule,
 	MatToolbarModule,
         MatSnackBarModule,
         MatExpansionModule,

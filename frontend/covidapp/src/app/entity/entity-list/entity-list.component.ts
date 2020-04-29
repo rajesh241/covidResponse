@@ -40,8 +40,8 @@ export class EntityListComponent  {
     bulkActionList = {};
     panelOpen = true;
     isAssignedOptions = [
-        {'value': '1', 'name': 'False'},
-        {'value': '0', 'name': 'True'}
+        {'value': '1', 'name': 'Unassigned'},
+        {'value': '0', 'name': 'Assigned'}
     ];
     statusOptions = [
         {'value': 'to_call', 'name': 'To Call'},

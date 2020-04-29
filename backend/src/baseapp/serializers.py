@@ -129,7 +129,7 @@ class EntityListSerializer(serializers.ModelSerializer):
              bulk_action_list['full'] = 'Out of Capacity'            
         if False and bool(random.getrandbits(1)):
              bulk_action_list['delete'] = 'Delete Items'
-        if True or bool(random.getrandbits(1)):
+        if False and bool(random.getrandbits(1)):
              bulk_action_list['export'] = 'Export'
 
         return bulk_action_list
