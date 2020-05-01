@@ -4,11 +4,11 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build --prod && node build/post-build.js",
+    "build": "ng build --prod && node post-build.js",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "post-build": "node build/post-build.js"
+    "post-build": "node post-build.js"
   },
   "private": true,
   "dependencies": {
