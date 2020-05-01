@@ -17,6 +17,7 @@ from .serializers import (CovidSerializer,ItemSerializer1, EntitySerializer,
 from user.permissions import IsStaffReadWriteOrAuthReadOnly, IsStaffReadWriteOrReadOnly, UserViewPermission
 from user.utils import is_json
 from baseapp.permissions import EntityPermissions
+import git
 
 # Create your views here.
 def get_id_from_request(request):
@@ -619,6 +620,10 @@ class VersionAPIView(HttpResponseMixin,
                     mixins.UpdateModelMixin,
                     generics.ListAPIView):
      def get(self, request):
-         version = 'ac990bf'
+         repo = git.Repo(search_parent_directories=True)
+         sha = repo.head.object.hexsha
+         commit_url = f'https://github.com/rajesh241/covidResponse/commit/{sha}'
+         print(commit_url)
+         version = { 'sha': sha, 'commit_url': commit_url, 'hash': sha[:7] }
          data = json.dumps({'version':version})
          return self.render_to_response(data, status="200")
