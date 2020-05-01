@@ -139,7 +139,7 @@ class EntityListSerializer(serializers.ModelSerializer):
         request = self.context.get('request')
         user = request.user
         if user.is_authenticated:
-            can_edit = True
+            can_edit = False
         else:
             can_edit = False
         return can_edit
