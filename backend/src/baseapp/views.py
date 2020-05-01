@@ -611,3 +611,14 @@ class EntityExportAPIView(HttpResponseMixin,
          url = "https://coast-india.s3.ap-south-1.amazonaws.com/export/data.csv"
          data = json.dumps({"url":url})
          return self.render_to_response(data, status="200")
+
+class VersionAPIView(HttpResponseMixin,
+                    mixins.CreateModelMixin,
+                    mixins.DestroyModelMixin,
+                    mixins.RetrieveModelMixin,
+                    mixins.UpdateModelMixin,
+                    generics.ListAPIView):
+     def get(self, request):
+         version = 'ac990bf'
+         data = json.dumps({'version':version})
+         return self.render_to_response(data, status="200")

@@ -102,7 +102,9 @@
               <tr *ngFor="let user of (page | async)?.results;let i=index" 
                   >
 		<td>{{user.name}}</td>
-                <td>{{user.email}}</td>
+                <td>
+		  <span *ngIf="authService.isLoggedIn() && !authService.isClient()">{{user.email}}</span>
+		</td>
                 <td>{{user.user_role}}</td>
                 <td *ngIf="user.group">{{user.group.name}}</td>
                 <td *ngIf="!user.group"></td>

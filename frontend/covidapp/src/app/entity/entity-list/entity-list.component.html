@@ -227,7 +227,12 @@
                 <td *ngIf="!authService.isLoggedIn()">
                   {{entity.name}}
                 </td>
-                <td>{{entity.contact_numbers}}</td>
+                <td>
+		  <span *ngIf="authService.isNotClient()">
+		    {{ (entity.contact_numbers | json).replace('.0', '')
+		    .replace('"', '').replace('"', '') }}
+		  </span>
+		</td>
                 <td *ngIf="!entity.assigned_to_group"></td>
                 <td *ngIf="entity.assigned_to_group">{{entity.assigned_to_group.name}}</td>
                 <td *ngIf="!entity.assigned_to_user"></td>

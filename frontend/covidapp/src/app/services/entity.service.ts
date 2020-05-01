@@ -7,89 +7,108 @@ import { environment } from '../../environments/environment';
 import { Page, queryPaginated, queryPaginatedLocations} from '../pagination';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class EntityService {
-  private endpoint = environment.apiURL+"/api/public/entity/";
-  private fbendpoint = environment.apiURL+"/api/public/feedback/";
-  private listEndPoint = environment.apiURL+"/api/public/entity/";
-  private historyEndPoint = environment.apiURL+"/api/public/entityhistory/";
-  private entityListEndPoint = environment.apiURL+"/api/public/entitylist/";
-  private createEndPoint = environment.apiURL+"/api/public/create/";
-  private bulkDeleteEndpoint = environment.apiURL+"/api/public/bulkdeleteapt/";
+    private endpoint = environment.apiURL+"/api/public/entity/";
+    private fbendpoint = environment.apiURL+"/api/public/feedback/";
+    private listEndPoint = environment.apiURL+"/api/public/entity/";
+    private historyEndPoint = environment.apiURL+"/api/public/entityhistory/";
+    private versionEndPoint = environment.apiURL+"/api/public/version/";
+    private entityListEndPoint = environment.apiURL+"/api/public/entitylist/";
+    private createEndPoint = environment.apiURL+"/api/public/create/";
+    private bulkDeleteEndpoint = environment.apiURL+"/api/public/bulkdeleteapt/";
     private bulkOperationEndpoint = environment.apiURL+"/api/public/bulkoperation/";
 
     private page$;
 
     constructor( private http :  HttpClient ) { }
-  getItem(id:number):Observable<any>{
-    return this.http.get(this.endpoint+"?id="+id,this.getHttpOptions());
-  }
-  getItemPublic(id:number):Observable<any>{
-    return this.http.get(this.endpoint+"?id="+id,this.getPublicHttpOptions());
-  }
-  getAllHistory(id:number):Observable<any>{
-    return this.http.get(this.historyEndPoint+"?ordering=-id&entity__id="+id,this.getPublicHttpOptions());
-  }
-  list(urlOrFilter?: string | object): Observable<Page<Entity>> {
-    return queryPaginated<Entity>(this.http, this.entityListEndPoint, false, urlOrFilter);
-  }
-  geoList(geoBounds:object, urlOrFilter?: string | object): Observable<Page<Entity>> {
-    return queryPaginatedLocations<Entity>(this.http, this.entityListEndPoint, geoBounds, urlOrFilter);
-  }
-  getAllItems(): Observable<any>{
-    return this.http.get(this.entityListEndPoint,this.getHttpOptions());
-  }
-  
-  bulkDeleteItems(data){
-    return this.http.post(this.bulkDeleteEndpoint,data,this.getHttpOptions());
-  }
-  createItem(entity:any){
-    return this.http.post(this.endpoint,JSON.stringify(entity),this.getHttpOptions());
-  }
-  createBulkOperation(entity:any){
-    return this.http.post(this.bulkOperationEndpoint,JSON.stringify(entity),this.getHttpOptions());
-  }
-  createFeedback(feedback:any){
-    console.log("Creating feedback");
-    return this.http.post(this.fbendpoint,feedback,this.getHttpOptions());
-  }
-  createItemPublic(entity:Entity){
-    return this.http.post(this.createEndPoint,entity,this.getPublicHttpOptions());
-  }
-  updateItem(id:number,payload:any):Observable<object>{
-    return this.http.put(this.endpoint+"?id="+id,payload,this.getHttpOptions())
-  }
-  patchItem(id:number,payload:any):Observable<object>{
-    return this.http.patch(this.endpoint+"?id="+id,JSON.stringify(payload),this.getHttpOptions())
-  }
-  deleteItem(id: number):Observable<any>{
-    return this.http.delete(this.endpoint+"?id="+id,this.getHttpOptions())
 
-  }
-   
-  getHttpOptions() {
-   const token = localStorage.getItem("id_token");
-    return {
-      headers: new HttpHeaders({
-      'content-type':'application/json',
-      "Authorization" : "Bearer " + token
-      })
-    };
-  }
-  getPublicHttpOptions() {
-    return {
-      headers: new HttpHeaders({
-      'content-type':'application/json',
-      })
-    };
-  }
+    getItem(id:number):Observable<any>{
+	return this.http.get(this.endpoint+"?id="+id,this.getHttpOptions());
+    }
+
+    getVersion():Observable<any>{
+	return this.http.get(this.versionEndPoint, this.getHttpOptions());
+    }
+
+    getItemPublic(id:number):Observable<any>{
+	return this.http.get(this.endpoint+"?id="+id,this.getPublicHttpOptions());
+    }
+
+    getAllHistory(id:number):Observable<any>{
+	return this.http.get(this.historyEndPoint+"?ordering=-id&entity__id="+id,this.getPublicHttpOptions());
+    }
+
+    list(urlOrFilter?: string | object): Observable<Page<Entity>> {
+	return queryPaginated<Entity>(this.http, this.entityListEndPoint, false, urlOrFilter);
+    }
+
+    geoList(geoBounds:object, urlOrFilter?: string | object): Observable<Page<Entity>> {
+	return queryPaginatedLocations<Entity>(this.http, this.entityListEndPoint, geoBounds, urlOrFilter);
+    }
+
+    getAllItems(): Observable<any>{
+	return this.http.get(this.entityListEndPoint,this.getHttpOptions());
+    }
+
+    bulkDeleteItems(data){
+	return this.http.post(this.bulkDeleteEndpoint,data,this.getHttpOptions());
+    }
+
+    createItem(entity:any){
+	return this.http.post(this.endpoint,JSON.stringify(entity),this.getHttpOptions());
+    }
+
+    createBulkOperation(entity:any){
+	return this.http.post(this.bulkOperationEndpoint,JSON.stringify(entity),this.getHttpOptions());
+    }
+
+    createFeedback(feedback:any){
+	console.log("Creating feedback");
+	return this.http.post(this.fbendpoint,feedback,this.getHttpOptions());
+    }
+
+    createItemPublic(entity:Entity){
+	return this.http.post(this.createEndPoint,entity,this.getPublicHttpOptions());
+    }
+
+    updateItem(id:number,payload:any):Observable<object>{
+	return this.http.put(this.endpoint+"?id="+id,payload,this.getHttpOptions())
+    }
+
+    patchItem(id:number,payload:any):Observable<object>{
+	return this.http.patch(this.endpoint+"?id="+id,JSON.stringify(payload),this.getHttpOptions())
+    }
+
+    deleteItem(id: number):Observable<any>{
+	return this.http.delete(this.endpoint+"?id="+id,this.getHttpOptions())
+
+    }
+
+    getHttpOptions() {
+	const token = localStorage.getItem("id_token");
+	return {
+	    headers: new HttpHeaders({
+		'content-type':'application/json',
+		"Authorization" : "Bearer " + token
+	    })
+	};
+    }
+
+    getPublicHttpOptions() {
+	return {
+	    headers: new HttpHeaders({
+		'content-type':'application/json',
+	    })
+	};
+    }
 
     getEntityPages() {
-      return this.page$;
-  }
+	return this.page$;
+    }
 
     setEntityPages(page$) {
-      this.page$ = page$
-  }
+	this.page$ = page$
+    }
 }
