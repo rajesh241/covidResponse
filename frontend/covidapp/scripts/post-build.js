@@ -1,5 +1,5 @@
 const { gitDescribeSync } = require('git-describe');
-const { name, version } = require('./package.json');
+const { name, version } = require('../package.json');
 const { resolve, relative } = require('path');
 const { writeFileSync } = require('fs-extra');
 
@@ -15,7 +15,7 @@ const gitInfo = gitDescribeSync({
 gitInfo.version = version;
 console.log(`post-build.js | AppName[${name}] - Version[${version}]`);
 
-const distDir = resolve(__dirname, 'dist', name);
+const distDir = resolve(__dirname, '..', 'dist', name);
 console.log(`post-build.js | DistDir[${distDir}]`);
 
 let mainHash = 'Dev Build';
@@ -45,7 +45,7 @@ else {
 }
 gitInfo.build = mainHash;
 
-const file = resolve(__dirname, 'src', 'environments', 'version.ts');
+const file = resolve(__dirname, '..', 'src', 'environments', 'version.ts');
 writeFileSync(file,
 	      `// IMPORTANT: THIS FILE IS AUTO GENERATED! DO NOT MANUALLY EDIT OR CHECKIN!
 /* tslint:disable */
