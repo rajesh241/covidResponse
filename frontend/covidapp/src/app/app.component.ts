@@ -30,15 +30,14 @@ export class AppComponent implements OnInit {
 	const frequency = 1000 * 60 * 30;
 	this.entityService.getVersion()
 	    .subscribe(version => {
+		console.log(`AppComponent.ngOnInit.subscription(SERVER Version: ${JSON.stringify(version)})`);
+
 		this.commit_url = version.commit_url;
 		this.version_str = `${this.version}-${this.hash}`
-		console.log(`AppComponent.ngOnInit(SERVER Version: ${this.version_str})`);
 
-		/*
 		setInterval(() => {
 		    this.versionCheck(version);
 		}, frequency);
-		*/
 		this.versionCheck(version);
 	    });
 

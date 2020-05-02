@@ -629,7 +629,7 @@ class VersionAPIView(HttpResponseMixin,
              sha = repo.head.object.hexsha
              commit_url = f'https://github.com/rajesh241/covidResponse/commit/{sha}'
              version = { 'sha': sha, 'commit_url': commit_url, 'hash': sha[:7] }
-             data = json.dumps({'version':version})
+             data = json.dumps(version)
              status_code = 200
          except Exception as e:
              data = json.dumps({'message':f"Errored: {e}"})
