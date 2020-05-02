@@ -248,7 +248,8 @@ class EntitySerializer(serializers.ModelSerializer):
             obj = EntityHistory.objects.create(entity=entity)
             obj.title = entity.title
             obj.what_help = entity.what_help
-            obj.user_name = entity.user.name
+            request = self.context.get('request')
+            obj.user_name = request.user.name
             obj.status = entity.status
             obj.urgency = entity.urgency
             obj.remarks = entity.remarks
