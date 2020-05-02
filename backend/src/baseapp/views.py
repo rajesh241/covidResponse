@@ -1,3 +1,4 @@
+import os
 from django.shortcuts import render
 import json
 from django.views.generic import View
@@ -619,11 +620,18 @@ class VersionAPIView(HttpResponseMixin,
                     mixins.RetrieveModelMixin,
                     mixins.UpdateModelMixin,
                     generics.ListAPIView):
+     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
      def get(self, request):
-         repo = git.Repo(search_parent_directories=True)
-         sha = repo.head.object.hexsha
-         commit_url = f'https://github.com/rajesh241/covidResponse/commit/{sha}'
-         print(commit_url)
-         version = { 'sha': sha, 'commit_url': commit_url, 'hash': sha[:7] }
-         data = json.dumps({'version':version})
-         return self.render_to_response(data, status="200")
+         try:
+             BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+             REPO_DIR = os.path.dirname(os.path.dirname(BASE_DIR))
+             repo = git.Repo(path=REPO_DIR)
+             sha = repo.head.object.hexsha
+             commit_url = f'https://github.com/rajesh241/covidResponse/commit/{sha}'
+             version = { 'sha': sha, 'commit_url': commit_url, 'hash': sha[:7] }
+             data = json.dumps({'version':version})
+             status_code = 200
+         except Exception as e:
+             data = json.dumps({'message':f"Errored: {e}"})
+             status_code = 404
+         return self.render_to_response(data, status=status_code)

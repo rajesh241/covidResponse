@@ -21,21 +21,35 @@ export class AppComponent implements OnInit {
 	public entityService: EntityService,
 	public authService: AuthService
     ) {
-	console.log(`AppComponent.constructor(${JSON.stringify(VERSION)}`);
+	console.log(`AppComponent.constructor(${JSON.stringify(VERSION)})`);
 	console.log(VERSION);
     }
 
     ngOnInit() {
 	console.log(`AppComponent.ngOnInit(${this.version}-${this.hash} Build[${this.build}])`);
+	const frequency = 1000 * 60 * 30;
 	this.entityService.getVersion()
 	    .subscribe(version => {
 		this.commit_url = version.commit_url;
 		this.version_str = `${this.version}-${this.hash}`
+		console.log(`AppComponent.ngOnInit(SERVER Version: ${this.version_str})`);
 
-		if (version.hash != this.hash) {
-		    window.alert(`New Version Available [${this.version_str}]. Will reload page`);
-		    window.location.reload(true);
-		}
+		/*
+		setInterval(() => {
+		    this.versionCheck(version);
+		}, frequency);
+		*/
+		this.versionCheck(version);
 	    });
+
+    }
+
+    versionCheck(version) {
+	console.log(`AppComponent.versionCheck(Version: ${this.version_str})`);
+	if (version.hash != this.hash) {
+	    console.log(`AppComponent.versionCheck(${this.version}-${this.hash} Build[${this.build}]) does not match ${this.version_str}`);
+	    // window.alert(`New Version Available [${this.version_str}]. Will reload page`);
+	    // window.location.reload(true);
+	}
     }
 }
