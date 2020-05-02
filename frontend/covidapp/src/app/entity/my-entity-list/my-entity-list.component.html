@@ -90,7 +90,7 @@
             <tbody>
               <tr *ngFor="let entity of (page | async)?.results;let i=index">
                 <td *ngIf="authService.isLoggedIn()">
-                  <a [routerLink]="['/item',entity.id]">{{entity.title}}</a>
+                  <a [routerLink]="['/update',entity.id]">{{entity.title}}</a>
                 </td>
                 <td *ngIf="!authService.isLoggedIn()">
                   {{entity.title}}

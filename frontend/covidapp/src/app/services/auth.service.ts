@@ -155,6 +155,11 @@ export class AuthService {
 	return ( (this.isLoggedIn()) && ( (ur === "client") || (ur === "volunteer") ))
     }
 
+    public isAboveVolunteer(){
+	const ur = localStorage.getItem("ur")
+	return ( (this.isLoggedIn()) && !( (ur === "client") || (ur === "volunteer") ))
+    }
+
     public isStaff(){
 	const ur = localStorage.getItem("ur")
 	return ( (this.isLoggedIn()) && ( (ur === "admin") || (ur === "realtor") ))
