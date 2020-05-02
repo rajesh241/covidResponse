@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Router } from "@angular/router"
-import { ActivatedRoute } from "@angular/router";
+
 import { formioConfig } from '../../formio/config';
 import { EntityService } from "../../services/entity.service";
 import { UserService } from "../../services/user.service";
@@ -19,33 +18,23 @@ export class EntityCreateComponent implements OnInit {
   form_url: string;
   prefill_json:any;
   usergroup:any;
-  dataLoaded: Promise<boolean>;
-  constructor(
-                private activatedRoute:ActivatedRoute,
+
+    constructor(
                 private entityService: EntityService,
-                private userService: UserService,
-                private router: Router
-  
+                private userService: UserService
   ) { 
 	this.usergroup = localStorage.getItem('usergroup');
   }
 
-  ngOnInit() {
-	this.prefill_json = {"data" : {"userGroup": "swan"}};
-	this.users = this.userService.getAllUsersPublic(this.usergroup);
-        this.dataLoaded = Promise.resolve(true);
-	//this.prefill_json = {"data" :{}};
-        this.activatedRoute.paramMap.subscribe(
-            params => {
-                this.form_type=params.get("form");
-                if (this.form_type == "supportnetwork"){
-                    this.form_url = formioConfig.appUrl + '/forms/v1/supportnetwork';
-                }else{
-                    this.form_url = formioConfig.appUrl + '/forms/v1/helpseekers';
-                }
-            }
-	);
-	console.log(this.form_type);
+    ngOnInit() {
+	console.log(`EntityCreateComponent.ngOnInit()`);
+      this.prefill_json = {"data" : {"userGroup": "swan"}};
+      this.users = this.userService.getAllUsersPublic(this.usergroup);
+
+      let current_url = window.location.href;
+      let formio_tag = /#\/(.+)/.exec(window.location.href)[1]
+      this.form_url = formioConfig.appUrl + '/forms/v1/' + formio_tag;
+	console.log(`EntityCreateComponent.ngOnInit() => fromio_url[${this.form_url}]`);
   }
 
     onSubmit($event) {

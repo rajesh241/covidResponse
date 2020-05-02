@@ -20,9 +20,11 @@
         <li class="menu-item" routerLinkActive="active" ><a routerLink="nearby">Nearby</a></li>
         <li class="menu-item" routerLinkActive="active" ><a routerLink="search">Search</a></li>
         <li class="menu-item" routerLinkActive="active" *ngIf="authService.isLoggedIn()"><a routerLink="list">List</a></li>
-        -->
         <li class="menu-item" routerLinkActive="active" *ngIf="authService.isLoggedIn()"><a [routerLink]="['add','helpseekers']">Add Helpseeker</a></li>
         <li class="menu-item" routerLinkActive="active" *ngIf="authService.isLoggedIn()"><a [routerLink]="['add','supportnetwork']">Add Supportnetwork</a></li>
+        -->
+        <li class="menu-item" routerLinkActive="active" *ngIf="authService.isLoggedIn()"><a routerLink="helpseekers">Add Help Seeker</a></li>
+        <li class="menu-item" routerLinkActive="active" *ngIf="authService.isLoggedIn()"><a routerLink="supportnetwork">Add Support Network</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li class="menu-item" routerLinkActive="active" *ngIf="!authService.isLoggedIn()"><a routerLink="login">Login</a></li>
