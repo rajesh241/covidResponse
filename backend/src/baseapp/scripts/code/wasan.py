@@ -8,7 +8,7 @@ import pandas as pd
 from django.utils.text import slugify
 from django.contrib.auth import get_user_model
 from commons import logger_fetch, ms_transliterate_word
-from defines import DJANGO_SETTINGS, STATE_SHORT_CODE_DICT
+from defines import DJANGO_SETTINGS
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", DJANGO_SETTINGS)
 django.setup()
 from core.models import Region
@@ -27,6 +27,8 @@ def args_fetch():
     parser.add_argument('-t', '--test', help='Test Loop',
                         required=False, action='store_const', const=1)
     parser.add_argument('-i', '--import', help='Import',
+                        required=False, action='store_const', const=1)
+    parser.add_argument('-db', '--db2csv', help='dump Database in csv',
                         required=False, action='store_const', const=1)
     parser.add_argument('-ie', '--importEntities', help='Import',
                         required=False, action='store_const', const=1)
@@ -119,29 +121,29 @@ def main():
             '5' : 'volunteer',
             '6' : 'usergroupadmin'
         }
-        df = pd.read_csv("../import_data/wassan_users.csv")
+        df = pd.read_csv("../import_data/wassan_users_2may.csv")
         for index, row in df.iterrows():
-            wasan_id = row['Id']
-            name = row['FullName']
-            email = row['Username']
+           # wasan_id = row['Id']
+            name = row['name']
+            email = row['email']
             if "@" not in email:
                 email = f"{email}@abcd.com"
-            password = row['Password']
-            role_id = row['RoleId']
-            group_name = row['OrganizationName']
-            phone = row['Mobile']
+            password = row['password']
+            user_role = row['role']
+            group_name = row['group']
+            phone = row['mobile']
             myGroup = Group.objects.filter(name=group_name).first()
             if myGroup is None:
                 myGroup = Group.objects.create(name=group_name)
             myuser = User.objects.filter(email=email).first()
             if myuser is None:
                 myuser = User.objects.create(email=email)
-          #  myuser.group = myGroup
+            myuser.group = myGroup
             myuser.name = name
             myuser.set_password(password) 
             myuser.phone = phone
-            myuser.region = wasan_id#Temporary
-            user_role = role_dict.get(str(role_id), "volunteer")
+           # myuser.region = wasan_id#Temporary
+           # user_role = role_dict.get(str(role_id), "volunteer")
             myuser.user_role = user_role
             myuser.formio_usergroup = 'wassan'
             myuser.save()
@@ -199,6 +201,7 @@ def main():
 
         exit(0)
         csv_array = []
+    if args['db2csv']:
         logger.info("test")
         dbhost = "localhost"
         dbuser = "vivek"
