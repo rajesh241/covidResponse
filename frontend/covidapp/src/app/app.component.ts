@@ -62,4 +62,9 @@ export class AppComponent implements OnInit {
 	}
 	this.prevSubscriber = this.subscriber;
     }
+
+    reload() {
+	window.alert('Will reload page!');
+	window.location.reload(true);
+    }
 }

@@ -43,14 +43,17 @@
 
 <footer class="container-fluid well" align="center" style="background-color:#f8f8f8;">
   <div class="row" style="vertical-align: middle;">
-    <div class="col-sm-3">
-      <p>Public Interface <a href="https://coastindia.org/">CoAST India</a></p>
+    <div class="col-sm-3" style="line-height:36px;">
+      Public Interface <a href="https://coastindia.org/">CoAST India</a>
+    </div>    
+    <div class="col-sm-5" style="line-height:36px;">
+      ©2020 CoAST India
     </div>
-    <div class="col-sm-6">
-      <p>©2020 CoAST India</p>
-    </div>
-    <div class="col-sm-3">
-      <p>Version {{ version }}<span style="display: none">Build Hash: {{ build }}</span> - <a [href]="commit_url">{{ hash }}</a>@<a [href]="github_url">github</a></p>
+    <div class="col-sm-4">
+      Version {{ version }}<span style="display: none">Build Hash: {{ build }}</span> - <a [href]="commit_url">{{ hash }}</a>@<a [href]="github_url" style="padding-right:10px">github</a>
+      <button mat-raised-button class="btn-danger" (click)="reload()">
+	<i class="fa fa-rotate-right fa-sm"></i>
+      </button>
     </div>
   </div>
 </footer>
