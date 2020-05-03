@@ -70,6 +70,7 @@ class Entity(models.Model):
 
     record_subtype = models.CharField(max_length=1024, null=True, blank=True)
     phone1 = models.BigIntegerField(blank=True, null=True)
+    wassan_id = models.BigIntegerField(blank=True, null=True)
     how_many_people = models.IntegerField(blank=True, null=True)
     what_help = models.CharField(max_length=1024, blank=True, null=True)
     how_urgent = models.CharField(max_length=1024, null=True, blank=True)

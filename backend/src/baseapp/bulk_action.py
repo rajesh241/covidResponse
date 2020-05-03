@@ -21,32 +21,40 @@ def perform_bulk_action(data):
         user_id = formio_json.get("assigntovolunteer", None)
         if user_id is None:
             return
-        myuser = User.objects.filter(id=user_id).first()
-        if myuser is None:
-            return
+        if user_id == '':
+            myuser = None
+        else:
+            myuser = User.objects.filter(id=user_id).first()
         for each_id in id_array:
             obj = Entity.objects.filter(id=each_id).first()
             if obj is not None:
-                extra_fields = obj.extra_fields
-                extra_fields['assigned_to_volunteer'] = myuser.name
-                obj.extra_fields = extra_fields
-                obj.assigned_to_user = myuser
+                if myuser is None:
+                    obj.assigned_to_user = None
+                else:
+                    extra_fields = obj.extra_fields
+                    extra_fields['assigned_to_volunteer'] = myuser.name
+                    obj.extra_fields = extra_fields
+                    obj.assigned_to_user = myuser
                 obj.save()
     if bulk_action == "assigntogroup":
         print("I am in assign group")
         input_id = formio_json.get("assigntogroup", None)
         if input_id is None:
             return
-        myobj = Group.objects.filter(id=input_id).first()
-        if myobj is None:
-            return
+        if input_id == '':
+            myobj = None
+        else:
+            myobj = Group.objects.filter(id=input_id).first()
         for each_id in id_array:
             obj = Entity.objects.filter(id=each_id).first()
             if obj is not None:
-                extra_fields = obj.extra_fields
-                extra_fields['assigned_to_grop'] = myobj.name
-                obj.extra_fields = extra_fields
-                obj.assigned_to_group = myobj
+                if myobj is None:
+                    obj.assigned_to_group = None
+                else:
+                    extra_fields = obj.extra_fields
+                    extra_fields['assigned_to_group'] = myobj.name
+                    obj.extra_fields = extra_fields
+                    obj.assigned_to_group = myobj
                 obj.save()
 
     if bulk_action == "assigntoorg":

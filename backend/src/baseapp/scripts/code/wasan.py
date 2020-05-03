@@ -12,7 +12,7 @@ from defines import DJANGO_SETTINGS
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", DJANGO_SETTINGS)
 django.setup()
 from core.models import Region
-from baseapp.models import Entity
+from baseapp.models import Entity, EntityHistory
 from baseapp.formio import help_sought, get_status, get_remarks
 User = get_user_model()
 from core.models import Group, Region
@@ -56,12 +56,36 @@ def dbInitialize(host=dbhost, user=dbuser, passwd=dbpasswd, db="libtech", charse
 
 def dbFinalize(db):
   db.close()
+def create_history(entity, myuser):
+    """This will enter the entity object in the entity history table to
+    maintain all the edit records"""
+    try:
+        obj = EntityHistory.objects.create(entity=entity)
+        obj.title = entity.title
+        obj.what_help = entity.what_help
+        obj.user_name = myuser.name
+        obj.status = entity.status
+        obj.urgency = entity.urgency
+        obj.remarks = entity.remarks
+        obj.prefill_json = entity.prefill_json
+        obj.save()
+    except:
+        obj = None
 
 def create_entity(logger, record, myUser):
     # This has to go as a string
     # extra_fields = str(record['extra_fields'])
     # revised['extra_fields'] = extra_fields
-    obj = Entity.objects.create(title="blankNewItem")
+    
+    try:
+        wasan_id = record['extra_fields']['common']['entity_id']
+    except:
+        wasan_id = None
+    obj = None
+    if wasan_id is not None:
+        obj = Entity.objects.filter(wassan_id=wasan_id).first()
+    if obj is None:
+        obj = Entity.objects.create(title="blankNewItem")
     obj.user = myUser
     for key, value in record.items():
         setattr(obj,key,value)
@@ -72,12 +96,14 @@ def create_entity(logger, record, myUser):
     title = f"{name}, {record['address']}"
     title = title.replace('nan', '')
     title = title.replace('  ', ' ')
+    title = str(title)
+    title = title[:255]
     if not (isinstance(obj.how_many_people, int)):
         obj.how_many_people = None
     obj.name = title
     obj.title = title
-    obj.phone = record['mobile']
-    obj.backend_notes = 'Added from a dump of 20k plus records from Min on 22 April.'
+    obj.phone = record['phone']
+    obj.backend_notes = 'Added from a dump from Min on 2 May.'
     
     # entity_status = status[random.randint(0,len(status)-1)]
     if isinstance(record['extra_fields'], str):
@@ -88,7 +114,24 @@ def create_entity(logger, record, myUser):
     obj.extra_fields = extra_fields
     obj.formio_usergroup = 'wassan'
     obj.region = record['state']
+    obj.state = record['state']
+    try:
+        remarks = record['prefill_json']['data']['formFillerNotes'][0]
+        remarks = remarks.replace("remarks:","").lstrip().rstrip()
+        logger.info(remarks)
+    except:
+        remarks = ''
+    obj.wassan_id = wasan_id
+    user_email = record['common']['user_email']
+    assigned_user = User.objects.filter(email=user_email).first()
+    if assigned_user is not None:
+        obj.assigned_to_user = assigned_user
+        if assigned_user.group is not None:
+            obj.assigned_to_group = assigned_user.group
+    obj.remarks = remarks
     obj.save()
+    logger.info(obj.phone)
+    create_history(obj, myUser)
 def main():
     """Main Module of this program"""
     args = args_fetch()
@@ -151,17 +194,13 @@ def main():
 
 
     if args['importEntities']:
-        objs = Entity.objects.filter(formio_usergroup = "wassan")
-        for obj in objs:
-            logger.info(obj.id)
-            obj.delete()
-        logger.info("Importing Entities")
         my_user = User.objects.filter(id=1).first()
-        with open('../import_data/wassan_dump.json', 'r') as f:
+        with open('../import_data/wasan_helpseekers_2may_1.json', 'r') as f:
                 records = json.load(f)
         for i,record in enumerate(records):
             logger.info(i)
             create_entity(logger, record, my_user)
+            break
         usergroup = "wassan"
         
     if args['test']:
