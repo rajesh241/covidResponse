@@ -248,7 +248,8 @@ class EntitySerializer(serializers.ModelSerializer):
             obj = EntityHistory.objects.create(entity=entity)
             obj.title = entity.title
             obj.what_help = entity.what_help
-            obj.user_name = entity.user.name
+            request = self.context.get('request')
+            obj.user_name = request.user.name
             obj.status = entity.status
             obj.urgency = entity.urgency
             obj.remarks = entity.remarks
@@ -272,6 +273,9 @@ class EntitySerializer(serializers.ModelSerializer):
             obj.remarks = get_remarks(obj.prefill_json)
         keywords = f"{obj.title},{obj.phone},{obj.email}"
         obj.keywords = keywords
+        obj.assigned_to_user = obj.user
+        if obj.user.group is not None:
+            obj.assigned_to_group = obj.user.group
         self.create_history(obj)
         obj.save()
        #keyword_array = []

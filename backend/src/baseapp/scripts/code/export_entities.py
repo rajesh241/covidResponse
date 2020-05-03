@@ -110,9 +110,65 @@ def main():
     if args['export']:
         csv_array = []
         columns = ["title", "state", "status", "urgency", "remarks"]
+
+        columns = ['ID', 'Urgency', 'Status', 'Assigned to', 'Remarks',
+                   'Connected with Govt Scheme', 'Organisation Name',
+                   'Contact', 'Mobile', 'Help Expected', 'Stranded State',
+                   'Stranded District', 'StrandedBlock', 
+                   'Stranded City/Panchayat', 'Stranded Address', 'Native State', 
+                   'Native District', 'People Stranded', 'Date Called', 'Contact with Govt Official', 'Contact with anyone', 'Accom for 14 days',
+                   'If no', ' Where are you staying"', 'Ration', 'Ration Desc', 'Drinking Water', 'Health Issues', 
+                   'Health Issue Desc', 'Urgent Req', 'Need Cash', 'How Much', 'Urgent Req Desc', 'Donor Involved', 'Donor Name', 'Type Of donation',
+                   'Donation Value(Rs))', 'Initial Date']
         objs = Entity.objects.filter(record_type = 'helpseekers')
         for obj in objs:
             a = [obj.title, obj.state, obj.status, obj.urgency, obj.remarks]
+            if obj.assigned_to_user is not None:
+                user_name = obj.assigned_to_user.name
+            else:
+                user_name = ''
+            government_scheme = ''
+            org_name = ''
+            contact = ''
+            stranded_state = obj.state
+            stranded_district = ''
+            stranded_block = ''
+            stranded_panchayat = ''
+            stranded_address = obj.address
+            native_state = ''
+            native_district = ''
+            how_many_people = ''
+            date_called = ''
+            govt_official = ''
+            contact_with_anyone = ''
+            accom_for_14_days = ''
+            if_no = ''
+            where_are_you_staying = ''
+            ration = ''
+            ration_desc = ''
+            drinking_water = ''
+            health_issues = ''
+            health_issue_description = ''
+            urgent_req = ''
+            need_cash = ''
+            how_much = ''
+            urgent_req_desc = ''
+            donor_involved = ''
+            donar_name = ''
+            donation_type = ''
+            donation_value = ''
+            initial_date = ''
+
+            a = [obj.id, obj.urgency, obj.status, user_name, obj.remarks,
+                 government_scheme, org_name, contact, obj.phone,
+                 obj.what_help, stranded_state, stranded_district,
+                 stranded_block, stranded_panchayat, stranded_address, native_state,
+                 native_district, how_many_people, date_called, govt_official,
+                 contact_with_anyone, accom_for_14_days, if_no,
+                 where_are_you_staying, ration, ration_desc, drinking_water,
+                 health_issues, health_issue_description, urgent_req,
+                 need_cash, how_much, urgent_req_desc, donor_involved,
+                 donar_name, donation_type, donation_value, initial_date]
             csv_array.append(a)
         df = pd.DataFrame(csv_array, columns=columns)
         filename = "export/data.csv"
