@@ -4,6 +4,8 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django_mysql.models import JSONField
 from core.models import Region, Group
+from django.utils import timezone
+
 User = get_user_model()
 # Create your models here.
 
@@ -91,6 +93,7 @@ class Entity(models.Model):
     feedback_form_json = JSONField(null=True, blank=True)  # requires Django-Mysql package
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
+    modified = models.DateTimeField(default=timezone.now)
 
     class Meta:
         """To define meta data attributes"""
@@ -148,6 +151,7 @@ class EntityHistory(models.Model):
     remarks = models.TextField(blank=True, null=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
+    modified = models.DateTimeField(default=timezone.now)
     class Meta:
         """To define meta data attributes"""
         db_table = 'entityhistory'

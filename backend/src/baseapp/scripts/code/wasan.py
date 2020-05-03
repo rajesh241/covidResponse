@@ -72,6 +72,19 @@ def create_history(entity, myuser):
     except:
         obj = None
 
+org_id_mapping = {
+      '2' : '1',
+    '3' : '3',
+    '127' : '0',
+    '321' : '321',
+    '322' : '9',
+    '324' : '6',
+    '325' : '4',
+    '326' : '5',
+    '327' : '7',
+    '328' : '8'
+}
+orgs_to_be_imported = ['2', '324', '325', '326', '327', '328']
 def create_entity(logger, record, myUser):
     # This has to go as a string
     # extra_fields = str(record['extra_fields'])
@@ -81,6 +94,29 @@ def create_entity(logger, record, myUser):
         wasan_id = record['extra_fields']['common']['entity_id']
     except:
         wasan_id = None
+    try:
+        wasan_org_id = record['extra_fields']['formio_parsed_data']['sourceSpecific']['organisationId']
+        libtech_org_id = org_id_mapping.get(str(wasan_org_id), None)
+        logger.info(f"wasan_org_id {wasan_org_id} - libtech_org_id {libtech_org_id}")
+        my_group = Group.objects.filter(id=libtech_org_id).first()
+        logger.info(my_group)
+    except:
+        wasan_org_id = None
+        my_group = None
+    if int(wasan_org_id) == 3:
+        return
+    if int(wasan_org_id) == 322:
+        return
+    if int(wasan_org_id) == 321:
+        return
+    if int(wasan_org_id) == 127:
+        return
+    if int(wasan_org_id) == 0:
+        return
+    if (wasan_org_id is None) or (str(wasan_org_id) not in orgs_to_be_imported):
+        logger.info("will not import this")
+        input()
+        return
     obj = None
     if wasan_id is not None:
         obj = Entity.objects.filter(wassan_id=wasan_id).first()
@@ -118,19 +154,22 @@ def create_entity(logger, record, myUser):
     try:
         remarks = record['prefill_json']['data']['formFillerNotes'][0]
         remarks = remarks.replace("remarks:","").lstrip().rstrip()
-        logger.info(remarks)
+        #logger.info(remarks)
     except:
         remarks = ''
     obj.wassan_id = wasan_id
     user_email = record['common']['user_email']
-    assigned_user = User.objects.filter(email=user_email).first()
+    assigned_user = User.objects.filter(wassan_username=user_email).first()
     if assigned_user is not None:
         obj.assigned_to_user = assigned_user
-        if assigned_user.group is not None:
-            obj.assigned_to_group = assigned_user.group
+    else:
+        input()
+    if my_group is not None:
+        obj.assigned_to_group = my_group
     obj.remarks = remarks
+    logger.info(f"Saving {obj.id}")
     obj.save()
-    logger.info(obj.phone)
+    #logger.info(obj.phone)
     create_history(obj, myUser)
 def main():
     """Main Module of this program"""
@@ -173,6 +212,7 @@ def main():
                 email = f"{email}@abcd.com"
             password = row['password']
             user_role = row['role']
+            wassan_username = row['username']
             group_name = row['group']
             phone = row['mobile']
             myGroup = Group.objects.filter(name=group_name).first()
@@ -185,6 +225,7 @@ def main():
             myuser.name = name
             myuser.set_password(password) 
             myuser.phone = phone
+            myuser.wassan_username = wassan_username
            # myuser.region = wasan_id#Temporary
            # user_role = role_dict.get(str(role_id), "volunteer")
             myuser.user_role = user_role
@@ -194,13 +235,16 @@ def main():
 
 
     if args['importEntities']:
+       #objs = Entity.objects.filter(id__gte = 6341)
+       #for obj in objs:
+       #    logger.info(obj.id)
+       #    obj.delete()
         my_user = User.objects.filter(id=1).first()
-        with open('../import_data/wasan_helpseekers_2may_1.json', 'r') as f:
+        with open('../import_data/wasan_helpseekers_2may_3.json', 'r') as f:
                 records = json.load(f)
         for i,record in enumerate(records):
             logger.info(i)
             create_entity(logger, record, my_user)
-            break
         usergroup = "wassan"
         
     if args['test']:
