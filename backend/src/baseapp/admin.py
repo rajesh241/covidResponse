@@ -11,7 +11,7 @@ class EntityModelAdmin(admin.ModelAdmin):
     """Model Adminf or class Location"""
     list_display = ["id", "title", "latitude", "longitude"]
     list_filter = ["record_type", "status", "urgency", "formio_usergroup",
-                   "assigned_to_group"]
+                   "assigned_to_group", "state"]
     search_fields = ["name", "description"]
     readonly_fields = ["assigned_to_org", "assigned_to_user"]
 class EntityHistoryModelAdmin(admin.ModelAdmin):
