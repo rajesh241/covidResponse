@@ -78,6 +78,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     formio_usergroup = models.CharField(max_length=256, null=True, blank=True,
                                        default='wassan')
     region = models.CharField(max_length=256, null=True, blank=True)
+    wassan_username = models.CharField(max_length=256, null=True, blank=True)
     user_role = models.CharField(max_length=20, blank=True, null=True,
                                  default='client')
     is_active = models.BooleanField(default=True)
