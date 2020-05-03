@@ -215,6 +215,7 @@
               <tr>
                 <th *ngIf="authService.isAboveVolunteer()">
                   <mat-checkbox [ngModelOptions]="{standalone: true}" class="cb-margin" (change)="allChecked()" [(ngModel)]="checkState"></mat-checkbox></th>
+		<th>ID</th>
                 <th>Name</th>
                 <th>Contact Nos</th>
                 <th>Group</th>
@@ -234,12 +235,18 @@
                 </td>
                 <td>
 		  <ng-container *ngIf="authService.isAboveVolunteer(); else volunteerandbelow">
-                    <a [routerLink]="['/update',entity.id]"
-		       >{{entity.title}}
-		    </a>
+                    <a [routerLink]="['/update',entity.id]">{{entity.id}}</a>
 		  </ng-container>
                   <ng-template #volunteerandbelow>
-                    {{entity.name}}
+                    {{ entity.id }}
+                  </ng-template>
+                </td>
+                <td>
+		  <ng-container *ngIf="authService.isAboveVolunteer(); else elsename">
+                    {{ entity.title }}
+		  </ng-container>
+                  <ng-template #elsename>
+                    {{ entity.name }}
                   </ng-template>
                 </td>
                 <td>

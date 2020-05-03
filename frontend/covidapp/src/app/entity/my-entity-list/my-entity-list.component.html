@@ -80,6 +80,7 @@
           <table class="table">
             <thead>
               <tr>
+		<th>ID</th>
                 <th>Name</th>
                 <th>Phone</th>
                 <th>Status</th>
@@ -89,11 +90,19 @@
             </thead>
             <tbody>
               <tr *ngFor="let entity of (page | async)?.results;let i=index">
+                <td>
+		  <ng-container *ngIf="authService.isLoggedIn(); else notloggedin">
+                    <a [routerLink]="['/update',entity.id]">{{entity.id}}</a>
+		  </ng-container>
+                  <ng-template #notloggedin>
+                    {{entity.id}}
+                  </ng-template>
+                </td>
                 <td *ngIf="authService.isLoggedIn()">
-                  <a [routerLink]="['/update',entity.id]">{{entity.title}}</a>
+                  {{entity.title}}
                 </td>
                 <td *ngIf="!authService.isLoggedIn()">
-                  {{entity.title}}
+                  {{entity.name}}
                 </td>
                 <td>
 		  {{ (entity.phone | json).replace('.0', '')
