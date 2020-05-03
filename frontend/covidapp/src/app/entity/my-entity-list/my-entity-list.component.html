@@ -95,7 +95,10 @@
                 <td *ngIf="!authService.isLoggedIn()">
                   {{entity.title}}
                 </td>
-                <td>{{entity.phone}}</td>
+                <td>
+		  {{ (entity.phone | json).replace('.0', '')
+		    .replace('"', '').replace('"', '') }}
+		</td>
                 <td>{{entity.status}}</td>
                 <td>{{entity.urgency}}</td>
                 <td *ngIf="authService.isLoggedIn()" class="td-actions">

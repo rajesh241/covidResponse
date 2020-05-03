@@ -77,6 +77,9 @@ export function queryPaginated<T>(http: HttpClient, baseUrl: string, insertToken
             else if ( (value != null) && (key === "assigned_to_group__name__icontains")){
                 params = params.set(key, value.toString());
             }
+            else if ( (value != null) && (key === "assigned_to_group__isnull")){
+                params = params.set(key, value.toString());
+            }
             else if ( (value == true) && (key === "cash")){
                 console.log("help key"  +key+value);
 		helpcsv = helpcsv + ',' + key

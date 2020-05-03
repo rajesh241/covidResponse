@@ -30,7 +30,7 @@ export class AppComponent implements OnInit {
     ngOnInit() {
 	console.log(`AppComponent.ngOnInit(${this.version}-${this.hash} Build[${this.build}])`);
 	// Set the version checker at periodic intervals
-	if(!isDevMode())
+	if(false && !isDevMode())
 	    this.setUpVersionChecker();
     }
 

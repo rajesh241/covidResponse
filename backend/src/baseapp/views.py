@@ -167,6 +167,7 @@ class EntityFilter(filters.FilterSet):
                     'assigned_to_user' : ['isnull'],
                     'assigned_to_user__name' : ['contains', 'icontains'],
                     'assigned_to_user__id' : ['exact'],
+                    'assigned_to_group' : ['isnull'],
                     'assigned_to_group__name' : ['contains', 'icontains'],
                     'assigned_to_group__id' : ['exact'],
                     'user__email' : ['exact'],
