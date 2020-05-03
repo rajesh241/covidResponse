@@ -147,7 +147,7 @@ export class AuthService {
 
     public isGroupAdmin(){
 	const ur = localStorage.getItem("ur")
-	return !( (this.isLoggedIn()) && ( (ur === "client") || (ur === "volunteer") || (ur === "groupadmin")))
+	return ( (this.isLoggedIn()) && !( (ur === "client") || (ur === "volunteer") || (ur === "groupadmin")))
     }
 
     public isVolunteer(){
