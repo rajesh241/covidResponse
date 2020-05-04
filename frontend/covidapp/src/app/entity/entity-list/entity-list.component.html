@@ -255,21 +255,21 @@
                 </td>
                 <td>
 		  <span *ngIf="authService.isNotClient()">
-		    {{ (entity.phone | json).replace('.0', '')
+		    {{ (entity.phone | json)?.replace('.0', '')
 		    .replace('"', '').replace('"', '') }}
 		  </span>
 		</td>
-		<td>{{ entity.prefill_json.data.needsForm.data.howMany }}</td>
+		<td>{{ entity.prefill_json?.data?.needsForm?.data.howMany }}</td>
 		<td>
 		  <!--
-		  <ng-container *ngFor="let need of entity.prefill_json.data.needsForm.data.needs|keyvalue">
+		  <ng-container *ngFor="let need of entity.prefill_json?.data?.needsForm?.data.needs|keyvalue">
 		    {{ need|json }}
 		    <div style="color: red;">
 		      {{ ((need.key != "describeHealth") && (need.value != false) && (need.value != "None") && (need.value != "No issues"))? need.key : "" }}
 		    </div>
 		  </ng-container>
 		  -->
-		  <ng-container *ngFor="let option of needsFilter(entity.prefill_json.data.needsForm.data.needs|keyvalue)">
+		  <ng-container *ngFor="let option of needsFilter(entity.prefill_json?.data?.needsForm?.data.needs|keyvalue)">
 		    <i class="fa fa-lg" [ngClass]="option.class" [ngStyle]="{'color': option.color}"></i><label style="padding: 0 2px;"></label>
 		  </ng-container>
 		</td>

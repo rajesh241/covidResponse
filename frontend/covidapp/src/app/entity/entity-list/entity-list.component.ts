@@ -405,6 +405,9 @@ export class EntityListComponent  {
     }
 
     needsFilter(needs) {
+	if (!needs)
+	    return [];
+
 	let filteredNeeds =
 	    needs.filter(
 		need => (!need.key.includes('describe')  && (need.value != false) && (need.value != "None") && (need.value != "No issues"))
