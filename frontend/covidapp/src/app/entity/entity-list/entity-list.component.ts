@@ -13,7 +13,7 @@ import { EntityService } from "../../services/entity.service";
 import { AuthService } from "../../services/auth.service";
 import { DownloadService } from "../../services/download.service";
 
-import { MatDialog, MatDialogConfig } from "@angular/material";
+import { MatDialog, MatDialogConfig, MatSnackBar } from "@angular/material";
 import { EditDialogComponent } from '../edit-dialog/edit-dialog.component';
 import { BulkDialogComponent } from '../bulk-dialog/bulk-dialog.component';
 import { Location } from '@angular/common';
@@ -78,6 +78,7 @@ export class EntityListComponent  {
         private downloadService: DownloadService,
         private router:Router,
 	private location: Location,
+	private snackBar: MatSnackBar,
 	@Inject(DOCUMENT) private document: Document,
         private dialog: MatDialog
     ) {
@@ -287,10 +288,17 @@ export class EntityListComponent  {
 
     onBulkAction(action) {
         console.log(`EntityListComponent.applyBulkAction(${action})`);
-        if(action == 'export') {
+        if (action == 'export') {
             this.exportSelected();
             return;
         }
+
+	if (action == 'duplicate') {
+	    this.snackBar.open('Submitted to the Approval Team', 'DUPLICATE', {
+		duration: 2000,
+	    });
+	    return;
+	}
 
         console.log(this.selectedEntities);
 	let chosenEntites = [];
@@ -337,6 +345,9 @@ export class EntityListComponent  {
                         .subscribe(
                             data => {
                                 console.log('Bulk Operation Creattion Successful', data);
+				this.snackBar.open('Submitted Successfuly', action.toUpperCase(), {
+				    duration: 2000,
+				});
                             },
                             err => {
                                 console.log("Bulk Operation  Creation Failed");
