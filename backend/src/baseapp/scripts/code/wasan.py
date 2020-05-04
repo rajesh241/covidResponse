@@ -6,6 +6,7 @@ import json
 import django
 import pandas as pd
 from django.utils.text import slugify
+from django.utils import timezone
 from django.contrib.auth import get_user_model
 from commons import logger_fetch, ms_transliterate_word
 from defines import DJANGO_SETTINGS
@@ -16,6 +17,15 @@ from baseapp.models import Entity, EntityHistory
 from baseapp.formio import help_sought, get_status, get_remarks
 User = get_user_model()
 from core.models import Group, Region
+STATUS_DICT = {
+        'closed' : 'closed',
+        'contacted-follow-up-person' : 'contacted-follow-up-person',
+        'in-process' : 'in-process',
+        'none' : 'none',
+        'not-started': 'not-started',
+        'notStarted' : 'not-started',
+        'visited-migrant' : 'visited-migrant'
+    }
 def args_fetch():
     '''
     Paser for the argument list that returns the args list
@@ -73,16 +83,16 @@ def create_history(entity, myuser):
         obj = None
 
 org_id_mapping = {
-      '2' : '1',
+      '2' : 'WASSAN',
     '3' : '3',
     '127' : '0',
     '321' : '321',
     '322' : '9',
-    '324' : '6',
-    '325' : '4',
-    '326' : '5',
-    '327' : '7',
-    '328' : '8'
+    '324' : 'MP',
+    '325' : 'Chhattisgarh',
+    '326' : 'Gujarat',
+    '327' : 'Maharashtra',
+    '328' : 'Rajasthan'
 }
 orgs_to_be_imported = ['2', '324', '325', '326', '327', '328']
 def create_entity(logger, record, myUser):
@@ -98,7 +108,7 @@ def create_entity(logger, record, myUser):
         wasan_org_id = record['extra_fields']['formio_parsed_data']['sourceSpecific']['organisationId']
         libtech_org_id = org_id_mapping.get(str(wasan_org_id), None)
         logger.info(f"wasan_org_id {wasan_org_id} - libtech_org_id {libtech_org_id}")
-        my_group = Group.objects.filter(id=libtech_org_id).first()
+        my_group = Group.objects.filter(name=libtech_org_id).first()
         logger.info(my_group)
     except:
         wasan_org_id = None
@@ -167,6 +177,7 @@ def create_entity(logger, record, myUser):
     if my_group is not None:
         obj.assigned_to_group = my_group
     obj.remarks = remarks
+    obj.what_help = help_sought(obj.prefill_json)
     logger.info(f"Saving {obj.id}")
     obj.save()
     #logger.info(obj.phone)
@@ -233,19 +244,20 @@ def main():
             myuser.save()
            
 
-
     if args['importEntities']:
-       #objs = Entity.objects.filter(id__gte = 6341)
-       #for obj in objs:
-       #    logger.info(obj.id)
-       #    obj.delete()
         my_user = User.objects.filter(id=1).first()
-        with open('../import_data/wasan_helpseekers_2may_3.json', 'r') as f:
+        with open('../import_data/wasan_helpseekers_2may_final.json', 'r') as f:
                 records = json.load(f)
         for i,record in enumerate(records):
             logger.info(i)
             create_entity(logger, record, my_user)
+            break
         usergroup = "wassan"
+        objs = Entity.objects.filter(record_type = "helpseekers")
+        for obj in objs:
+            obj.status = STATUS_DICT.get(obj.status, None)
+            obj.save()
+
         
     if args['test']:
         objs = User.objects.all()
