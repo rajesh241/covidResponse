@@ -251,7 +251,6 @@ def main():
         for i,record in enumerate(records):
             logger.info(i)
             create_entity(logger, record, my_user)
-            break
         usergroup = "wassan"
         objs = Entity.objects.filter(record_type = "helpseekers")
         for obj in objs:
