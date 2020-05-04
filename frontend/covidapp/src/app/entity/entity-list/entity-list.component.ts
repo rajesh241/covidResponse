@@ -90,11 +90,12 @@ export class EntityListComponent  {
 	}
 	if (localStorage.getItem('usergroup') === 'wassan') {
 	    this.statusOptions = [
-		{'value': 'not_started', 'name': 'Not started'},
-		{'value': 'contacted_the_followup', 'name': 'Contacted the follow-up person'},
-		{'value': 'in_process', 'name': 'In process'},
-		{'value': 'visited_the_migrant', 'name': 'Visited the migrant'},
-		{'value': 'closed', 'name': 'Closed'}
+		{'value': 'not-started', 'name': 'Not started'},
+		{'value': 'contacted-follow-up-person', 'name': 'Contacted the follow-up person'},
+		{'value': 'in-process', 'name': 'In process'},
+		{'value': 'visited-migrant', 'name': 'Visited the migrant'},
+		{'value': 'closed', 'name': 'Closed'},
+		{'value': 'none', 'name': 'None'}
 	    ];
 	}
 
