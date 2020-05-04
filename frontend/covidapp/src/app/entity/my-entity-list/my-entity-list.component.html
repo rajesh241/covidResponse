@@ -121,7 +121,7 @@
 		  </ng-container>
 		  -->
 		  <ng-container *ngFor="let option of needsFilter(entity.prefill_json.data?.needsForm?.data.needs|keyvalue)">
-		    <i class="fa fa-lg" [ngClass]="option.class" [ngStyle]="{'color': option.color}"></i><label style="padding: 0 2px;"></label>
+		    <i class="fa fa-lg" [ngClass]="option?.class" [ngStyle]="{'color': option?.color}"></i><label style="padding: 0 2px;"></label>
 		  </ng-container>
 		</td>
                 <td>{{entity.status}}</td>

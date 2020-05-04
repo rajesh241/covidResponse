@@ -124,7 +124,7 @@ class EntityListSerializer(serializers.ModelSerializer):
         if True or bool(random.getrandbits(1)):
              bulk_action_list['assigntogroup'] = 'Assign To Group'
         if True or bool(random.getrandbits(1)):
-             bulk_action_list['duplicate'] = 'Mark as Duplicate'
+             bulk_action_list['duplicate'] = 'Suggest Duplicate'
         if False and bool(random.getrandbits(1)):
              bulk_action_list['full'] = 'Out of Capacity'            
         if False and bool(random.getrandbits(1)):

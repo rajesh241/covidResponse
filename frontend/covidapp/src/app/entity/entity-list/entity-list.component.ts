@@ -295,7 +295,7 @@ export class EntityListComponent  {
 
 	if (action == 'duplicate') {
 	    this.snackBar.open('Submitted to the Approval Team', 'DUPLICATE', {
-		duration: 2000,
+		duration: 5000,
 	    });
 	    return;
 	}
@@ -346,7 +346,7 @@ export class EntityListComponent  {
                             data => {
                                 console.log('Bulk Operation Creattion Successful', data);
 				this.snackBar.open('Submitted Successfuly', action.toUpperCase(), {
-				    duration: 2000,
+				    duration: 3000,
 				});
                             },
                             err => {
