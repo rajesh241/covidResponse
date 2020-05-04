@@ -265,7 +265,7 @@ class EntitySmallAPIView(HttpResponseMixin,
     serializer_class = SmallEntitySerializer
     passed_id = None
     input_id = None
-    search_fields = ('keywords', 'name', 'description')
+    search_fields = ('keywords', 'name', 'description', 'id')
     ordering_fields = ('name', 'id', 'created', 'updated')
     filterset_class = EntityFilter
     queryset = Entity.objects.all()
