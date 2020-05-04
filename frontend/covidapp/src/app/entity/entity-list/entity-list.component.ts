@@ -65,10 +65,10 @@ export class EntityListComponent  {
 	{'value': 'cash', 'name': 'Cash', 'selected': false, 'class': 'fa-money', 'color': 'green'},
 	{'value': 'water', 'name': 'Water', 'selected': false, 'class': 'fa-tint', 'color': 'lightblue'},
 	{'value': 'dryRations', 'name': 'Dry Rations', 'selected': false, 'class': 'fa-pagelines', 'color': 'brown'},
-	{'value': 'medicalHelp', 'name': 'Medical Help', 'selected': false, 'class': 'fa-plus-square', 'color': '#F47A7A'},
 	{'value': 'cookedFood', 'name': 'Cooked Food', 'selected': false, 'class': 'fa-cutlery', 'color': 'orange'},
-	{'value': 'transportToHome', 'name': 'Transport to Home', 'selected': false, 'class': 'fa-bus', 'color': 'purple'},
+	{'value': 'medicalHelp', 'name': 'Medical Help', 'selected': false, 'class': 'fa-plus-square', 'color': '#F47A7A'},
 	{'value': 'shelter', 'name': 'Shelter', 'selected': false, 'class': 'fa-bed', 'color': '#A5B6FA'},
+	{'value': 'transportToHome', 'name': 'Transport to Home', 'selected': false, 'class': 'fa-bus', 'color': 'purple'},
 	{'value': 'other', 'name': 'Other', 'selected': false, 'class': 'fa-adjust', 'color': '#8A8A8A'},
     ];
 
@@ -402,5 +402,14 @@ export class EntityListComponent  {
     onExport(){
 	    console.log("User has clicked export button");
 	    this.document.location.href = 'https://coast-india.s3.ap-south-1.amazonaws.com/export/data.csv';
+    }
+
+    needsFilter(needs) {
+	let filteredNeeds =
+	    needs.filter(
+		need => ((need.key != "describeHealth")  && (need.key != "describeMedical")  &&(need.value != false) && (need.value != "None") && (need.value != "No issues"))
+	    ).map(need => this.helpOptions.find(option => option.value === need.key));
+
+	return filteredNeeds;
     }
 }

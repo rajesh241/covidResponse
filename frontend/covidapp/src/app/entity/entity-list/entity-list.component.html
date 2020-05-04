@@ -22,15 +22,15 @@
         </div>
         <div class="form-group row">
           <label class="col-sm-1 col-form-label"></label>
-          <label  class="col-sm-2 col-form-label">Search</label>
+          <label  class="col-sm-2 col-form-label"  style="line-height:34px;">Search</label>
           <div class="col-sm-7">
-            <input formControlName="search" class="form-control" placeholder="Search by name, phone">
+            <input formControlName="search" class="form-control" placeholder="Search by Name, Phone, Region">
           </div>
         </div>
 
         <div class="form-group row">
           <label class="col-sm-1 col-form-label"></label>
-          <label  class="col-sm-2 col-form-label">Volunteer</label>
+          <label  class="col-sm-2 col-form-label" style="line-height:34px;">Volunteer</label>
           <div class="col-sm-4">
             <input formControlName="assigned_to_user__name__icontains" class="form-control" placeholder="Search by Volunteer">
           </div>
@@ -43,7 +43,8 @@
           </section>
 	  -->
           <div align="center" class="col-sm-3">
-	    <mat-button-toggle-group appearance="legacy" formControlName="assigned_to_user__isnull">
+	    <mat-button-toggle-group appearance="legacy" style="top:-3px;"
+				     formControlName="assigned_to_user__isnull">
 	      <mat-button-toggle mat-raised-button [value]="">All</mat-button-toggle>
 	      <mat-button-toggle *ngFor="let option of isAssignedOptions" [value]="option.value">{{ option.name }}</mat-button-toggle>
 	    </mat-button-toggle-group>
@@ -52,12 +53,13 @@
 
         <div class="form-group row">
           <label class="col-sm-1 col-form-label"></label>
-          <label  class="col-sm-2 col-form-label">Group</label>
+          <label  class="col-sm-2 col-form-label" style="line-height:34px;">Group</label>
           <div class="col-sm-4">
             <input formControlName="assigned_to_group__name__icontains" class="form-control" placeholder="Search by Group">
           </div>
           <div align="center" class="col-sm-3">
-	    <mat-button-toggle-group appearance="legacy" formControlName="assigned_to_group__isnull">
+	    <mat-button-toggle-group appearance="legacy" style="top:-3px;"
+				     formControlName="assigned_to_group__isnull">
 	      <mat-button-toggle mat-raised-button [value]="">All</mat-button-toggle>
 	      <mat-button-toggle *ngFor="let option of isAssignedOptions" [value]="option.value">{{ option.name }}</mat-button-toggle>
 	    </mat-button-toggle-group>
@@ -161,7 +163,7 @@
 	</div>
         <div class="form-group row">
 	  <div class="col-sm-6" style="padding-top:10px;">
-            <label class="col-sm-4 col-form-label">Results per Page</label>
+            <label class="col-sm-4 col-form-label" style="line-height:34px;">Results per Page</label>
             <div class="col-sm-2">
               <input  formControlName="limit" class="form-control" placeholder="min">
             </div>
@@ -218,6 +220,8 @@
 		<th>ID</th>
                 <th>Name</th>
                 <th>Contact Nos</th>
+		<th>Size</th>
+		<th>Needs</th>
                 <th>Group</th>
                 <th>Volunteer</th>
                 <th>Status</th>
@@ -254,6 +258,20 @@
 		    {{ (entity.phone | json).replace('.0', '')
 		    .replace('"', '').replace('"', '') }}
 		  </span>
+		</td>
+		<td>{{ entity.prefill_json.data.needsForm.data.howMany }}</td>
+		<td>
+		  <!--
+		  <ng-container *ngFor="let need of entity.prefill_json.data.needsForm.data.needs|keyvalue">
+		    {{ need|json }}
+		    <div style="color: red;">
+		      {{ ((need.key != "describeHealth") && (need.value != false) && (need.value != "None") && (need.value != "No issues"))? need.key : "" }}
+		    </div>
+		  </ng-container>
+		  -->
+		  <ng-container *ngFor="let option of needsFilter(entity.prefill_json.data.needsForm.data.needs|keyvalue)">
+		    <i class="fa fa-lg" [ngClass]="option.class" [ngStyle]="{'color': option.color}"></i><label style="padding: 0 2px;"></label>
+		  </ng-container>
 		</td>
                 <td *ngIf="!entity.assigned_to_group"></td>
                 <td *ngIf="entity.assigned_to_group">{{entity.assigned_to_group.name}}</td>
