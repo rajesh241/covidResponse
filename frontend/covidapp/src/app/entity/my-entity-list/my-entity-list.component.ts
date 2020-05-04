@@ -4,12 +4,12 @@ import { Router } from "@angular/router"
 
 import { Observable, Subject } from 'rxjs';
 import { map, debounceTime, merge, share, startWith, switchMap } from 'rxjs/operators';
-import * as moment from "moment";
+import * as moment from 'moment';
 
 import { Page } from '../../pagination';
-import { Entity } from "../../models/entity";
-import { EntityService } from "../../services/entity.service";
-import { AuthService } from "../../services/auth.service";
+import { Entity } from '../../models/entity';
+import { EntityService } from '../../services/entity.service';
+import { AuthService } from '../../services/auth.service';
 
 import { MatDialog, MatDialogConfig } from "@angular/material";
 import { EditDialogComponent } from '../edit-dialog/edit-dialog.component';
@@ -49,7 +49,18 @@ export class MyEntityListComponent implements OnInit {
         {'value': 'high', 'name':  'High'},
         {'value': 'not-needed', 'name':  'Not Needed'},
     ];
-  constructor(
+    helpOptions = [
+	{'value': 'cash', 'name': 'Cash', 'selected': false, 'class': 'fa-money', 'color': 'green'},
+	{'value': 'water', 'name': 'Water', 'selected': false, 'class': 'fa-tint', 'color': 'lightblue'},
+	{'value': 'dryRations', 'name': 'Dry Rations', 'selected': false, 'class': 'fa-pagelines', 'color': 'brown'},
+	{'value': 'cookedFood', 'name': 'Cooked Food', 'selected': false, 'class': 'fa-cutlery', 'color': 'orange'},
+	{'value': 'medicalHelp', 'name': 'Medical Help', 'selected': false, 'class': 'fa-plus-square', 'color': '#F47A7A'},
+	{'value': 'shelter', 'name': 'Shelter', 'selected': false, 'class': 'fa-bed', 'color': '#A5B6FA'},
+	{'value': 'transportToHome', 'name': 'Transport to Home', 'selected': false, 'class': 'fa-bus', 'color': 'purple'},
+	{'value': 'other', 'name': 'Other', 'selected': false, 'class': 'fa-adjust', 'color': '#8A8A8A'},
+    ];
+
+    constructor(
         public authService: AuthService,
         private entityService: EntityService,
         private dialog: MatDialog,
@@ -132,5 +143,12 @@ export class MyEntityListComponent implements OnInit {
 	}
     }
 
+    needsFilter(needs) {
+	let filteredNeeds =
+	    needs.filter(
+		need => (!need.key.includes('describe')  && (need.value != false) && (need.value != "None") && (need.value != "No issues"))
+	    ).map(need => this.helpOptions.find(option => option.value === need.key));
 
+	return filteredNeeds;
+    }
 }

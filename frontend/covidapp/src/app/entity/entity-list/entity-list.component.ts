@@ -407,7 +407,7 @@ export class EntityListComponent  {
     needsFilter(needs) {
 	let filteredNeeds =
 	    needs.filter(
-		need => ((need.key != "describeHealth")  && (need.key != "describeMedical")  &&(need.value != false) && (need.value != "None") && (need.value != "No issues"))
+		need => (!need.key.includes('describe')  && (need.value != false) && (need.value != "None") && (need.value != "No issues"))
 	    ).map(need => this.helpOptions.find(option => option.value === need.key));
 
 	return filteredNeeds;
