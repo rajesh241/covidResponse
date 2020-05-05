@@ -16,8 +16,8 @@ class EntityModelAdmin(admin.ModelAdmin):
     readonly_fields = ["assigned_to_org", "assigned_to_user"]
 class EntityHistoryModelAdmin(admin.ModelAdmin):
     """Model Adminf or class Location"""
-    list_display = ["id", "title", "user_name", "what_help", "urgency", "status", "remarks"]
-    list_filter = ["status", "urgency"]
+    list_display = ["id", "title", "user_name", "updated", "urgency", "status", "remarks"]
+    list_filter = ["updated", "status", "urgency"]
     search_fields = ["title"]
     readonly_fields = ["entity", "user"]
 
