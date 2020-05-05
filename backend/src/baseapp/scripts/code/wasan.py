@@ -92,20 +92,23 @@ org_id_mapping = {
     '325' : 'Chhattisgarh',
     '326' : 'Gujarat',
     '327' : 'Maharashtra',
-    '328' : 'Rajasthan'
+    '328' : 'Rajasthan',
+    '400' : 'Delhi',
 }
-orgs_to_be_imported = ['2', '324', '325', '326', '327', '328']
-def create_entity(logger, record, myUser):
+orgs_to_be_imported = ['2', '324', '325', '326', '327', '328', '400']
+def create_entity(logger, record, myUser, wasan_id = None, wasan_org_id=None):
     # This has to go as a string
     # extra_fields = str(record['extra_fields'])
     # revised['extra_fields'] = extra_fields
-    
+    logger.info(f"wasan id is {wasan_id}")
+    if wasan_id is None: 
+        try:
+            wasan_id = record['extra_fields']['common']['entity_id']
+        except:
+            wasan_id = None
     try:
-        wasan_id = record['extra_fields']['common']['entity_id']
-    except:
-        wasan_id = None
-    try:
-        wasan_org_id = record['extra_fields']['formio_parsed_data']['sourceSpecific']['organisationId']
+        if wasan_org_id is None:
+            wasan_org_id = record['extra_fields']['formio_parsed_data']['sourceSpecific']['organisationId']
         libtech_org_id = org_id_mapping.get(str(wasan_org_id), None)
         logger.info(f"wasan_org_id {wasan_org_id} - libtech_org_id {libtech_org_id}")
         my_group = Group.objects.filter(name=libtech_org_id).first()
@@ -113,22 +116,25 @@ def create_entity(logger, record, myUser):
     except:
         wasan_org_id = None
         my_group = None
-    if int(wasan_org_id) == 3:
-        return
-    if int(wasan_org_id) == 322:
-        return
-    if int(wasan_org_id) == 321:
-        return
-    if int(wasan_org_id) == 127:
-        return
-    if int(wasan_org_id) == 0:
-        return
-    if (wasan_org_id is None) or (str(wasan_org_id) not in orgs_to_be_imported):
-        logger.info("will not import this")
-        input()
-        return
+    if wasan_org_id is not None:
+        if int(wasan_org_id) == 3:
+            return
+        if int(wasan_org_id) == 322:
+            return
+        if int(wasan_org_id) == 321:
+            return
+        if int(wasan_org_id) == 127:
+            return
+        if int(wasan_org_id) == 0:
+            return
+        if (wasan_org_id is None) or (str(wasan_org_id) not in orgs_to_be_imported):
+            logger.info("will not import this")
+            input()
+            return
     obj = None
+    logger.info(wasan_id)
     if wasan_id is not None:
+        logger.info(wasan_id)
         obj = Entity.objects.filter(wassan_id=wasan_id).first()
     if obj is None:
         obj = Entity.objects.create(title="blankNewItem")
@@ -168,12 +174,15 @@ def create_entity(logger, record, myUser):
     except:
         remarks = ''
     obj.wassan_id = wasan_id
-    user_email = record['common']['user_email']
-    assigned_user = User.objects.filter(wassan_username=user_email).first()
-    if assigned_user is not None:
-        obj.assigned_to_user = assigned_user
-    else:
-        input()
+    try:
+        user_email = record['common']['user_email']
+        assigned_user = User.objects.filter(wassan_username=user_email).first()
+        if assigned_user is not None:
+            obj.assigned_to_user = assigned_user
+        else:
+            logger.info("user not found")
+    except:
+        logger.info("no user info present")
     if my_group is not None:
         obj.assigned_to_group = my_group
     obj.remarks = remarks
@@ -246,11 +255,15 @@ def main():
 
     if args['importEntities']:
         my_user = User.objects.filter(id=1).first()
-        with open('../import_data/wasan_helpseekers_2may_final.json', 'r') as f:
+        with open('../import_data/jh_delhi_final.json', 'r') as f:
                 records = json.load(f)
+        base_number = 200505 * 10000
         for i,record in enumerate(records):
             logger.info(i)
-            create_entity(logger, record, my_user)
+            sr_no = base_number + i
+            create_entity(logger, record, my_user, wasan_id = sr_no,
+                          wasan_org_id=400)
+        exit(0)
         usergroup = "wassan"
         objs = Entity.objects.filter(record_type = "helpseekers")
         for obj in objs:
