@@ -231,6 +231,7 @@ class EntitySerializer(serializers.ModelSerializer):
         """Over riding teh create method of serializer"""
         obj = Entity.objects.create(**validated_data)
         self.parse_data_json(obj, validated_data)
+        
       #  self.create_history(obj)
         return obj
 
@@ -273,9 +274,9 @@ class EntitySerializer(serializers.ModelSerializer):
             obj.remarks = get_remarks(obj.prefill_json)
         keywords = f"{obj.title},{obj.phone},{obj.email}"
         obj.keywords = keywords
-        obj.assigned_to_user = obj.user
-        if obj.user.group is not None:
-            obj.assigned_to_group = obj.user.group
+       #obj.assigned_to_user = obj.user
+       #if obj.user.group is not None:
+       #    obj.assigned_to_group = obj.user.group
         self.create_history(obj)
         obj.save()
        #keyword_array = []
