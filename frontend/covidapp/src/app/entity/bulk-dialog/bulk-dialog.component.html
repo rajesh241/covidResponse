@@ -12,9 +12,9 @@
 
 <div *ngIf="!formioBased">
  <mat-card *ngIf="dataLoaded">
-    <mat-card-title>Assign To</mat-card-title>
+    <mat-card-title>{{ title }}</mat-card-title>
     <mat-card-content>
-      <div>
+      <div *ngIf="loadVolunteerForm || loadGroupForm">
         <form [formGroup]="assignForm" (ngSubmit)="submitAssign()">
 
           <div *ngIf="loadVolunteerForm" align="center" class="col-sm-3">
@@ -40,9 +40,23 @@
           <div style="padding: 4px;">
             <button mat-raised-button class="btn btn-block"
 		    type="submit">
-	      Assign</button>
+	      Assign
+	    </button>
           </div>
         </form>
+      </div>
+      <div *ngIf="loadDuplicateDialog" class="well">
+	You are suggestiong the selection(s) be marked as duplicate. Are you sure?
+	<label style="margin: 5px;"></label>
+        <button mat-raised-button class="btn" (click)="onSubmit(true)">
+	  Yes
+	</button>
+	<label style="margin: 5px;"></label>
+        <button mat-raised-button class="btn" (click)="onSubmit(false)">
+	  No
+	</button>
+	<br />
+	<p><b><i class="fa fa-warning fa-lg" style="color:red; padding: 0 5px;"></i>NOTE: This will be submitted to the Approval Team.</b></p>
       </div>
     </mat-card-content>
   </mat-card>
@@ -50,7 +64,7 @@
 </div>
 
 <mat-dialog-actions>
-  <button mat-raised-button (click)="close()">Close</button>
+  <button mat-raised-button (click)="cancel()">Cancel</button>
 </mat-dialog-actions>
 
 <pre style="border: 0; background-color: transparent;">                                                                                </pre>

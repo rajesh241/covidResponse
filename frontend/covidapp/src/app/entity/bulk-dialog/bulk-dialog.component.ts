@@ -16,6 +16,7 @@ import { Page } from '../../pagination';
   styleUrls: ['./bulk-dialog.component.css']
 })
 export class BulkDialogComponent implements OnInit {
+    title: string;
     form: FormGroup;
     users : any;//Observable<PublicUser[]>;
     groups : any;//Observable<PublicGroup[]>;
@@ -30,6 +31,7 @@ export class BulkDialogComponent implements OnInit {
     assignForm: FormGroup;
     loadVolunteerForm:boolean=false;
     loadGroupForm:boolean=false;
+    loadDuplicateDialog:boolean=false;
     page: Observable<Page<PublicUser>>;
     pageUrl = new Subject<string>();
     user_role:any;
@@ -55,28 +57,35 @@ export class BulkDialogComponent implements OnInit {
 	this.usergroup = localStorage.getItem('usergroup');
 	this.data = data;
         this.action = data.action;
-	console.log(this.action);
-	if (this.action == "assigntovolunteer"){
-		this.formioBased = false;
-		this.loadVolunteerForm = true;
-	}else if(this.action == "assigntogroup"){
-		this.formioBased = false;
-		this.loadGroupForm = true;
-	}else{
-		this.formioBased = true;
+	this.title = data.action.value;
+	console.log(this.action.key);
+	if (this.action.key == 'assigntovolunteer') {
+	    this.formioBased = false;
+	    this.loadVolunteerForm = true;
+	}
+	else if (this.action.key == 'assigntogroup') {
+	    this.formioBased = false;
+	    this.loadGroupForm = true;
+	}
+	else if (this.action.key == 'duplicate') {
+	    this.formioBased = false;
+	    this.loadDuplicateDialog = true;
+	}
+	else{
+	    this.formioBased = true;
 	}
 	this.entities = data.entities;
 	console.log(this.entities);
-	this.form_url = formioConfig.appUrl + `/forms/v1/${this.action}`;
+	this.form_url = formioConfig.appUrl + `/forms/v1/${this.action.key}`;
 	console.log(`Action From URL[${this.form_url}]`);
 
         this.user_role = localStorage.getItem('ur');
         this.usergroup=localStorage.getItem('usergroup')
-            if (this.user_role =="usergroupadmin"){
-                this.groupID = "undefined"
-            }else{
-                this.groupID = localStorage.getItem('groupid');
-            }
+        if (this.user_role =="usergroupadmin"){
+            this.groupID = "undefined"
+        }else{
+            this.groupID = localStorage.getItem('groupid');
+        }
         this.filterForm = new FormGroup({
           limit : new FormControl(10000),
           formio_usergroup : new FormControl(),
@@ -94,7 +103,7 @@ export class BulkDialogComponent implements OnInit {
     }
 
     ngOnInit() {
-	if (this.action == "assigntovolunteer"){
+	if (this.action.key == "assigntovolunteer"){
              this.userService.getAllUsersPublic(this.usergroup)
                    .subscribe(
                        data => {
@@ -132,24 +141,35 @@ export class BulkDialogComponent implements OnInit {
         });
     }
 
-    onSubmit($event) {
-        console.log(`Inside add-dialog onSubmit(${$event})`);
-        console.log($event.data);
-        this.data.json = $event.data;
-        this.dialogRef.close(this.data);
+    onSubmit(commit) {
+        console.log(`BulkDialogComponent.onSubmit(${commit})`);
+	if (commit) {
+            this.data.json = '';
+            this.dialogRef.close(this.data);
+	}
+	else // could directly call this from HTML
+	    this.cancel();
     }
+
     submitAssign(){
+        console.log(`BulkDialogComponent.submitAssign()`);
         if (this.assignForm.valid) {
              console.log(this.assignForm.value);
              this.data.json = this.assignForm.value;
              this.dialogRef.close(this.data);
 	}
     }
+
     save() {
         this.dialogRef.close(this.form.value);
     }
 
     close() {
         this.dialogRef.close();
+    }
+
+    cancel() {
+	console.log(`BulkDialogComponent.cance(): User Cancelled`);
+        this.close();
     }
 }

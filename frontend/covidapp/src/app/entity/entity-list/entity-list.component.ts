@@ -287,18 +287,20 @@ export class EntityListComponent  {
     }
 
     onBulkAction(action) {
-        console.log(`EntityListComponent.applyBulkAction(${action})`);
-        if (action == 'export') {
+        console.log(`EntityListComponent.applyBulkAction(${JSON.stringify(action)})`, action);
+        if (action.key == 'export') {
             this.exportSelected();
             return;
         }
 
-	if (action == 'duplicate') {
+	/*
+	if (action.key == 'duplicate') {
 	    this.snackBar.open('Submitted to the Approval Team', 'DUPLICATE', {
 		duration: 5000,
 	    });
 	    return;
 	}
+	*/
 
         console.log(this.selectedEntities);
 	let chosenEntites = [];
@@ -306,7 +308,7 @@ export class EntityListComponent  {
         this.entities.forEach(
 	    entity => {
 		if (this.selectedEntities[entity.id]) {
-                    // this.bulkAction(entity);
+                    // this.bulkAction.Key(entity);
 		    chosenEntites.push(entity);
 		}
             });
@@ -331,9 +333,10 @@ export class EntityListComponent  {
 		    var length;
 		    let ids_json : any;
                     
-                    if (!data)   // Close pressed without any action
+                    if (!data)   // Close pressed without any action.key
                         return;
 
+		    console.log(`EntityListComponent.onBulkAction().dialogRef.afterClosed()`, data);
                     // FIXME - This is alredy there - this.selectedEntities[]
 		    for (let entity of data.entities) {
 			console.log("Printing entity id " + entity.id); // 1, "string", false
@@ -341,18 +344,21 @@ export class EntityListComponent  {
 		    }
 		    console.log("Entity Ids is " + entity_ids);
 		    ids_json = { "ids" : entity_ids}
-                    this.entityService.createBulkOperation({'ids_json': ids_json,'bulk_action': data.action, 'data_json': data.json})
-                        .subscribe(
-                            data => {
-                                console.log('Bulk Operation Creattion Successful', data);
-				this.snackBar.open('Submitted Successfuly', action.toUpperCase(), {
-				    duration: 3000,
-				});
-                            },
-                            err => {
-                                console.log("Bulk Operation  Creation Failed");
-                            }
-                        );
+                    this.entityService.createBulkOperation({
+			'ids_json': ids_json,
+			'bulk_action': data.action.key,
+			'data_json': data.json
+		    }).subscribe(
+                        data => {
+                            console.log('Bulk Operation Creattion Successful', data);
+			    this.snackBar.open('Submitted Successfuly', action.value, {
+				duration: 3000,
+			    });
+                        },
+                        err => {
+                            console.log("Bulk Operation  Creation Failed");
+                        }
+                    );
             	    //const replacer = (key, value) =>  String(value) === "null" || String(value) === "undefined" ? 0 : value; 
                     // data = JSON.parse( JSON.stringify(data, replacer));
                     console.log("Dialog output:", data);
