@@ -4,7 +4,7 @@
 src/config.ts
 
 #Generated files
-src/environments/version.ts
+# src/environments/version.ts
 
 # compiled output
 /dist

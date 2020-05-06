@@ -5,7 +5,7 @@ const { writeFileSync } = require('fs-extra');
 
 let path = require('path'), fs = require('fs')
 
-console.log('post-build.js | Generating a Version...');
+console.log('pre-build.js | Generating a Version...');
 
 const gitInfo = gitDescribeSync({
     dirtyMark: false,
@@ -13,10 +13,10 @@ const gitInfo = gitDescribeSync({
 });
 
 gitInfo.version = version;
-console.log(`post-build.js | AppName[${name}] - Version[${version}]`);
+console.log(`pre-build.js | AppName[${name}] - Version[${version}]`);
 
 const distDir = resolve(__dirname, '..', 'dist', name);
-console.log(`post-build.js | DistDir[${distDir}]`);
+console.log(`pre-build.js | DistDir[${distDir}]`);
 
 let mainHash = 'Dev Build';
 let mainBundleFile = '';
@@ -26,7 +26,7 @@ let mainBundleRegexp = /([a-z0–9]*)?.?([a-z0–9]*)?.js$/;
 // read the dist folder files and find the one we're looking for
 
 if (!fs.existsSync(distDir)){
-    console.log(`post-build.js | DistDir[${distDir}] not found!`);
+    console.log(`pre-build.js | DistDir[${distDir}] not found!`);
 }
 else {
     let files = fs.readdirSync(distDir);
@@ -37,11 +37,11 @@ else {
     });
     */
     mainBundleFile = files.find(f => mainBundleRegexp.test(f));
-    console.log(`post-build.js | main file [${mainBundleFile}]`);
+    console.log(`pre-build.js | main file [${mainBundleFile}]`);
     if (mainBundleFile) {
 	mainHash = mainBundleFile.replace('main-es2015.', '').replace('.js', '');
     }
-    console.log(`post-build.js | Production Build Hash: ${mainHash}`);
+    console.log(`pre-build.js | Production Build Hash: ${mainHash}`);
 }
 gitInfo.build = mainHash;
 
@@ -53,4 +53,4 @@ export const VERSION = ${JSON.stringify(gitInfo, null, 4)};
 /* tslint:enable */
 `, { encoding: 'utf-8' });
 
-console.log(`post-build.js | Wrote version info ${JSON.stringify(gitInfo, null, 4)} to ${relative(resolve(__dirname, '..'), file)}`);
+console.log(`pre-build.js | Wrote version info ${JSON.stringify(gitInfo, null, 4)} to ${relative(resolve(__dirname, '..'), file)}`);

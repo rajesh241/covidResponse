@@ -42,6 +42,10 @@ import { PrivacyComponent } from './user/privacy/privacy.component';
 import { ProfileEditComponent } from './user/profile-edit/profile-edit.component';
 import { GroupAddComponent } from './user/group-add/group-add.component';
 import { SurveyComponent } from './formio/survey/survey.component';
+import { HelpComponent } from './help/help.component';
+import { FaqComponent } from './help/faq/faq.component';
+import { GuideComponent } from './help/guide/guide.component';
+import { TutorialComponent } from './help/tutorial/tutorial.component';
 
 const routes: Routes = [
     {path : '', component : MyEntityListComponent, canActivate: [AuthGuard]},
@@ -60,6 +64,10 @@ const routes: Routes = [
     {path : 'mylist', component : MyEntityListComponent, canActivate:[AuthGuard]},
     {path : 'map', component : ContextMapComponent, canActivate:[AuthGuard]},
     {path : 'about', component : AboutComponent},
+//    {path : 'help', component : HelpComponent},
+    {path : 'faq', component : FaqComponent},
+    {path : 'guide', component : GuideComponent},
+    {path : 'tutorial', component : TutorialComponent},
     {path : 'users', component : UserListComponent, canActivate:[AuthGuard]},
     {path : 'login1', component : LoginComponent},
     {path : 'login', component : MatloginComponent},

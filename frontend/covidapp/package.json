@@ -1,14 +1,14 @@
 {
   "name": "covidapp",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build --prod && node scripts/post-build.js",
+    "build": "node scripts/pre-build.js && ng build --prod",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "post-build": "node scripts/post-build.js"
+    "pre-build": "node scripts/pre-build.js"
   },
   "private": true,
   "dependencies": {
