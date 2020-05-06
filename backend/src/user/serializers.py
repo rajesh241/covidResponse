@@ -230,10 +230,10 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         token['name'] = user.name
         token['ur'] = user.user_role
         if user.team is not None:
-            token['team'] = user.team.name
-            token['teamid'] = user.team.id
+            token['group'] = user.team.name
+            token['groupid'] = user.team.id
         else:
-            token['team'] = 'general'
+            token['group'] = 'general'
         if user.region is not None:
             token['region'] = user.region
         else:

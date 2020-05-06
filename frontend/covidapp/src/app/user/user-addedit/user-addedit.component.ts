@@ -39,12 +39,12 @@ export class UserAddeditComponent implements OnInit {
 	if (this.authService.isGroupAdmin()){
             this.roleOptions = [
                 {'value': 'usergroupadmin', 'name': 'Super User'},
-                {'value': 'groupadmin', 'name': 'Group Admin'},
+                {'value': 'groupadmin', 'name': 'Team Admin'},
                 {'value': 'volunteer', 'name': 'volunteer'}
             ];
 	}else{
             this.roleOptions = [
-                {'value': 'groupadmin', 'name': 'Group Admin'},
+                {'value': 'groupadmin', 'name': 'Team Admin'},
                 {'value': 'volunteer', 'name': 'volunteer'}
             ];
 	}
@@ -90,14 +90,14 @@ export class UserAddeditComponent implements OnInit {
                 password: new FormControl(''),
                 password2: new FormControl(''),
                 user_role: new FormControl(''),
-                group: new FormControl(''),
+                team: new FormControl(''),
                 formio_usergroup: new FormControl(this.usergroup),
               });
 	  }else{
               this.form  = new FormGroup({
                 name: new FormControl(),
                 user_role: new FormControl(''),
-                group: new FormControl(''),
+                team: new FormControl(''),
               });
 	  }
     }

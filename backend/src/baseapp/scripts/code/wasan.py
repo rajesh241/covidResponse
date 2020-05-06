@@ -7,6 +7,8 @@ import django
 import pandas as pd
 from django.utils.text import slugify
 from django.utils import timezone
+from django.db.models import Func, F, Sum, Count
+
 from django.contrib.auth import get_user_model
 from commons import logger_fetch, ms_transliterate_word
 from defines import DJANGO_SETTINGS
@@ -272,6 +274,10 @@ def main():
 
         
     if args['test']:
+        states = Entity.objects.all().values('state').annotate(c=Count('id'))
+        for state in states:
+            logger.info(state)
+        exit(0)
         org = Organization.objects.filter(id=1).first()
         objs = Team.objects.all()
         for obj in objs:

@@ -22,6 +22,14 @@ class ItemSerializer1(serializers.Serializer):
     # Gets a list of Integers
     user_ids = serializers.ListField(child=serializers.CharField())
 
+class StateSerializer(serializers.Serializer):
+    count = serializers.IntegerField()
+    state = serializers.CharField()
+
+    class Meta:
+        """Meta Class"""
+        model = Entity
+        fields = ('state', 'count')
 
 class BulkOperationSerializer(serializers.ModelSerializer):
     """Serializer for Report Model"""
