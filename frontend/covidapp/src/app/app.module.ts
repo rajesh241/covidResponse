@@ -54,8 +54,9 @@ import { MatProgressSpinnerModule } from '@angular/material';
 import { MatRadioModule } from '@angular/material';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { MatToolbarModule } from '@angular/material';
 import { MatSnackBarModule } from '@angular/material';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatToolbarModule } from '@angular/material';
 
 
 // Angular FormIO - https://github.com/formio/angular-formio
@@ -203,8 +204,9 @@ export function provideConfig() {
         MatRadioModule,        
 	MatSelectModule,
 	MatSlideToggleModule,
-	MatToolbarModule,
         MatSnackBarModule,
+        MatTabsModule,
+	MatToolbarModule,
         MatExpansionModule,
 	MatFormFieldModule,
 	MatInputModule,

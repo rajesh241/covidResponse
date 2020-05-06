@@ -1,3 +1,12 @@
+<mat-tab-group (selectedTabChange)="onTabSelect($event)">
+  <mat-tab *ngFor="let option of tabList">
+    <ng-template mat-tab-label>
+      <i class="fa fa-lg" [ngClass]="option.class"
+         [ngStyle]="{'color': option.color}"></i>
+      <span style="margin: 4px;">{{ option.name }}</span>
+    </ng-template>
+  </mat-tab>
+</mat-tab-group>
 <div class="container" [formGroup]="filterForm">
   <mat-card class="col-md-12" style="padding:5px;">
     <mat-expansion-panel (opened)="panelOpen = true"

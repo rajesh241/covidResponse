@@ -25,7 +25,8 @@ import { Location } from '@angular/common';
 })
 export class EntityListComponent  {
     usergroup:any;
-    groupID:any;
+    private groupID:any;
+    private userID:any;
     user_role:any;
     showAddressBar: boolean = false;
     filterForm: FormGroup;
@@ -71,6 +72,13 @@ export class EntityListComponent  {
 	{'value': 'transportToHome', 'name': 'Transport to Home', 'selected': false, 'class': 'fa-bus', 'color': 'purple'},
 	{'value': 'other', 'name': 'Other', 'selected': false, 'class': 'fa-adjust', 'color': '#8A8A8A'},
     ];
+    tab = 'all';
+    tabList = [
+	{'key': 'all', 'name': 'All', 'selected': false, 'class': 'fa-arrows-alt', 'color': 'green'},
+	{'key': 'mine', 'name': 'Assigned To Me', 'selected': false, 'class': 'fa-user', 'color': '#8A8A8A'},
+	{'key': 'team', 'name': 'My Team', 'selected': false, 'class': 'fa-group', 'color': 'brown'},
+	{'key': 'region', 'name': 'My Region', 'selected': false, 'class': 'fa-map-marker', 'color': 'red'},
+    ];
 
     constructor(
         public authService: AuthService,
@@ -84,11 +92,8 @@ export class EntityListComponent  {
     ) {
         this.usergroup=localStorage.getItem('usergroup')
         this.user_role = localStorage.getItem('ur');
-	if (this.user_role =="usergroupadmin"){
-            this.groupID = "undefined"
-	}else{
-            this.groupID = localStorage.getItem('groupid');
-	}
+        this.groupID = localStorage.getItem('groupid');
+        this.userID = localStorage.getItem('userid');
 	if (localStorage.getItem('usergroup') === 'wassan') {
 	    this.statusOptions = [
 		{'value': 'not-started', 'name': 'Not started'},
@@ -102,7 +107,8 @@ export class EntityListComponent  {
 
         this.filterForm = new FormGroup({
             formio_usergroup : new FormControl(),
-            assigned_to_group__id : new FormControl(this.groupID),
+            assigned_to_group__id : new FormControl('undefined'),
+            assigned_to_user__id : new FormControl(),
             limit : new FormControl(10),
             ordering : new FormControl('-created'),
             volunteer: new FormControl(),
@@ -431,5 +437,25 @@ export class EntityListComponent  {
 	    ).map(need => this.helpOptions.find(option => option.value === need.key));
 
 	return filteredNeeds;
+    }
+
+    onTabSelect($event) {
+        console.log('EntityListComponent.onTabSelect()', $event);
+        this.tab = this.tabList[$event.index].key
+        console.log('EntityListComponent.onTabSelect()', this.tab);
+
+        if (this.tab == 'team') {
+            console.log(`EntityListComponent.onTabSelect(): Filtering by Team[${this.groupID}]`);
+            this.filterForm.controls['assigned_to_group__id'].setValue(this.groupID);
+        }
+        else if(this.tab == 'mine') {
+            console.log(`EntityListComponent.onTabSelect(): Filtering by User[${this.userid}]`);
+            this.filterForm.controls['assigned_to_user__id'].setValue(this.userID);
+        }
+        else {
+            console.log(`EntityListComponent.onTabSelect(): Not Filtering`);
+            this.filterForm.controls['assigned_to_group__id'].setValue('undefined');
+            this.filterForm.controls['assigned_to_user__id'].setValue();
+        }
     }
 }
