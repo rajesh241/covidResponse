@@ -36,7 +36,7 @@ export class AppComponent implements OnInit {
 	// Set the version checker at periodic intervals
 	if(false && !isDevMode())
 	    this.setUpVersionChecker();
-	this.versionCheck(false);
+	this.versionCheck();
     }
 
     setUpVersionChecker() {
@@ -47,7 +47,7 @@ export class AppComponent implements OnInit {
 	this.versionCheck();
     }
 
-    versionCheck(takeAction) {
+    versionCheck() {
 	this.subscriber = this.entityService.getVersion()
 	    .subscribe(version => {
 		console.log(`AppComponent.versionCheck().subscription(SERVER Version: ${JSON.stringify(version)})`);
@@ -57,10 +57,8 @@ export class AppComponent implements OnInit {
 
 		if (version.hash != this.hash) {
 		    console.log(`AppComponent.versionCheck(${this.version}-${this.hash} Build[${this.build}]) does not match ${this.version_str}`);
-		    if (takeAction) {
-			window.alert(`New Version Available [${this.version_str}]. Will reload page`);
-			window.location.reload(true);
-		    }
+		    // window.alert(`New Version Available [${this.version_str}]. Will reload page`);
+		    // window.location.reload(true);
 		}
 	    });
 
