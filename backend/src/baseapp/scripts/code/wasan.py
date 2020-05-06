@@ -255,14 +255,14 @@ def main():
 
     if args['importEntities']:
         my_user = User.objects.filter(id=1).first()
-        with open('../import_data/jh_delhi_final.json', 'r') as f:
+        with open('../import_data/multiple_states_final.json', 'r') as f:
                 records = json.load(f)
-        base_number = 200505 * 10000
+        base_number = 200506 * 10000
         for i,record in enumerate(records):
             logger.info(i)
             sr_no = base_number + i
             create_entity(logger, record, my_user, wasan_id = sr_no,
-                          wasan_org_id=400)
+                          wasan_org_id=None)
         exit(0)
         usergroup = "wassan"
         objs = Entity.objects.filter(record_type = "helpseekers")
