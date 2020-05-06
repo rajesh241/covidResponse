@@ -447,15 +447,17 @@ export class EntityListComponent  {
         if (this.tab == 'team') {
             console.log(`EntityListComponent.onTabSelect(): Filtering by Team[${this.groupID}]`);
             this.filterForm.controls['assigned_to_group__id'].setValue(this.groupID);
+            this.filterForm.controls['assigned_to_user__id'].setValue('');
         }
         else if(this.tab == 'mine') {
-            console.log(`EntityListComponent.onTabSelect(): Filtering by User[${this.userid}]`);
+            console.log(`EntityListComponent.onTabSelect(): Filtering by User[${this.userID}]`);
             this.filterForm.controls['assigned_to_user__id'].setValue(this.userID);
+            this.filterForm.controls['assigned_to_group__id'].setValue('undefined');
         }
         else {
             console.log(`EntityListComponent.onTabSelect(): Not Filtering`);
             this.filterForm.controls['assigned_to_group__id'].setValue('undefined');
-            this.filterForm.controls['assigned_to_user__id'].setValue();
+            this.filterForm.controls['assigned_to_user__id'].setValue('');
         }
     }
 }
