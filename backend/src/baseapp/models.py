@@ -3,7 +3,7 @@ from django.contrib.auth import get_user_model
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django_mysql.models import JSONField
-from core.models import Region, Group
+from core.models import Region, Team
 from django.utils import timezone
 
 User = get_user_model()
@@ -56,7 +56,7 @@ class Entity(models.Model):
     assigned_to_org = models.ForeignKey('self', on_delete=models.SET_NULL,
                                         blank=True, null=True,
                                         related_name="org_assignment")
-    assigned_to_group = models.ForeignKey(Group, on_delete=models.SET_NULL,
+    assigned_to_group = models.ForeignKey(Team, on_delete=models.SET_NULL,
                                         blank=True, null=True,
                                         related_name="org_group")
     latitude = models.DecimalField(max_digits=22, decimal_places=19, null=True,

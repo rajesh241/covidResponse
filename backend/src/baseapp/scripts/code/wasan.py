@@ -16,7 +16,7 @@ from core.models import Region
 from baseapp.models import Entity, EntityHistory
 from baseapp.formio import help_sought, get_status, get_remarks
 User = get_user_model()
-from core.models import Group, Region
+from core.models import Team, Region, Organization
 STATUS_DICT = {
         'closed' : 'closed',
         'contacted-follow-up-person' : 'contacted-follow-up-person',
@@ -111,7 +111,7 @@ def create_entity(logger, record, myUser, wasan_id = None, wasan_org_id=None):
             wasan_org_id = record['extra_fields']['formio_parsed_data']['sourceSpecific']['organisationId']
         libtech_org_id = org_id_mapping.get(str(wasan_org_id), None)
         logger.info(f"wasan_org_id {wasan_org_id} - libtech_org_id {libtech_org_id}")
-        my_group = Group.objects.filter(name=libtech_org_id).first()
+        my_group = Team.objects.filter(name=libtech_org_id).first()
         logger.info(my_group)
     except:
         wasan_org_id = None
@@ -197,9 +197,9 @@ def main():
     logger = logger_fetch(args.get('log_level'))
     if args['connectUsersEntity']:
         objs = Entity.objects.filter(record_type = "helpseekers")
-        myGroup = Group.objects.filter(id=10).first()
+        myTeam = Team.objects.filter(id=10).first()
         for obj in objs:
-            obj.assigned_to_group = myGroup
+            obj.assigned_to_group = myTeam
             logger.info(obj.id)
             obj.save()
         exit(0)
@@ -235,13 +235,13 @@ def main():
             wassan_username = row['username']
             group_name = row['group']
             phone = row['mobile']
-            myGroup = Group.objects.filter(name=group_name).first()
-            if myGroup is None:
-                myGroup = Group.objects.create(name=group_name)
+            myTeam = Team.objects.filter(name=group_name).first()
+            if myTeam is None:
+                myTeam = Team.objects.create(name=group_name)
             myuser = User.objects.filter(email=email).first()
             if myuser is None:
                 myuser = User.objects.create(email=email)
-            myuser.group = myGroup
+            myuser.group = myTeam
             myuser.name = name
             myuser.set_password(password) 
             myuser.phone = phone
@@ -272,6 +272,12 @@ def main():
 
         
     if args['test']:
+        org = Organization.objects.filter(id=1).first()
+        objs = Team.objects.all()
+        for obj in objs:
+            obj.organization = org
+            obj.save()
+        exit(0)
         objs = User.objects.all()
         for obj in objs:
             obj.formio_usergroup = "wassan"
