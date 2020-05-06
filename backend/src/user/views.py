@@ -28,10 +28,11 @@ from user.serializers import (UserSerializer, AuthTokenSerializer,
                               MyTokenObtainPairSerializer,
                               RegistrationActivationSerializer,
                               ModifyUserSerializer, ItemSerializer,
-                              GroupSerializer, UserPublicSerializer,
-                              GroupPublicSerializer, UserListSerializer)
+                              TeamSerializer, UserPublicSerializer,
+                              TeamPublicSerializer, UserListSerializer,
+                              OrganizationSerializer)
 User = get_user_model()
-from core.models import Group
+from core.models import Team, Organization
 
 def getID(request):
   urlID=request.GET.get('id',None)
@@ -177,7 +178,7 @@ class UserPublicAPIView(HttpResponseMixin,
   search_fields = ('name')
   ordering_fields = ('name', 'id')
   filter_fields=("is_staff","is_locked","is_active","user_role","formio_usergroup",
-                "group__id")
+                "team__id")
   queryset=User.objects.all()
   def get_object(self):
     inputID=self.inputID
@@ -204,21 +205,61 @@ class UserPublicAPIView(HttpResponseMixin,
     if self.inputID is not None:
       return self.retrieve(request,*args,**kwargs)
     return super().get(request,*args,**kwargs)
-
-class GroupPublicAPIView(HttpResponseMixin,
+class OrganizationPublicAPIView(HttpResponseMixin,
                            mixins.CreateModelMixin,
                            mixins.DestroyModelMixin,
                            mixins.RetrieveModelMixin,
                            mixins.UpdateModelMixin,
                            generics.ListAPIView):
   permission_classes=[permissions.IsAuthenticatedOrReadOnly]
-  serializer_class = GroupPublicSerializer
+  serializer_class = OrganizationSerializer
   passedID=None
   inputID=None
   search_fields = ('name')
   ordering_fields = ('name', 'id')
   #filter_fields=("name")
-  queryset=Group.objects.all()
+  queryset=Organization.objects.all()
+  def get_object(self):
+    inputID=self.inputID
+    queryset=self.get_queryset()
+    obj=None
+    if inputID is not None:
+      obj=get_object_or_404(queryset,id=inputID)
+      self.check_object_permissions(self.request,obj)
+    return obj
+  def get(self,request,*args,**kwargs):
+    """This method is available only to the users with is_staff(user_manager)
+    permissions.This method will return the list of Users based on the
+    parameters values specified. The number of items can be controlled by the
+    limit parameter. 
+    ordering field can be set to either of (name, id, created, updated). It
+    will sort the returned results based on that. For example
+    entity/?ordering=updated or entity/?ordering=-name (Sort by name
+    descending)
+    If id of the User is appended to the url for example /entity/1, then
+    it would return only one user corresponding to the id mentioned. 
+    """
+    print(f"request user {request.user}")
+    self.inputID=getID(request)
+    if self.inputID is not None:
+      return self.retrieve(request,*args,**kwargs)
+    return super().get(request,*args,**kwargs)
+
+
+class TeamPublicAPIView(HttpResponseMixin,
+                           mixins.CreateModelMixin,
+                           mixins.DestroyModelMixin,
+                           mixins.RetrieveModelMixin,
+                           mixins.UpdateModelMixin,
+                           generics.ListAPIView):
+  permission_classes=[permissions.IsAuthenticatedOrReadOnly]
+  serializer_class = TeamPublicSerializer
+  passedID=None
+  inputID=None
+  search_fields = ('name')
+  ordering_fields = ('name', 'id')
+  #filter_fields=("name")
+  queryset=Team.objects.all()
   def get_object(self):
     inputID=self.inputID
     queryset=self.get_queryset()
@@ -261,7 +302,7 @@ class UserListAPIView(HttpResponseMixin,
   ordering_fields = ('name', 'id', 'created', 'updated')
   #filterset_class = ReportFilter
 
-  filter_fields=("is_staff","is_locked","is_active","user_role","formio_usergroup","group__id")
+  filter_fields=("is_staff","is_locked","is_active","user_role","formio_usergroup","team__id")
   queryset=User.objects.all()
   def get_queryset(self, *args, **kwargs):
     if self.request.user.is_superuser:
@@ -311,7 +352,7 @@ class UserAPIView(HttpResponseMixin,
   #filterset_class = ReportFilter
 
   filter_fields=("is_staff","is_locked","is_active","user_role","formio_usergroup",
-                "group__id")
+                "team__id")
   queryset=User.objects.all()
   def get_queryset(self, *args, **kwargs):
     if self.request.user.is_superuser:
@@ -406,14 +447,106 @@ class UserAPIView(HttpResponseMixin,
       return self.render_to_response(data,status="404")
     return self.destroy(request,*args,**kwargs)
 
-class GroupAPIView(HttpResponseMixin,
+class OrganizationAPIView(HttpResponseMixin,
                            mixins.CreateModelMixin,
                            mixins.DestroyModelMixin,
                            mixins.RetrieveModelMixin,
                            mixins.UpdateModelMixin,
                            generics.ListAPIView):
   permission_classes=[UserViewPermission]
-  serializer_class = GroupSerializer
+  serializer_class = OrganizationSerializer
+  passedID=None
+  inputID=None
+  search_fields = ('name')
+  ordering_fields = ('name', 'id')
+  #filterset_class = ReportFilter
+
+  #filter_fields=("title")
+  queryset=Organization.objects.all()
+  def get_queryset(self, *args, **kwargs):
+    if self.request.user.is_superuser:
+        return Organzation.objects.all()
+    return Organization.objects.all()
+  def get_object(self):
+    inputID=self.inputID
+    queryset=self.get_queryset()
+    obj=None
+    if inputID is not None:
+      obj=get_object_or_404(queryset,id=inputID)
+      self.check_object_permissions(self.request,obj)
+    return obj
+  def get(self,request,*args,**kwargs):
+    """This method is available only to the users with is_staff(user_manager)
+    permissions.This method will return the list of Users based on the
+    parameters values specified. The number of items can be controlled by the
+    limit parameter. 
+    ordering field can be set to either of (name, id, created, updated). It
+    will sort the returned results based on that. For example
+    entity/?ordering=updated or entity/?ordering=-name (Sort by name
+    descending)
+    If id of the User is appended to the url for example /entity/1, then
+    it would return only one user corresponding to the id mentioned. 
+    """
+    if not request.user.is_staff:
+       raise PermissionDenied()
+    self.inputID=getID(request)
+    if self.inputID is not None:
+      return self.retrieve(request,*args,**kwargs)
+    return super().get(request,*args,**kwargs)
+
+  def post(self,request,*args,**kwargs):
+    """This method can be used to create a user at the backend. The User will
+    be activated and would not have to go through the activation method. This
+    method is available only to users with is_staff(user manager)
+    permissions"""
+    print(request.data)
+    return self.create(request,*args,**kwargs)
+
+  def put(self,request,*args,**kwargs):
+    """This method can be used to update a user at the backend. All the fields
+    will be updated. User id can be specified as part of data or can be
+    appended in the url for example user/1 (to edit user with id 1). This
+    method is available only to users with is_staff(user manager)
+    permissions"""
+    self.inputID=getID(request)
+    if self.inputID is None:
+      data=json.dumps({"message":"Need to specify the ID for this method"})
+      return self.render_to_response(data,status="404")
+    return self.update(request,*args,**kwargs)
+
+  def patch(self,request,*args,**kwargs):
+    """This method can be used to patch a user at the backend. Only the fields
+    passed as part of data will be updated. User id can be specified as part of data or can be
+    appended in the url for example user/1 (to edit user with id 1). This
+    method is available only to users with is_staff(user manager)
+    permissions"""
+    self.inputID=getID(request)
+    print(request.POST)
+    if self.inputID is None:
+        data=json.dumps({"message":"Need to specify the ID for this method"})
+        return self.render_to_response(data,status="404")
+    return self.partial_update(request,*args,**kwargs)
+
+  def delete(self,request,*args,**kwargs):
+    """This method can be used to delete a user. User id can be specified as part of data or can be
+    appended in the url for example user/1 (to edit user with id 1). This
+    method is available only to users with is_staff(user manager)
+    permissions"""
+    self.inputID=getID(request)
+    if self.inputID is None:
+      data=json.dumps({"message":"Need to specify the ID for this method"})
+      return self.render_to_response(data,status="404")
+    return self.destroy(request,*args,**kwargs)
+
+
+class TeamAPIView(HttpResponseMixin,
+                           mixins.CreateModelMixin,
+                           mixins.DestroyModelMixin,
+                           mixins.RetrieveModelMixin,
+                           mixins.UpdateModelMixin,
+                           generics.ListAPIView):
+  permission_classes=[UserViewPermission]
+  serializer_class = TeamSerializer
   passedID=None
   inputID=None
   search_fields = ('title')
@@ -421,11 +554,11 @@ class GroupAPIView(HttpResponseMixin,
   #filterset_class = ReportFilter
 
   #filter_fields=("title")
-  queryset=Group.objects.all()
+  queryset=Team.objects.all()
   def get_queryset(self, *args, **kwargs):
     if self.request.user.is_superuser:
-        return Group.objects.all()
-    return Group.objects.all()
+        return Team.objects.all()
+    return Team.objects.all()
   def get_object(self):
     inputID=self.inputID
     queryset=self.get_queryset()

@@ -86,6 +86,10 @@ import { UserAddeditComponent } from './user/user-addedit/user-addedit.component
 import { GroupAddComponent } from './user/group-add/group-add.component';
 import { EntityUpdateComponent } from './entity/entity-update/entity-update.component';
 import { SurveyComponent } from './formio/survey/survey.component';
+import { HelpComponent } from './help/help.component';
+import { GuideComponent } from './help/guide/guide.component';
+import { TutorialComponent } from './help/tutorial/tutorial.component';
+import { FaqComponent } from './help/faq/faq.component';
 
 /*
 // AG Grid
@@ -164,6 +168,10 @@ export function provideConfig() {
         GroupAddComponent,
         EntityUpdateComponent,
         SurveyComponent,
+        HelpComponent,
+        GuideComponent,
+        TutorialComponent,
+        FaqComponent,
         // EntityGridComponent,
 	/*
         DateComponent,

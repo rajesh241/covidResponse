@@ -15,8 +15,9 @@ export class UserService {
   private endpoint = environment.apiURL+"/api/user/";
   private listEndPoint = environment.apiURL+"/api/user/list";
   private publicListEndPoint = environment.apiURL+"/api/user/public";
-  private groupPublicEndPoint = environment.apiURL+"/api/user/group/public";
-  private groupEndPoint = environment.apiURL+"/api/user/group/";
+  private teamPublicEndPoint = environment.apiURL+"/api/user/team/public";
+  private orgPublicEndPoint = environment.apiURL+"/api/user/organization/public";
+  private teamEndPoint = environment.apiURL+"/api/user/team/";
   private editEndPoint = environment.apiURL+"/api/user/modify/profile/";
   private bulkDeleteEndpoint = environment.apiURL+"/api/user/bulkdelete/";
   private profileEndPoint = environment.apiURL+"/api/user/me/";
@@ -35,11 +36,14 @@ export class UserService {
   getAllUsers(): Observable<any>{
     return this.http.get(this.listEndPoint,this.getHttpOptions());
   }
-  getAllUsersPublic(usergroup:any): Observable<any>{
-    return this.http.get(this.publicListEndPoint+"?limit=10000&formio_usergroup="+usergroup,this.getPublicHttpOptions());
+  getAllUsersPublic(userteam:any): Observable<any>{
+    return this.http.get(this.publicListEndPoint+"?limit=10000&formio_userteam="+userteam,this.getPublicHttpOptions());
   }
   getAllGroupsPublic(): Observable<any>{
-    return this.http.get(this.groupPublicEndPoint+"?limit=10000",this.getPublicHttpOptions());
+    return this.http.get(this.teamPublicEndPoint+"?limit=10000",this.getPublicHttpOptions());
+  }
+  getAllOrgsPublic(): Observable<any>{
+    return this.http.get(this.orgPublicEndPoint+"?limit=10000",this.getPublicHttpOptions());
   }
    
   list(urlOrFilter?: string | object): Observable<Page<User>> {
@@ -66,8 +70,8 @@ export class UserService {
   userCreate(payload:any){
     return this.http.post(this.endpoint,payload,this.getEditHttpOptions());
   }
-  groupCreate(payload:any){
-    return this.http.post(this.groupEndPoint,payload,this.getEditHttpOptions());
+  teamCreate(payload:any){
+    return this.http.post(this.teamEndPoint,payload,this.getEditHttpOptions());
   }
   userUpdate(id:number,payload:any):Observable<object>{
     return this.http.patch(this.endpoint+"?id="+id,payload,this.getEditHttpOptions())

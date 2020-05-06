@@ -1,7 +1,7 @@
 """This is the module to define Bulk Actions"""
 from django.contrib.auth import get_user_model, authenticate
 from baseapp.models import Entity
-from core.models import Group
+from core.models import Team
 User = get_user_model()
 
 def perform_bulk_action(data):
@@ -44,7 +44,7 @@ def perform_bulk_action(data):
         if input_id == '':
             myobj = None
         else:
-            myobj = Group.objects.filter(id=input_id).first()
+            myobj = Team.objects.filter(id=input_id).first()
         for each_id in id_array:
             obj = Entity.objects.filter(id=each_id).first()
             if obj is not None:

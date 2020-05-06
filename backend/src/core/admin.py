@@ -17,7 +17,7 @@ class UserAdmin(BaseUserAdmin):
     search_fields = ["email", 'name']
     fieldsets = (
         (None, {'fields': ('email', 'password')}),
-        (_('Personal Info'), {'fields': ('name', 'group', 'user_role', 'avatar',
+        (_('Personal Info'), {'fields': ('name', 'team', 'user_role', 'avatar',
                                          'login_attempt_count', 'is_locked',
                                          'formio_usergroup', 'is_user_manager')}),
         (
@@ -33,18 +33,24 @@ class UserAdmin(BaseUserAdmin):
         }),
     )
 
-class GroupModelAdmin(admin.ModelAdmin):
-    """Model Adminf or class Group"""
+class OrganizationModelAdmin(admin.ModelAdmin):
+    """Model Adminf or class Organization"""
+    list_display = ["id", "name"]
+    list_filter = ["name"]
+    search_fields = ["name"]
+class TeamModelAdmin(admin.ModelAdmin):
+    """Model Adminf or class Team"""
     list_display = ["id", "name"]
     list_filter = ["name"]
     search_fields = ["name"]
 class RegionModelAdmin(admin.ModelAdmin):
-    """Model Adminf or class Group"""
+    """Model Adminf or class Team"""
     list_display = ["id", "name"]
     list_filter = ["name"]
     search_fields = ["name"]
 
 
 admin.site.register(models.User, UserAdmin)
-admin.site.register(models.Group, GroupModelAdmin)
+admin.site.register(models.Team, TeamModelAdmin)
 admin.site.register(models.Region, RegionModelAdmin)
+admin.site.register(models.Organization, OrganizationModelAdmin)

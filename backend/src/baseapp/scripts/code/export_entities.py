@@ -122,22 +122,31 @@ def main():
                    'Donation Value(Rs))', 'Initial Date']
         objs = Entity.objects.filter(record_type = 'helpseekers')
         for obj in objs:
+            logger.info(obj.id)
             a = [obj.title, obj.state, obj.status, obj.urgency, obj.remarks]
             if obj.assigned_to_user is not None:
                 user_name = obj.assigned_to_user.name
             else:
                 user_name = ''
+            try:
+                stranded_district = obj.prefill_json["data"]["contactForm"]["data"]["district"]
+            except:
+                stranded_district = ''
+            if obj.assigned_to_group is not None:
+                org_name = obj.assigned_to_group.name
+            else:
+                org_name = ''
+            #logger.info(f"Stranded District {stranded_district}")
             government_scheme = ''
-            org_name = ''
             contact = ''
             stranded_state = obj.state
-            stranded_district = ''
+           # stranded_district = ''
             stranded_block = ''
             stranded_panchayat = ''
             stranded_address = obj.address
             native_state = ''
             native_district = ''
-            how_many_people = ''
+            how_many_people = obj.how_many_people
             date_called = ''
             govt_official = ''
             contact_with_anyone = ''

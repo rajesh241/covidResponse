@@ -2,6 +2,7 @@ import { Component, OnInit, isDevMode } from '@angular/core';
 import { AuthService } from './services/auth.service';
 import { EntityService } from './services/entity.service';
 import { VERSION } from '../environments/version';
+import { environment } from '../environments/environment';
 
 @Component({
     selector: 'app-root',
@@ -24,7 +25,10 @@ export class AppComponent implements OnInit {
 	public authService: AuthService
     ) {
 	console.log(`AppComponent.constructor(${JSON.stringify(VERSION)})`);
-	console.log(VERSION);
+	console.log(`AppComponent.constructor(API_URL=[${environment.apiURL}]) => VERSION`, VERSION);
+	if (isDevMode() && environment.apiURL.includes('coastindia')) {
+	    window.alert('Using Production Backend in Dev Mode!');
+	}
     }
 
     ngOnInit() {
@@ -32,6 +36,7 @@ export class AppComponent implements OnInit {
 	// Set the version checker at periodic intervals
 	if(false && !isDevMode())
 	    this.setUpVersionChecker();
+	this.versionCheck();
     }
 
     setUpVersionChecker() {
@@ -52,8 +57,8 @@ export class AppComponent implements OnInit {
 
 		if (version.hash != this.hash) {
 		    console.log(`AppComponent.versionCheck(${this.version}-${this.hash} Build[${this.build}]) does not match ${this.version_str}`);
-		    window.alert(`New Version Available [${this.version_str}]. Will reload page`);
-		    window.location.reload(true);
+		    // window.alert(`New Version Available [${this.version_str}]. Will reload page`);
+		    // window.location.reload(true);
 		}
 	    });
 

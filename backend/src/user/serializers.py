@@ -11,7 +11,7 @@ from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes
 from django.utils.encoding import force_text
 from rest_framework import exceptions
-from core.models import Group
+from core.models import Team, Organization
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
@@ -20,12 +20,19 @@ class ItemSerializer(serializers.Serializer):
     # Gets a list of Integers
     user_ids = serializers.ListField(child=serializers.CharField())
 
-
-class GroupSerializer(serializers.ModelSerializer):
+class OrganizationSerializer(serializers.ModelSerializer):
     """Serializer for Report Model"""
     class Meta:
         """Meta Class"""
-        model = Group
+        model = Organization
+        fields = '__all__'
+
+
+class TeamSerializer(serializers.ModelSerializer):
+    """Serializer for Report Model"""
+    class Meta:
+        """Meta Class"""
+        model = Team
         fields = '__all__'
 
 class ModifyUserSerializer(serializers.ModelSerializer):
@@ -57,26 +64,34 @@ class ModifyUserSerializer(serializers.ModelSerializer):
 
 class UserPublicSerializer(serializers.ModelSerializer):
     """ Serializer for the User Public object """
-    group = GroupSerializer()
+    team = TeamSerializer()
     class Meta:
         """Meta Class"""
         model = get_user_model()
-        fields = ('id', 'name', 'group')
+        fields = ('id', 'name', 'team')
 
-class GroupPublicSerializer(serializers.ModelSerializer):
+class TeamPublicSerializer(serializers.ModelSerializer):
     """ Serializer for the User Public object """
+    display = serializers.SerializerMethodField()
     class Meta:
         """Meta Class"""
-        model = Group
-        fields = ('id', 'name')
+        model = Team
+        fields = ('id', 'name', 'display')
+    def get_display(self, instance):
+        if instance.organization is not None:
+            org = instance.organization.name
+        else:
+            org = ''
+        display = f"{org} - {instance.name}"
+        return display
 
 class UserListSerializer(serializers.ModelSerializer):
     """ Serializer for the user object """
-    group = GroupSerializer()
+    team = TeamSerializer()
     class Meta:
         """Default Meta Class"""
         model = get_user_model()
-        fields = ('id', 'email', 'password', 'group', 'name', 'avatar',
+        fields = ('id', 'email', 'password', 'team', 'name', 'avatar',
                   'is_active', 'is_locked', 'is_staff', 'provider'
                   ,'avatar_url', 'is_superuser', 'user_role',
                   'login_attempt_count', 'formio_usergroup')
@@ -85,7 +100,7 @@ class UserListSerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
     """ Serializer for the user object """
     password2 = serializers.CharField(style={'input_type': 'password'}, write_only=True)
-    #group = GroupSerializer()
+    #group = TeamSerializer()
     def __init__(self, *args, **kwargs):
         super(UserSerializer, self).__init__(*args, **kwargs) # call the super() 
         for field in self.fields: # iterate over the serializer fields
@@ -93,7 +108,7 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         """Default Meta Class"""
         model = get_user_model()
-        fields = ('id', 'email', 'password', 'password2', 'group', 'name', 'avatar',
+        fields = ('id', 'email', 'password', 'password2', 'team', 'name', 'avatar',
                   'is_active', 'is_locked', 'is_staff', 'provider'
                   ,'avatar_url', 'is_superuser', 'user_role',
                   'login_attempt_count', 'formio_usergroup')
@@ -214,11 +229,11 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         token['email'] = user.email
         token['name'] = user.name
         token['ur'] = user.user_role
-        if user.group is not None:
-            token['group'] = user.group.name
-            token['groupid'] = user.group.id
+        if user.team is not None:
+            token['team'] = user.team.name
+            token['teamid'] = user.team.id
         else:
-            token['group'] = 'general'
+            token['team'] = 'general'
         if user.region is not None:
             token['region'] = user.region
         else:

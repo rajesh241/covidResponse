@@ -51,9 +51,22 @@ class Region(models.Model):
         """Default str method for the class"""
         return f"{self.name}"
  
-class Group(models.Model):
+class Organization(models.Model):
+    """This is to classify help seekers in to Regions"""
+    name = models.CharField(max_length=256, null=True, blank=True)
+    class Meta:
+        """To define meta data attributes"""
+        db_table = 'organization'
+    def __str__(self):
+        """Default str method for the class"""
+        return f"{self.name}"
+ 
+
+class Team(models.Model):
     """This is the class for Group"""
     name = models.CharField(max_length=256, null=True, blank=True)
+    organization = models.ForeignKey(Organization, on_delete=models.CASCADE, null=True,
+                             blank=True)
     region = models.CharField(max_length=256, null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
@@ -73,7 +86,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     """custom user model that supports using email instead of username"""
     email = models.EmailField(max_length=255, unique=True)
     name = models.CharField(max_length=255)
-    group = models.ForeignKey(Group, on_delete=models.CASCADE, null=True,
+    team = models.ForeignKey(Team, on_delete=models.CASCADE, null=True,
                              blank=True)
     formio_usergroup = models.CharField(max_length=256, null=True, blank=True,
                                        default='wassan')
