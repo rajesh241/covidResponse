@@ -57,6 +57,9 @@ def perform_bulk_action(data):
                     extra_fields['assigned_to_group'] = myobj.name
                     obj.extra_fields = extra_fields
                     obj.assigned_to_group = myobj
+                    if obj.assigned_to_user is not None:
+                        if obj.assigned_to_user.team != obj:
+                            obj.assigned_to_user = None
                 obj.save()
 
     if bulk_action == "assigntoorg":
