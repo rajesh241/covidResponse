@@ -25,6 +25,7 @@ import { Location } from '@angular/common';
     styleUrls: ['./entity-list.component.css']
 })
 export class EntityListComponent  {
+    rand_number:any;
     usergroup:any;
     private groupID:any;
     private userID:any;
@@ -127,6 +128,7 @@ export class EntityListComponent  {
             search: new FormControl(),
             location: new FormControl(),
             status: new FormControl(),
+            dummy: new FormControl(),
             urgency: new FormControl(),
             record_type: new FormControl()
         });
@@ -397,6 +399,8 @@ export class EntityListComponent  {
 		    }).subscribe(
                         data => {
                             console.log('Bulk Operation Creattion Successful', data);
+                            this.rand_number = Math.floor(Math.random()*(100)+0);
+                            this.filterForm.controls['dummy'].setValue(this.rand_number);
 			    this.snackBar.open('Submitted Successfuly', action.value, {
 				duration: 3000,
 			    });
