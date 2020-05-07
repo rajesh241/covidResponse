@@ -466,6 +466,13 @@ export class EntityListComponent  {
 	return filteredNeeds;
     }
 
+    resetTabFilters() {
+        console.log(`EntityListComponent.resetTabFilters()`);
+        this.filterForm.controls['assigned_to_group__id'].setValue('undefined');
+        this.filterForm.controls['assigned_to_user__id'].setValue('');
+        // this.filterForm.controls['state & district'].setValue('');
+    }
+
     onTabSelect($event) {
         console.log('EntityListComponent.onTabSelect()', $event);
         this.tab = this.tabList[$event.index].key
@@ -473,18 +480,19 @@ export class EntityListComponent  {
 
         if(this.tab == 'mine') {
             console.log(`EntityListComponent.onTabSelect(): Filtering by User[${this.userID}]`);
+            this.resetTabFilters();
             this.filterForm.controls['assigned_to_user__id'].setValue(this.userID);
-            this.filterForm.controls['assigned_to_group__id'].setValue('undefined');
         }
         else if (this.tab == 'team') {
             console.log(`EntityListComponent.onTabSelect(): Filtering by Team[${this.groupID}]`);
+            this.resetTabFilters();
             this.filterForm.controls['assigned_to_group__id'].setValue(this.groupID);
-            this.filterForm.controls['assigned_to_user__id'].setValue('');
         }
         else if (this.tab == 'region') {
             console.log(`EntityListComponent.onTabSelect(): Not Filtering`);
-            this.filterForm.controls['assigned_to_group__id'].setValue('undefined');
-            this.filterForm.controls['assigned_to_user__id'].setValue('');
+            this.resetTabFilters();
+            // this.filterForm.controls['state & district'].setValue('');
+            // #TBD preferrably by State & District ID
         }
         else {
             console.log(`EntityListComponent.onTabSelect(): Not Filtering`);
