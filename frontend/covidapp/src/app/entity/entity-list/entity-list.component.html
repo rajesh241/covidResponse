@@ -38,7 +38,7 @@
           </div>
         </div>
 
-        <div class="form-group row">
+        <div class="form-group row" *ngIf="(tab !== 'mine')">
           <label class="col-sm-1 col-form-label"></label>
           <label  class="col-sm-2 col-form-label" style="line-height:34px;">Volunteer</label>
           <div class="col-sm-4">
@@ -61,7 +61,7 @@
               </div>
         </div>
 
-        <div class="form-group row">
+        <div class="form-group row" *ngIf="(tab !== 'mine')">
           <label class="col-sm-1 col-form-label"></label>
           <label  class="col-sm-2 col-form-label" style="line-height:34px;">Group</label>
           <div class="col-sm-4">
@@ -86,7 +86,7 @@
             </div>
             -->
 
-            <div class="form-group row">
+            <div class="form-group row" *ngIf="(tab !== 'mine')">
               <div align="center" class="col-sm-2">
               </div>
               <div align="center" class="col-sm-4">
@@ -131,7 +131,7 @@
                   </div>
                   -->
             </div>
-            <div class="form-group row">
+            <div class="form-group row" *ngIf="(tab !== 'mine')">
               <section align="center">
                 <span *ngFor="let option of helpOptions">
                   <mat-checkbox [formControlName]="option.value">
@@ -166,7 +166,7 @@
                   <i class="fa fa-bug fa-lg" style="font-size: 25px; align:center; color:#8A8A8A; margin-left: 50px;"></i><label style="margin-left: 5px;">PET Meds </label>
                   -->
             </div>
-            <div class="form-group row">
+            <div class="form-group row" *ngIf="(tab !== 'mine')">
               <div class="col-sm-4" style="padding-top:10px;">
                 <div align="center">
                   <mat-form-field>
@@ -261,7 +261,7 @@
                     [(ngModel)]="selectedEntities[entity.id]"></mat-checkbox>
                 </td>
                 <td>
-                  <ng-container *ngIf="authService.isAboveVolunteer(); else volunteerandbelow">
+                  <ng-container *ngIf="authService.isAboveVolunteer() || (tab === 'mine'); else volunteerandbelow">
                     <a [routerLink]="['/update',entity.id]">{{entity.id}}</a>
                   </ng-container>
                   <ng-template #volunteerandbelow>
@@ -302,7 +302,7 @@
                 <td *ngIf="entity.assigned_to_user">{{entity.assigned_to_user.name}}</td>
                 <td>{{entity.status}}</td>
                 <td>{{entity.urgency}}</td>
-                <td *ngIf="authService.isAboveVolunteer()" class="td-actions">
+                <td *ngIf="authService.isAboveVolunteer() || (tab === 'mine')" class="td-actions">
                   <div>
                     <button mat-raised-button class="btn btn-primary"
                             [routerLink]="['/update',entity.id]">

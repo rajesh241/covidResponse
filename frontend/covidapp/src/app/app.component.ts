@@ -20,6 +20,8 @@ export class AppComponent implements OnInit {
     private subscriber;
     private prevSubscriber;
     public isDev: boolean = false;
+    public user;
+    public group;
 
     constructor(
 	public entityService: EntityService,
