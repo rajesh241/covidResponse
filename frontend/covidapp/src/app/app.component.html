@@ -29,8 +29,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li class="menu-item" routerLinkActive="active" *ngIf="!authService.isLoggedIn()"><a routerLink="login">Login</a></li>
         <li class="menu-item" routerLinkActive="active" *ngIf="authService.isUserAdmin()"><a routerLink="users">Users</a></li>
-        <li class="menu-item" routerLinkActive="active" *ngIf="authService.isLoggedIn()"><a routerLink="mylist" style="color: red;"><b>My List</b></a></li>
-        <li class="menu-item" routerLinkActive="active" *ngIf="authService.isLoggedIn()"><a routerLink="list" style="color: red;"><b>Full List</b></a></li>
+        <li class="menu-item" routerLinkActive="active" *ngIf="authService.isLoggedIn()"><a routerLink="list" style="color: red;"><b>List</b></a></li>
         <li class="dropdown menu-item" routerLinkActive="active">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Help<span class="caret"></span></a>
           <ul class="dropdown-menu">

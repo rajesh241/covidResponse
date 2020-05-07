@@ -65,7 +65,7 @@
 	  <div *ngIf="authService.isGroupAdmin()" class="col-md-2" align="center" style="padding=15px;">
             <button mat-raised-button
 		    style="color: red;"
-                    [routerLink]="['/groupadd']">
+                    [routerLink]="['/teamadd']">
               Add Team
             </button>
 	  </div>
@@ -94,7 +94,7 @@
                 <th>Name</th>
                 <th>email</th>
                 <th>User Role</th>
-                <th>Group</th>
+                <th>Team</th>
                 <th >Actions</th>
               </tr>
             </thead>
@@ -106,8 +106,8 @@
 		  <span *ngIf="authService.isLoggedIn() && !authService.isClient()">{{user.email}}</span>
 		</td>
                 <td>{{user.user_role}}</td>
-                <td *ngIf="user.group">{{user.group.name}}</td>
-                <td *ngIf="!user.group"></td>
+                <td *ngIf="user.team">{{user.team.name}}</td>
+                <td *ngIf="!user.team"></td>
                 <td *ngIf="authService.isUserAdmin()" class="td-actions text-right">                             
                   <button mat-raised-button class="btn btn-primary"
                           [routerLink]="['/useraddedit',user.id]">

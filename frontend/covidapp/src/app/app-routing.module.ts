@@ -81,7 +81,7 @@ const routes: Routes = [
     {path : 'useraddedit/:id', component : UserAddeditComponent, canActivate:[AuthGuard]},
     {path : 'item/:id', component : EntityDetailComponent, canActivate:[AuthGuard]},
     {path : 'useradd', component : UserAddComponent, canActivate:[AuthGuard]},
-    {path : 'groupadd', component : GroupAddComponent, canActivate:[AuthGuard]},
+    {path : 'teamadd', component : GroupAddComponent, canActivate:[AuthGuard]},
     {path : 'profile', component : ProfileEditComponent, canActivate:[AuthGuard]},
     {path : 'avatar', component : AvatarEditComponent},
     {path : 'pwdreset', component : PasswordresetComponent},

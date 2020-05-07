@@ -57,7 +57,7 @@ export class MatloginComponent implements OnInit {
       }else{
               console.log("this user is not staff");
               setTimeout(() => {
-                this.router.navigate(['/mylist']);
+                this.router.navigate(['/list']);
               }, 500);
       }
   }
@@ -66,7 +66,7 @@ export class MatloginComponent implements OnInit {
       console.log("Clicked on " +userGroup);
       localStorage.setItem('usergroup', userGroup);
       setTimeout(() => {
-        this.router.navigate(['/mylist']);
+        this.router.navigate(['/list']);
       }, 500);
   }
   submit() {
