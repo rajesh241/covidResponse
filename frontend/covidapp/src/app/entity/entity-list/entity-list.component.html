@@ -87,7 +87,13 @@
           <label class="col-sm-1 col-form-label"></label>
           <label  class="col-sm-2 col-form-label" style="line-height:34px;">Team</label>
           <div class="col-sm-4">
-            <input formControlName="assigned_to_group__name__icontains" class="form-control" placeholder="Search by Team">
+                <mat-form-field>
+                  <mat-label>By Team</mat-label>
+                  <mat-select formControlName="assigned_to_group__id">
+                    <mat-option value="">Assigned to Team</mat-option>
+                    <mat-option *ngFor="let option of groups" [value]="option.id">{{ option.display }}</mat-option>
+                  </mat-select>
+                </mat-form-field>
           </div>
           <div align="center" class="col-sm-3">
             <mat-button-toggle-group appearance="legacy" style="top:-3px;"

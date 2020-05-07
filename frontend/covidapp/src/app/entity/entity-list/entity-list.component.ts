@@ -11,6 +11,7 @@ import { Page } from '../../pagination';
 import { Entity } from "../../models/entity";
 import { EntityService } from "../../services/entity.service";
 import { AuthService } from "../../services/auth.service";
+import { UserService } from "../../services/user.service";
 import { DownloadService } from "../../services/download.service";
 
 import { MatDialog, MatDialogConfig, MatSnackBar } from "@angular/material";
@@ -39,6 +40,7 @@ export class EntityListComponent  {
     entities: any;
     states: any;
     districts: any;
+    groups:any;
     bulkAction: string = 'none';
     bulkActionList = {};
     panelOpen = true;
@@ -85,6 +87,7 @@ export class EntityListComponent  {
     constructor(
         public authService: AuthService,
         private entityService: EntityService,
+        private userService: UserService,
         private downloadService: DownloadService,
         private router:Router,
 	private location: Location,
@@ -156,6 +159,16 @@ export class EntityListComponent  {
                     data => {
                         console.log(' success');
                         this.districts = data.results;
+                    },
+                    err => {
+                        console.log("Failed");
+                    }
+                );
+          this.userService.getAllGroupsPublic()
+                .subscribe(
+                    data => {
+                        console.log(' success');
+                        this.groups = data.results;
                     },
                     err => {
                         console.log("Failed");

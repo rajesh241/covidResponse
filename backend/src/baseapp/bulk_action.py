@@ -35,6 +35,8 @@ def perform_bulk_action(data):
                     extra_fields['assigned_to_volunteer'] = myuser.name
                     obj.extra_fields = extra_fields
                     obj.assigned_to_user = myuser
+                    if myuser.team is not None:
+                        obj.assigned_to_group = myuser.team
                 obj.save()
     if bulk_action == "assigntogroup":
         print("I am in assign group")
