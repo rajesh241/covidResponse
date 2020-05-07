@@ -1,5 +1,9 @@
 <div class="container" [formGroup]="filterForm">
-  <mat-tab-group (selectedTabChange)="onTabSelect($event)" mat-align-tabs="center" color="accent" style="background-color: #f5f5f5;">
+  <mat-tab-group [selectedIndex]="tabIndex"
+                 (selectedTabChange)="onTabSelect($event)"
+                 mat-align-tabs="center"
+                 color="accent"
+                 style="background-color: #f5f5f5;">
     <mat-tab *ngFor="let option of tabList">
       <ng-template mat-tab-label>
         <i class="fa fa-lg" [ngClass]="option.class"
@@ -31,33 +35,56 @@
           </div>
         </div>
 
-        <div class="form-group row">
-          <label class="col-sm-1 col-form-label"></label>
+        <div class="row col-md-12">
+          <div class="form-group row col-md-7">
+            <div class="col-sm-1">
+            </div>
           <label  class="col-sm-2 col-form-label"  style="line-height:34px;">Search</label>
-          <div class="col-sm-7">
-            <input formControlName="search" class="form-control" placeholder="Search by Name, Phone, Region">
+          <div class="col-sm-8">
+            <input formControlName="search" class="form-control" placeholder="Search by Name, Phone">
           </div>
         </div>
+        <div class="form-group row col-md-5" style="margin-top: -12px;">
+              <div align="center" class="col-sm-6">
+                <mat-form-field>
+                  <mat-label>By Status</mat-label>
+                  <mat-select formControlName="status">
+                    <mat-option value="">None</mat-option>
+                    <mat-option *ngFor="let option of statusOptions" [value]="option.value">{{ option.name }}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div align="center" class="col-sm-6">
+                <mat-form-field>
+                  <mat-label>By Urgency</mat-label>
+                  <mat-select formControlName="urgency">
+                    <mat-option value="">None</mat-option>
+                    <mat-option *ngFor="let option of urgencyOptions" [value]="option.value">{{ option.name }}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <!--
+                  <div align="center" class="col-sm-4">
+                    <mat-form-field>
+                      <mat-label>Is Assigned?</mat-label>
+                      <mat-select formControlName="assigned_to_user__isnull">
+                        <mat-option value="">None</mat-option>
+                        <mat-option *ngFor="let option of isAssignedOptions" [value]="option.value">{{ option.name }}</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <mat-button-toggle-group formControlName="assigned_to_user__isnull">
+                    <mat-button-toggle mat-raised-button [value]="">None</mat-button-toggle>
+                    <mat-button-toggle *ngFor="let option of isAssignedOptions" [value]="option.value">{{ option.name }}</mat-button-toggle>
+                  </mat-button-toggle-group>
 
-        <div class="form-group row">
-              <div align="center" class="col-md-6">
-                <mat-form-field>
-                  <mat-label>By State</mat-label>
-                  <mat-select formControlName="state">
-                    <mat-option value="">None</mat-option>
-                    <mat-option *ngFor="let option of states" [value]="option.state">{{ option.state }}</mat-option>
-                  </mat-select>
-                </mat-form-field>
-              </div>
-              <div align="center" class="col-md-6">
-                <mat-form-field>
-                  <mat-label>By District</mat-label>
-                  <mat-select formControlName="district">
-                    <mat-option value="">None</mat-option>
-                    <mat-option *ngFor="let option of districts" [value]="option.district">{{ option.district }}</mat-option>
-                  </mat-select>
-                </mat-form-field>
-              </div>
+                  <div align="center" class="col-sm-2" style="margin-top: 20px;">
+                    <mat-slide-toggle formControlName="assigned_to_user__isnull">Unassigned</mat-slide-toggle>
+                  </div>
+                  <div align="center" class="col-sm-3">
+                  </div>
+                  -->
+            </div>
         </div>
 
         <div class="form-group row" *ngIf="(tab !== 'mine')">
@@ -89,7 +116,7 @@
               </div>
         </div>
 
-        <div class="form-group row" *ngIf="(tab !== 'mine')">
+        <div class="form-group row" *ngIf="(tab !== 'mine') && (tab !== 'team')">
           <label class="col-sm-1 col-form-label"></label>
           <label  class="col-sm-2 col-form-label" style="line-height:34px;">Assigned to Team</label>
           <div class="col-sm-4">
@@ -110,61 +137,30 @@
           </div>
         </div>
 
-        <!--
-            <div class="form-group row">
-              <label class="col-sm-1 col-form-label"></label>
-              <label  class="col-sm-2 col-form-label">Help Required</label>
-              <div class="col-sm-4">
-                <input formControlName="what_help__contains" class="form-control" placeholder="Search by Help Required">
-              </div>
-            </div>
-            -->
+        <div class="form-group row" *ngIf="(tab !== 'mine')">
+          <label class="col-sm-1 col-form-label"></label>
+          <label  class="col-sm-2 col-form-label" style="line-height:34px;">Region</label>
+          <div class="col-sm-4">
+            <mat-form-field>
+              <mat-label>By State</mat-label>
+              <mat-select formControlName="state">
+                <mat-option value="">None</mat-option>
+                <mat-option *ngFor="let option of states" [value]="option.state">{{ option.state }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div align="center" class="col-sm-3">
+            <mat-form-field>
+              <mat-label>By District</mat-label>
+              <mat-select formControlName="district">
+                <mat-option value="">None</mat-option>
+                <mat-option *ngFor="let option of districts" [value]="option.district">{{ option.district }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
 
-            <div class="form-group row">
-              <div align="center" class="col-sm-2">
-              </div>
-              <div align="center" class="col-sm-4">
-                <mat-form-field>
-                  <mat-label>By Status</mat-label>
-                  <mat-select formControlName="status">
-                    <mat-option value="">None</mat-option>
-                    <mat-option *ngFor="let option of statusOptions" [value]="option.value">{{ option.name }}</mat-option>
-                  </mat-select>
-                </mat-form-field>
-              </div>
-              <div align="center" class="col-sm-4">
-                <mat-form-field>
-                  <mat-label>By Urgency</mat-label>
-                  <mat-select formControlName="urgency">
-                    <mat-option value="">None</mat-option>
-                    <mat-option *ngFor="let option of urgencyOptions" [value]="option.value">{{ option.name }}</mat-option>
-                  </mat-select>
-                </mat-form-field>
-              </div>
-              <div align="center" class="col-sm-2">
-              </div>
-              <!--
-                  <div align="center" class="col-sm-4">
-                    <mat-form-field>
-                      <mat-label>Is Assigned?</mat-label>
-                      <mat-select formControlName="assigned_to_user__isnull">
-                        <mat-option value="">None</mat-option>
-                        <mat-option *ngFor="let option of isAssignedOptions" [value]="option.value">{{ option.name }}</mat-option>
-                      </mat-select>
-                    </mat-form-field>
-                  </div>
-                  <mat-button-toggle-group formControlName="assigned_to_user__isnull">
-                    <mat-button-toggle mat-raised-button [value]="">None</mat-button-toggle>
-                    <mat-button-toggle *ngFor="let option of isAssignedOptions" [value]="option.value">{{ option.name }}</mat-button-toggle>
-                  </mat-button-toggle-group>
 
-                  <div align="center" class="col-sm-2" style="margin-top: 20px;">
-                    <mat-slide-toggle formControlName="assigned_to_user__isnull">Unassigned</mat-slide-toggle>
-                  </div>
-                  <div align="center" class="col-sm-3">
-                  </div>
-                  -->
-            </div>
             <div class="form-group row" *ngIf="(tab !== 'mine')">
               <section align="center">
                 <span *ngFor="let option of helpOptions">
@@ -272,7 +268,7 @@
           <table class="table">
             <thead>
               <tr>
-                <th *ngIf="authService.isAboveVolunteer()">
+                <th *ngIf="authService.isAboveVolunteer() && (tab !== 'mine')">
                   <mat-checkbox [ngModelOptions]="{standalone: true}" class="cb-margin" (change)="allChecked()" [(ngModel)]="checkState"></mat-checkbox></th>
                 <th>ID</th>
                 <th>Name</th>
@@ -288,7 +284,7 @@
             </thead>
             <tbody>
               <tr *ngFor="let entity of (page | async)?.results;let i=index">
-                <td *ngIf="authService.isAboveVolunteer()">
+                <td *ngIf="authService.isAboveVolunteer() && (tab !== 'mine')">
                   <mat-checkbox
                     [ngModelOptions]="{standalone: true}"
                     class="cb-margin" (change)="onCBChange(entity)"

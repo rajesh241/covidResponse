@@ -25,11 +25,11 @@
         -->
         <li class="menu-item" routerLinkActive="active" *ngIf="authService.isLoggedIn()"><a routerLink="helpseekers">Add Help Seeker</a></li>
         <li class="menu-item" routerLinkActive="active" *ngIf="authService.isLoggedIn()"><a routerLink="supportnetwork">Add Support Network</a></li>
+        <li class="menu-item" routerLinkActive="active" *ngIf="authService.isLoggedIn()"><a routerLink="list" style="color: red;"><b>List</b></a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li class="menu-item" routerLinkActive="active" *ngIf="!authService.isLoggedIn()"><a routerLink="login">Login</a></li>
         <li class="menu-item" routerLinkActive="active" *ngIf="authService.isUserAdmin()"><a routerLink="users">Users</a></li>
-        <li class="menu-item" routerLinkActive="active" *ngIf="authService.isLoggedIn()"><a routerLink="list" style="color: red;"><b>List</b></a></li>
         <li class="dropdown menu-item" routerLinkActive="active">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Help<span class="caret"></span></a>
           <ul class="dropdown-menu">
@@ -49,18 +49,18 @@
             </li>
           </ul>
         </li>
-        <li class="disabled" routerLinkActive="active" *ngIf="isDev && authService.isLoggedIn()">
+        <li class="disabled" routerLinkActive="active" *ngIf="authService.isLoggedIn()">
           <a href="#">
             <i class="fa fa-lg fa-user" style="align:center; color:#8A8A8A;">
-              {{ this.user }}
             </i>
+            {{ this.user }}
           </a>
         </li>
-        <li class="disabled" routerLinkActive="active" *ngIf="isDev && authService.isLoggedIn()">
+        <li class="disabled" routerLinkActive="active" *ngIf="authService.isLoggedIn()">
           <a href="#">
             <i class="fa fa-lg fa-group" style="align:center; color:#8A8A8A;">
-              {{ this.group }}
             </i>
+            {{ this.group }}
           </a>
         </li>
         <li><a href="#" (click)="authService.logout()"  *ngIf="authService.isLoggedIn()">Logout</a></li>

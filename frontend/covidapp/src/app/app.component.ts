@@ -35,7 +35,7 @@ export class AppComponent implements OnInit {
 	    window.alert('Using Production Backend in Dev Mode!');
 	}
         this.user =  localStorage.getItem('username');
-        this.group = localStorage.getItem('usergroup');
+        this.group = localStorage.getItem('group');
     }
 
     ngOnInit() {

@@ -82,7 +82,7 @@ export class EntityListComponent  {
     tabList = [
 	{'key': 'all', 'name': 'All', 'selected': false, 'class': 'fa-arrows-alt', 'color': 'green'},
 	{'key': 'team', 'name': 'My Team', 'selected': false, 'class': 'fa-group', 'color': 'brown'},
-	{'key': 'mine', 'name': 'Assigned To Me', 'selected': false, 'class': 'fa-user', 'color': '#8A8A8A'},
+	{'key': 'mine', 'name': 'Assigned To Me', 'selected': false, 'class': 'fa-user', 'color': 'purple'},
 //	{'key': 'region', 'name': 'My Region', 'selected': false, 'class': 'fa-map-marker', 'color': 'red'},
     ];
 
@@ -136,6 +136,18 @@ export class EntityListComponent  {
 	this.helpOptions.forEach(option => {
 	    this.filterForm.addControl(option.value, new FormControl(option.selected));
 	});
+
+        // Set the tab to Assigned to me for all before subscribing
+        if (this.user_role == 'volunteer')
+            this.tab = 'mine';
+        else if(this.user_role == 'groupadmin')
+            this.tab = 'team';
+        else
+            this.tab = 'all';
+        this.tabIndex = this.tabList.findIndex(e => e.key === this.tab);
+        console.log('EntityListComponent.constructor()', this.tabIndex);
+        this.onTabSelect();
+
         this.page = this.filterForm.valueChanges.pipe(
             debounceTime(200),
             startWith(this.filterForm.value),
@@ -206,7 +218,7 @@ export class EntityListComponent  {
         this.pageUrl.next(url);
     }
 
-    loadpage(){
+    loadpage() {
         console.log("Load page is getting executed")
         this.page = this.filterForm.valueChanges.pipe(
             debounceTime(200),
@@ -218,7 +230,7 @@ export class EntityListComponent  {
         this.dataLoaded = Promise.resolve(true);
     }
 
-    deleteEntity(id){
+    deleteEntity(id) {
 	this.entityService.deleteItem(id)
 	    .subscribe(
 		data => {
@@ -229,7 +241,7 @@ export class EntityListComponent  {
             )
     }
 
-    deleteAllEntitys(){
+    deleteAllEntitys() {
         console.log("this will delete all entitys");
         this.entityService.bulkDeleteItems({'user_ids': ['all'] })
 	    .subscribe(
@@ -241,11 +253,11 @@ export class EntityListComponent  {
             )
     }
 
-    public isUserManager(){
+    public isUserManager() {
         return ( moment().isBefore(this.getExpiration()) && ( (this.getUserName() === "usermanager") || (this.getUserName() === "admin" )));
     }
 
-    getUserName(){
+    getUserName() {
         const username = localStorage.getItem("username");
         return username
     }
@@ -501,9 +513,11 @@ export class EntityListComponent  {
         // this.filterForm.controls['state & district'].setValue('');
     }
 
-    onTabSelect($event) {
-        console.log('EntityListComponent.onTabSelect()', $event);
-        this.tab = this.tabList[$event.index].key
+    onTabSelect($event=null) {
+        if($event) {
+            console.log('EntityListComponent.onTabSelect()', $event);
+            this.tab = this.tabList[$event.index].key
+        }
         console.log('EntityListComponent.onTabSelect()', this.tab);
 
         if(this.tab == 'mine') {

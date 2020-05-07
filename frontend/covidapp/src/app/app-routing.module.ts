@@ -48,7 +48,7 @@ import { GuideComponent } from './help/guide/guide.component';
 import { TutorialComponent } from './help/tutorial/tutorial.component';
 
 const routes: Routes = [
-    {path : '', component : MyEntityListComponent, canActivate: [AuthGuard]},
+    {path : '', component : EntityListComponent, canActivate: [AuthGuard]},
     //{path : '', redirectTo: 'search', pathMatch:'full'},
     {path : 'dashboard', component : DashboardComponent, canActivate:[AuthGuard]},
 //    {path : 'grid', component : EntityGridComponent, canActivate:[AuthGuard]},
