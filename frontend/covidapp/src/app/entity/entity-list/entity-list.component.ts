@@ -360,7 +360,7 @@ export class EntityListComponent  {
 
     onBulkAction(action) {
         console.log(`EntityListComponent.applyBulkAction(${JSON.stringify(action)})`, action);
-        if (action.key == 'export') {
+        if (action.key == 'export1') {
             this.exportSelected();
             return;
         }
@@ -425,9 +425,16 @@ export class EntityListComponent  {
                             console.log('Bulk Operation Creattion Successful', data);
                             this.rand_number = Math.floor(Math.random()*(100)+0);
                             this.filterForm.controls['dummy'].setValue(this.rand_number);
+			    if (data["bulk_action"]== "export"){
+			    this.snackBar.open('Your file will be downloaded shortly', action.value, {
+				duration: 3000,
+			    });
+                              this.document.location.href = 'https://coast-india.s3.ap-south-1.amazonaws.com/export/selected/'+data["data_json"]["filename"];
+			    }else{
 			    this.snackBar.open('Submitted Successfuly', action.value, {
 				duration: 3000,
 			    });
+			    }
                         },
                         err => {
                             console.log("Bulk Operation  Creation Failed");

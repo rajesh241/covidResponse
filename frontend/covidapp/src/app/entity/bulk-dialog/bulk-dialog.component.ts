@@ -32,11 +32,14 @@ export class BulkDialogComponent implements OnInit {
     loadVolunteerForm:boolean=false;
     loadGroupForm:boolean=false;
     loadDuplicateDialog:boolean=false;
+    loadExportDialog:boolean=false;
     page: Observable<Page<PublicUser>>;
     pageUrl = new Subject<string>();
     user_role:any;
     groupID:any;
     filterForm: FormGroup;
+    userid: any;
+    exportFilename: any;
     statusOptions = [
         {'value': 'to_call', 'name': 'To Call'},
         {'value': 'assign_to_volunteer', 'name': 'Assign To Volunteer'},
@@ -55,6 +58,8 @@ export class BulkDialogComponent implements OnInit {
         console.log(`Inside BulkDialogComponent.constructor()`);
         console.log(data);
 	this.usergroup = localStorage.getItem('usergroup');
+	this.userid = localStorage.getItem('userid');
+	this.exportFilename = this.userid + "_" +  Math.floor(Math.random()*(100)+0) + ".csv"
 	this.data = data;
         this.action = data.action;
 	this.title = data.action.value;
@@ -70,6 +75,12 @@ export class BulkDialogComponent implements OnInit {
 	else if (this.action.key == 'duplicate') {
 	    this.formioBased = false;
 	    this.loadDuplicateDialog = true;
+	}
+	else if (this.action.key == 'export') {
+	    this.formioBased = false;
+	    this.loadExportDialog = true;
+            this.data.json = {'filename' : this.exportFilename}
+            this.dialogRef.close(this.data);
 	}
 	else{
 	    this.formioBased = true;
