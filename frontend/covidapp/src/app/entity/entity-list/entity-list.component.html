@@ -1,13 +1,14 @@
-<mat-tab-group (selectedTabChange)="onTabSelect($event)">
-  <mat-tab *ngFor="let option of tabList">
-    <ng-template mat-tab-label>
-      <i class="fa fa-lg" [ngClass]="option.class"
-         [ngStyle]="{'color': option.color}"></i>
-      <span style="margin: 4px;">{{ option.name }}</span>
-    </ng-template>
-  </mat-tab>
-</mat-tab-group>
 <div class="container" [formGroup]="filterForm">
+  <mat-tab-group (selectedTabChange)="onTabSelect($event)">
+    <mat-tab *ngFor="let option of tabList">
+      <ng-template mat-tab-label>
+        <i class="fa fa-lg" [ngClass]="option.class"
+           [ngStyle]="{'color': option.color}"></i>
+        <b style="margin: 4px; font-size:15px;">{{ option.name }}</b>
+      </ng-template>
+    </mat-tab>
+  </mat-tab-group>
+
   <mat-card class="col-md-12" style="padding:5px;">
     <mat-expansion-panel (opened)="panelOpen = true"
                          (closed)="panelOpen = false"
@@ -86,6 +87,8 @@
             -->
 
             <div class="form-group row">
+              <div align="center" class="col-sm-2">
+              </div>
               <div align="center" class="col-sm-4">
                 <mat-form-field>
                   <mat-label>By Status</mat-label>
@@ -97,21 +100,14 @@
               </div>
               <div align="center" class="col-sm-4">
                 <mat-form-field>
-                  <mat-label>By Type</mat-label>
-                  <mat-select formControlName="record_type">
-                    <mat-option value="">None</mat-option>
-                    <mat-option *ngFor="let option of recordTypeOptions" [value]="option.value">{{ option.name }}</mat-option>
-                  </mat-select>
-                </mat-form-field>
-              </div>
-              <div align="center" class="col-sm-4">
-                <mat-form-field>
                   <mat-label>By Urgency</mat-label>
                   <mat-select formControlName="urgency">
                     <mat-option value="">None</mat-option>
                     <mat-option *ngFor="let option of urgencyOptions" [value]="option.value">{{ option.name }}</mat-option>
                   </mat-select>
                 </mat-form-field>
+              </div>
+              <div align="center" class="col-sm-2">
               </div>
               <!--
                   <div align="center" class="col-sm-4">
@@ -171,26 +167,18 @@
                   -->
             </div>
             <div class="form-group row">
-              <div class="col-sm-6" style="padding-top:10px;">
-                <label class="col-sm-4 col-form-label" style="line-height:34px;">Results per Page</label>
-                <div class="col-sm-2">
-                  <input  formControlName="limit" class="form-control" placeholder="min">
-                </div>
-                <div class="col-sm-6">
-                  <select formControlName="ordering" class="form-control">
-                    <option value="created">Oldest Listing First</option>
-                    <option value="-created">Newest Listing First</option>
-                    <option value="updated">Recently Updated First</option>
-                    <option value="-updated">Recently Updated Last</option>
-                    <!--
-                        <option value="nearest">Nearest to Farthest</option>
-                    <option value="-nearest">Farthest to Nearest</option>
-                    <option value="null" selected>Sort by?</option>
-                    -->
-                  </select>
-                </div>
+              <div class="col-sm-4" style="padding-top:10px;">
+              <div align="center">
+                <mat-form-field>
+                  <mat-label>By Type</mat-label>
+                  <mat-select formControlName="record_type">
+                    <mat-option value="">None</mat-option>
+                    <mat-option *ngFor="let option of recordTypeOptions" [value]="option.value">{{ option.name }}</mat-option>
+                  </mat-select>
+                </mat-form-field>
               </div>
-              <mat-card class = "col-sm-6">
+              </div>
+              <mat-card class = "col-sm-8">
                 <mat-card-content>
                   <div *ngIf="isEmpty(bulkActionList)" align="center">
                     Please select items below for bulk actions to appear here
@@ -207,6 +195,32 @@
               </mat-card>
             </div>
 
+            <div align="center row">
+              <div class="col-sm-3">
+                <label class="col-sm-8 col-form-label" style="line-height:34px;">Results per Page</label>
+                <div class="col-sm-4">
+                  <input  formControlName="limit" class="form-control" placeholder="min">
+                </div>
+              </div>
+              <div class="col-sm-6" align="center" style="padding-top:5px;">
+                <app-paginator [page]="page | async" (pageChange)="onPageChanged($event)"></app-paginator>
+              </div>
+              <div class="col-sm-3">
+                <div>
+                  <select formControlName="ordering" class="form-control">
+                    <option value="created">Oldest Listing First</option>
+                    <option value="-created">Newest Listing First</option>
+                    <option value="updated">Recently Updated First</option>
+                    <option value="-updated">Recently Updated Last</option>
+                    <!--
+                        <option value="nearest">Nearest to Farthest</option>
+                    <option value="-nearest">Farthest to Nearest</option>
+                    <option value="null" selected>Sort by?</option>
+                    -->
+                  </select>
+                </div>
+              </div>
+            </div>
       </mat-card-content>
     </mat-expansion-panel>
   </mat-card>
@@ -381,7 +395,7 @@
 <div align="center row">
   <div class="col-sm-3">
   </div>
-  <div class="col-sm-6">
+  <div class="col-sm-6" align="center">
     <app-paginator [page]="page | async" (pageChange)="onPageChanged($event)"></app-paginator>
   </div>
   <div class="col-sm-3">
@@ -394,5 +408,4 @@
       </section>
     </div>
   </div>
-</div>
 </div>
