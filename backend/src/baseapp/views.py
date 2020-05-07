@@ -363,7 +363,7 @@ class DistrictAPIView(HttpResponseMixin,
     passed_id = None
     input_id = None
     search_fields = ('keywords', 'name', 'description')
-    ordering_fields = ('name', 'id', 'created', 'updated')
+    ordering_fields = ('district', 'id', 'created', 'updated')
     queryset = Entity.objects.all().values("district").annotate(count=Count('id'))
     def get_queryset(self, *args, **kwargs):
        return self.queryset
@@ -407,7 +407,7 @@ class StateAPIView(HttpResponseMixin,
     passed_id = None
     input_id = None
     search_fields = ('keywords', 'name', 'description')
-    ordering_fields = ('name', 'id', 'created', 'updated')
+    ordering_fields = ('state', 'id', 'created', 'updated')
     queryset = Entity.objects.all().values("state").annotate(count=Count('id'))
     def get_queryset(self, *args, **kwargs):
        return self.queryset

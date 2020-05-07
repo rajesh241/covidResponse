@@ -54,10 +54,10 @@ export class EntityService {
 	return this.http.get(this.entityListEndPoint,this.getHttpOptions());
     }
     getAllStates(): Observable<any>{
-	return this.http.get(this.stateEndPoint+"?limit=10000",this.getHttpOptions());
+	return this.http.get(this.stateEndPoint+"?limit=10000&ordering=state",this.getHttpOptions());
     }
     getAllDistricts(): Observable<any>{
-	return this.http.get(this.districtEndPoint+"?limit=10000",this.getHttpOptions());
+	return this.http.get(this.districtEndPoint+"?limit=10000&ordering=district",this.getHttpOptions());
     }
 
     bulkDeleteItems(data){
