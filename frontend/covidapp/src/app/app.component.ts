@@ -19,6 +19,7 @@ export class AppComponent implements OnInit {
     public version_str: string;
     private subscriber;
     private prevSubscriber;
+    public isDev: boolean = false;
 
     constructor(
 	public entityService: EntityService,
@@ -26,9 +27,13 @@ export class AppComponent implements OnInit {
     ) {
 	console.log(`AppComponent.constructor(${JSON.stringify(VERSION)})`);
 	console.log(`AppComponent.constructor(API_URL=[${environment.apiURL}]) => VERSION`, VERSION);
+        if (isDevMode())
+            this.isDev = true;
 	if (isDevMode() && environment.apiURL.includes('coastindia')) {
 	    window.alert('Using Production Backend in Dev Mode!');
 	}
+        this.user =  localStorage.getItem('username');
+        this.group = localStorage.getItem('usergroup');
     }
 
     ngOnInit() {

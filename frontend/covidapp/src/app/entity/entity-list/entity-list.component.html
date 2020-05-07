@@ -1,5 +1,5 @@
 <div class="container" [formGroup]="filterForm">
-  <mat-tab-group (selectedTabChange)="onTabSelect($event)">
+  <mat-tab-group (selectedTabChange)="onTabSelect($event)" mat-align-tabs="center" color="accent" style="background-color: #f5f5f5;">
     <mat-tab *ngFor="let option of tabList">
       <ng-template mat-tab-label>
         <i class="fa fa-lg" [ngClass]="option.class"
@@ -168,15 +168,15 @@
             </div>
             <div class="form-group row">
               <div class="col-sm-4" style="padding-top:10px;">
-              <div align="center">
-                <mat-form-field>
-                  <mat-label>By Type</mat-label>
-                  <mat-select formControlName="record_type">
-                    <mat-option value="">None</mat-option>
-                    <mat-option *ngFor="let option of recordTypeOptions" [value]="option.value">{{ option.name }}</mat-option>
-                  </mat-select>
-                </mat-form-field>
-              </div>
+                <div align="center">
+                  <mat-form-field>
+                    <mat-label>By Type</mat-label>
+                    <mat-select formControlName="record_type">
+                      <mat-option value="">None</mat-option>
+                      <mat-option *ngFor="let option of recordTypeOptions" [value]="option.value">{{ option.name }}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
               </div>
               <mat-card class = "col-sm-8">
                 <mat-card-content>

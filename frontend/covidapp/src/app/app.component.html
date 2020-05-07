@@ -16,7 +16,7 @@
       <ul class="nav navbar-nav">
         <li class="menu-item" routerLinkActive="active" ><a routerLink="about">About</a></li>
         <!--
-        <li class="menu-item" routerLinkActive="active" ><a routerLink="locate">Locate</a></li>
+            <li class="menu-item" routerLinkActive="active" ><a routerLink="locate">Locate</a></li>
         <li class="menu-item" routerLinkActive="active" ><a routerLink="nearby">Nearby</a></li>
         <li class="menu-item" routerLinkActive="active" ><a routerLink="search">Search</a></li>
         <li class="menu-item" routerLinkActive="active" *ngIf="authService.isLoggedIn()"><a routerLink="list">List</a></li>
@@ -31,17 +31,38 @@
         <li class="menu-item" routerLinkActive="active" *ngIf="authService.isUserAdmin()"><a routerLink="users">Users</a></li>
         <li class="menu-item" routerLinkActive="active" *ngIf="authService.isLoggedIn()"><a routerLink="mylist" style="color: red;"><b>My List</b></a></li>
         <li class="menu-item" routerLinkActive="active" *ngIf="authService.isLoggedIn()"><a routerLink="list" style="color: red;"><b>Full List</b></a></li>
-	<li class="dropdown menu-item" routerLinkActive="active">
+        <li class="dropdown menu-item" routerLinkActive="active">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Help<span class="caret"></span></a>
           <ul class="dropdown-menu">
             <li class="menu-item"><a routerLink="/faq">Faq</a></li>
             <li class="menu-item"><a routerLink="/guide">Guide</a></li>
             <li class="menu-item"><a routerLink="/tutorial">Video Tutorial</a></li>
             <li role="separator" class="divider"></li>
-	    <li class="menu-item"><a href="https://coastindia.org/" target="_blank">CoAST India</a></li>
+            <li class="menu-item">
+              <a href="https://coastindia.org/" target="_blank">CoAST India</a>
+            </li>
+            <li class="menu-item">
+              <a href="https://dp.observatory.org.in/content/migration-route-covid-19" target="_blank">Data Platform</a>
+            </li>
             <li role="separator" class="divider"></li>
-            <li class="menu-item"><a [href]="commit_url" target="_blank">Version {{ version }} - {{ hash }}</a></li>
+            <li class="menu-item">
+              <a [href]="commit_url" target="_blank">Version {{ version }} - {{ hash }}</a>
+            </li>
           </ul>
+        </li>
+        <li class="disabled" routerLinkActive="active" *ngIf="isDev && authService.isLoggedIn()">
+          <a href="#">
+            <i class="fa fa-lg fa-user" style="align:center; color:#8A8A8A;">
+              {{ this.user }}
+            </i>
+          </a>
+        </li>
+        <li class="disabled" routerLinkActive="active" *ngIf="isDev && authService.isLoggedIn()">
+          <a href="#">
+            <i class="fa fa-lg fa-group" style="align:center; color:#8A8A8A;">
+              {{ this.group }}
+            </i>
+          </a>
         </li>
         <li><a href="#" (click)="authService.logout()"  *ngIf="authService.isLoggedIn()">Logout</a></li>
       </ul>
@@ -55,16 +76,16 @@
 
 <footer class="container-fluid well" align="center" style="background-color:#f8f8f8;">
   <div class="row" style="vertical-align: middle;">
-    <div class="col-sm-3" style="line-height:36px;">
-      Public Interface <a href="https://coastindia.org/" target="_blank">CoAST India</a>
-    </div>    
-    <div class="col-sm-5" style="line-height:36px;">
+    <div class="col-sm-4" style="line-height:36px;">
+      Public Interface <a href="https://coastindia.org/" target="_blank">CoAST India</a> / <a href="https://dp.observatory.org.in/content/migration-route-covid-19" target="_blank">Data Platform</a>
+    </div>
+    <div class="col-sm-4" style="line-height:36px;">
       ©2020 CoAST India
     </div>
     <div class="col-sm-4">
       Version {{ version }}<span style="display: none">Build Hash: {{ build }}</span> - <a [href]="commit_url" target="_blank">{{ hash }}</a>@<a [href]="github_url" target="_blank" style="padding-right:10px">github</a>
       <button mat-raised-button class="btn-danger" (click)="reload()">
-	<i class="fa fa-rotate-right fa-sm"></i>
+        <i class="fa fa-rotate-right fa-sm"></i>
       </button>
     </div>
   </div>
