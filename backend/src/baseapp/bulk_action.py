@@ -2,6 +2,11 @@
 from django.contrib.auth import get_user_model, authenticate
 from baseapp.models import Entity
 from core.models import Team
+from django.conf import settings
+import boto3
+from io import StringIO
+import datetime
+import pandas as pd
 User = get_user_model()
 
 def perform_bulk_action(data):
@@ -38,6 +43,13 @@ def perform_bulk_action(data):
                     if myuser.team is not None:
                         obj.assigned_to_group = myuser.team
                 obj.save()
+    if bulk_action == "export":
+        filename = formio_json.get("filename", None)
+        if filename is None:
+            return
+        queryset = Entity.objects.filter(id__in = id_array)
+        export_entities(queryset, filename)
+        
     if bulk_action == "assigntogroup":
         print("I am in assign group")
         input_id = formio_json.get("assigntogroup", None)
@@ -85,6 +97,132 @@ def perform_bulk_action(data):
                 obj.save()
 
 
+
+
+def export_entities(queryset, filename):
+        csv_array = []
+        columns = ['ID', 'Urgency', 'Status', 'Assigned to', 'Remarks',
+                   'Connected with Govt Scheme', 'Organisation Name',
+                   'Contact', 'Mobile', 'Help Expected', 'Stranded State',
+                   'Stranded District', 'StrandedBlock', 
+                   'Stranded City/Panchayat', 'Stranded Address', 'Native State', 
+                   'Native District', 'People Stranded', 'Date Called', 'Contact with Govt Official', 'Contact with anyone', 'Accom for 14 days',
+                   'If no', ' Where are you staying"', 'Ration', 'Ration Desc', 'Drinking Water', 'Health Issues', 
+                   'Health Issue Desc', 'Urgent Req', 'Need Cash', 'How Much', 'Urgent Req Desc', 'Donor Involved', 'Donor Name', 'Type Of donation',
+                   'Donation Value(Rs))', 'Initial Date']
+        for obj in queryset:
+            a = [obj.title, obj.state, obj.status, obj.urgency, obj.remarks]
+            if obj.assigned_to_user is not None:
+                user_name = obj.assigned_to_user.name
+            else:
+                user_name = ''
+            try:
+                stranded_district = obj.prefill_json["data"]["contactForm"]["data"]["district"]
+            except:
+                stranded_district = ''
+            if obj.assigned_to_group is not None:
+                org_name = obj.assigned_to_group.name
+            else:
+                org_name = ''
+            government_scheme = ''
+            contact = ''
+            stranded_state = obj.state
+           # stranded_district = ''
+            stranded_block = ''
+            stranded_panchayat = ''
+            stranded_address = obj.address
+            native_state = ''
+            native_district = ''
+            how_many_people = obj.how_many_people
+            date_called = ''
+            govt_official = ''
+            contact_with_anyone = ''
+            accom_for_14_days = ''
+            if_no = ''
+            where_are_you_staying = ''
+            ration = ''
+            ration_desc = ''
+            drinking_water = ''
+            health_issues = ''
+            health_issue_description = ''
+            urgent_req = ''
+            need_cash = ''
+            how_much = ''
+            urgent_req_desc = ''
+            donor_involved = ''
+            donar_name = ''
+            donation_type = ''
+            donation_value = ''
+            initial_date = ''
+
+            a = [obj.id, obj.urgency, obj.status, user_name, obj.remarks,
+                 government_scheme, org_name, contact, obj.phone,
+                 obj.what_help, stranded_state, stranded_district,
+                 stranded_block, stranded_panchayat, stranded_address, native_state,
+                 native_district, how_many_people, date_called, govt_official,
+                 contact_with_anyone, accom_for_14_days, if_no,
+                 where_are_you_staying, ration, ration_desc, drinking_water,
+                 health_issues, health_issue_description, urgent_req,
+                 need_cash, how_much, urgent_req_desc, donor_involved,
+                 donar_name, donation_type, donation_value, initial_date]
+            csv_array.append(a)
+        df = pd.DataFrame(csv_array, columns=columns)
+        filename = f"export/selected/{filename}"
+        file_url = upload_s3(filename, df)
+        print(file_url)
+
+def aws_init(use_env=None):
+    """Initializes the AWS bucket. It can either pick up AWS credentials from
+    the environment variables or it can pick up from the profile in the .aws
+    directory location in HOME Directory"""
+    boto3.setup_default_session(
+        aws_access_key_id=settings.AWS_KEY,
+        aws_secret_access_key=settings.AWS_SECRET,
+        region_name=settings.AWS_REGION
+    )
+
+    s3_instance = boto3.resource('s3', region_name=settings.AWS_REGION)
+    return s3_instance
+def put_object_s3(bucket, filename, filedata, content_type):
+    """Putting object in amazon S3"""
+    bucket.put_object(
+        Body=filedata,
+        Key=filename,
+        ContentType=content_type,
+        ACL='public-read'
+        )
+
+
+def upload_s3(filename, data, bucket_name=None):
+    """
+    This function will upload to amazon S3, it can take data either as
+    string or as data frame
+       filename: filename along with file path where file needs tobe created
+       for example abcd/efg/hij.csv
+       data : content can be a string or pandas data frame
+       bucket: Optional bucket name, in which file needs to be created else
+       will default to the AWS_DATA_BUCKET
+    """
+    s3_instance = aws_init()
+    if bucket_name is None:
+        bucket_name = settings.AWS_DATA_BUCKET
+    bucket = s3_instance.Bucket(bucket_name)
+    if isinstance(data, pd.DataFrame):
+        #If the data passed is a pandas dataframe
+        data['lastUpdateDate'] = datetime.datetime.now().date()
+        csv_buffer = StringIO()
+        data.to_csv(csv_buffer, encoding='utf-8-sig', index=False)
+        filedata = csv_buffer.getvalue()
+        content_type = 'text/csv'
+        put_object_s3(bucket, filename, filedata, content_type)
+    else:
+        content_type = 'text/html'
+        filedata = data
+        put_object_s3(bucket, filename, filedata, content_type)
+
+    report_url = f"https://{bucket_name}.s3.{settings.AWS_REGION}.amazonaws.com/{filename}"
+
+    return report_url
 
 
 

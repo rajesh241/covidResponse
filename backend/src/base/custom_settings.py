@@ -8,4 +8,7 @@ with open(JSON_CONFIG_FILE) as config_file:
 BASE_CONFIG_FILE = f"{HOME_DIR}/baseConfig.json"
 with open(BASE_CONFIG_FILE) as base_config_file:
     BASE_CONFIG = json.load(base_config_file)
+AWS_CONFIG_FILE = f"{HOME_DIR}/aws.json"
+with open(AWS_CONFIG_FILE) as aws_config_file:
+    AWS_CONFIG = json.load(aws_config_file)
 SQL_CONFIG = f"{HOME_DIR}/mysqlConfig.cnf"

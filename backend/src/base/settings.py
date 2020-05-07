@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 
 import os
 from datetime import timedelta
-from base.custom_settings import SQL_CONFIG, EMAIL_CONFIG, BASE_CONFIG
+from base.custom_settings import SQL_CONFIG, EMAIL_CONFIG, BASE_CONFIG, AWS_CONFIG
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -255,3 +255,7 @@ NOSE_ARGS = ['--nocapture',
              '--nologcapture',]
 
 
+AWS_DATA_BUCKET = "coast-india"
+AWS_REGION = "ap-south-1"
+AWS_KEY = AWS_CONFIG.get("aws_access_key_id", "")
+AWS_SECRET = AWS_CONFIG.get("aws_secret_access_key", "")
