@@ -78,7 +78,8 @@ export class EntityListComponent  {
 	{'value': 'transportToHome', 'name': 'Transport to Home', 'selected': false, 'class': 'fa-bus', 'color': 'purple'},
 	{'value': 'other', 'name': 'Other', 'selected': false, 'class': 'fa-adjust', 'color': '#8A8A8A'},
     ];
-    tab = 'all';
+    tab;
+    tabIndex;
     tabList = [
 	{'key': 'all', 'name': 'All', 'selected': false, 'class': 'fa-arrows-alt', 'color': 'green'},
 	{'key': 'team', 'name': 'My Team', 'selected': false, 'class': 'fa-group', 'color': 'brown'},
