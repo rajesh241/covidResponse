@@ -30,6 +30,15 @@ class StateSerializer(serializers.Serializer):
         """Meta Class"""
         model = Entity
         fields = ('state', 'count')
+class DistrictSerializer(serializers.Serializer):
+    count = serializers.IntegerField()
+    district = serializers.CharField()
+
+    class Meta:
+        """Meta Class"""
+        model = Entity
+        fields = ('district', 'count')
+
 
 class BulkOperationSerializer(serializers.ModelSerializer):
     """Serializer for Report Model"""

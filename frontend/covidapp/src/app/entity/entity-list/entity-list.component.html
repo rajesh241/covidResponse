@@ -30,12 +30,34 @@
             <app-address-search formControlName="location"></app-address-search>
           </div>
         </div>
+
         <div class="form-group row">
           <label class="col-sm-1 col-form-label"></label>
           <label  class="col-sm-2 col-form-label"  style="line-height:34px;">Search</label>
           <div class="col-sm-7">
             <input formControlName="search" class="form-control" placeholder="Search by Name, Phone, Region">
           </div>
+        </div>
+
+        <div class="form-group row">
+              <div align="center" class="col-md-6">
+                <mat-form-field>
+                  <mat-label>By State</mat-label>
+                  <mat-select formControlName="state">
+                    <mat-option value="">None</mat-option>
+                    <mat-option *ngFor="let option of states" [value]="option.state">{{ option.state }}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div align="center" class="col-md-6">
+                <mat-form-field>
+                  <mat-label>By District</mat-label>
+                  <mat-select formControlName="district">
+                    <mat-option value="">None</mat-option>
+                    <mat-option *ngFor="let option of districts" [value]="option.district">{{ option.district }}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
         </div>
 
         <div class="form-group row" *ngIf="(tab !== 'mine')">

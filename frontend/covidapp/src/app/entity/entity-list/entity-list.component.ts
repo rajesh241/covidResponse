@@ -37,6 +37,8 @@ export class EntityListComponent  {
     selectedEntities: any;
     checkState: boolean = false;
     entities: any;
+    states: any;
+    districts: any;
     bulkAction: string = 'none';
     bulkActionList = {};
     panelOpen = true;
@@ -112,6 +114,8 @@ export class EntityListComponent  {
             limit : new FormControl(10),
             ordering : new FormControl('-created'),
             volunteer: new FormControl(),
+            state: new FormControl(),
+            district: new FormControl(),
             assigned_to_user__name__icontains: new FormControl(),
             assigned_to_user__isnull:  new FormControl(),
             assigned_to_group__name__icontains: new FormControl(),
@@ -133,7 +137,30 @@ export class EntityListComponent  {
             switchMap(urlOrFilter => this.entityService.list(urlOrFilter)),
             share()
         );
+
         this.dataLoaded = Promise.resolve(true);
+
+        this.entityService.getAllStates()
+                .subscribe(
+                    data => {
+                        console.log(' success');
+                        this.states = data.results;
+                    },
+                    err => {
+                        console.log("Failed");
+                    }
+                );
+
+        this.entityService.getAllDistricts()
+                .subscribe(
+                    data => {
+                        console.log(' success');
+                        this.districts = data.results;
+                    },
+                    err => {
+                        console.log("Failed");
+                    }
+                );
 
         this.page.subscribe(page => {
             this.entities = page.results;

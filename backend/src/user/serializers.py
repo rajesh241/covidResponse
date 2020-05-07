@@ -230,6 +230,7 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         token['name'] = user.name
         token['ur'] = user.user_role
         if user.team is not None:
+            print("Team is not None")
             token['group'] = user.team.name
             token['groupid'] = user.team.id
         else:

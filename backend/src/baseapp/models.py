@@ -41,6 +41,7 @@ class Entity(models.Model):
     formio_usergroup = models.CharField(max_length=256, null=True, blank=True,
                                        default='libtech')
     state = models.CharField(max_length=256, null=True, blank=True)
+    district = models.CharField(max_length=256, null=True, blank=True)
     region = models.CharField(max_length=256, null=True, blank=True)
     description = models.TextField(blank=True, null=True)
     contact_numbers = models.CharField(max_length=1024, null=True, blank=True)

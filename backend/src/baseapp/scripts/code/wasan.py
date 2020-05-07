@@ -44,6 +44,8 @@ def args_fetch():
                         required=False, action='store_const', const=1)
     parser.add_argument('-ie', '--importEntities', help='Import',
                         required=False, action='store_const', const=1)
+    parser.add_argument('-pd', '--populateDistricts', help='Import',
+                        required=False, action='store_const', const=1)
     parser.add_argument('-iu', '--importUsers', help='Import',
                         required=False, action='store_const', const=1)
     parser.add_argument('-cue', '--connectUsersEntity', help='Import',
@@ -272,7 +274,18 @@ def main():
             obj.status = STATUS_DICT.get(obj.status, None)
             obj.save()
 
-        
+    if args['populateDistricts']:
+        objs = Entity.objects.filter(record_type = "helpseekers").order_by("-id")
+    #    objs = Entity.objects.filter(id = 74533).order_by("-id")
+        for obj in objs:
+            try:
+                district = obj.prefill_json['data']['contactForm']['data']['district']
+            except:
+                district = None
+            logger.info(f"{obj.id} - {district}")
+            if district is not None:
+                obj.district = district
+                obj.save()
     if args['test']:
         states = Entity.objects.all().values('state').annotate(c=Count('id'))
         for state in states:

@@ -13,6 +13,8 @@ export class EntityService {
     private endpoint = environment.apiURL+"/api/public/entity/";
     private fbendpoint = environment.apiURL+"/api/public/feedback/";
     private listEndPoint = environment.apiURL+"/api/public/entity/";
+    private stateEndPoint = environment.apiURL+"/api/public/states/";
+    private districtEndPoint = environment.apiURL+"/api/public/districts/";
     private historyEndPoint = environment.apiURL+"/api/public/entityhistory/";
     private versionEndPoint = environment.apiURL+"/api/public/version/";
     private entityListEndPoint = environment.apiURL+"/api/public/entitylist/";
@@ -50,6 +52,12 @@ export class EntityService {
 
     getAllItems(): Observable<any>{
 	return this.http.get(this.entityListEndPoint,this.getHttpOptions());
+    }
+    getAllStates(): Observable<any>{
+	return this.http.get(this.stateEndPoint+"?limit=10000",this.getHttpOptions());
+    }
+    getAllDistricts(): Observable<any>{
+	return this.http.get(this.districtEndPoint+"?limit=10000",this.getHttpOptions());
     }
 
     bulkDeleteItems(data){
