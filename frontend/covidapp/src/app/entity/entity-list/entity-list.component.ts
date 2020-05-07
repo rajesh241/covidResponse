@@ -42,6 +42,7 @@ export class EntityListComponent  {
     states: any;
     districts: any;
     groups:any;
+    users:any;
     bulkAction: string = 'none';
     bulkActionList = {};
     panelOpen = true;
@@ -80,9 +81,9 @@ export class EntityListComponent  {
     tab = 'all';
     tabList = [
 	{'key': 'all', 'name': 'All', 'selected': false, 'class': 'fa-arrows-alt', 'color': 'green'},
-	{'key': 'mine', 'name': 'Assigned To Me', 'selected': false, 'class': 'fa-user', 'color': '#8A8A8A'},
 	{'key': 'team', 'name': 'My Team', 'selected': false, 'class': 'fa-group', 'color': 'brown'},
-	{'key': 'region', 'name': 'My Region', 'selected': false, 'class': 'fa-map-marker', 'color': 'red'},
+	{'key': 'mine', 'name': 'Assigned To Me', 'selected': false, 'class': 'fa-user', 'color': '#8A8A8A'},
+//	{'key': 'region', 'name': 'My Region', 'selected': false, 'class': 'fa-map-marker', 'color': 'red'},
     ];
 
     constructor(
@@ -176,6 +177,16 @@ export class EntityListComponent  {
                         console.log("Failed");
                     }
                 );
+             this.userService.getAllUsersPublic(this.usergroup)
+                   .subscribe(
+                       data => {
+                           console.log(' success');
+                           this.users = data.results;
+                       },
+                       err => {
+                           console.log("Failed");
+                       }
+                   );
 
         this.page.subscribe(page => {
             this.entities = page.results;

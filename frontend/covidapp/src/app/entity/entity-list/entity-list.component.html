@@ -64,7 +64,13 @@
           <label class="col-sm-1 col-form-label"></label>
           <label  class="col-sm-2 col-form-label" style="line-height:34px;">Volunteer</label>
           <div class="col-sm-4">
-            <input formControlName="assigned_to_user__name__icontains" class="form-control" placeholder="Search by Volunteer">
+                <mat-form-field>
+                  <mat-label>Assigned to Volunteer</mat-label>
+                  <mat-select formControlName="assigned_to_user__id">
+                    <mat-option value="">Assigned to Volunteer</mat-option>
+                    <mat-option *ngFor="let option of users" [value]="option.id">{{ option.name }}</mat-option>
+                  </mat-select>
+                </mat-form-field>
           </div>
 
           <!--
@@ -85,7 +91,7 @@
 
         <div class="form-group row" *ngIf="(tab !== 'mine')">
           <label class="col-sm-1 col-form-label"></label>
-          <label  class="col-sm-2 col-form-label" style="line-height:34px;">Team</label>
+          <label  class="col-sm-2 col-form-label" style="line-height:34px;">Assigned to Team</label>
           <div class="col-sm-4">
                 <mat-form-field>
                   <mat-label>By Team</mat-label>
