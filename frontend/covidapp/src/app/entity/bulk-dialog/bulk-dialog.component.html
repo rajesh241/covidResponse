@@ -32,7 +32,7 @@
               <mat-label>Assign to Team</mat-label>
               <mat-select formControlName="assigntogroup">
                 <mat-option value="">None</mat-option>
-                <mat-option *ngFor="let group of groups.results" [value]="group.id">{{ group.name }}</mat-option>
+                <mat-option *ngFor="let group of groups.results" [value]="group.id">{{ group.display }}</mat-option>
               </mat-select>
             </mat-form-field>
           </div>
