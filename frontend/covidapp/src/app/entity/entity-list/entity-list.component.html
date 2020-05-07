@@ -92,9 +92,9 @@
           <label  class="col-sm-2 col-form-label" style="line-height:34px;">Volunteer</label>
           <div class="col-sm-4">
                 <mat-form-field>
-                  <mat-label>Assigned to Volunteer</mat-label>
+                  <mat-label>By Volunteer</mat-label>
                   <mat-select formControlName="assigned_to_user__id">
-                    <mat-option value="">Assigned to Volunteer</mat-option>
+                    <mat-option value="">None</mat-option>
                     <mat-option *ngFor="let option of users" [value]="option.id">{{ option.name }}</mat-option>
                   </mat-select>
                 </mat-form-field>
@@ -118,7 +118,7 @@
 
         <div class="form-group row" *ngIf="(tab !== 'mine') && (tab !== 'team')">
           <label class="col-sm-1 col-form-label"></label>
-          <label  class="col-sm-2 col-form-label" style="line-height:34px;">Assigned to Team</label>
+          <label  class="col-sm-2 col-form-label" style="line-height:34px;">Team</label>
           <div class="col-sm-4">
                 <mat-form-field>
                   <mat-label>By Team</mat-label>
@@ -137,7 +137,7 @@
           </div>
         </div>
 
-        <div class="form-group row" *ngIf="(tab !== 'mine')">
+        <div class="form-group row">
           <label class="col-sm-1 col-form-label"></label>
           <label  class="col-sm-2 col-form-label" style="line-height:34px;">Region</label>
           <div class="col-sm-4">
@@ -161,7 +161,7 @@
         </div>
 
 
-            <div class="form-group row" *ngIf="(tab !== 'mine')">
+            <div class="form-group row">
               <section align="center">
                 <span *ngFor="let option of helpOptions">
                   <mat-checkbox [formControlName]="option.value">
@@ -196,8 +196,8 @@
                   <i class="fa fa-bug fa-lg" style="font-size: 25px; align:center; color:#8A8A8A; margin-left: 50px;"></i><label style="margin-left: 5px;">PET Meds </label>
                   -->
             </div>
-            <div class="form-group row" *ngIf="(tab !== 'mine')">
-              <div class="col-sm-4" style="padding-top:10px;">
+            <div class="form-group row">
+              <div class="col-sm-4" style="padding-top:10px;"  *ngIf="(tab === 'all')">
                 <div align="center">
                   <mat-form-field>
                     <mat-label>By Type</mat-label>
@@ -208,7 +208,7 @@
                   </mat-form-field>
                 </div>
               </div>
-              <mat-card class = "col-sm-8">
+              <mat-card class = "col-sm-8" *ngIf="authService.isAboveVolunteer()">
                 <mat-card-content>
                   <div *ngIf="isEmpty(bulkActionList)" align="center">
                     Please select items below for bulk actions to appear here
@@ -268,7 +268,7 @@
           <table class="table">
             <thead>
               <tr>
-                <th *ngIf="authService.isAboveVolunteer() && (tab !== 'mine')">
+                <th *ngIf="authService.isAboveVolunteer()">
                   <mat-checkbox [ngModelOptions]="{standalone: true}" class="cb-margin" (change)="allChecked()" [(ngModel)]="checkState"></mat-checkbox></th>
                 <th>ID</th>
                 <th>Name</th>
@@ -284,7 +284,7 @@
             </thead>
             <tbody>
               <tr *ngFor="let entity of (page | async)?.results;let i=index">
-                <td *ngIf="authService.isAboveVolunteer() && (tab !== 'mine')">
+                <td *ngIf="authService.isAboveVolunteer()">
                   <mat-checkbox
                     [ngModelOptions]="{standalone: true}"
                     class="cb-margin" (change)="onCBChange(entity)"

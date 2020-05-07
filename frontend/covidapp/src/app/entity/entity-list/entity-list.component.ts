@@ -132,7 +132,7 @@ export class EntityListComponent  {
             status: new FormControl(),
             dummy: new FormControl(),
             urgency: new FormControl(),
-            record_type: new FormControl()
+            record_type: new FormControl('helpseekers')
         });
 	this.helpOptions.forEach(option => {
 	    this.filterForm.addControl(option.value, new FormControl(option.selected));
