@@ -1,0 +1,12 @@
+<form *ngIf="items" align="center">
+  <mat-form-field>
+    <input matInput placeholder="Choose the assignee"
+           [matAutocomplete]="auto" [formControl]="acControl" />
+    <mat-autocomplete #auto="matAutocomplete" [displayWith]="acDisplay">
+      <mat-option *ngFor="let option of filteredOptions|async" [value]="option">
+        <span>{{ option.name }}</span> | <small>{{ option.id }}</small>
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+  <pre>{{ result|json }}</pre>
+</form>

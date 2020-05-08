@@ -91,6 +91,7 @@ import { HelpComponent } from './help/help.component';
 import { GuideComponent } from './help/guide/guide.component';
 import { TutorialComponent } from './help/tutorial/tutorial.component';
 import { FaqComponent } from './help/faq/faq.component';
+import { AutoCompleteComponent } from './utils/auto-complete/auto-complete.component';
 
 /*
 // AG Grid
@@ -173,6 +174,7 @@ export function provideConfig() {
         GuideComponent,
         TutorialComponent,
         FaqComponent,
+        AutoCompleteComponent,
         // EntityGridComponent,
 	/*
         DateComponent,
