@@ -249,7 +249,12 @@ class EntitySerializer(serializers.ModelSerializer):
         """Over riding teh create method of serializer"""
         obj = Entity.objects.create(**validated_data)
         self.parse_data_json(obj, validated_data)
-        
+        request = self.context.get('request')
+        obj.assigned_to_user = request.user
+        if request.user.team is not None:
+            obj.assigned_to_group = request.user.team
+        obj.save()
+          
       #  self.create_history(obj)
         return obj
 
