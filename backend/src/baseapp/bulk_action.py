@@ -45,6 +45,7 @@ def perform_bulk_action(data, user):
                     obj.assigned_to_user = myuser
                     if myuser.team is not None:
                         obj.assigned_to_group = myuser.team
+                obj.updated_by_user = user
                 obj.save()
     if bulk_action == "export":
         filename = formio_json.get("filename", None)
@@ -76,6 +77,7 @@ def perform_bulk_action(data, user):
                         if obj.assigned_to_user is not None:
                             if obj.assigned_to_user.team != obj:
                                 obj.assigned_to_user = None
+                    obj.updated_by_user = user
                     obj.save()
 
     if bulk_action == "assigntoorg":
