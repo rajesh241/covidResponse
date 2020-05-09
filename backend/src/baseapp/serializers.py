@@ -262,7 +262,7 @@ class EntitySerializer(serializers.ModelSerializer):
         """Overriding the default instance method"""
         for key,value in validated_data.items():
             setattr(instance, key, value)
-        instance.save()
+        #instance.save()
         self.parse_data_json(instance, validated_data)
         return instance
     def create_history(self, entity):
@@ -302,7 +302,7 @@ class EntitySerializer(serializers.ModelSerializer):
        #obj.assigned_to_user = obj.user
        #if obj.user.group is not None:
        #    obj.assigned_to_group = obj.user.group
-        self.create_history(obj)
+       # self.create_history(obj)
         obj.save()
        #keyword_array = []
        #address = obj.address

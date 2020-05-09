@@ -152,6 +152,13 @@ class EntityHistory(models.Model):
     status = models.CharField(max_length=256, null=True, blank=True)
     urgency = models.CharField(max_length=1024, null=True, blank=True)
     remarks = models.TextField(blank=True, null=True)
+    assigned_to_user = models.ForeignKey(User, on_delete=models.CASCADE, null=True,
+                             blank=True, related_name="es_user_assignment")
+    updated_by_user = models.ForeignKey(User, on_delete=models.CASCADE, null=True,
+                             blank=True, related_name="es_user_updated")
+    assigned_to_group = models.ForeignKey(Team, on_delete=models.SET_NULL,
+                                        blank=True, null=True,
+                                        related_name="eh_org_group")
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     modified = models.DateTimeField(default=timezone.now)
@@ -176,9 +183,23 @@ class Feedback(models.Model):
     def __str__(self):
         """Default str method for the class"""
         return f"{self.id}"
-@receiver(post_save, sender=Entity)
-def update_context(sender, instance, created, **kwargs):
-    if (instance.is_facility == False):
-        if(instance.record_type == "facility"):
-            instance.is_facility = True
-            instance.save()
+
+
+def create_history(sender, instance, *args, **kwargs):
+   '''Function to create history'''
+   try:
+       obj = EntityHistory.objects.create(entity=instance)
+       obj.title = instance.title
+       obj.what_help = instance.what_help
+       obj.user_name = instance.updated_by_user.name
+       obj.status = instance.status
+       obj.urgency = instance.urgency
+       obj.remarks = instance.remarks
+       obj.prefill_json = instance.prefill_json
+       obj.assigned_to_user = instance.assigned_to_user
+       obj.assigned_to_group = instance.assigned_to_group
+       obj.updated_by_user = instance.updated_by_user
+       obj.save()
+   except:
+       obj = None
+post_save.connect(create_history, sender=Entity)
