@@ -12,12 +12,12 @@
 
 <div *ngIf="!formioBased">
  <mat-card *ngIf="dataLoaded">
-    <mat-card-title>{{ title }}</mat-card-title>
+    <mat-card-title align="center">{{ title }}</mat-card-title>
     <mat-card-content>
       <div *ngIf="loadVolunteerForm || loadGroupForm">
         <form [formGroup]="assignForm" (ngSubmit)="submitAssign()">
 
-          <div *ngIf="loadVolunteerForm" align="center" class="col-sm-3">
+          <div *ngIf="loadVolunteerForm" align="center">
             <!--
             <mat-form-field>
               <mat-label>Assign to Volunteer</mat-label>
@@ -34,7 +34,7 @@
             </app-auto-complete>
           </div>
 
-          <div *ngIf="loadGroupForm" align="center" class="col-sm-3">
+          <div *ngIf="loadGroupForm" align="center">
             <!--
             <mat-form-field>
               <mat-label>Assign to Team</mat-label>
@@ -50,12 +50,18 @@
                                formControlName="assigntogroup">
             </app-auto-complete>
           </div>
-
-          <div style="padding: 4px;">
-            <button mat-raised-button class="btn btn-block"
-            type="submit">
-          Assign
-        </button>
+          <br />
+          <div style="padding: 4px;" align="center">
+            <button mat-raised-button class="btn"
+                    type="submit">
+              Assign
+            </button>
+            <label style="padding: 0 10px;"></label>
+            <button mat-raised-button class="btn" *ngIf="unassignable"
+                    (click)="onUnassign()">
+              <i class="fa fa-warning fa-lg" style="align:center; color:red; margin-left: 5px;"></i>
+              Unassign
+            </button>
           </div>
         </form>
       </div>

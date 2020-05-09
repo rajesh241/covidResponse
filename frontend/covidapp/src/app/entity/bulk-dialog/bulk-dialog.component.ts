@@ -47,6 +47,7 @@ export class BulkDialogComponent implements OnInit {
         {'value': 'followup', 'name': 'Follow Up'},
         {'value': 'closed', 'name': 'Closed'}
     ];
+    public unassignable: boolean = false;
 
     constructor(
         private fb: FormBuilder,
@@ -59,6 +60,13 @@ export class BulkDialogComponent implements OnInit {
         console.log(data);
 	this.usergroup = localStorage.getItem('usergroup');
 	this.userid = localStorage.getItem('userid');
+        this.user_role = localStorage.getItem('ur');
+        this.usergroup=localStorage.getItem('usergroup')
+        if (this.user_role =="usergroupadmin"){
+            this.groupID = "undefined"
+        }else{
+            this.groupID = localStorage.getItem('groupid');
+        }
 	this.exportFilename = this.userid + "_" +  Math.floor(Math.random()*(100)+0) + ".csv"
 	this.data = data;
         this.action = data.action;
@@ -85,22 +93,24 @@ export class BulkDialogComponent implements OnInit {
 	else{
 	    this.formioBased = true;
 	}
+
+        // Visibity of unassign button
+        if (this.user_role === 'usergroupadmin')
+            this.unassignable = true;
+        else if (this.user_role === 'groupAdmin' && this.loadVolunteerForm)
+            this.unassignable = true;
+        else
+            this.unassignable = false;
+
 	this.entities = data.entities;
 	console.log(this.entities);
 	this.form_url = formioConfig.appUrl + `/forms/v1/${this.action.key}`;
 	console.log(`Action From URL[${this.form_url}]`);
 
-        this.user_role = localStorage.getItem('ur');
-        this.usergroup=localStorage.getItem('usergroup')
-        if (this.user_role =="usergroupadmin"){
-            this.groupID = "undefined"
-        }else{
-            this.groupID = localStorage.getItem('groupid');
-        }
         this.filterForm = new FormGroup({
           limit : new FormControl(10000),
           formio_usergroup : new FormControl(),
-          group__id : new FormControl(this.groupID),
+          group__id : new FormControl(),
           ordering : new FormControl('name')
         });
         this.page = this.filterForm.valueChanges.pipe(
@@ -115,33 +125,32 @@ export class BulkDialogComponent implements OnInit {
 
     ngOnInit() {
 	if (this.action.key == "assigntovolunteer"){
-             this.userService.getAllUsersPublic(this.usergroup)
-                   .subscribe(
-                       data => {
-                           console.log(' success', data);
-                           this.users = data;
-                           this.dataLoaded = Promise.resolve(true);
-                       },
-                       err => {
-                           console.log("Failed");
-                           this.dataLoaded = Promise.resolve(false);
-                       }
-                   );
-         }else{
-             this.userService.getAllGroupsPublic()
-                   .subscribe(
-                       data => {
-                           console.log(' success', data);
-                           this.groups = data;
-                           this.dataLoaded = Promise.resolve(true);
-                       },
-                       err => {
-                           console.log("Failed");
-                           this.dataLoaded = Promise.resolve(false);
-                       }
-                   );
-	 }
-
+            this.userService.getAllUsersPublic(this.usergroup)
+                .subscribe(
+                    data => {
+                        console.log(' success', data);
+                        this.users = data;
+                        this.dataLoaded = Promise.resolve(true);
+                    },
+                    err => {
+                        console.log("Failed");
+                        this.dataLoaded = Promise.resolve(false);
+                    }
+                );
+        }else{
+            this.userService.getAllGroupsPublic()
+                .subscribe(
+                    data => {
+                        console.log(' success', data);
+                        this.groups = data;
+                        this.dataLoaded = Promise.resolve(true);
+                    },
+                    err => {
+                        console.log("Failed");
+                        this.dataLoaded = Promise.resolve(false);
+                    }
+                );
+	}
 
         this.assignForm = new FormGroup({
             assigntovolunteer: new FormControl(),
@@ -160,6 +169,22 @@ export class BulkDialogComponent implements OnInit {
 	}
 	else // could directly call this from HTML
 	    this.cancel();
+    }
+
+    onUnassign() {
+        console.log(`BulkDialogComponent.submitAssign()`, this.assignForm);
+        if (this.loadVolunteerForm)
+            this.assignForm.controls['assigntovolunteer'].setValue('');
+        else
+            this.assignForm.controls['assigntogroup'].setValue('');
+
+        /* FIXME Why is this not required? Submit happening automatically?
+        if (this.assignForm.valid) {
+            console.log(this.assignForm.value);
+            this.data.json = this.assignForm.value;
+            this.dialogRef.close(this.data);
+	}
+        */
     }
 
     submitAssign(){
