@@ -47,13 +47,15 @@ class Entity(models.Model):
     contact_numbers = models.CharField(max_length=1024, null=True, blank=True)
     phone = models.CharField(max_length=256, null=True, blank=True)
     record_type = models.CharField(max_length=1024, null=True, blank=True,
-                                   default="needHelp")
+                                   default="helpseekers")
     address = models.TextField(null=True, blank=True)
     keywords = models.TextField(null=True, blank=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True,
                              blank=True)
     assigned_to_user = models.ForeignKey(User, on_delete=models.CASCADE, null=True,
                              blank=True, related_name="user_assignment")
+    updated_by_user = models.ForeignKey(User, on_delete=models.CASCADE, null=True,
+                             blank=True, related_name="user_updated")
     assigned_to_org = models.ForeignKey('self', on_delete=models.SET_NULL,
                                         blank=True, null=True,
                                         related_name="org_assignment")
