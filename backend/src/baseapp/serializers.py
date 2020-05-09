@@ -52,7 +52,8 @@ class BulkOperationSerializer(serializers.ModelSerializer):
         """Over riding teh create method of serializer"""
         print(validated_data)
         obj = BulkOperation.objects.create(**validated_data)
-        perform_bulk_action(validated_data)
+        request = self.context.get('request')
+        perform_bulk_action(validated_data, request.user)
         #self.parse_data_json(obj, validated_data)
         return obj
 
