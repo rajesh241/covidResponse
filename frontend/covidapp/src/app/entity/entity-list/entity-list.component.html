@@ -222,9 +222,10 @@
               </div>
               <mat-card class = "col-sm-8" *ngIf="authService.isAboveVolunteer()">
                 <mat-card-content>
-                  <div *ngIf="isEmpty(bulkActionList)" align="center">
+                  <div *ngIf="!showBulkActions" align="center">
                     Please select items below for bulk actions to appear here
                   </div>
+                  <div *ngIf="showBulkActions">
                   <ng-container
                     *ngFor="let option of bulkActionList|keyvalue;">
                     <button mat-raised-button class="btn-success"
@@ -233,6 +234,7 @@
                     </button><!-- style="padding: 5px; line-height:40px" -->
                     <label style="margin: 5px;"></label>
                   </ng-container>
+                  </div>
                 </mat-card-content>
               </mat-card>
             </div>

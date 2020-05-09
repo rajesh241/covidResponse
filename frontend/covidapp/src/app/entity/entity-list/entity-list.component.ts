@@ -35,7 +35,8 @@ export class EntityListComponent  {
     page: Observable<Page<Entity>>;
     pageUrl = new Subject<string>();
     success: boolean = false;
-    dataLoaded: Promise<boolean>;
+    public dataLoaded: Promise<boolean>;
+    public panelOpen: boolean = true;
     selectedEntities: any;
     checkState: boolean = false;
     entities: any;
@@ -43,9 +44,13 @@ export class EntityListComponent  {
     districts: any;
     groups:any;
     users:any;
-    bulkAction: string = 'none';
-    bulkActionList = {};
-    panelOpen = true;
+    public showBulkActions: boolean = false;
+    bulkActionList = {
+        "assigntovolunteer":"Assign To Volunteer",
+        "assigntogroup":"Assign To Team",
+        "duplicate":"Suggest Duplicate",
+        "export":"Export"
+    };
     isAssignedOptions = [
         {'value': '1', 'name': 'Unassigned'},
         {'value': '0', 'name': 'Assigned'}
@@ -212,11 +217,12 @@ export class EntityListComponent  {
         this.page.subscribe(page => {
             this.entities = page.results;
 	    this.checkState = false;
+            this.showBulkActions = false;
             delete this.selectedEntities;
 	    this.selectedEntities = {};
 	    console.log('Page Subscription');
 	    //console.log(this.entities);
-            this.bulkActionList = {};
+            // this.bulkActionList = {};
             this.entities.forEach(entity => {
                 this.selectedEntities[entity.id] = this.checkState;
             });
@@ -320,18 +326,20 @@ export class EntityListComponent  {
         this.entities.forEach( entity => {
             this.selectedEntities[entity.id] = this.checkState;
         });
-        this.bulkActionIntersection();
+        //this.bulkActionIntersection();
+        this.showBulkActions = this.checkState;
     }
 
     isEmpty(obj) {
 	return Object.entries(obj).length === 0;
     }
 
+    /*
     bulkActionIntersection() {
         console.log('EntityListComponent.bulkActionIntersection()');
 
         delete this.bulkActionList;
-        this.bulkActionList = {};
+        // this.bulkActionList = {};
 
         this.entities.forEach(entity => {
             if (this.selectedEntities[entity.id]) {
@@ -359,11 +367,13 @@ export class EntityListComponent  {
 
         console.log(`Final ${JSON.stringify(this.bulkActionList)}`);
     }
+    */
 
     onCBChange(entity) {
         console.log('EntityListComponent.onCBChange()');
-        this.bulkActionIntersection();
-        console.log(`Final ${JSON.stringify(this.bulkActionList)}`);
+        // this.bulkActionIntersection();
+        // console.log(`Final ${JSON.stringify(this.bulkActionList)}`);
+        this.showBulkActions = Object.values(this.selectedEntities).some(e => e);
     }
 
     onBulkAction(action) {
@@ -382,7 +392,7 @@ export class EntityListComponent  {
 	}
 	*/
 
-        console.log(this.selectedEntities);
+        //console.log(this.selectedEntities);
 	let chosenEntites = [];
 
         this.entities.forEach(
@@ -409,7 +419,7 @@ export class EntityListComponent  {
 
             dialogRef.afterClosed().subscribe(
                 data => {
-		    let entity_ids = new  Array();
+		    let entity_ids = Object.keys(this.selectedEntities);
 		    var length;
 		    let ids_json : any;
                     
@@ -418,10 +428,12 @@ export class EntityListComponent  {
 
 		    console.log(`EntityListComponent.onBulkAction().dialogRef.afterClosed()`, data);
                     // FIXME - This is alredy there - this.selectedEntities[]
+                    /*
 		    for (let entity of data.entities) {
 			console.log("Printing entity id " + entity.id); // 1, "string", false
 			entity_ids.push(entity.id)
 		    }
+                    */
 		    console.log("Entity Ids is " + entity_ids);
 		    ids_json = { "ids" : entity_ids}
                     this.entityService.createBulkOperation({
