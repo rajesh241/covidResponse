@@ -8,7 +8,7 @@
 
     <mat-autocomplete #auto="matAutocomplete" [displayWith]="acDisplay">
       <mat-option *ngFor="let option of filteredOptions|async" [value]="option">
-        <span>{{ option.name }}</span><span *ngIf="subscript"> | <small>{{ option.id }}</small></span>
+        <span>{{ option.name }}</span><span *ngIf="false"> | <small>{{ option.id }}</small></span>
       </mat-option>
     </mat-autocomplete>
   </mat-form-field>

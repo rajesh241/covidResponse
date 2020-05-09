@@ -419,7 +419,7 @@ export class EntityListComponent  {
 
             dialogRef.afterClosed().subscribe(
                 data => {
-		    let entity_ids = Object.keys(this.selectedEntities);
+		    let entity_ids = new  Array();
 		    var length;
 		    let ids_json : any;
                     
@@ -428,12 +428,10 @@ export class EntityListComponent  {
 
 		    console.log(`EntityListComponent.onBulkAction().dialogRef.afterClosed()`, data);
                     // FIXME - This is alredy there - this.selectedEntities[]
-                    /*
 		    for (let entity of data.entities) {
-			console.log("Printing entity id " + entity.id); // 1, "string", false
+			//console.log("Printing entity id " + entity.id); // 1, "string", false
 			entity_ids.push(entity.id)
 		    }
-                    */
 		    console.log("Entity Ids is " + entity_ids);
 		    ids_json = { "ids" : entity_ids}
                     this.entityService.createBulkOperation({
