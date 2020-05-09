@@ -14,7 +14,7 @@ from rest_framework import exceptions
 from core.models import Team, Organization
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
-
+from baseapp.models import Entity
 class ItemSerializer(serializers.Serializer):
     """Your Custom Serializer"""
     # Gets a list of Integers
@@ -155,6 +155,14 @@ class UserSerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
         """Update function of serializer"""
+        #If the team has changed then we should unassign all the cases for
+        #volunteer
+        current_team = validated_data.get('team', None)
+        if ((current_team is not None) and (current_team != instance.team)):
+            objs = Entity.objects.filter(assigned_to_user = instance)
+            for obj in objs:
+                obj.assigned_to_user = None
+                obj.save()
         password = validated_data.pop("password", None)
         request=self.context.get('request')
         if not(request.user.is_superuser):
