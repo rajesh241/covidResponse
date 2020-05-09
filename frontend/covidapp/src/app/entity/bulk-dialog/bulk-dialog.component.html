@@ -18,6 +18,7 @@
         <form [formGroup]="assignForm" (ngSubmit)="submitAssign()">
 
           <div *ngIf="loadVolunteerForm" align="center" class="col-sm-3">
+            <!--
             <mat-form-field>
               <mat-label>Assign to Volunteer</mat-label>
               <mat-select formControlName="assigntovolunteer">
@@ -25,9 +26,16 @@
                 <mat-option *ngFor="let user of (page | async)?.results" [value]="user.id">{{ user.name }}</mat-option>
               </mat-select>
             </mat-form-field>
+            -->
+            <app-auto-complete desc="Assign to Volunteer"
+                               [subscript]="true"
+                               [items]="(page | async)?.results"
+                               formControlName="assigntovolunteer">
+            </app-auto-complete>
           </div>
 
           <div *ngIf="loadGroupForm" align="center" class="col-sm-3">
+            <!--
             <mat-form-field>
               <mat-label>Assign to Team</mat-label>
               <mat-select formControlName="assigntogroup">
@@ -35,31 +43,37 @@
                 <mat-option *ngFor="let group of groups.results" [value]="group.id">{{ group.display }}</mat-option>
               </mat-select>
             </mat-form-field>
+            -->
+            <app-auto-complete desc="Assign to Team"
+                               [subscript]="true"
+                               [items]="groups.results"
+                               formControlName="assigntogroup">
+            </app-auto-complete>
           </div>
 
           <div style="padding: 4px;">
             <button mat-raised-button class="btn btn-block"
-		    type="submit">
-	      Assign
-	    </button>
+            type="submit">
+          Assign
+        </button>
           </div>
         </form>
       </div>
       <div *ngIf="loadExportDialog" class="well">
-	      YOu would be redirected to the export file shortly
+          YOu would be redirected to the export file shortly
       </div>
       <div *ngIf="loadDuplicateDialog" class="well">
-	You are suggestiong the selection(s) be marked as duplicate. Are you sure?
-	<label style="margin: 5px;"></label>
+    You are suggestiong the selection(s) be marked as duplicate. Are you sure?
+    <label style="margin: 5px;"></label>
         <button mat-raised-button class="btn" (click)="onSubmit(true)">
-	  Yes
-	</button>
-	<label style="margin: 5px;"></label>
+      Yes
+    </button>
+    <label style="margin: 5px;"></label>
         <button mat-raised-button class="btn" (click)="onSubmit(false)">
-	  No
-	</button>
-	<br />
-	<p><b><i class="fa fa-warning fa-lg" style="color:red; padding: 0 5px;"></i>NOTE: This will be submitted to the Approval Team.</b></p>
+      No
+    </button>
+    <br />
+    <p><b><i class="fa fa-warning fa-lg" style="color:red; padding: 0 5px;"></i>NOTE: This will be submitted to the Approval Team.</b></p>
       </div>
     </mat-card-content>
   </mat-card>
