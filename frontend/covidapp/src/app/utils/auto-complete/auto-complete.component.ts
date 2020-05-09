@@ -115,4 +115,9 @@ export class AutoCompleteComponent implements OnInit {
         // return value; // this not accessible here FIXME
         return option? option.name: undefined;
     }
+
+    public acClear() {
+        this.onChange('');
+        this.acControl.setValue('');
+    }
 }
