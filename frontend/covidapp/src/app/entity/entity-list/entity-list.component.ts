@@ -163,7 +163,11 @@ export class EntityListComponent  {
                 .subscribe(
                     data => {
                         console.log(' success');
-                        this.states = data.results;
+                        this.states = data.results.map(
+                            option => {
+                                return {'id': option.count, 'name': option.state};
+                            });
+                        // console.log(this.states);
                     },
                     err => {
                         console.log("Failed");
@@ -174,7 +178,11 @@ export class EntityListComponent  {
                 .subscribe(
                     data => {
                         console.log(' success');
-                        this.districts = data.results;
+                        this.districts = data.results.map(
+                            option => {
+                                return {'id': option.count, 'name': option.district};
+                            });
+                        // console.log(this.districts);
                     },
                     err => {
                         console.log("Failed");

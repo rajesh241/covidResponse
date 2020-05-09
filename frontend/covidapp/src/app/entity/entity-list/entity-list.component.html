@@ -91,6 +91,7 @@
           <label class="col-sm-1 col-form-label"></label>
           <label  class="col-sm-2 col-form-label" style="line-height:34px;">Volunteer</label>
           <div class="col-sm-4">
+                  <!--
                 <mat-form-field>
                   <mat-label>By Volunteer</mat-label>
                   <mat-select formControlName="assigned_to_user__id">
@@ -98,6 +99,8 @@
                     <mat-option *ngFor="let option of users" [value]="option.id">{{ option.name }}</mat-option>
                   </mat-select>
                 </mat-form-field>
+                  -->
+                <app-auto-complete desc="By Volunteer" [subscript]="true" [items]="users" formControlName="assigned_to_user__id"></app-auto-complete>
           </div>
 
           <!--
@@ -120,6 +123,7 @@
           <label class="col-sm-1 col-form-label"></label>
           <label  class="col-sm-2 col-form-label" style="line-height:34px;">Team</label>
           <div class="col-sm-4">
+            <!--
                 <mat-form-field>
                   <mat-label>By Team</mat-label>
                   <mat-select formControlName="assigned_to_group__id">
@@ -127,6 +131,8 @@
                     <mat-option *ngFor="let option of groups" [value]="option.id">{{ option.display }}</mat-option>
                   </mat-select>
                 </mat-form-field>
+                -->
+                <app-auto-complete desc="By Team" [subscript]="true" [items]="groups" formControlName="assigned_to_group__id"></app-auto-complete>
           </div>
           <div align="center" class="col-sm-3">
             <mat-button-toggle-group appearance="legacy" style="top:-3px;"
@@ -141,6 +147,7 @@
           <label class="col-sm-1 col-form-label"></label>
           <label  class="col-sm-2 col-form-label" style="line-height:34px;">Region</label>
           <div class="col-sm-4">
+            <!--
             <mat-form-field>
               <mat-label>By State</mat-label>
               <mat-select formControlName="state">
@@ -148,8 +155,11 @@
                 <mat-option *ngFor="let option of states" [value]="option.state">{{ option.state }}</mat-option>
               </mat-select>
             </mat-form-field>
+            -->
+            <app-auto-complete desc="By State" [subscript]="false" [items]="states" formControlName="state"></app-auto-complete>
           </div>
           <div align="center" class="col-sm-3">
+            <!--
             <mat-form-field>
               <mat-label>By District</mat-label>
               <mat-select formControlName="district">
@@ -157,6 +167,8 @@
                 <mat-option *ngFor="let option of districts" [value]="option.district">{{ option.district }}</mat-option>
               </mat-select>
             </mat-form-field>
+            -->
+            <app-auto-complete desc="By District" [subscript]="false" [items]="districts" formControlName="district"></app-auto-complete>
           </div>
         </div>
 
