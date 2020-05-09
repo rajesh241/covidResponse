@@ -9,7 +9,10 @@ import datetime
 import pandas as pd
 User = get_user_model()
 
-def perform_bulk_action(data):
+def perform_bulk_action(data, user):
+    is_superuser = False
+    if ( (user.is_staff) or (user.user_role == "usergroupadmin")):
+        is_superuser = True
     ids_json = data.get("ids_json", None)
     if ids_json is None:
         return
@@ -62,17 +65,18 @@ def perform_bulk_action(data):
         for each_id in id_array:
             obj = Entity.objects.filter(id=each_id).first()
             if obj is not None:
-                if myobj is None:
-                    obj.assigned_to_group = None
-                else:
-                    extra_fields = obj.extra_fields
-                    extra_fields['assigned_to_group'] = myobj.name
-                    obj.extra_fields = extra_fields
-                    obj.assigned_to_group = myobj
-                    if obj.assigned_to_user is not None:
-                        if obj.assigned_to_user.team != obj:
-                            obj.assigned_to_user = None
-                obj.save()
+                if ( (obj.assigned_to_group is None) or (is_superuser == True)):
+                    if myobj is None:
+                        obj.assigned_to_group = None
+                    else:
+                        extra_fields = obj.extra_fields
+                        extra_fields['assigned_to_group'] = myobj.name
+                        obj.extra_fields = extra_fields
+                        obj.assigned_to_group = myobj
+                        if obj.assigned_to_user is not None:
+                            if obj.assigned_to_user.team != obj:
+                                obj.assigned_to_user = None
+                    obj.save()
 
     if bulk_action == "assigntoorg":
         print("I am in assign volunteer")
@@ -102,7 +106,7 @@ def perform_bulk_action(data):
 def export_entities(queryset, filename):
         csv_array = []
         columns = ['ID', 'Urgency', 'Status', 'Assigned to', 'Remarks',
-                   'Connected with Govt Scheme', 'Organisation Name',
+                   'Connected with Govt Scheme', 'Team Name', 'Organisation Name',
                    'Contact', 'Mobile', 'Help Expected', 'Stranded State',
                    'Stranded District', 'StrandedBlock', 
                    'Stranded City/Panchayat', 'Stranded Address', 'Native State', 
@@ -121,9 +125,11 @@ def export_entities(queryset, filename):
             except:
                 stranded_district = ''
             if obj.assigned_to_group is not None:
-                org_name = obj.assigned_to_group.name
+                team_name = obj.assigned_to_group.name
+                org_name = obj.assigned_to_group.organization.name
             else:
                 org_name = ''
+                team_name = ''
             government_scheme = ''
             contact = ''
             stranded_state = obj.state
@@ -156,7 +162,7 @@ def export_entities(queryset, filename):
             initial_date = ''
 
             a = [obj.id, obj.urgency, obj.status, user_name, obj.remarks,
-                 government_scheme, org_name, contact, obj.phone,
+                 government_scheme, team_name, org_name, contact, obj.phone,
                  obj.what_help, stranded_state, stranded_district,
                  stranded_block, stranded_panchayat, stranded_address, native_state,
                  native_district, how_many_people, date_called, govt_official,
