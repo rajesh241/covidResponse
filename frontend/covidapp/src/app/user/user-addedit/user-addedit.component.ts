@@ -112,7 +112,7 @@ export class UserAddeditComponent implements OnInit {
                     this.form  = new FormGroup({
                       name: new FormControl(this.user.name),
                       user_role: new FormControl(this.user.user_role),
-                      group: new FormControl(this.user.group),
+                      team: new FormControl(this.user.team),
                     });
                     if (this.user["provider"] == "native"){
                         this.is_social_user = false;
