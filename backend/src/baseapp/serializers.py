@@ -292,6 +292,8 @@ class EntitySerializer(serializers.ModelSerializer):
             obj.remarks = get_remarks(obj.prefill_json)
         keywords = f"{obj.title},{obj.phone},{obj.email}"
         obj.keywords = keywords
+        request = self.context.get('request')
+        obj.updated_by_user = request.user
        #obj.assigned_to_user = obj.user
        #if obj.user.group is not None:
        #    obj.assigned_to_group = obj.user.group

@@ -54,6 +54,8 @@ class Entity(models.Model):
                              blank=True)
     assigned_to_user = models.ForeignKey(User, on_delete=models.CASCADE, null=True,
                              blank=True, related_name="user_assignment")
+    updated_by_user = models.ForeignKey(User, on_delete=models.CASCADE, null=True,
+                             blank=True, related_name="user_updated")
     assigned_to_org = models.ForeignKey('self', on_delete=models.SET_NULL,
                                         blank=True, null=True,
                                         related_name="org_assignment")
