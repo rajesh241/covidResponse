@@ -36,33 +36,39 @@
         </div>
 
         <div class="row col-md-12">
-          <div class="form-group row col-md-7">
-            <div class="col-sm-1">
+          <div class="form-group row col-md-6">
+            <div class="col-sm-2">
             </div>
-          <label  class="col-sm-2 col-form-label"  style="line-height:34px;">Search</label>
-          <div class="col-sm-8">
-            <input formControlName="search" class="form-control" placeholder="Search by Name, Phone">
+            <!--
+            <label  class="col-sm-3 col-form-label"  style="line-height:34px;">Search</label>
+            -->
+            <div class="col-sm-10" align="center">
+              <input formControlName="search" class="form-control" placeholder="Search by Name, Phone">
+            </div>
           </div>
-        </div>
-        <div class="form-group row col-md-5" style="margin-top: -12px;">
-              <div align="center" class="col-sm-6">
-                <mat-form-field>
-                  <mat-label>By Status</mat-label>
-                  <mat-select formControlName="status">
-                    <mat-option value="">None</mat-option>
-                    <mat-option *ngFor="let option of statusOptions" [value]="option.value">{{ option.name }}</mat-option>
-                  </mat-select>
-                </mat-form-field>
-              </div>
-              <div align="center" class="col-sm-6">
-                <mat-form-field>
-                  <mat-label>By Urgency</mat-label>
-                  <mat-select formControlName="urgency">
-                    <mat-option value="">None</mat-option>
-                    <mat-option *ngFor="let option of urgencyOptions" [value]="option.value">{{ option.name }}</mat-option>
-                  </mat-select>
-                </mat-form-field>
-              </div>
+          <div class="form-group row col-md-6" style="margin-top: -12px;">
+            <div align="center" class="col-sm-1">
+            </div>
+            <div align="center" class="col-sm-5" style="width: 215px;">
+              <mat-form-field>
+                <mat-label>By Status</mat-label>
+                <mat-select formControlName="status">
+                  <mat-option value="">None</mat-option>
+                  <mat-option *ngFor="let option of statusOptions" [value]="option.value">{{ option.name }}</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div align="center" class="col-sm-5" style="width: 215px;">
+              <mat-form-field>
+                <mat-label>By Urgency</mat-label>
+                <mat-select formControlName="urgency">
+                  <mat-option value="">None</mat-option>
+                  <mat-option *ngFor="let option of urgencyOptions" [value]="option.value">{{ option.name }}</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div align="center" class="col-sm-1">
+            </div>
               <!--
                   <div align="center" class="col-sm-4">
                     <mat-form-field>
@@ -87,10 +93,29 @@
             </div>
         </div>
 
+        <!-- BEGIN Org filter and Type filter to show only on all tab BEGIN -->
+        <div class="form-group row" *ngIf="(tab === 'all')">
+          <label class="col-sm-1 col-form-label"></label>
+          <label  class="col-sm-2 col-form-label" style="line-height:34px;">
+            Organization
+          </label>
+          <div class="col-sm-3">
+            <app-auto-complete desc="By Org" [subscript]="true" [items]="orgs" formControlName="assigned_to_group__organization__id"></app-auto-complete>
+          </div>
+          <div align="center" class="col-sm-3">
+            <mat-button-toggle-group appearance="legacy" style="top:-3px;"
+                                     formControlName="record_type">
+              <mat-button-toggle mat-raised-button [value]="">All</mat-button-toggle>
+              <mat-button-toggle *ngFor="let option of recordTypeOptions" [value]="option.value">{{ option.name }}</mat-button-toggle>
+            </mat-button-toggle-group>
+          </div>
+        </div>
+        <!-- END Org filter and Type filter END -->
+
         <div class="form-group row" *ngIf="(tab !== 'mine')">
           <label class="col-sm-1 col-form-label"></label>
           <label  class="col-sm-2 col-form-label" style="line-height:34px;">Volunteer</label>
-          <div class="col-sm-4">
+          <div class="col-sm-3">
                   <!--
                 <mat-form-field>
                   <mat-label>By Volunteer</mat-label>
@@ -122,7 +147,7 @@
         <div class="form-group row" *ngIf="(tab !== 'mine') && (tab !== 'team')">
           <label class="col-sm-1 col-form-label"></label>
           <label  class="col-sm-2 col-form-label" style="line-height:34px;">Team</label>
-          <div class="col-sm-4">
+          <div class="col-sm-3">
             <!--
                 <mat-form-field>
                   <mat-label>By Team</mat-label>
@@ -146,7 +171,7 @@
         <div class="form-group row">
           <label class="col-sm-1 col-form-label"></label>
           <label  class="col-sm-2 col-form-label" style="line-height:34px;">Region</label>
-          <div class="col-sm-4">
+          <div class="col-sm-3">
             <!--
             <mat-form-field>
               <mat-label>By State</mat-label>
@@ -209,7 +234,7 @@
                   -->
             </div>
             <div class="form-group row well" style="padding: 5px;">
-              <div class = "col-sm-8" align="center">
+              <div class = "col-sm-auto" align="center">
                 <mat-card *ngIf="authService.isAboveVolunteer() || (tab === 'mine')">
                   <mat-card-content>
                     <div *ngIf="!showBulkActions" align="center" style="padding:8px;">
@@ -228,6 +253,7 @@
                   </mat-card-content>
                 </mat-card>
               </div>
+              <!--
               <div class="col-sm-4" style="padding-top:10px;"  *ngIf="(tab === 'all')">
                 <div align="center">
                   <mat-form-field>
@@ -239,6 +265,7 @@
                   </mat-form-field>
                 </div>
               </div>
+              -->
             </div>
 
             <div align="center row">
@@ -291,6 +318,7 @@
                 <th>Phone</th>
                 <th>Size</th>
                 <th>Needs</th>
+                <th *ngIf="tab === 'all'">Org</th>
                 <th>Team</th>
                 <th>Volunteer</th>
                 <th>Status</th>
@@ -342,12 +370,13 @@
                         <i class="fa fa-lg" [ngClass]="option?.class" [ngStyle]="{'color': option?.color}"></i><label style="padding: 0 2px;"></label>
                       </ng-container>
                 </td>
+                <td *ngIf="tab === 'all'">{{ entity.assigned_to_org }}</td>
                 <td *ngIf="!entity.assigned_to_group"></td>
-                <td *ngIf="entity.assigned_to_group">{{entity.assigned_to_group.name}}</td>
+                <td *ngIf="entity.assigned_to_group">{{ entity.assigned_to_group.name }}</td>
                 <td *ngIf="!entity.assigned_to_user"></td>
-                <td *ngIf="entity.assigned_to_user">{{entity.assigned_to_user.name}}</td>
-                <td>{{entity.status}}</td>
-                <td>{{entity.urgency}}</td>
+                <td *ngIf="entity.assigned_to_user">{{ entity.assigned_to_user.name }}</td>
+                <td>{{ entity.status }}</td>
+                <td>{{ entity.urgency }}</td>
                 <td *ngIf="authService.isAboveVolunteer() || (tab === 'mine')" class="td-actions">
                   <div>
                     <button mat-raised-button class="btn btn-primary"

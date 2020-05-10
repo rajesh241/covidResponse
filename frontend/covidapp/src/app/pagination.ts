@@ -64,6 +64,10 @@ export function queryPaginated<T>(http: HttpClient, baseUrl: string, insertToken
 		console.log("this is not undefined value");
                 params = params.set(key, value.toString());
             }
+            else if ( (value != undefined)  && (key === "assigned_to_group__organization__id")){
+		console.log("this is not undefined value");
+                params = params.set(key, value.toString());
+            }
             else if ( (value != null) && (key === "facility")){
                 params = params.set(key, value.toString());
             }

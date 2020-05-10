@@ -42,8 +42,9 @@ export class EntityListComponent  {
     entities: any;
     states: any;
     districts: any;
-    groups:any;
-    users:any;
+    public users:any;
+    public groups:any;
+    public orgs: any;
     public showBulkActions: boolean = false;
     bulkActionList;
     isAssignedOptions = [
@@ -57,10 +58,17 @@ export class EntityListComponent  {
         {'value': 'followup', 'name': 'Follow Up'},
         {'value': 'closed', 'name': 'Closed'}
     ];
+    /*
     recordTypeOptions = [
         {'value': 'helpseekers', 'name': 'Help Seekers'},
         {'value': 'supportnetwork', 'name': 'Organization/NGO/Help Provider'},
         {'value': 'facility', 'name': 'Government Facilities'}
+    ];
+    */
+    recordTypeOptions = [
+        {'value': 'helpseekers', 'name': 'Help Seekers'},
+        {'value': 'supportnetwork', 'name': 'Support Orgs'},
+        {'value': 'facility', 'name': 'Govt Facilities'}
     ];
     urgencyOptions = [
         {'value': 'low', 'name':  'Low'},
@@ -135,6 +143,7 @@ export class EntityListComponent  {
             formio_usergroup : new FormControl(),
             assigned_to_group__id : new FormControl('undefined'),
             assigned_to_user__id : new FormControl(),
+            assigned_to_group__organization__id: new FormControl(),
             limit : new FormControl(10),
             ordering : new FormControl('-created'),
             volunteer: new FormControl(),
@@ -206,7 +215,8 @@ export class EntityListComponent  {
                         console.log("Failed");
                     }
                 );
-          this.userService.getAllGroupsPublic()
+
+        this.userService.getAllGroupsPublic()
                 .subscribe(
                     data => {
                         console.log(' success');
@@ -216,7 +226,8 @@ export class EntityListComponent  {
                         console.log("Failed");
                     }
                 );
-             this.userService.getAllUsersPublic(this.usergroup)
+
+        this.userService.getAllUsersPublic(this.usergroup)
                    .subscribe(
                        data => {
                            console.log(' success');
@@ -226,6 +237,14 @@ export class EntityListComponent  {
                            console.log("Failed");
                        }
                    );
+
+        this.userService.getAllOrgsPublic()
+            .subscribe(
+                data => {
+                    console.log('############## EntityListComponent.getAllOrgsPublic() =>', data);
+                    this.orgs = data.results;
+                },
+            );
 
         this.page.subscribe(page => {
             this.entities = page.results;
