@@ -208,7 +208,26 @@
                   <i class="fa fa-bug fa-lg" style="font-size: 25px; align:center; color:#8A8A8A; margin-left: 50px;"></i><label style="margin-left: 5px;">PET Meds </label>
                   -->
             </div>
-            <div class="form-group row">
+            <div class="form-group row well" style="padding: 5px;">
+              <div class = "col-sm-8" align="center">
+                <mat-card *ngIf="authService.isAboveVolunteer() || (tab === 'mine')">
+                  <mat-card-content>
+                    <div *ngIf="!showBulkActions" align="center" style="padding:8px;">
+                      Please select items below for bulk actions to appear here
+                    </div>
+                    <div *ngIf="showBulkActions">
+                      <ng-container
+                        *ngFor="let option of bulkActionList|keyvalue;">
+                        <button mat-raised-button class="btn-success"
+                                (click)="onBulkAction(option)">
+                          {{ option.value }}
+                        </button><!-- style="padding: 5px; line-height:40px" -->
+                        <label style="margin: 5px;"></label>
+                      </ng-container>
+                    </div>
+                  </mat-card-content>
+                </mat-card>
+              </div>
               <div class="col-sm-4" style="padding-top:10px;"  *ngIf="(tab === 'all')">
                 <div align="center">
                   <mat-form-field>
@@ -220,23 +239,6 @@
                   </mat-form-field>
                 </div>
               </div>
-              <mat-card class = "col-sm-8" *ngIf="authService.isAboveVolunteer()">
-                <mat-card-content>
-                  <div *ngIf="!showBulkActions" align="center">
-                    Please select items below for bulk actions to appear here
-                  </div>
-                  <div *ngIf="showBulkActions">
-                  <ng-container
-                    *ngFor="let option of bulkActionList|keyvalue;">
-                    <button mat-raised-button class="btn-success"
-                            (click)="onBulkAction(option)">
-                      {{ option.value }}
-                    </button><!-- style="padding: 5px; line-height:40px" -->
-                    <label style="margin: 5px;"></label>
-                  </ng-container>
-                  </div>
-                </mat-card-content>
-              </mat-card>
             </div>
 
             <div align="center row">
@@ -282,7 +284,7 @@
           <table class="table">
             <thead>
               <tr>
-                <th *ngIf="authService.isAboveVolunteer()">
+                <th *ngIf="authService.isAboveVolunteer() || (tab === 'mine')">
                   <mat-checkbox [ngModelOptions]="{standalone: true}" class="cb-margin" (change)="allChecked()" [(ngModel)]="checkState"></mat-checkbox></th>
                 <th>ID</th>
                 <th>Name</th>
@@ -293,12 +295,12 @@
                 <th>Volunteer</th>
                 <th>Status</th>
                 <th>Urgency</th>
-                <th *ngIf="authService.isAboveVolunteer()" align="center">Actions</th>
+                <th *ngIf="authService.isAboveVolunteer() || (tab === 'mine')" align="center">Actions</th>
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="let entity of (page | async)?.results;let i=index">
-                <td *ngIf="authService.isAboveVolunteer()">
+                <td *ngIf="authService.isAboveVolunteer() || (tab === 'mine')">
                   <mat-checkbox
                     [ngModelOptions]="{standalone: true}"
                     class="cb-margin" (change)="onCBChange(entity)"
@@ -313,7 +315,7 @@
                   </ng-template>
                 </td>
                 <td>
-                  <ng-container *ngIf="authService.isAboveVolunteer(); else elsename">
+                  <ng-container *ngIf="!authService.isNotClient(); else elsename">
                     {{ entity.title }}
                   </ng-container>
                   <ng-template #elsename>

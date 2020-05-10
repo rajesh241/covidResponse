@@ -45,12 +45,7 @@ export class EntityListComponent  {
     groups:any;
     users:any;
     public showBulkActions: boolean = false;
-    bulkActionList = {
-        "assigntovolunteer":"Assign To Volunteer",
-        "assigntogroup":"Assign To Team",
-        "duplicate":"Suggest Duplicate",
-        "export":"Export"
-    };
+    bulkActionList;
     isAssignedOptions = [
         {'value': '1', 'name': 'Unassigned'},
         {'value': '0', 'name': 'Assigned'}
@@ -117,6 +112,24 @@ export class EntityListComponent  {
 		{'value': 'none', 'name': 'None'}
 	    ];
 	}
+
+        if (this.user_role == 'client') {
+            this.bulkActionList = {}
+        }
+        else if (this.user_role == 'volunteer') {
+            this.bulkActionList = {
+                //"assigntovolunteer":"Assign To Volunteer",
+                "duplicate":"Suggest Duplicate",
+            };
+        }
+        else {
+            this.bulkActionList = {
+                "assigntovolunteer":"Assign To Volunteer",
+                "assigntogroup":"Assign To Team",
+                "duplicate":"Suggest Duplicate",
+                "export":"Export"
+            };
+        }
 
         this.filterForm = new FormGroup({
             formio_usergroup : new FormControl(),
