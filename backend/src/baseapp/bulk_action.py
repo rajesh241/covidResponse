@@ -105,7 +105,7 @@ def perform_bulk_action(data, user):
 
 
 
-def export_entities(queryset, filename):
+def export_entities(queryset, filename, bulk_export=False):
         csv_array = []
         columns = ['ID', 'Urgency', 'Status', 'Assigned to', 'Remarks',
                    'Connected with Govt Scheme', 'Team Name', 'Organisation Name',
@@ -175,7 +175,10 @@ def export_entities(queryset, filename):
                  donar_name, donation_type, donation_value, initial_date]
             csv_array.append(a)
         df = pd.DataFrame(csv_array, columns=columns)
-        filename = f"export/selected/{filename}"
+        if bulk_export == True:
+            filename = f"export/data.csv"
+        else:
+            filename = f"export/selected/{filename}"
         file_url = upload_s3(filename, df)
         print(file_url)
 
