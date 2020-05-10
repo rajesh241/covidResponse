@@ -31,7 +31,7 @@ export class EntityService {
     }
 
     getVersion():Observable<any>{
-	return this.http.get(this.versionEndPoint, this.getHttpOptions());
+	return this.http.get(this.versionEndPoint, this.getPublicHttpOptions());
     }
 
     getItemPublic(id:number):Observable<any>{
