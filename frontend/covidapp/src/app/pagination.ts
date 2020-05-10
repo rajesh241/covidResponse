@@ -156,7 +156,7 @@ export function queryPaginated<T>(http: HttpClient, baseUrl: string, insertToken
     headers = headers.set("Authorization", "Bearer " + token)
     console.log('Pagination.queryPaginatedLocations(): headers =>',headers);
     console.log('Pagination.queryPaginatedLocations(): params =>', params);
-    localStorage.setItem('filteredParams', params)
+    localStorage.setItem('filteredParams', JSON.stringify(params));
 
     if (insertToken){
         return http.get<Page<T>>(url, {

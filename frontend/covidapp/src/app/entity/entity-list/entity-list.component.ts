@@ -575,7 +575,7 @@ export class EntityListComponent  {
                         data => {
                             console.log(`EntityListComponent.onExportFiltered(): createBulkOperation() Successful`, data);
                             this.filterForm.controls['dummy'].setValue(this.rand_number);
-			    this.snackBar.open('Your file will be downloaded shortly', action.value, {
+			    this.snackBar.open('Your file will be downloaded shortly', action, {
 				duration: 3000,
 			    });
                         },
