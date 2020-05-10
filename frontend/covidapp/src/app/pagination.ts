@@ -154,7 +154,10 @@ export function queryPaginated<T>(http: HttpClient, baseUrl: string, insertToken
     const token = localStorage.getItem("id_token");
     let headers = new HttpHeaders();
     headers = headers.set("Authorization", "Bearer " + token)
-    console.log(headers);
+    console.log('Pagination.queryPaginatedLocations(): headers =>',headers);
+    console.log('Pagination.queryPaginatedLocations(): params =>', params);
+    localStorage.setItem('filteredParams', params)
+
     if (insertToken){
         return http.get<Page<T>>(url, {
             params: params,
@@ -183,7 +186,6 @@ export function queryPaginatedLocations<T>(http: HttpClient, baseUrl: string, ge
             }
         });
     }
-
     const token = localStorage.getItem("id_token");
     let headers = new HttpHeaders();
     headers = headers.set("Authorization", "Bearer " + token)

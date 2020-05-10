@@ -241,7 +241,7 @@ export class EntityListComponent  {
         this.userService.getAllOrgsPublic()
             .subscribe(
                 data => {
-                    console.log('############## EntityListComponent.getAllOrgsPublic() =>', data);
+                    console.log('EntityListComponent.getAllOrgsPublic() =>', data);
                     this.orgs = data.results;
                 },
             );
@@ -410,21 +410,8 @@ export class EntityListComponent  {
 
     onBulkAction(action) {
         console.log(`EntityListComponent.applyBulkAction(${JSON.stringify(action)})`, action);
-        if (action.key == 'export1') {
-            this.exportSelected();
-            return;
-        }
-
-	/*
-	if (action.key == 'duplicate') {
-	    this.snackBar.open('Submitted to the Approval Team', 'DUPLICATE', {
-		duration: 5000,
-	    });
-	    return;
-	}
-	*/
-
         //console.log(this.selectedEntities);
+
 	let chosenEntites = [];
 
         this.entities.forEach(
@@ -509,6 +496,9 @@ export class EntityListComponent  {
                         },
                         err => {
                             console.log("Bulk Operation  Creation Failed");
+			    this.snackBar.open('Bulk Action Failed!', action.value, {
+				duration: 3000,
+			    });
                         }
                     );
             	    //const replacer = (key, value) =>  String(value) === "null" || String(value) === "undefined" ? 0 : value; 
@@ -571,6 +561,31 @@ export class EntityListComponent  {
     onExport(){
 	    console.log("User has clicked export button");
 	    this.document.location.href = 'https://coast-india.s3.ap-south-1.amazonaws.com/export/data.csv';
+    }
+
+    onExportFiltered() {
+        let action = 'exportFiltered';
+        const filterParams = localStorage.getItem('filterParams');
+        console.log(`EntityListComponent.onExportFiltered()`, filterParams);
+        this.entityService.createBulkOperation({
+	    'ids_json': [],
+	    'bulk_action': action,
+	    'data_json': filterParams
+		    }).subscribe(
+                        data => {
+                            console.log(`EntityListComponent.onExportFiltered(): createBulkOperation() Successful`, data);
+                            this.filterForm.controls['dummy'].setValue(this.rand_number);
+			    this.snackBar.open('Your file will be downloaded shortly', action.value, {
+				duration: 3000,
+			    });
+                        },
+                        err => {
+                            console.log(`EntityListComponent.onExportFiltered(): createBulkOperation() Failed!`, err);
+			    this.snackBar.open('Export Filtered Failed!', action, {
+				duration: 3000,
+			    });
+                        }
+                    );
     }
 
     needsFilter(needs) {
