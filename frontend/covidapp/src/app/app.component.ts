@@ -34,8 +34,13 @@ export class AppComponent implements OnInit {
 	if (isDevMode() && environment.apiURL.includes('coastindia')) {
 	    window.alert('Using Production Backend in Dev Mode!');
 	}
-        this.user =  localStorage.getItem('username');
-        this.group = localStorage.getItem('group');
+        this.authService.session.subscribe(session => {
+            if (session) { // FIXME this should be updated from session ---vvv
+	        console.log(`AppComponent.constructor() => session.subscribe(${JSON.stringify(session)})`);
+                this.user =  localStorage.getItem('username');
+                this.group = localStorage.getItem('group');
+            }
+        });
     }
 
     ngOnInit() {

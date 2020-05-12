@@ -3,9 +3,10 @@ import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import * as jwt_decode from 'jwt-decode';
 import { Observable } from 'rxjs';
-import {tap} from 'rxjs/internal/operators';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { tap } from 'rxjs/internal/operators';
 import { MealService } from "./meal.service";
-import {Router} from "@angular/router"
+import { Router } from "@angular/router"
 import { environment } from '../../environments/environment';
 
 @Injectable()
@@ -22,6 +23,8 @@ export class AuthService {
     private passwordresetconfirm = environment.apiURL+"/api/passwordreset/confirm/";
     private inviteendpoint = environment.apiURL+"/api/user/invite/";
     private endpoint = environment.apiURL+"/api/meal/";
+    private sessionSource = new BehaviorSubject({});
+    public session = this.sessionSource.asObservable();
 
     constructor(private http: HttpClient, private mealService : MealService,private router : Router) {
 	this.httpOptions = {
@@ -101,6 +104,7 @@ export class AuthService {
 	//    setTimeout(() => {
 	//        this.router.navigate(['/list']);
 	//    }, 500);
+        this.sessionSource.next(decoded);
     }
 
     logout() {
