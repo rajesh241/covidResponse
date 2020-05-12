@@ -451,7 +451,7 @@ class EntityListAPIView(HttpResponseMixin,
     serializer_class = EntityListSerializer
     passed_id = None
     input_id = None
-    search_fields = ('keywords', 'name', 'description')
+    search_fields = ('id', 'keywords', 'name', 'description')
     ordering_fields = ('name', 'id', 'created', 'updated')
     filterset_class = EntityFilter
     queryset = Entity.objects.all()
@@ -498,7 +498,7 @@ class EntityAPIView(HttpResponseMixin,
     serializer_class = EntitySerializer
     passed_id = None
     input_id = None
-    search_fields = ('keywords', 'name', 'description')
+    search_fields = ('id', 'keywords', 'name', 'description')
     ordering_fields = ('name', 'id', 'created', 'updated')
     filterset_class = EntityFilter
     queryset = Entity.objects.all()

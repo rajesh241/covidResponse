@@ -82,7 +82,7 @@ class TeamPublicSerializer(serializers.ModelSerializer):
             org = instance.organization.name
         else:
             org = ''
-        display = f"{org} - {instance.name}"
+        display = f"{instance.name}"
         return display
 
 class UserListSerializer(serializers.ModelSerializer):
