@@ -142,7 +142,9 @@ def create_entity(logger, record, myUser, wasan_id = None, wasan_org_id=None):
         obj = Entity.objects.filter(wassan_id=wasan_id).first()
     if obj is None:
         obj = Entity.objects.create(title="blankNewItem")
+    logger.info(obj.id)
     obj.user = myUser
+    obj.updated_by_user = myUser
     for key, value in record.items():
         setattr(obj,key,value)
     obj.record_type = 'helpseekers'
@@ -158,7 +160,7 @@ def create_entity(logger, record, myUser, wasan_id = None, wasan_org_id=None):
         obj.how_many_people = None
     obj.name = title
     obj.title = title
-    obj.phone = record['phone']
+    obj.phone = str(record['phone'])
     obj.backend_notes = 'Added from a dump from Min on 2 May.'
     
     # entity_status = status[random.randint(0,len(status)-1)]
@@ -192,9 +194,14 @@ def create_entity(logger, record, myUser, wasan_id = None, wasan_org_id=None):
     obj.remarks = remarks
     obj.what_help = help_sought(obj.prefill_json)
     logger.info(f"Saving {obj.id}")
+    if not isinstance(obj.latitude, float):
+        obj.latitude = None
+    if not isinstance(obj.longitude, float):
+        obj.longitude = None
+    
     obj.save()
     #logger.info(obj.phone)
-    create_history(obj, myUser)
+    #create_history(obj, myUser)
 def main():
     """Main Module of this program"""
     args = args_fetch()
@@ -259,9 +266,9 @@ def main():
 
     if args['importEntities']:
         my_user = User.objects.filter(id=1).first()
-        with open('../import_data/multiple_states_final.json', 'r') as f:
+        with open('../import_data/jh_dump_2020_05-09.json', 'r') as f:
                 records = json.load(f)
-        base_number = 200506 * 10000
+        base_number = 200513 * 10000
         for i,record in enumerate(records):
             logger.info(i)
             sr_no = base_number + i
