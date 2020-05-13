@@ -388,9 +388,9 @@
                         <i class="fa fa-lg" [ngClass]="option?.class" [ngStyle]="{'color': option?.color}"></i><label style="padding: 0 2px;"></label>
                       </ng-container>
                 </td>
-                <td *ngIf="tab === 'all'">{{ entity.assigned_to_group?.display.split('-')[0] }}</td>
+                <td *ngIf="tab === 'all'">{{ entity.assigned_to_group?.org }}</td>
                 <td *ngIf="!entity.assigned_to_group"></td>
-                <td *ngIf="entity.assigned_to_group">{{ entity.assigned_to_group.name }}</td>
+                <td *ngIf="entity.assigned_to_group">{{ entity.assigned_to_group.name}}</td>
                 <td *ngIf="!entity.assigned_to_user"></td>
                 <td *ngIf="entity.assigned_to_user">{{ entity.assigned_to_user.name }}</td>
                 <td>{{ entity.status }}</td>

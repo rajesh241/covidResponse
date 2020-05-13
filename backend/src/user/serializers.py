@@ -73,10 +73,11 @@ class UserPublicSerializer(serializers.ModelSerializer):
 class TeamPublicSerializer(serializers.ModelSerializer):
     """ Serializer for the User Public object """
     display = serializers.SerializerMethodField()
+    org = serializers.SerializerMethodField()
     class Meta:
         """Meta Class"""
         model = Team
-        fields = ('id', 'name', 'display')
+        fields = ('id', 'name', 'display', 'org')
     def get_display(self, instance):
         if instance.organization is not None:
             org = instance.organization.name
@@ -84,6 +85,13 @@ class TeamPublicSerializer(serializers.ModelSerializer):
             org = ''
         display = f"{instance.name}"
         return display
+    def get_org(self, instance):
+        if instance.organization is not None:
+            org = instance.organization.name
+        else:
+            org = ''
+        return org
+        
 
 class UserListSerializer(serializers.ModelSerializer):
     """ Serializer for the user object """
