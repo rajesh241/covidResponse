@@ -115,7 +115,7 @@ def export_entities(queryset, filename, bulk_export=False):
                    'Native District', 'People Stranded', 'Date Called', 'Contact with Govt Official', 'Contact with anyone', 'Accom for 14 days',
                    'If no', ' Where are you staying"', 'Ration', 'Ration Desc', 'Drinking Water', 'Health Issues', 
                    'Health Issue Desc', 'Urgent Req', 'Need Cash', 'How Much', 'Urgent Req Desc', 'Donor Involved', 'Donor Name', 'Type Of donation',
-                   'Donation Value(Rs))', 'Initial Date']
+                   'Donation Value(Rs))', 'Initial Date', 'created', 'modified']
         for obj in queryset:
             a = [obj.title, obj.state, obj.status, obj.urgency, obj.remarks]
             if obj.assigned_to_user is not None:
@@ -162,6 +162,8 @@ def export_entities(queryset, filename, bulk_export=False):
             donation_type = ''
             donation_value = ''
             initial_date = ''
+            created = obj.created
+            modified = obj.updated
 
             a = [obj.id, obj.urgency, obj.status, user_name, obj.remarks,
                  government_scheme, team_name, org_name, contact, obj.phone,
@@ -172,7 +174,8 @@ def export_entities(queryset, filename, bulk_export=False):
                  where_are_you_staying, ration, ration_desc, drinking_water,
                  health_issues, health_issue_description, urgent_req,
                  need_cash, how_much, urgent_req_desc, donor_involved,
-                 donar_name, donation_type, donation_value, initial_date]
+                 donar_name, donation_type, donation_value, initial_date,
+                 created, modified]
             csv_array.append(a)
         df = pd.DataFrame(csv_array, columns=columns)
         if bulk_export == True:
@@ -220,7 +223,7 @@ def upload_s3(filename, data, bucket_name=None):
     bucket = s3_instance.Bucket(bucket_name)
     if isinstance(data, pd.DataFrame):
         #If the data passed is a pandas dataframe
-        data['lastUpdateDate'] = datetime.datetime.now().date()
+        #data['lastUpdateDate'] = datetime.datetime.now().date()
         csv_buffer = StringIO()
         data.to_csv(csv_buffer, encoding='utf-8-sig', index=False)
         filedata = csv_buffer.getvalue()
