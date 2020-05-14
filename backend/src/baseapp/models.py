@@ -9,6 +9,21 @@ from django.utils import timezone
 User = get_user_model()
 # Create your models here.
 
+class Location(models.Model):
+    """This is the basic class for Location"""
+    name = models.CharField(max_length=256)
+    location_type = models.CharField(max_length=256, null=True, blank=True)
+    code = models.CharField(max_length=256, null=True, blank=True)
+    state_code = models.CharField(max_length=256, null=True, blank=True)
+    district_code = models.CharField(max_length=256, null=True, blank=True)
+    state_name = models.CharField(max_length=256, null=True, blank=True)
+    district_name = models.CharField(max_length=256, null=True, blank=True)
+    class Meta:
+        """To define meta data attributes"""
+        db_table = 'location'
+    def __str__(self):
+        """Default str method for the class"""
+        return f"{self.code}-{self.name}"
 class Covid(models.Model):
     """This is the basic class for Aparment"""
     name = models.CharField(max_length=256)
