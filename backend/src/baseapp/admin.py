@@ -1,7 +1,11 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import Entity, Covid, Feedback, EntityBulkEdit, BulkOperation, EntityHistory
+from .models import Entity, Covid, Feedback, EntityBulkEdit, BulkOperation, EntityHistory, Location
+class LocationModelAdmin(admin.ModelAdmin):
+    """Model Adminf or class Location"""
+    list_display = ["id", "name", "code"]
+    list_filter = ["location_type"]
 class FeedbackModelAdmin(admin.ModelAdmin):
     """Model Adminf or class Location"""
     list_display = ["id", "entity", "user"]
@@ -35,3 +39,4 @@ admin.site.register(Entity, EntityModelAdmin)
 admin.site.register(Feedback, FeedbackModelAdmin)
 admin.site.register(BulkOperation, BulkOperationModelAdmin)
 admin.site.register(EntityHistory, EntityHistoryModelAdmin)
+admin.site.register(Location, LocationModelAdmin)

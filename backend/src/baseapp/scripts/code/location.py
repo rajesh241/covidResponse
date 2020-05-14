@@ -20,6 +20,8 @@ def args_fetch():
     parser.add_argument('-l', '--log-level', help='Log level defining verbosity', required=False)
     parser.add_argument('-t', '--test', help='Test Loop',
                         required=False, action='store_const', const=1)
+    parser.add_argument('-i', '--import', help='Import data',
+                        required=False, action='store_const', const=1)
     parser.add_argument('-ti1', '--testInput1', help='Test Input 1', required=False)
     parser.add_argument('-ti2', '--testInput2', help='Test Input 2', required=False)
     args = vars(parser.parse_args())
@@ -35,6 +37,41 @@ def main():
         objs = Location.objects.all()
         for obj in objs:
             logger.info(obj.id)
+    if args['import']:
+        filename = "../import_data/census_state.csv"
+        df = pd.read_csv(filename)
+        logger.info(df.head())
+        for index, row in df.iterrows():
+            code = str(row.get('state_code', '')).lstrip().rstrip()
+            name = row.get('name', None).lstrip().rstrip()
+            logger.info(name)
+            myLocation = Location.objects.filter(code=code).first()
+            if myLocation is None:
+                myLocation = Location.objects.create(code=code, name=name)
+            myLocation.name = name
+            myLocation.state_name = name
+            myLocation.state_code = code
+            myLocation.location_type = 'state'
+            myLocation.save()
+
+        filename = "../import_data/census_district.csv"
+        df = pd.read_csv(filename)
+        logger.info(df.head())
+        for index, row in df.iterrows():
+            code = str(row.get('district_code', '')).lstrip().rstrip()
+            state_code = str(row.get('state_code', '')).lstrip().rstrip()
+            name = row.get('name', None).lstrip().rstrip()
+            logger.info(name)
+            myLocation = Location.objects.filter(code=code).first()
+            if myLocation is None:
+                myLocation = Location.objects.create(code=code, name=name)
+            myLocation.name = name
+            myLocation.district_name = name
+            myLocation.district_code = code
+            myLocation.state_code = state_code
+            myLocation.location_type = 'district'
+            myLocation.save()
+
      
     logger.info("...END PROCESSING")
 

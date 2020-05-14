@@ -2,7 +2,7 @@
 import re
 from rest_framework import serializers, fields
 from django.contrib.auth import get_user_model, authenticate
-from baseapp.models import Covid, Entity, Feedback, EntityBulkEdit, BulkOperation, EntityHistory
+from baseapp.models import Covid, Entity, Feedback, EntityBulkEdit, BulkOperation, EntityHistory, Location
 from baseapp.formio import convert_formio_data_to_django, help_sought, get_status, get_remarks
 from django.conf import settings
 from baseapp.bulk_action import perform_bulk_action
@@ -56,6 +56,14 @@ class BulkOperationSerializer(serializers.ModelSerializer):
         perform_bulk_action(validated_data, request.user)
         #self.parse_data_json(obj, validated_data)
         return obj
+
+class LocationSerializer(serializers.ModelSerializer):
+    """Serializer for Location Model"""
+    class Meta:
+        """Meta Class"""
+        model = Location
+        fields = '__all__'
+
 
 class FeedbackSerializer(serializers.ModelSerializer):
     """Serializer for Report Model"""
