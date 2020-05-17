@@ -92,6 +92,7 @@ import { GuideComponent } from './help/guide/guide.component';
 import { TutorialComponent } from './help/tutorial/tutorial.component';
 import { FaqComponent } from './help/faq/faq.component';
 import { AutoCompleteComponent } from './utils/auto-complete/auto-complete.component';
+import { TeamListComponent } from './team/team-list/team-list.component';
 
 /*
 // AG Grid
@@ -175,6 +176,7 @@ export function provideConfig() {
         TutorialComponent,
         FaqComponent,
         AutoCompleteComponent,
+        TeamListComponent,
         // EntityGridComponent,
 	/*
         DateComponent,

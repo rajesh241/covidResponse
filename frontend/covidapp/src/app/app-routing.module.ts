@@ -46,6 +46,7 @@ import { HelpComponent } from './help/help.component';
 import { FaqComponent } from './help/faq/faq.component';
 import { GuideComponent } from './help/guide/guide.component';
 import { TutorialComponent } from './help/tutorial/tutorial.component';
+import { TeamListComponent } from './team/team-list/team-list.component';
 
 const routes: Routes = [
     {path : '', component : EntityListComponent, canActivate: [AuthGuard]},
@@ -69,6 +70,7 @@ const routes: Routes = [
     {path : 'guide', component : GuideComponent},
     {path : 'tutorial', component : TutorialComponent},
     {path : 'users', component : UserListComponent, canActivate:[AuthGuard]},
+    {path : 'teams', component : TeamListComponent, canActivate:[AuthGuard]},
     {path : 'login1', component : LoginComponent},
     {path : 'login', component : MatloginComponent},
     {path : 'register', component : RegisterComponent},
