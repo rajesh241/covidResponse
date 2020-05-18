@@ -47,6 +47,7 @@ import { FaqComponent } from './help/faq/faq.component';
 import { GuideComponent } from './help/guide/guide.component';
 import { TutorialComponent } from './help/tutorial/tutorial.component';
 import { TeamListComponent } from './team/team-list/team-list.component';
+import { RouteSearchComponent } from './transit/route-search/route-search.component';
 
 const routes: Routes = [
     {path : '', component : EntityListComponent, canActivate: [AuthGuard]},
@@ -57,6 +58,7 @@ const routes: Routes = [
     {path : 'privacy', component : PrivacyComponent},
     {path : 'nearby', component : CovidNearbyComponent, canActivate:[AuthGuard]},
     {path : 'search', component : EntitySearchComponent, canActivate:[AuthGuard]},
+    {path : 'find', component : RouteSearchComponent, canActivate:[AuthGuard]},
     {path : 'form-create', component : FormCreateComponent, canActivate:[AuthGuard]},
     {path : 'form-display', component : FormDisplayComponent, canActivate:[AuthGuard]},
     {path : 'form-edit', component : FormEditComponent, canActivate:[AuthGuard]},

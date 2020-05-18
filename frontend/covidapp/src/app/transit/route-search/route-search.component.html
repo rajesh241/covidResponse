@@ -1,0 +1,302 @@
+<div class="container" [formGroup]="filterForm">
+  <!--
+      <mat-tab-group [selectedIndex]="tabIndex"
+                     (selectedTabChange)="onTabSelect($event)"
+                     mat-align-tabs="center"
+                     color="accent"
+                     style="background-color: #f5f5f5;">
+        <mat-tab *ngFor="let option of tabList">
+          <ng-template mat-tab-label>
+            <i class="fa fa-lg" [ngClass]="option.class"
+               [ngStyle]="{'color': option.color}"></i>
+            <b style="margin: 4px; font-size:15px;">{{ option.name }}</b>
+          </ng-template>
+        </mat-tab>
+      </mat-tab-group>
+-->
+  <mat-card class="col-md-12" style="padding:5px;">
+    <mat-expansion-panel (opened)="panelOpen = true"
+                         (closed)="panelOpen = false"
+                         [expanded]="panelOpen">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <h3 align="center">Route Options</h3>
+        </mat-panel-title>
+        <mat-panel-description style="text-align-vertical:center; text-align:center;">
+          <label class="col-sm-2 col-form-label"></label>
+          Click to {{!panelOpen ? 'Open' : 'Close'}}
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <mat-card-content class="col-md-12">
+        <div class="row col-md-12">
+
+          <!-- BEGIN Org/Team Select BEGIN -->
+          <div class="form-group row">
+            <label class="col-sm-1 col-form-label"></label>
+            <label  class="col-sm-2 col-form-label" style="line-height:34px;">
+              Organization/Team
+            </label>
+            <div class="col-sm-3">
+              <app-auto-complete desc="Choose Org" [subscript]="true" [items]="orgs" formControlName="assigned_to_group__organization__id"></app-auto-complete>
+            </div>
+            <div class="col-sm-3">
+              <app-auto-complete desc="Choose Team" [subscript]="true" [items]="teams" formControlName="assigned_to_group__id"></app-auto-complete>
+            </div>
+          </div>
+          <!-- END Org/Team Select END -->
+
+          <!-- BEGIN Source State/District Select BEGIN -->
+          <div class="form-group row">
+            <label class="col-sm-1 col-form-label"></label>
+            <label  class="col-sm-2 col-form-label" style="line-height:34px;">Start Location</label>
+            <div class="col-sm-3">
+              <app-auto-complete desc="Choose State" [subscript]="true" [items]="states" formControlName="startState"></app-auto-complete>
+            </div>
+            <div align="center" class="col-sm-3">
+              <app-auto-complete desc="Choose District" [subscript]="true" [items]="startDistricts" formControlName="startDistrict"></app-auto-complete>
+            </div>
+            <!--
+            <div align="center" class="col-sm-3">
+              {{ startDistricts | json }}
+            </div>
+            -->
+          </div>
+          <!-- END Source State/District Select END -->
+
+          <!-- BEGIN Desitnation State/District Select BEGIN -->
+          <div class="form-group row">
+            <label class="col-sm-1 col-form-label"></label>
+            <label  class="col-sm-2 col-form-label" style="line-height:34px;">End Location</label>
+            <div class="col-sm-3">
+              <app-auto-complete desc="Choose State" [subscript]="true" [items]="states" formControlName="endState"></app-auto-complete>
+            </div>
+            <div align="center" class="col-sm-3">
+              <app-auto-complete desc="Choose District" [subscript]="true" [items]="endDistricts" formControlName="endDistrict"></app-auto-complete>
+            </div>
+            <!--
+            <div align="center" class="col-sm-3">
+              {{ endDistricts | json }}
+            </div>
+            -->
+          </div>
+          <!-- END Destination State/District Select END -->
+
+
+          <div class="form-group row well" style="padding: 5px;">
+            <div class = "col-sm-auto" align="center">
+              <mat-card *ngIf="authService.isAboveVolunteer() || (tab === 'mine')">
+                <mat-card-content>
+                  <div *ngIf="!showFindButton" align="center" style="padding:8px;">
+                    Please select the source and destination to find routes
+                  </div>
+                  <div *ngIf="showFindButton">
+                      <label style="margin: 5px;"></label>
+                      <button mat-raised-button class="btn btn-primary"
+                              (click)="onFind()">
+                        Find Possible Routes
+                      </button>
+                  </div>
+                </mat-card-content>
+              </mat-card>
+            </div>
+          </div>
+
+        </div>
+      </mat-card-content>
+    </mat-expansion-panel>
+  </mat-card>
+
+  <div *ngIf="results" class="col-lg-12 well">
+    <div class="row">
+      <div class="col-md-12">
+        <ng-container *ngFor="let row of results">
+          {{ row.name }} >
+        </ng-container>
+      </div>
+    </div>
+  </div>
+
+<div *ngIf="dataLoaded | async" class="col-lg-12 well">
+<div class="row">
+<div class="col-md-12">
+</div>
+<div class="col-lg-12 ml-auto mr-auto">
+<div class="table-responsive">
+  <table class="table">
+    <thead>
+              <tr>
+                <th *ngIf="authService.isAboveVolunteer() || (tab === 'mine')">
+                  <mat-checkbox [ngModelOptions]="{standalone: true}" class="cb-margin" (change)="allChecked()" [(ngModel)]="checkState"></mat-checkbox></th>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Phone</th>
+                <th>Size</th>
+                <th>Needs</th>
+                <th *ngIf="tab === 'all'">Org</th>
+                <th>Team</th>
+                <th>Volunteer</th>
+                <th>Status</th>
+                <th>Urgency</th>
+                <th *ngIf="authService.isAboveVolunteer() || (tab === 'mine')" align="center">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let entity of (page | async)?.results;let i=index">
+                <td *ngIf="authService.isAboveVolunteer() || (tab === 'mine')">
+                  <mat-checkbox
+                    [ngModelOptions]="{standalone: true}"
+                    class="cb-margin" (change)="onCBChange(entity)"
+                    [(ngModel)]="selectedEntities[entity.id]"></mat-checkbox>
+                </td>
+                <td>
+                  <ng-container *ngIf="authService.isAboveVolunteer() || (tab === 'mine'); else volunteerandbelow">
+                    <a [routerLink]="['/update',entity.id]">{{entity.id}}</a>
+                  </ng-container>
+                  <ng-template #volunteerandbelow>
+                    {{ entity.id }}
+                  </ng-template>
+                </td>
+                <td>
+                  <ng-container *ngIf="!authService.isNotClient(); else elsename">
+                    {{ entity.title }}
+                  </ng-container>
+                  <ng-template #elsename>
+                    {{ entity.name }}
+                  </ng-template>
+                </td>
+                <td>
+                  <span *ngIf="authService.isNotClient()">
+                    {{ (entity.phone | json)?.replace('.0', '')
+                    .replace('"', '').replace('"', '') }}
+                  </span>
+                </td>
+                <td>{{ entity.prefill_json?.data?.needsForm?.data.howMany }}</td>
+                <td>
+                  <!--
+                      <ng-container *ngFor="let need of entity.prefill_json?.data?.needsForm?.data.needs|keyvalue">
+                        {{ need|json }}
+                        <div style="color: red;">
+                          {{ ((need.key != "describeHealth") && (need.value != false) && (need.value != "None") && (need.value != "No issues"))? need.key : "" }}
+                        </div>
+                      </ng-container>
+                      -->
+                      <ng-container *ngFor="let option of needsFilter(entity.prefill_json?.data?.needsForm?.data.needs|keyvalue)">
+                        <i class="fa fa-lg" [ngClass]="option?.class" [ngStyle]="{'color': option?.color}"></i><label style="padding: 0 2px;"></label>
+                      </ng-container>
+                </td>
+                <td *ngIf="tab === 'all'">{{ entity.assigned_to_group?.org }}</td>
+                <td *ngIf="!entity.assigned_to_group"></td>
+                <td *ngIf="entity.assigned_to_group">{{ entity.assigned_to_group.name}}</td>
+                <td *ngIf="!entity.assigned_to_user"></td>
+                <td *ngIf="entity.assigned_to_user">{{ entity.assigned_to_user.name }}</td>
+                <td>{{ entity.status }}</td>
+                <td>{{ entity.urgency }}</td>
+                <td *ngIf="authService.isAboveVolunteer() || (tab === 'mine')" class="td-actions">
+                  <div>
+                    <button mat-raised-button class="btn btn-primary"
+                            [routerLink]="['/update',entity.id]">
+                      Edit
+                    </button>
+                    <!--
+                        <span>    </span>
+                        <button mat-raised-button
+                                (click)="deleteEntity(entity.id)">
+                          Delete
+                        </button>
+                        -->
+                  </div>
+                  <!--
+                      <a type="button" class="btn btn-success btn-just-icon btn-sm "
+                         style="margin-left:10px;"
+                         [routerLink]="['/edit',entity.id]"
+                         >
+                        <i class="material-icons">Edit</i>
+                      </a>
+                      <button
+                        (click)="deleteEntity(entity.id)"
+                        type="button" rel="tooltip"
+                        class="btn btn-danger btn-just-icon btn-sm"
+                        data-original-title=""
+                        title="" style="margin-left:10px;">
+                        <i class="material-icons">Delete</i>
+                      </button>
+                      -->
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <!--
+        <div class="row" *ngIf="authService.isRealtor()" align="center">
+          <mat-card>
+            <mat-card-content>
+              <mat-card-title align="center">Bulk Action</mat-card-title>
+              <mat-card-subtitle>Apply to Selected Entities</mat-card-subtitle>
+              <h4>Bulk Action for the Selected Entities Above</h4>
+              <button *ngFor="let option of bulkActionList|keyvalue"
+                      mat-raised-button class="btn-danger"
+                      (click)="onBulkAction(option)">
+                {{ option.value }}
+              </button>
+            </mat-card-content>
+          </mat-card>
+        </div>
+        <br />
+        <div class="row" *ngIf="authService.isRealtor()" align="center">
+          <mat-card>
+            <mat-card-content>
+              <mat-card-title align="center">Bulk Action</mat-card-title>
+              <mat-card-subtitle>Apply to Selected Entities</mat-card-subtitle>
+              <h4>Filter Based on Status</h4>
+              <button *ngFor="let option of bulkActionList|keyvalue"
+                      mat-raised-button class="btn-primary"
+                      (click)="onBulkAction(option.key)">
+                {{ option.value }}
+              </button>
+            </mat-card-content>
+          </mat-card>
+        </div>
+        <br />
+        <div class="row" *ngIf="authService.isRealtor()" align="center">
+          <mat-form-field>
+            <mat-label>Bulk Action</mat-label>
+            <mat-select [(value)]="bulkAction">
+              <mat-option value="none">None</mat-option>
+              <mat-option *ngFor="let option of bulkActionList|keyvalue" [value]="option.key">{{ option.value }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <button mat-raised-button
+                  (click)="onBulkAction(bulkAction)">
+            Apply Bulk Action
+          </button>
+          <button mat-raised-button
+                  (click)="deleteAllEntitys()">
+            Delete All Entities
+          </button>
+        </div>
+        <pre> {{ bulkAction }} </pre>
+  </div>
+  -->
+</div>
+
+<div align="center row">
+  <div class="col-sm-3">
+  </div>
+  <div class="col-sm-6" align="center">
+    <app-paginator [page]="page | async" (pageChange)="onPageChanged($event)"></app-paginator>
+  </div>
+  <div class="col-sm-3">
+    <!--
+    <div *ngIf="authService.isGroupAdmin()" class="form-group row">
+      <section align="center">
+        <button mat-raised-button class="btn-success"
+                (click)="onExport()">
+          Export all records to csv
+        </button>
+      </section>
+    </div>
+  </div>
+  -->
+</div>

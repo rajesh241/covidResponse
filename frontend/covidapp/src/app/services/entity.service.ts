@@ -21,6 +21,8 @@ export class EntityService {
     private createEndPoint = environment.apiURL+"/api/public/create/";
     private bulkDeleteEndpoint = environment.apiURL+"/api/public/bulkdeleteapt/";
     private bulkOperationEndpoint = environment.apiURL+"/api/public/bulkoperation/";
+    private locationEndPoint = environment.apiURL+'/api/public/location/';
+    private neo4jEndPoint = 'http://vivekdse.ngrok.io/neo/path/';
 
     private page$;
 
@@ -32,6 +34,10 @@ export class EntityService {
 
     getVersion():Observable<any>{
 	return this.http.get(this.versionEndPoint, this.getPublicHttpOptions());
+    }
+
+    findRoutes(start, end):Observable<any>{
+	return this.http.get(this.neo4jEndPoint + `${start}/${end}`, this.getPublicHttpOptions());
     }
 
     getItemPublic(id:number):Observable<any>{
@@ -53,11 +59,21 @@ export class EntityService {
     getAllItems(): Observable<any>{
 	return this.http.get(this.entityListEndPoint,this.getHttpOptions());
     }
+
     getAllStates(): Observable<any>{
 	return this.http.get(this.stateEndPoint+"?limit=10000&ordering=state",this.getHttpOptions());
     }
+
     getAllDistricts(): Observable<any>{
 	return this.http.get(this.districtEndPoint+"?limit=10000&ordering=district",this.getHttpOptions());
+    }
+
+    getStates(): Observable<any>{
+	return this.http.get(this.locationEndPoint+'?location_type=state&ordering=name&limit=100',this.getHttpOptions());
+    }
+
+    getDistricts(): Observable<any>{
+	return this.http.get(this.locationEndPoint+'?location_type=district&ordering=name&limit=10000',this.getHttpOptions());
     }
 
     bulkDeleteItems(data){
