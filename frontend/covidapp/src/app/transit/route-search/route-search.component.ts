@@ -24,10 +24,16 @@ export class RouteSearchComponent implements OnInit {
     public filteredDistricts = {};
     public startDistricts;
     public endDistricts;
-    public routes: any;
-
-    public results = [{'district_code':708,'name':'Anantapur'},{'district_code':713,'name':'Kurnool'},{'district_code':714,'name':'Prakasam'},{'district_code':711,'name':'Guntur'},{'district_code':712,'name':'Krishna'},{'district_code':1348,'name':'Khammam'},{'district_code':1053,'name':'Malkangiri'},{'district_code':786,'name':'Bastar'},{'district_code':790,'name':'Dhamtari'},{'district_code':800,'name':'Raipur'},{'district_code':799,'name':'Raigarh'},{'district_code':802,'name':'Surguja'},{'district_code':880,'name':'Gumla'},{'district_code':892,'name':'Ranchi'}];
-
+    // public routes: any;
+    public routeChosen;
+    public routes = [
+        [{'district_code':708,'name':'Anantapur'},{'district_code':713,'name':'Kurnool'},{'district_code':714,'name':'Prakasam'},{'district_code':711,'name':'Guntur'},{'district_code':712,'name':'Krishna'},{'district_code':1348,'name':'Khammam'},{'district_code':1053,'name':'Malkangiri'},{'district_code':786,'name':'Bastar'},{'district_code':790,'name':'Dhamtari'},{'district_code':800,'name':'Raipur'},{'district_code':799,'name':'Raigarh'},{'district_code':802,'name':'Surguja'},{'district_code':880,'name':'Gumla'},{'district_code':892,'name':'Ranchi'}],
+        [{'district_code':708,'name':'Anantapur'},{'district_code':714,'name':'Prakasam'},{'district_code':711,'name':'Guntur'},{'district_code':712,'name':'Krishna'},{'district_code':1348,'name':'Khammam'},{'district_code':1053,'name':'Malkangiri'},{'district_code':786,'name':'Bastar'},{'district_code':790,'name':'Dhamtari'},{'district_code':800,'name':'Raipur'},{'district_code':799,'name':'Raigarh'},{'district_code':802,'name':'Surguja'},{'district_code':880,'name':'Gumla'},{'district_code':892,'name':'Ranchi'}],
+        [{'district_code':708,'name':'Anantapur'},{'district_code':713,'name':'Kurnool'},{'district_code':711,'name':'Guntur'},{'district_code':712,'name':'Krishna'},{'district_code':1348,'name':'Khammam'},{'district_code':1053,'name':'Malkangiri'},{'district_code':786,'name':'Bastar'},{'district_code':790,'name':'Dhamtari'},{'district_code':800,'name':'Raipur'},{'district_code':799,'name':'Raigarh'},{'district_code':802,'name':'Surguja'},{'district_code':880,'name':'Gumla'},{'district_code':892,'name':'Ranchi'}],
+        [{'district_code':708,'name':'Anantapur'},{'district_code':713,'name':'Kurnool'},{'district_code':714,'name':'Prakasam'},{'district_code':711,'name':'Guntur'},{'district_code':712,'name':'Krishna'},{'district_code':1348,'name':'Khammam'},{'district_code':1053,'name':'Malkangiri'},{'district_code':800,'name':'Raipur'},{'district_code':799,'name':'Raigarh'},{'district_code':802,'name':'Surguja'},{'district_code':880,'name':'Gumla'},{'district_code':892,'name':'Ranchi'}],
+        [{'district_code':708,'name':'Anantapur'},{'district_code':711,'name':'Guntur'},{'district_code':712,'name':'Krishna'},{'district_code':1348,'name':'Khammam'},{'district_code':1053,'name':'Malkangiri'},{'district_code':786,'name':'Bastar'},{'district_code':790,'name':'Dhamtari'},{'district_code':800,'name':'Raipur'},{'district_code':799,'name':'Raigarh'},{'district_code':802,'name':'Surguja'},{'district_code':880,'name':'Gumla'},{'district_code':892,'name':'Ranchi'}],
+    ];
+        
     constructor(
         public authService: AuthService,
         private entityService: EntityService,
@@ -45,6 +51,7 @@ export class RouteSearchComponent implements OnInit {
             startDistrict: new FormControl(),
             endDistrict: new FormControl(),
             location: new FormControl(),
+            // routeChosen: new FormControl(),
         });
 
         this.showFindButton = true; // FIXME

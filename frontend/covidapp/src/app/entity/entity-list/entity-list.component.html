@@ -401,30 +401,12 @@
                             [routerLink]="['/update',entity.id]">
                       Edit
                     </button>
-                    <!--
-                        <span>    </span>
-                        <button mat-raised-button
-                                (click)="deleteEntity(entity.id)">
-                          Delete
-                        </button>
-                        -->
+                    <label style="margin: 0 5px;"></label>
+                    <button mat-raised-button class="btn btn-primary"
+                            [routerLink]="['/transit',entity.id]">
+                      Transit
+                    </button>
                   </div>
-                  <!--
-                      <a type="button" class="btn btn-success btn-just-icon btn-sm "
-                         style="margin-left:10px;"
-                         [routerLink]="['/edit',entity.id]"
-                         >
-                        <i class="material-icons">Edit</i>
-                      </a>
-                      <button
-                        (click)="deleteEntity(entity.id)"
-                        type="button" rel="tooltip"
-                        class="btn btn-danger btn-just-icon btn-sm"
-                        data-original-title=""
-                        title="" style="margin-left:10px;">
-                        <i class="material-icons">Delete</i>
-                      </button>
-                      -->
                 </td>
               </tr>
             </tbody>
