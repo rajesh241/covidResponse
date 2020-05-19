@@ -2,7 +2,7 @@
 import re
 from rest_framework import serializers, fields
 from django.contrib.auth import get_user_model, authenticate
-from baseapp.models import Covid, Entity, Feedback, EntityBulkEdit, BulkOperation, EntityHistory, Location
+from baseapp.models import Covid, Entity, Feedback, EntityBulkEdit, BulkOperation, EntityHistory, Location, Request, Pledge
 from baseapp.formio import convert_formio_data_to_django, help_sought, get_status, get_remarks
 from django.conf import settings
 from baseapp.bulk_action import perform_bulk_action
@@ -65,6 +65,20 @@ class LocationSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class PledgeSerializer(serializers.ModelSerializer):
+    """Serializer for Report Model"""
+    user = serializers.HiddenField(default=serializers.CurrentUserDefault())
+    class Meta:
+        """Meta Class"""
+        model = Pledge
+        fields = '__all__'
+class RequestSerializer(serializers.ModelSerializer):
+    """Serializer for Report Model"""
+    user = serializers.HiddenField(default=serializers.CurrentUserDefault())
+    class Meta:
+        """Meta Class"""
+        model = Request
+        fields = '__all__'
 class FeedbackSerializer(serializers.ModelSerializer):
     """Serializer for Report Model"""
     user = serializers.HiddenField(default=serializers.CurrentUserDefault())

@@ -8,14 +8,17 @@ from rest_framework.response import Response
 from rest_framework.generics import GenericAPIView
 from django_filters import rest_framework as filters
 from rest_framework import mixins, generics, permissions
-from baseapp.models import Covid, Entity, Feedback, EntityBulkEdit, BulkOperation, EntityHistory, Location
+from baseapp.models import ( Covid, Entity, Feedback, EntityBulkEdit,
+                            BulkOperation, EntityHistory, Location, Request,
+                            Pledge)
 from user.mixins import HttpResponseMixin
 from .serializers import (CovidSerializer,ItemSerializer1, EntitySerializer,
                           EntityPublicSerializer, FeedbackSerializer,
                           EntityBulkEditSerializer, BulkOperationSerializer,
                           EntityListSerializer, SmallEntitySerializer,
                           EntityHistorySerializer, StateSerializer,
-                          DistrictSerializer, LocationSerializer
+                          DistrictSerializer, LocationSerializer,
+                          RequestSerializer, PledgeSerializer
                          )
 from user.permissions import IsStaffReadWriteOrAuthReadOnly, IsStaffReadWriteOrReadOnly, UserViewPermission
 from user.utils import is_json
@@ -762,5 +765,163 @@ class LocationAPIView(HttpResponseMixin,
         if self.input_id is not None:
             return self.retrieve(request, *args, **kwargs)
         return super().get(request, *args, **kwargs)
+
+class RequestAPIView(HttpResponseMixin,
+                    mixins.CreateModelMixin,
+                    mixins.DestroyModelMixin,
+                    mixins.RetrieveModelMixin,
+                    mixins.UpdateModelMixin,
+                    generics.ListAPIView):
+    """Primary view of Entity table. GET Methods do not require authentication,
+    Other methods are allowed only for users with permissions of user manager"""
+    permission_classes = [EntityPermissions]
+    #permission_classes = [permissions.IsAuthenticated]
+    serializer_class = RequestSerializer
+    passed_id = None
+    input_id = None
+    search_fields = ('id')
+    ordering_fields = ('id')
+    queryset = Request.objects.all()
+    def get_queryset(self, *args, **kwargs):
+       return Request.objects.all()
+    def get_object(self):
+        input_id = self.input_id
+        queryset = self.get_queryset()
+        obj = None
+        if input_id is not None:
+            obj = get_object_or_404(queryset, id=input_id)
+            self.check_object_permissions(self.request, obj)
+        return obj
+    def get(self, request, *args, **kwargs):
+        """This method will return the list of the Entity items based on the
+        filter values specified. The number of items can be controlled by the
+        limit parameter. 
+        ordering field can be set to either of (name, id, created, updated). It
+        will sort the returned results based on that. For example
+        entity/?ordering=updated or entity/?ordering=-name (Sort by name
+        descending)
+        If id of the Entity is appended to the url for example /entity/1, then
+        it would return only one entity corresponding to the id mentioned. 
+        """
+        print(f"I am in get request {request.user}")
+        self.input_id = get_id_from_request(request)
+        if self.input_id is not None:
+            return self.retrieve(request, *args, **kwargs)
+        return super().get(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        """This would create an entity object in database. Name, description,
+        latitute and longitude are mandatory fields. This method is only
+        allowed for users with staff (user manager) permissions"""
+        return self.create(request, *args, **kwargs)
+
+    def put(self, request, *args, **kwargs):
+        """This method would update the entity object, based on the id as
+        supplied in the data. ID can also be specified in the url for example,
+        'entity/id'. All fields will be updated."""
+        self.input_id = get_id_from_request(request)
+        if self.input_id is None:
+            data = json.dumps({"message":"Need to specify the ID for this method"})
+            return self.render_to_response(data, status="404")
+        return self.update(request, *args, **kwargs)
+
+    def patch(self, request, *args, **kwargs):
+        """This method would patch the existing entity object, based on the id as
+        supplied in the data. ID can also be specified in the url for example,
+        'entity/id'. Only the fields passed on in the data will be updated"""
+        self.input_id = get_id_from_request(request)
+        if self.input_id is None:
+                data = json.dumps({"message":"Need to specify the ID for this method"})
+                return self.render_to_response(data, status="404")
+        return self.partial_update(request, *args, **kwargs)
+
+    def delete(self, request, *args, **kwargs):
+        """This method would delete the existing entity object, based on the id as
+        supplied in the data. ID can also be specified in the url for example,
+        'entity/id'."""
+        self.input_id = get_id_from_request(request)
+        if self.input_id is None:
+            data = json.dumps({"message":"Need to specify the ID for this method"})
+            return self.render_to_response(data, status="404")
+        return self.destroy(request, *args, **kwargs)
+
+class PledgeAPIView(HttpResponseMixin,
+                    mixins.CreateModelMixin,
+                    mixins.DestroyModelMixin,
+                    mixins.RetrieveModelMixin,
+                    mixins.UpdateModelMixin,
+                    generics.ListAPIView):
+    """Primary view of Entity table. GET Methods do not require authentication,
+    Other methods are allowed only for users with permissions of user manager"""
+    permission_classes = [EntityPermissions]
+    #permission_classes = [permissions.IsAuthenticated]
+    serializer_class = PledgeSerializer
+    passed_id = None
+    input_id = None
+    search_fields = ('id')
+    ordering_fields = ('id')
+    queryset = Pledge.objects.all()
+    def get_queryset(self, *args, **kwargs):
+       return Pledge.objects.all()
+    def get_object(self):
+        input_id = self.input_id
+        queryset = self.get_queryset()
+        obj = None
+        if input_id is not None:
+            obj = get_object_or_404(queryset, id=input_id)
+            self.check_object_permissions(self.request, obj)
+        return obj
+    def get(self, request, *args, **kwargs):
+        """This method will return the list of the Entity items based on the
+        filter values specified. The number of items can be controlled by the
+        limit parameter. 
+        ordering field can be set to either of (name, id, created, updated). It
+        will sort the returned results based on that. For example
+        entity/?ordering=updated or entity/?ordering=-name (Sort by name
+        descending)
+        If id of the Entity is appended to the url for example /entity/1, then
+        it would return only one entity corresponding to the id mentioned. 
+        """
+        print(f"I am in get request {request.user}")
+        self.input_id = get_id_from_request(request)
+        if self.input_id is not None:
+            return self.retrieve(request, *args, **kwargs)
+        return super().get(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        """This would create an entity object in database. Name, description,
+        latitute and longitude are mandatory fields. This method is only
+        allowed for users with staff (user manager) permissions"""
+        return self.create(request, *args, **kwargs)
+
+    def put(self, request, *args, **kwargs):
+        """This method would update the entity object, based on the id as
+        supplied in the data. ID can also be specified in the url for example,
+        'entity/id'. All fields will be updated."""
+        self.input_id = get_id_from_request(request)
+        if self.input_id is None:
+            data = json.dumps({"message":"Need to specify the ID for this method"})
+            return self.render_to_response(data, status="404")
+        return self.update(request, *args, **kwargs)
+
+    def patch(self, request, *args, **kwargs):
+        """This method would patch the existing entity object, based on the id as
+        supplied in the data. ID can also be specified in the url for example,
+        'entity/id'. Only the fields passed on in the data will be updated"""
+        self.input_id = get_id_from_request(request)
+        if self.input_id is None:
+                data = json.dumps({"message":"Need to specify the ID for this method"})
+                return self.render_to_response(data, status="404")
+        return self.partial_update(request, *args, **kwargs)
+
+    def delete(self, request, *args, **kwargs):
+        """This method would delete the existing entity object, based on the id as
+        supplied in the data. ID can also be specified in the url for example,
+        'entity/id'."""
+        self.input_id = get_id_from_request(request)
+        if self.input_id is None:
+            data = json.dumps({"message":"Need to specify the ID for this method"})
+            return self.render_to_response(data, status="404")
+        return self.destroy(request, *args, **kwargs)
 
 
