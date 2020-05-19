@@ -26,6 +26,7 @@ import { EntityEditComponent } from "./entity/entity-edit/entity-edit.component"
 import { EntityDetailComponent } from "./entity/entity-detail/entity-detail.component";
 import { EntityUpdateComponent } from "./entity/entity-update/entity-update.component";
 //import { EntityGridComponent } from './entity/entity-grid/entity-grid.component';
+import { RequestsListComponent } from "./funding/requests-list/requests-list.component";
 
 import { LoginComponent } from './user/login/login.component';
 import { MatloginComponent } from './user/matlogin/matlogin.component';
@@ -63,6 +64,7 @@ const routes: Routes = [
     {path : 'form-edit', component : FormEditComponent, canActivate:[AuthGuard]},
     {path : 'invite', component : InviteComponent},
     {path : 'list', component : EntityListComponent, canActivate:[AuthGuard]},
+    {path : 'request', component : RequestsListComponent, canActivate:[AuthGuard]},
     {path : 'fund', component : EntityListComponent, canActivate:[AuthGuard]},
     {path : 'mylist', component : MyEntityListComponent, canActivate:[AuthGuard]},
     {path : 'map', component : ContextMapComponent, canActivate:[AuthGuard]},

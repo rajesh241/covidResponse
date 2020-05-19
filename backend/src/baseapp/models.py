@@ -47,6 +47,7 @@ class Covid(models.Model):
  
 class Request(models.Model):
     """This is the basic class for Aparment"""
+    title = models.CharField(max_length=256, null=True, blank=True)
     organization = models.ForeignKey(Organization, on_delete=models.SET_NULL,
                                         blank=True, null=True,
                                         related_name="org_group")
@@ -55,6 +56,7 @@ class Request(models.Model):
     mode = models.CharField(max_length=1024, null=True, blank=True)
     amount_needed = models.BigIntegerField(blank=True, null=True)
     amount_pledged = models.BigIntegerField(blank=True, null=True)
+    amount_pending = models.BigIntegerField(blank=True, null=True)
     total_endorsed = models.BigIntegerField(blank=True, null=True)
     endorsed_by = models.TextField(blank=True, null=True)
     notes = models.TextField(blank=True, null=True)

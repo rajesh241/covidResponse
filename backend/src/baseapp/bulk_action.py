@@ -1,6 +1,6 @@
 """This is the module to define Bulk Actions"""
 from django.contrib.auth import get_user_model, authenticate
-from baseapp.models import Entity
+from baseapp.models import Entity, Request
 from core.models import Team
 from django.conf import settings
 import boto3
@@ -24,6 +24,24 @@ def perform_bulk_action(data, user):
         return
     print(id_array)
     bulk_action = data.get("bulk_action", None)
+    if bulk_action == "pledgeAmount":
+        print("I am Pledge Amount")
+        user_id = formio_json.get("user", None)
+        amount = formio_json.get("amount", 0)
+        if user_id is None:
+            return
+        if user_id == '':
+            myuser = None
+        else:
+            myuser = User.objects.filter(id=user_id).first()
+
+        for each_id in id_array:
+            obj = Request.objects.filter(id_each_id).first()
+            pending = obj.pending
+            if amount >= pending:
+                amount = amount - pending
+            if amount == 0:
+                break
     if bulk_action == "assigntovolunteer":
         print("I am in assign volunteer")
         user_id = formio_json.get("assigntovolunteer", None)

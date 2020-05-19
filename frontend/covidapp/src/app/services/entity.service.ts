@@ -13,6 +13,7 @@ export class EntityService {
     private endpoint = environment.apiURL+"/api/public/entity/";
     private fbendpoint = environment.apiURL+"/api/public/feedback/";
     private listEndPoint = environment.apiURL+"/api/public/entity/";
+    private requestEndPoint = environment.apiURL+"/api/public/request/";
     private stateEndPoint = environment.apiURL+"/api/public/states/";
     private districtEndPoint = environment.apiURL+"/api/public/districts/";
     private historyEndPoint = environment.apiURL+"/api/public/entityhistory/";
@@ -52,6 +53,9 @@ export class EntityService {
 	return queryPaginated<Entity>(this.http, this.entityListEndPoint, false, urlOrFilter);
     }
 
+    listRequest(urlOrFilter?: string | object): Observable<Page<any>> {
+	return queryPaginated<any>(this.http, this.requestEndPoint, false, urlOrFilter);
+    }
     geoList(geoBounds:object, urlOrFilter?: string | object): Observable<Page<Entity>> {
 	return queryPaginatedLocations<Entity>(this.http, this.entityListEndPoint, geoBounds, urlOrFilter);
     }
