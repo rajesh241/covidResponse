@@ -1,102 +1,207 @@
 <div class="container" [formGroup]="filterForm">
-  <h3 align="center">Requests List</h3>
+  <h3 align="center">Requests</h3>
   <mat-card class="col-md-12" style="padding:5px;">
     <mat-expansion-panel (opened)="panelOpen = true"
                          (closed)="panelOpen = false"
                          [expanded]="panelOpen">
       <mat-expansion-panel-header>
         <mat-panel-title>
-          <h3 align="center"></h3>
+          <h3 align="center">Filters</h3>
         </mat-panel-title>
         <mat-panel-description style="text-align-vertical:center; text-align:center;">
-          <label class="col-sm-3 col-form-label"></label>
+          <label class="col-sm-2 col-form-label"></label>
           Click to {{!panelOpen ? 'Open' : 'Close'}}
         </mat-panel-description>
       </mat-expansion-panel-header>
       <mat-card-content class="col-md-12">
-	<div class="form-group row">
-          <label  class="col-sm-3 col-form-label"></label>
-	  <label  class="col-md-2 col-form-label">Search</label>
-	  <div class="col-md-4">
-	    <input formControlName="search" class="form-control" placeholder="Search by user name or email">
-	  </div>
-	</div>
+        <br />
+        <!-- BEGIN Search Bar and Pledge Filter BEGIN -->
+        <div class="row col-md-12">
+          <div class="form-group row col-md-6">
+            <div class="col-sm-2">
+            </div>
+            <label  class="col-sm-2 col-form-label"  style="line-height:34px;">Search</label>
+            <div class="col-sm-8" align="center">
+              <input formControlName="search" class="form-control" placeholder="Search by Title">
+            </div>
+          </div>
+          <div class="form-group row col-md-6">
+            <div align="center">
+              <mat-button-toggle-group appearance="legacy" style="top:-3px;"
+                                       formControlName="endorsed__isnull">
+                <mat-button-toggle mat-raised-button [value]="">All</mat-button-toggle>
+                <mat-button-toggle mat-raised-button [value]="0">Completed</mat-button-toggle>
+                <mat-button-toggle mat-raised-button [value]="1">Still Looking</mat-button-toggle>
+                <!-- <mat-button-toggle *ngFor="let option of isEndorsedOptions" [value]="option.value">{{ option.name }}</mat-button-toggle> -->
+              </mat-button-toggle-group>
+            </div>
+          </div>
+        </div>
+        <!-- END Search Bar and Endorsed Filter END -->
+        <br />
+        <div class="row">
+        </div>
+        <br />
+        <!-- BEGIN Bulk Actions BEGIN -->
+        <div class="form-group row well" style="padding: 5px;">
+          <div class = "col-sm-auto" align="center">
+            <mat-card *ngIf="authService.isAboveVolunteer()">
+              <mat-card-content>
+                <div *ngIf="!showBulkActions" align="center" style="padding:8px;">
+                  Please select items below for bulk actions to appear here
+                </div>
+                <div *ngIf="showBulkActions">
+                  <ng-container
+                    *ngFor="let option of bulkActionList|keyvalue;">
+                    <button mat-raised-button class="btn-success"
+                            (click)="onBulkAction(option)">
+                      {{ option.value }}
+                    </button><!-- style="padding: 5px; line-height:40px" -->
+                    <label style="margin: 5px;"></label>
+                  </ng-container>
+                </div>
+              </mat-card-content>
+            </mat-card>
+          </div>
+        </div>
+        <!-- END Bulk Actions END -->
 
-	<div class="form-group row">
-          <label class="col-sm-3 col-form-label"></label>
-	  <label class="col-md-2 col-form-label">Results per Page</label>
-	  <div class="col-md-1">
-	    <input  formControlName="limit" class="form-control" placeholder="min">
-	  </div>
-	  <div class="col-md-3">
-            <select formControlName="ordering" class="form-control">
-              <option value="null" selected>Sort by?</option>
-              <option value="name">Name A-Z</option>
-              <option value="-name">Name Z-A</option>
-            </select>
-	  </div>
-	</div>
+        <!-- BEGIN Paginator Section BEGIN -->
+        <div align="center row">
+          <div class="col-sm-4">
+            <label class="col-sm-2 col-form-label" style="line-height:34px;">Rows</label>
+            <div class="col-sm-3">
+              <input  formControlName="limit" class="form-control" placeholder="min">
+            </div>
+            <div class="col-sm-7">
+              <mat-form-field>
+                <mat-label>Sort By</mat-label>
+                <mat-select formControlName="ordering">
+                  <mat-option value="created">Oldest Listing First</mat-option>
+                  <mat-option value="-created">Newest Listing First</mat-option>
+                  <mat-option value="updated">Recently Updated First</mat-option>
+                  <mat-option value="-updated">Recently Updated Last</mat-option>
+                  <!--
+                      <mat-option value="nearest">Nearest to Farthest</mat-option>
+                      <mat-option value="-nearest">Farthest to Nearest</mat-option>
+                      <mat-option value="null" selected>Sort by?</mat-option>
+                      -->
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="col-sm-4" align="center" style="padding-top:5px;">
+            <app-paginator [page]="page | async" (pageChange)="onPageChanged($event)"></app-paginator>
+          </div>
+          <div class="col-sm-4">
+            <div class="form-group row">
+              <section align="center">
+                <button mat-raised-button class="btn-success"
+                        (click)="onExportFiltered()"
+                        *ngIf="false && authService.isGroupAdmin()">
+                  Export Filtered
+                </button>
+                <label style="margin: 0 10px;"></label>
+                <button mat-raised-button class="btn-success"
+                        (click)="onExport()"
+                        *ngIf="authService.isGroupAdmin()">
+                  Export All
+                </button>
+              </section>
+            </div>
+          </div>
+        </div>
+        <!-- END Paginator Section END -->
 
-	
-	<div class="row" *ngIf="authService.isUserAdmin()">
-	  <div class="col-md-4" align="center" style="padding=15px;">
-	  </div>
-	  <div *ngIf="authService.isGroupAdmin()" class="col-md-2" align="center" style="padding=15px;">
-            <button mat-raised-button
-		    style="color: red;"
-                    [routerLink]="['/teamadd']">
-              Add Request
-            </button>
-	  </div>
-	  <div *ngIf="authService.isUserAdmin()" class="col-md-2" align="center" style="padding=15px;">
-            <button mat-raised-button
-		    style="color: red;"
-                    [routerLink]="['/useraddedit','0']">
-              Add Organization
-            </button>
-	  </div>
-	</div>
       </mat-card-content>
     </mat-expansion-panel>
   </mat-card>
 
-
   <div *ngIf="dataLoaded | async" class="col-lg-12 well">
     <div class="row">
+      <div class="col-md-12">
+        <!--
+            <h4 class="text-left">List Entitys</h4>
+            <h3 class="text-center">List</h3>
+            -->
+      </div>
       <div class="col-lg-12 ml-auto mr-auto">
         <div class="table-responsive">
           <table class="table">
             <thead>
               <tr>
-                <th>title</th>
+                <th *ngIf="authService.isAboveVolunteer()">
+                  <mat-checkbox [ngModelOptions]="{standalone: true}" class="cb-margin" (change)="allChecked()" [(ngModel)]="checkState"></mat-checkbox></th>
+                <th>ID</th>
+                <th>Title</th>
                 <th>Organization</th>
+                <th>Endorsements</th>
                 <th>Endorsed By</th>
                 <th>Amount Needed</th>
                 <th>Amount Pending</th>
+                <th *ngIf="authService.isAboveVolunteer()" align="center">Actions</th>
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let user of (page | async)?.results;let i=index" 
-                  >
-		<td>{{user.title}}</td>
-		<td>{{user.org_name}}</td>
-		<td>{{user.total_endorsed}}</td>
-		<td>{{user.amount_needed}}</td>
-		<td>{{user.amount_pending}}</td>
+              <!-- <tr *ngFor="let org of (page | async)?.results;let i=index"> -->
+              <tr *ngFor="let request of requests">
+                <td *ngIf="authService.isAboveVolunteer()">
+                  <mat-checkbox
+                    [ngModelOptions]="{standalone: true}"
+                    class="cb-margin" (change)="onCBChange(request)"
+                    [(ngModel)]="selectedRequests[request.id]"></mat-checkbox>
+                </td>
+                <td>
+                  <ng-container *ngIf="authService.isAboveVolunteer(); else volunteerandbelow">
+                    <a [routerLink]="['/update',request.id]">{{request.id}}</a>
+                  </ng-container>
+                  <ng-template #volunteerandbelow>
+                    {{ request.id }}
+                  </ng-template>
+                </td>
+                <td>{{ request.title }}</td>
+                <td>{{ request.org_name }}</td>
+                <td>{{ request.endorsedBy }}</td>
+                <td>{{ request.total_endorsed }}</td>
+                <td>{{ request.amount_needed }}</td>
+                <td>{{ request.amount_pending }}</td>
+                <td *ngIf="authService.isAboveVolunteer()" class="td-actions">
+                  <div>
+                    <button mat-raised-button class="btn btn-primary"
+                            [routerLink]="['/update',request.id]">
+                      Edit
+                    </button>
+                    <label style="margin: 0 5px;"></label>
+                    <button mat-raised-button class="btn btn-primary"
+                            [routerLink]="['/transit',request.id]">
+                      Pledge
+                    </button>
+                  </div>
+                </td>
               </tr>
             </tbody>
           </table>
         </div>
       </div>
     </div>
-    <div class="row" *ngIf="authService.isAdmin()">
-      <button class="btn btn-primary" (click)="deleteAllUsers()">
-        Delete All Users
-      </button>
-    </div>
-  </div>
+</div>
 
-  <div align="center">
+<div align="center row">
+  <div class="col-sm-3">
+  </div>
+  <div class="col-sm-6" align="center">
     <app-paginator [page]="page | async" (pageChange)="onPageChanged($event)"></app-paginator>
   </div>
+  <div class="col-sm-3">
+    <!--
+        <div *ngIf="authService.isGroupAdmin()" class="form-group row">
+          <section align="center">
+            <button mat-raised-button class="btn-success"
+                    (click)="onExport()">
+              Export all records to csv
+            </button>
+          </section>
+        </div>
+  </div>
+  -->
 </div>
