@@ -3,7 +3,7 @@ from django.contrib.auth import get_user_model
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django_mysql.models import JSONField
-from core.models import Region, Team
+from core.models import Region, Team, Organization
 from django.utils import timezone
 
 User = get_user_model()
@@ -44,7 +44,52 @@ class Covid(models.Model):
         """Default str method for the class"""
         return f"{self.name}-{self.description}"
 
-   
+ 
+class Request(models.Model):
+    """This is the basic class for Aparment"""
+    organization = models.ForeignKey(Organization, on_delete=models.SET_NULL,
+                                        blank=True, null=True,
+                                        related_name="org_group")
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True,
+                             blank=True)
+    mode = models.CharField(max_length=1024, null=True, blank=True)
+    amount_needed = models.BigIntegerField(blank=True, null=True)
+    amount_pledged = models.BigIntegerField(blank=True, null=True)
+    total_endorsed = models.BigIntegerField(blank=True, null=True)
+    endorsed_by = models.TextField(blank=True, null=True)
+    notes = models.TextField(blank=True, null=True)
+    needed_by = models.DateField(blank=True, null=True)
+    data_json = JSONField(null=True, blank=True)  # requires Django-Mysql package
+    prefill_json = JSONField(null=True, blank=True)  # requires Django-Mysql package
+    extra_fields = JSONField(null=True, blank=True)  # requires Django-Mysql package
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+    class Meta:
+        """To define meta data attributes"""
+        db_table = 'request'
+    def __str__(self):
+        """Default str method for the class"""
+        return f"{self.id}"
+class Pledge(models.Model):
+    """This is the basic class for Aparment"""
+    request = models.ForeignKey(Request, on_delete=models.SET_NULL,
+                                        blank=True, null=True,
+                                        related_name="request_name")
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True,
+                             blank=True)
+    amount_pledged = models.BigIntegerField(blank=True, null=True)
+    notes = models.TextField(blank=True, null=True)
+    extra_fields = JSONField(null=True, blank=True)  # requires Django-Mysql package
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+    class Meta:
+        """To define meta data attributes"""
+        db_table = 'pledge'
+    def __str__(self):
+        """Default str method for the class"""
+        return f"{self.id}"
+
+
 class Entity(models.Model):
     """This is the basic class for Aparment"""
     title = models.CharField(max_length=256, null=True, blank=True)
@@ -84,6 +129,7 @@ class Entity(models.Model):
     data_json = JSONField(null=True, blank=True)  # requires Django-Mysql package
     prefill_json = JSONField(null=True, blank=True)  # requires Django-Mysql package
     extra_fields = JSONField(null=True, blank=True)  # requires Django-Mysql package
+    route = JSONField(null=True, blank=True)  # requires Django-Mysql package
     formio_url = models.URLField(blank=True, null=True)
     from_ui = models.BooleanField(default=True)
     google_location_json = JSONField(null=True, blank=True)  # requires Django-Mysql package

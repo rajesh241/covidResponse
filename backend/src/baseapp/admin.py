@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import Entity, Covid, Feedback, EntityBulkEdit, BulkOperation, EntityHistory, Location
+from .models import Entity, Covid, Feedback, EntityBulkEdit, BulkOperation, EntityHistory, Location, Request, Pledge
 class LocationModelAdmin(admin.ModelAdmin):
     """Model Adminf or class Location"""
     list_display = ["id", "name", "code"]
@@ -30,6 +30,19 @@ class BulkOperationModelAdmin(admin.ModelAdmin):
     list_display = ["id", "user", "bulk_action"]
     list_filter = ["bulk_action"]
 
+class RequestModelAdmin(admin.ModelAdmin):
+    """Model Admin for Entity Bulk Edit"""
+    list_display = ["id", "user", "notes"]
+    list_filter = ["mode"]
+
+class PledgeModelAdmin(admin.ModelAdmin):
+    """Model Admin for Entity Bulk Edit"""
+    list_display = ["id", "user", "notes"]
+    list_filter = ["user"]
+class RequestModelAdmin(admin.ModelAdmin):
+    """Model Admin for Entity Bulk Edit"""
+    list_display = ["id", "user", "notes"]
+    list_filter = ["mode"]
 class CovidModelAdmin(admin.ModelAdmin):
     """Model Adminf or class Location"""
     list_display = ["id", "name", "latitude", "longitude"]
@@ -40,3 +53,5 @@ admin.site.register(Feedback, FeedbackModelAdmin)
 admin.site.register(BulkOperation, BulkOperationModelAdmin)
 admin.site.register(EntityHistory, EntityHistoryModelAdmin)
 admin.site.register(Location, LocationModelAdmin)
+admin.site.register(Request, RequestModelAdmin)
+admin.site.register(Pledge, PledgeModelAdmin)

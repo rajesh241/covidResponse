@@ -98,9 +98,14 @@ org_id_mapping = {
     '327' : 'Maharashtra',
     '328' : 'Rajasthan',
     '400' : 'Delhi',
+    '500' : 'swanteam'
 }
-orgs_to_be_imported = ['2', '324', '325', '326', '327', '328', '400']
-def create_entity(logger, record, myUser, wasan_id = None, wasan_org_id=None):
+orgs_to_be_imported = ['2', '324', '325', '326', '327', '328', '400', '500']
+def create_entity(logger, record, myUser, wasan_id = None, wasan_org_id=None,
+                  usergroup=None):
+    logger.info(f"my user is {myUser.id}")
+    if usergroup is None:
+        usergroup = "wassan"
     # This has to go as a string
     # extra_fields = str(record['extra_fields'])
     # revised['extra_fields'] = extra_fields
@@ -143,6 +148,7 @@ def create_entity(logger, record, myUser, wasan_id = None, wasan_org_id=None):
     if obj is None:
         obj = Entity.objects.create(title="blankNewItem")
     logger.info(obj.id)
+    logger.info(f"checking my user again {myUser.id}")
     obj.user = myUser
     obj.updated_by_user = myUser
     for key, value in record.items():
@@ -150,8 +156,8 @@ def create_entity(logger, record, myUser, wasan_id = None, wasan_org_id=None):
     obj.record_type = 'helpseekers'
     # False if it does not come via formio
     obj.form_ui = False
-    name = record['full_name']
-    title = f"{name}, {record['address']}"
+    name = record.get('full_name', '')
+    title = f"{name}, {record.get('address', None)}"
     title = title.replace('nan', '')
     title = title.replace('  ', ' ')
     title = str(title)
@@ -160,7 +166,7 @@ def create_entity(logger, record, myUser, wasan_id = None, wasan_org_id=None):
         obj.how_many_people = None
     obj.name = title
     obj.title = title
-    obj.phone = str(record['phone'])
+    obj.phone = str(record.get('phone',''))
     obj.backend_notes = 'Added from a dump from Min on 2 May.'
     
     # entity_status = status[random.randint(0,len(status)-1)]
@@ -170,9 +176,9 @@ def create_entity(logger, record, myUser, wasan_id = None, wasan_org_id=None):
         extra_fields = record['extra_fields']
     # extra_fields['status'] = entity_status    
     obj.extra_fields = extra_fields
-    obj.formio_usergroup = 'wassan'
-    obj.region = record['state']
-    obj.state = record['state']
+    obj.formio_usergroup = usergroup
+    obj.region = record.get('state', '')
+    obj.state = record.get('state', '')
     try:
         remarks = record['prefill_json']['data']['formFillerNotes'][0]
         remarks = remarks.replace("remarks:","").lstrip().rstrip()
@@ -186,9 +192,9 @@ def create_entity(logger, record, myUser, wasan_id = None, wasan_org_id=None):
         if assigned_user is not None:
             obj.assigned_to_user = assigned_user
         else:
-            logger.info("user not found")
+            obj.assigned_to_user = myUser
     except:
-        logger.info("no user info present")
+        obj.assigned_to_user = myUser
     if my_group is not None:
         obj.assigned_to_group = my_group
     obj.remarks = remarks
@@ -266,14 +272,22 @@ def main():
 
     if args['importEntities']:
         my_user = User.objects.filter(id=1).first()
-        with open('../import_data/jh_dump_2020_05-09.json', 'r') as f:
+        with open('../import_data/swan_14_05_2020.json', 'r') as f:
                 records = json.load(f)
-        base_number = 200513 * 10000
+        base_number = 200514 * 10000
         for i,record in enumerate(records):
             logger.info(i)
+            try:
+                username= record["extra_fields"]["source_specific"]["who_entering_this_txn"]
+                volunteer  = User.objects.filter(name = username).first()
+            except:
+                volunteer = None
+            if volunteer is None:
+                volunteer = User.objects.filter(id=13).first()
+            logger.info(f"volunteer id is {volunteer.id}")
             sr_no = base_number + i
-            create_entity(logger, record, my_user, wasan_id = sr_no,
-                          wasan_org_id=None)
+            create_entity(logger, record, volunteer, wasan_id = sr_no,
+                          wasan_org_id=500, usergroup='swan')
         exit(0)
         usergroup = "wassan"
         objs = Entity.objects.filter(record_type = "helpseekers")
@@ -294,6 +308,10 @@ def main():
                 obj.district = district
                 obj.save()
     if args['test']:
+        users = User.objects.filter(formio_usergroup = "swan")
+        for user in users:
+            logger.info(user.id)
+        exit(0)
         states = Entity.objects.all().values('state').annotate(c=Count('id'))
         for state in states:
             logger.info(state)

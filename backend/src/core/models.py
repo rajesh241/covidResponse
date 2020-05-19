@@ -11,6 +11,7 @@ from django.dispatch import receiver
 from django.template.loader import render_to_string
 from django.urls import reverse
 from django.conf import settings
+from django_mysql.models import JSONField
 from passwordreset.signals import reset_password_token_created
 # Create your models here.
 
@@ -54,6 +55,15 @@ class Region(models.Model):
 class Organization(models.Model):
     """This is to classify help seekers in to Regions"""
     name = models.CharField(max_length=256, null=True, blank=True)
+    contact_name = models.CharField(max_length=256, null=True, blank=True)
+    contact_phone = models.CharField(max_length=256, null=True, blank=True)
+    has_12A = models.BooleanField(default=False)
+    has_FCRA = models.BooleanField(default=False)
+    has_GST = models.BooleanField(default=False)
+    districts = JSONField(null=True, blank=True)  # requires Django-Mysql package
+    data_json = JSONField(null=True, blank=True)  # requires Django-Mysql package
+    prefill_json = JSONField(null=True, blank=True)  # requires Django-Mysql package
+    extra_fields = JSONField(null=True, blank=True)  # requires Django-Mysql package
     class Meta:
         """To define meta data attributes"""
         db_table = 'organization'

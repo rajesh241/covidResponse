@@ -5,14 +5,14 @@ import django
 import pandas as pd
 from django.utils.text import slugify
 from django.contrib.auth import get_user_model
-from commons import logger_fetch, ms_transliterate_word
-from defines import DJANGO_SETTINGS, STATE_SHORT_CODE_DICT
+from commons import logger_fetch
+from defines import DJANGO_SETTINGS
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", DJANGO_SETTINGS)
 django.setup()
 from baseapp.models import Entity
 
 User = get_user_model()
-from core.models import Organization
+from core.models import Organization, Team
 def args_fetch():
     '''
     Paser for the argument list that returns the args list
@@ -46,13 +46,16 @@ def main():
             if isinstance(email, str):
                 if "@" in email:
                     password = User.objects.make_random_password()
+                    password = 'test123'
                     logger.info(f"email is {email} and password is {password}")
                     myuser = User.objects.filter(email=email).first()
                     if myuser is None:
                         myuser = User.objects.create(email=email)
-                    org = Organization.objects.filter(title="swan").first()
-                    myuser.group = org
+                    myteam = Team.objects.filter(name="swanteam").first()
+                    myuser.team = myteam
                     myuser.name = name
+                    myuser.formio_usergroup = "swan"
+                    myuser.user_role = 'usergroupadmin'
                     myuser.set_password(password) 
                     myuser.save()
            
