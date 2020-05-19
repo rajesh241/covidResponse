@@ -85,6 +85,7 @@ const routes: Routes = [
     {path : 'helpseekers', component : EntityCreateComponent, canActivate:[AuthGuard]},
     {path : 'supportnetwork', component : EntityCreateComponent, canActivate:[AuthGuard]},
     {path : 'travelsupport', component : RequestCreateComponent, canActivate:[AuthGuard]},
+    {path : 'fundseekers', component : RequestCreateComponent, canActivate:[AuthGuard]},
     {path : 'useredit/:id', component : UserEditComponent, canActivate:[AuthGuard]},
     {path : 'update/:id', component : EntityUpdateComponent, canActivate:[AuthGuard]},
     {path : 'useraddedit/:id', component : UserAddeditComponent, canActivate:[AuthGuard]},

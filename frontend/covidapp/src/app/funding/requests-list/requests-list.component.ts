@@ -1,80 +1,216 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
 import { FormControl, FormGroup } from '@angular/forms';
+import { Router } from "@angular/router"
 
 import { Observable, Subject } from 'rxjs';
-import { debounceTime, merge, share, startWith, switchMap } from 'rxjs/operators';
+import { map, debounceTime, merge, share, startWith, switchMap } from 'rxjs/operators';
 import * as moment from "moment";
-import {Router} from "@angular/router"
 
 import { Page } from '../../pagination';
-import { User } from "../../models/user";
-import { UserService } from "../../services/user.service";
+// import { Entity } from "../../models/entity";
+// import { EntityService } from "../../services/entity.service";
 import { AuthService } from "../../services/auth.service";
+import { UserService } from "../../services/user.service";
 import { EntityService } from "../../services/entity.service";
-import { PublicGroup } from "../../models/publicgroup";
+
+import { MatDialog, MatDialogConfig, MatSnackBar } from "@angular/material";
+import { BulkDialogComponent } from '../../entity/bulk-dialog/bulk-dialog.component';
 
 @Component({
-  selector: 'app-requests-list',
-  templateUrl: './requests-list.component.html',
-  styleUrls: ['./requests-list.component.css']
+    selector: 'app-requests-list',
+    templateUrl: './requests-list.component.html',
+    styleUrls: ['./requests-list.component.css']
 })
 export class RequestsListComponent implements OnInit {
-  groups:any;
-  filterForm: FormGroup;
-  page: Observable<Page<User>>;
-  pageUrl = new Subject<string>();
-  success: boolean = false;
-  dataLoaded: Promise<boolean>;
-  usergroup:string;
-  roleOptions:any;
-  user_role:any;
-  panelOpen = true;
-  groupID:any;
+    public panelOpen: boolean = true;
+    public dataLoaded: Promise<boolean>;
+    public requests: any;
+    public page$: any;
+    pageUrl = new Subject<string>();
+    public filterForm: FormGroup;
+    // public page$: Observable<Page<Entity>>;
+    // private pageUrl = new Subject<string>();
+    private rand_number:any;
+    private selectedRequests: any;
+    public checkState: boolean = false;
+    public showBulkActions: boolean = false;
+    public bulkActionList = {
+        'pledge': 'Pledge',
+    };
 
-  constructor(
-    public authService: AuthService, private userService: UserService, private entityService: EntityService, private router : Router
-  ) {
-    this.user_role = localStorage.getItem('ur');
-    this.usergroup=localStorage.getItem('usergroup')
-    this.filterForm = new FormGroup({
-      limit : new FormControl(10),
-      ordering : new FormControl('-id'),
-      search: new FormControl()
-    });
-    this.page = this.filterForm.valueChanges.pipe(
-      debounceTime(200),
-      startWith(this.filterForm.value),
-      merge(this.pageUrl),
-      switchMap(urlOrFilter => this.entityService.listRequest(urlOrFilter)),
-      share()
-    );
-    this.dataLoaded = Promise.resolve(true);
-  }
+    constructor(
+        public authService: AuthService,
+        private userService: UserService,
+        private entityService: EntityService,
+        private router:Router,
+	private snackBar: MatSnackBar,
+	@Inject(DOCUMENT) private document: Document,
+        private dialog: MatDialog
+    ) {
+        console.log('RequestsListComponent.constructor()');
+        this.filterForm = new FormGroup({
+            limit : new FormControl(10),
+            ordering : new FormControl('-created'),
+            //state: new FormControl(),
+            //district: new FormControl(),
+            endorsed__isnull:  new FormControl(),
+            search: new FormControl(),
+            //dummy: new FormControl(),
+        });
+        this.filterForm.valueChanges.subscribe(data => {
+		console.log(data);
+	});
+        this.page$ = this.filterForm.valueChanges.pipe(
+            debounceTime(200),
+            startWith(this.filterForm.value),
+            merge(this.pageUrl),
+            switchMap(urlOrFilter => this.entityService.listRequest(urlOrFilter)),
+            share()
+        );
 
-
-    ngOnInit() {
-
+        this.page$.subscribe(
+            data => {
+                console.log('RequestsListComponent.getRequests()', data);
+                this.requests = data.results;
+	        this.checkState = false;
+                this.showBulkActions = false;
+                delete this.selectedRequests;
+	        this.selectedRequests = {};
+                this.requests.forEach(request => {
+                    this.selectedRequests[request.id] = this.checkState;
+                });
+                this.dataLoaded = Promise.resolve(true);
+            },
+        );
     }
 
+    ngOnInit() {
+        console.log('RequestsListComponent.ngOnInit()');
+    }
 
-  onPageChanged(url: string) {
-    this.pageUrl.next(url);
-  }
-  loadpage(){
-    this.page = this.filterForm.valueChanges.pipe(
-      debounceTime(200),
-      startWith(this.filterForm.value),
-      merge(this.pageUrl),
-      switchMap(urlOrFilter => this.entityService.listRequest(urlOrFilter)),
-      share()
-    );
-    this.dataLoaded = Promise.resolve(true);
-  }
+    onPageChanged(url: string) {
+        this.pageUrl.next(url);
+    }
 
-  addUser(){
-	  console.log("adding user")
-        this.router.navigate(['/useradd']);
-  }
+    allChecked() {
+        console.log('RequestListComponent.allChecked()');
+        this.requests.forEach( request => {
+            this.selectedRequests[request.id] = this.checkState;
+        });
+        this.showBulkActions = this.checkState;
+    }
 
+    onCBChange(request) {
+        console.log('RequestListComponent.onCBChange()');
+        this.showBulkActions = Object.values(this.selectedRequests).some(e => e);
+    }
 
+    onBulkAction(action) {
+        console.log(`RequestListComponent.applyBulkAction(${JSON.stringify(action)})`, action);
+        //console.log(this.selectedRequests);
+
+	let chosenRequests = [];
+
+        this.requests.forEach(
+	    request => {
+		if (this.selectedRequests[request.id]) {
+                    // this.bulkAction.Key(request);
+		    chosenRequests.push(request);
+		}
+            });
+	
+	if (this.authService.isLoggedIn()){ 
+            const dialogConfig = new MatDialogConfig();
+
+            dialogConfig.disableClose = true;
+            dialogConfig.autoFocus = true;
+
+            dialogConfig.data = {
+		'entities': chosenRequests, // Mynk - FIXME
+		'action': action,
+		'json': '',
+	    };
+
+            const dialogRef = this.dialog.open(BulkDialogComponent, dialogConfig);
+
+            dialogRef.afterClosed().subscribe(
+                data => {
+		    let request_ids = new  Array();
+		    var length;
+		    let ids_json : any;
+                    
+                    if (!data)   // Close pressed without any action.key
+                        return;
+
+		    console.log(`RequestListComponent.onBulkAction().dialogRef.afterClosed()`, data);
+                    // FIXME - This is alredy there - this.selectedRequests[]
+		    for (let request of data.entities) {
+			//console.log("Printing request id " + request.id); // 1, "string", false
+			request_ids.push(request.id)
+		    }
+		    console.log("Request Ids is " + request_ids);
+		    ids_json = { "ids" : request_ids}
+                    
+                    this.entityService.createBulkOperation({
+			'ids_json': ids_json,
+			'bulk_action': data.action.key,
+			'data_json': data.json
+		    }).subscribe(
+                        data => {
+                            console.log('Bulk Operation Creattion Successful', data);
+                            this.rand_number = Math.floor(Math.random()*(100)+0);
+                            this.filterForm.controls['dummy'].setValue(this.rand_number);
+			    if (data['bulk_action']== 'export') {
+			    this.snackBar.open('Your file will be downloaded shortly', action.value, {
+				duration: 3000,
+			    });
+                              this.document.location.href = 'https://coast-india.s3.ap-south-1.amazonaws.com/export/selected/'+data["data_json"]["filename"];
+			    }
+                            else if (data['bulk_action']== 'assigntovolunteer') {
+                                if (data['data_json']['assigntovolunteer'] === '')
+			            this.snackBar.open('Submitted Successfuly', 'Unassign', {
+				        duration: 3000,
+			            });
+                                else
+			            this.snackBar.open('Submitted Successfuly', action.value, {
+				        duration: 3000,
+			            });
+			    }
+                            else if (data['bulk_action']== 'assigntogroup') {
+                                if (data['data_json']['assigntogroup'] === '')
+			            this.snackBar.open('Submitted Successfuly', 'Unassisnged', {
+				        duration: 3000,
+			            });
+                                else
+			            this.snackBar.open('Submitted Successfuly', action.value, {
+				        duration: 3000,
+			            });
+			    }
+                            else{
+			    this.snackBar.open('Submitted Successfuly', action.value, {
+				duration: 3000,
+			    });
+			    }
+                        },
+                        err => {
+                            console.log("Bulk Operation  Creation Failed");
+			    this.snackBar.open('Bulk Action Failed!', action.value, {
+				duration: 3000,
+			    });
+                        }
+                    );
+            	    //const replacer = (key, value) =>  String(value) === "null" || String(value) === "undefined" ? 0 : value; 
+                    // data = JSON.parse( JSON.stringify(data, replacer));
+                    console.log("Dialog output:", data);
+                    /*
+                    //this.requestService.createItem({'name':'default','latitude': this.latitude, 'longitude': this.longitude, 'record_type':type})
+                    this.requestService.createItem({'name':'default','latitude': this.latitude, 'longitude': this.longitude, 'record_type':type, 'data_json':data,'address':this.address,'google_location_json':this.gmap_details})
+                    */
+                }
+            );
+	}else{
+            this.router.navigate(['/login']);
+	}
+    }
 }
