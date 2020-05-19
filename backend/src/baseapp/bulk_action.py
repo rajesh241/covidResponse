@@ -51,10 +51,10 @@ def perform_bulk_action(data, user):
             obj.endorsed_by = endorsed_by
             obj.total_endorsed = len(endorsed_by_array)
             obj.save()
-    if bulk_action == "pledgeAmount":
+    if bulk_action == "pledge":
         print("I am Pledge Amount")
         user_id = formio_json.get("user", None)
-        amount = formio_json.get("amount", 0)
+        amount = int(formio_json.get("amount", 0))
         if user_id is None:
             return
         if user_id == '':
@@ -63,12 +63,19 @@ def perform_bulk_action(data, user):
             myuser = User.objects.filter(id=user_id).first()
 
         for each_id in id_array:
-            obj = Request.objects.filter(id_each_id).first()
-            pending = obj.pending
+            obj = Request.objects.filter(id=each_id).first()
+            pending = obj.amount_pending
             if amount >= pending:
-                amount = amount - pending
+                donation = pending
+            else:
+                donation = amount
+            amount = amount - donation
+            obj.amount_pending = pending - donation
+            obj.amount_pledged = obj.amount_pledged + donation
+            obj.save()
             if amount == 0:
                 break
+            
     if bulk_action == "assigntovolunteer":
         print("I am in assign volunteer")
         user_id = formio_json.get("assigntovolunteer", None)

@@ -171,6 +171,7 @@ export class BulkDialogComponent implements OnInit {
         });
         this.pledgeForm = new FormGroup({
             amount: new FormControl(),
+            user: new FormControl(this.userid),
         });
 
         this.form = this.fb.group({

@@ -32,17 +32,14 @@ class BulkOperationModelAdmin(admin.ModelAdmin):
 
 class RequestModelAdmin(admin.ModelAdmin):
     """Model Admin for Entity Bulk Edit"""
-    list_display = ["id", "user", "notes"]
+    list_display = ["id", "user", "amount_needed", "amount_pledged",
+                    "amount_pending"]
     list_filter = ["mode"]
 
 class PledgeModelAdmin(admin.ModelAdmin):
     """Model Admin for Entity Bulk Edit"""
     list_display = ["id", "user", "notes"]
     list_filter = ["user"]
-class RequestModelAdmin(admin.ModelAdmin):
-    """Model Admin for Entity Bulk Edit"""
-    list_display = ["id", "user", "notes"]
-    list_filter = ["mode"]
 class CovidModelAdmin(admin.ModelAdmin):
     """Model Adminf or class Location"""
     list_display = ["id", "name", "latitude", "longitude"]
