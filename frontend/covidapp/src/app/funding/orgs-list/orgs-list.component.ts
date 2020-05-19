@@ -57,13 +57,15 @@ export class OrgsListComponent implements OnInit {
         this.filterForm = new FormGroup({
             limit : new FormControl(10),
             ordering : new FormControl('-created'),
-            state: new FormControl(),
-            district: new FormControl(),
+            //state: new FormControl(),
+            //district: new FormControl(),
             endorsed__isnull:  new FormControl(),
             search: new FormControl(),
-            dummy: new FormControl(),
+            //dummy: new FormControl(),
         });
-
+        this.filterForm.valueChanges.subscribe(data => {
+		console.log(data);
+	});
         this.page$ = this.filterForm.valueChanges.pipe(
             debounceTime(200),
             startWith(this.filterForm.value),

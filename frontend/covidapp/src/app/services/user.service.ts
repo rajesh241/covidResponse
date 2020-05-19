@@ -17,6 +17,7 @@ export class UserService {
     private publicListEndPoint = environment.apiURL+"/api/user/public";
     private teamPublicEndPoint = environment.apiURL+"/api/user/team/public";
     private orgPublicEndPoint = environment.apiURL+"/api/user/organization/public";
+    private orgEndPoint = environment.apiURL+"/api/user/organization/";
     private teamEndPoint = environment.apiURL+"/api/user/team/";
     private editEndPoint = environment.apiURL+"/api/user/modify/profile/";
     private bulkDeleteEndpoint = environment.apiURL+"/api/user/bulkdelete/";
@@ -53,7 +54,7 @@ export class UserService {
     }
 
     getOrgs(urlOrFilter?: string | object) {
-        return queryPaginated(this.http, this.orgPublicEndPoint, this.insertToken, urlOrFilter);
+        return queryPaginated<any>(this.http, this.orgEndPoint, this.insertToken, urlOrFilter);
     }
 
     list(urlOrFilter?: string | object): Observable<Page<User>> {

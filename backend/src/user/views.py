@@ -215,8 +215,8 @@ class OrganizationPublicAPIView(HttpResponseMixin,
   serializer_class = OrganizationSerializer
   passedID=None
   inputID=None
-  search_fields = ('name')
-  ordering_fields = ('name', 'id')
+  search_fields = ('id')
+  ordering_fields = ('created', 'id')
   #filter_fields=("name")
   queryset=Organization.objects.all()
   def get_object(self):
@@ -457,15 +457,13 @@ class OrganizationAPIView(HttpResponseMixin,
   serializer_class = OrganizationSerializer
   passedID=None
   inputID=None
-  search_fields = ('name')
-  ordering_fields = ('name', 'id')
+  search_fields = ('name', 'contact_phone')
+  ordering_fields = ('id', 'id')
   #filterset_class = ReportFilter
 
   #filter_fields=("title")
   queryset=Organization.objects.all()
   def get_queryset(self, *args, **kwargs):
-    if self.request.user.is_superuser:
-        return Organzation.objects.all()
     return Organization.objects.all()
   def get_object(self):
     inputID=self.inputID

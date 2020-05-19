@@ -779,7 +779,7 @@ class RequestAPIView(HttpResponseMixin,
     serializer_class = RequestSerializer
     passed_id = None
     input_id = None
-    search_fields = ('id')
+    search_fields = ('id', 'title')
     ordering_fields = ('id')
     queryset = Request.objects.all()
     def get_queryset(self, *args, **kwargs):
