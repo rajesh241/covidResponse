@@ -88,25 +88,6 @@ export class OrgsListComponent implements OnInit {
                 this.dataLoaded = Promise.resolve(true);
             },
         );
-
-        /*
-        this.userService.getAllOrgsPublic()
-            .subscribe(
-                data => {
-                    console.log('OrgsListComponent.getAllOrgsPublic() =>', data);
-                    this.orgs = data.results;
-                    console.log('OrgsListComponent.getAllOrgsPublic() =>', this.orgs);
-                    this.dataLoaded = Promise.resolve(true);
-	            this.checkState = false;
-                    this.showBulkActions = false;
-                    delete this.selectedOrgs;
-	            this.selectedOrgs = {};
-                    this.orgs.forEach(org => {
-                        this.selectedOrgs[org.id] = this.checkState;
-                    });
-                },
-            );
-        */
     }
 
     ngOnInit() {
@@ -116,20 +97,6 @@ export class OrgsListComponent implements OnInit {
     onPageChanged(url: string) {
         this.pageUrl.next(url);
     }
-
-    /* Mynk - not needed
-    loadpage() {
-        console.log("Load page is getting executed")
-        this.page = this.filterForm.valueChanges.pipe(
-            debounceTime(200),
-            startWith(this.filterForm.value),
-            merge(this.pageUrl),
-            switchMap(urlOrFilter => this.entityService.list(urlOrFilter)),
-            share()
-        );
-        this.dataLoaded = Promise.resolve(true);
-    }
-    */
 
     allChecked() {
         console.log('OrgListComponent.allChecked()');
