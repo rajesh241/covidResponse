@@ -36,12 +36,13 @@ def perform_bulk_action(data, user):
         if myuser is None:
             return
         for each_id in id_array:
-            obj = Organization.objects.filter(id_each_id).first()
+            obj = Organization.objects.filter(id=each_id).first()
             if obj.endorsed_by is None:
                 endorsed_by_array = []
             else:
                 endorsed_by_array = obj.endorsed_by.split(",")
-            if myuser.id not in endorsed_by_array:
+            print(f"endorsed by array is {endorsed_by_array}")
+            if str(myuser.id) not in endorsed_by_array:
                 endorsed_by_array.append(myuser.id)
             endorsed_by = ''
             for elem in endorsed_by_array:
