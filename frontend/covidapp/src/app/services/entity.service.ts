@@ -53,9 +53,14 @@ export class EntityService {
 	return queryPaginated<Entity>(this.http, this.entityListEndPoint, false, urlOrFilter);
     }
 
+    createRequest(data:any) {
+	return this.http.post(this.requestEndPoint, JSON.stringify(data), this.getHttpOptions());
+    }
+
     listRequest(urlOrFilter?: string | object): Observable<Page<any>> {
 	return queryPaginated<any>(this.http, this.requestEndPoint, false, urlOrFilter);
     }
+
     geoList(geoBounds:object, urlOrFilter?: string | object): Observable<Page<Entity>> {
 	return queryPaginatedLocations<Entity>(this.http, this.entityListEndPoint, geoBounds, urlOrFilter);
     }

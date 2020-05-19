@@ -13,48 +13,46 @@ import { Location } from '@angular/common';
     styleUrls: ['./request-create.component.css']
 })
 export class RequestCreateComponent implements OnInit {
-    users : Observable<PublicUser[]>;
-    form_type: string;
-    form_url: string;
-    prefill_json:any;
-    usergroup:any;
+    public formio_url: string;
+    private formio_tag;
+    private user;
 
     constructor(
         private entityService: EntityService,
 	private location: Location,
         private userService: UserService
     ) {
-	this.usergroup = localStorage.getItem('usergroup');
+	console.log(`RequestCreateComponent.constructor()`);
+	this.user = localStorage.getItem('userid');
     }
 
     ngOnInit() {
 	console.log(`RequestCreateComponent.ngOnInit()`);
-	this.prefill_json = {"data" : {"userGroup": "swan"}};
-	this.users = this.userService.getAllUsersPublic(this.usergroup);
 
 	let current_url = window.location.href;
-	let formio_tag = /#\/(.+)/.exec(window.location.href)[1]
-	this.form_url = formioConfig.appUrl + '/forms/v1/' + formio_tag;
-	console.log(`RequestCreateComponent.ngOnInit() => fromio_url[${this.form_url}]`);
+	this.formio_tag = /#\/(.+)/.exec(window.location.href)[1]
+	this.formio_url = formioConfig.appUrl + '/forms/v1/' + this.formio_tag;
+	console.log(`RequestCreateComponent.ngOnInit() => fromio_url[${this.formio_url}]`);
     }
 
     onSubmit($event) {
         console.log(`RequestCreateComponent.onSubmit(${$event})`);
         console.log($event.data);
-        /*
-        this.entityService.createItem({'name':'default', 'record_type':this.form_type, 'formio_url':this.form_url, 'data_json':$event.data})
+        if (this.formio_tag == 'supportrequest') {
+            this.entityService.createRequest({'user': this.user, 'data_json': $event.data})
             .subscribe(
                 data => {
-                    console.log('Entity Creattion Successful', data);
+                    console.log('RequestCreateComponent|Entity Creatton Successful', data);
 		    setTimeout(() => {
-			//  this.router.navigate(['/list/']);
 			this.location.back();
 		    }, 1000);
                 },
                 err => {
-                    console.log("Entity Creation Failed");
+                    console.log('RequestCreateComponent|Entity Creation Failed');
                 }
             );
-        */
+        }
+        else // fundseekers
+            console.log(`RequestCreateComponent.onSubmit()|createRequest(${this.formio_tag})`);
     }
 }

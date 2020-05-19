@@ -32,6 +32,7 @@ export class BulkDialogComponent implements OnInit {
     loadVolunteerForm:boolean=false;
     loadGroupForm:boolean=false;
     loadDuplicateDialog:boolean=false;
+    loadPledgeDialog: boolean = false;
     loadExportDialog:boolean=false;
     loadEndorseDialog:boolean=false;
     page: Observable<Page<PublicUser>>;
