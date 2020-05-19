@@ -3,6 +3,7 @@ import re
 from rest_framework import serializers, fields
 from django.contrib.auth import get_user_model, authenticate
 from baseapp.models import Covid, Entity, Feedback, EntityBulkEdit, BulkOperation, EntityHistory, Location, Request, Pledge
+from core.models import Organization
 from baseapp.formio import convert_formio_data_to_django, help_sought, get_status, get_remarks
 from django.conf import settings
 from baseapp.bulk_action import perform_bulk_action
@@ -87,6 +88,41 @@ class RequestSerializer(serializers.ModelSerializer):
         else:
             org_name = ''
         return org_name
+    def create(self, validated_data):
+        """Over riding teh create method of serializer"""
+        obj = Request.objects.create(**validated_data)
+        print(validated_data)
+        request = self.context.get('request')
+        try:
+            amount_needed = validated_data["data_json"]["totalcost"]
+        except:
+            amount_needed = 0
+
+        try:
+            org_id = validated_data["data_json"]["requestedBy"]
+            print(org_id)
+            myorg = Organization.objects.filter(id=org_id).first()
+            title = f"support request from {myorg.name}"
+        except:
+            myorg = None
+            title = "support request"
+        try:
+            notes = validated_data["data_json"]["remarks"]
+        except:
+            notes = ''
+        obj.amount_needed = amount_needed
+        obj.amount_pending = 0
+        obj.amount_pledged = 0
+        obj.notes = notes
+        obj.organization = myorg
+        obj.title = title
+        obj.save()
+          
+      #  self.create_history(obj)
+        return obj
+
+    def update(self, instance, validated_data):
+        """Overriding the default instance method"""
 class FeedbackSerializer(serializers.ModelSerializer):
     """Serializer for Report Model"""
     user = serializers.HiddenField(default=serializers.CurrentUserDefault())
