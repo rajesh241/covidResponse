@@ -1,1 +1,168 @@
-<p>orgs-list works!</p>
+<div class="container" [formGroup]="filterForm">
+  <mat-card class="col-md-12" style="padding:5px;">
+    <mat-expansion-panel (opened)="panelOpen = true"
+                         (closed)="panelOpen = false"
+                         [expanded]="panelOpen">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <h3 align="center">Filters</h3>
+        </mat-panel-title>
+        <mat-panel-description style="text-align-vertical:center; text-align:center;">
+          <label class="col-sm-2 col-form-label"></label>
+          Click to {{!panelOpen ? 'Open' : 'Close'}}
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <mat-card-content class="col-md-12">
+        <br />
+        <!-- BEGIN Search Bar and Endorsed Filter BEGIN -->
+        <div class="row col-md-12">
+          <div class="form-group row col-md-6">
+            <div class="col-sm-2">
+            </div>
+            <label  class="col-sm-2 col-form-label"  style="line-height:34px;">Search</label>
+            <div class="col-sm-8" align="center">
+              <input formControlName="search" class="form-control" placeholder="Search by ID, Name, Phone">
+            </div>
+          </div>
+          <div class="form-group row col-md-6">
+            <div align="center">
+              <mat-button-toggle-group appearance="legacy" style="top:-3px;"
+                                       formControlName="endorsed__isnull">
+                <mat-button-toggle mat-raised-button [value]="">All</mat-button-toggle>
+                <mat-button-toggle mat-raised-button [value]="0">Endorsed</mat-button-toggle>
+                <mat-button-toggle mat-raised-button [value]="1">Not Endorsed</mat-button-toggle>
+                <!-- <mat-button-toggle *ngFor="let option of isEndorsedOptions" [value]="option.value">{{ option.name }}</mat-button-toggle> -->
+              </mat-button-toggle-group>
+            </div>
+          </div>
+        </div>
+        <!-- END Search Bar and Endorsed Filter END -->
+        <br />
+        <div class="row">
+        </div>
+        <br />
+        <!-- BEGIN Bulk Actions BEGIN -->
+        <div class="form-group row well" style="padding: 5px;">
+          <div class = "col-sm-auto" align="center">
+            <mat-card *ngIf="authService.isAboveVolunteer()">
+              <mat-card-content>
+                <div *ngIf="!showBulkActions" align="center" style="padding:8px;">
+                  Please select items below for bulk actions to appear here
+                </div>
+                <div *ngIf="showBulkActions">
+                  <ng-container
+                    *ngFor="let option of bulkActionList|keyvalue;">
+                    <button mat-raised-button class="btn-success"
+                            (click)="onBulkAction(option)">
+                      {{ option.value }}
+                    </button><!-- style="padding: 5px; line-height:40px" -->
+                    <label style="margin: 5px;"></label>
+                  </ng-container>
+                </div>
+              </mat-card-content>
+            </mat-card>
+          </div>
+        </div>
+        <!-- END Bulk Actions END -->
+
+      </mat-card-content>
+    </mat-expansion-panel>
+  </mat-card>
+
+  <div *ngIf="orgs" class="col-lg-12 well">
+    <div class="row">
+      <div class="col-md-12">
+        <!--
+            <h4 class="text-left">List Entitys</h4>
+            <h3 class="text-center">List</h3>
+            -->
+      </div>
+      <div class="col-lg-12 ml-auto mr-auto">
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th *ngIf="authService.isAboveVolunteer()">
+                  <mat-checkbox [ngModelOptions]="{standalone: true}" class="cb-margin" (change)="allChecked()" [(ngModel)]="checkState"></mat-checkbox></th>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Contact Name</th>
+                <th>Contact Phone</th>
+                <th>12A</th>
+                <th>FCRA</th>
+                <th>GST</th>
+                <th>Endorsements</th>
+                <th>Endorsed By</th>
+                <th *ngIf="authService.isAboveVolunteer()" align="center">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- <tr *ngFor="let org of (page | async)?.results;let i=index"> -->
+              <tr *ngFor="let org of orgs">
+                <td *ngIf="authService.isAboveVolunteer()">
+                  <mat-checkbox
+                    [ngModelOptions]="{standalone: true}"
+                    class="cb-margin" (change)="onCBChange(org)"
+                    [(ngModel)]="selectedOrgs[org.id]"></mat-checkbox>
+                </td>
+                <td>
+                  <ng-container *ngIf="authService.isAboveVolunteer(); else volunteerandbelow">
+                    <a [routerLink]="['/update',org.id]">{{org.id}}</a>
+                  </ng-container>
+                  <ng-template #volunteerandbelow>
+                    {{ org.id }}
+                  </ng-template>
+                </td>
+                <td>{{ org.name }}</td>
+                <td>{{ org.contact_name }}</td>
+                <td>
+                  <span *ngIf="authService.isNotClient()">
+                    {{ (org.contact_phone | json)?.replace('.0', '')
+                    .replace('"', '').replace('"', '') }}
+                  </span>
+                </td>
+                <td>{{ org.has_12A }}</td>
+                <td>{{ org.has_FCRA }}</td>
+                <td>{{ org.has_GST }}</td>
+                <td>{{ org.endorsements }}</td>
+                <td>{{ org.endorsedBy }}</td>
+                <td *ngIf="authService.isAboveVolunteer() || (tab === 'mine')" class="td-actions">
+                  <div>
+                    <button mat-raised-button class="btn btn-primary"
+                            [routerLink]="['/update',org.id]">
+                      Edit
+                    </button>
+                    <label style="margin: 0 5px;"></label>
+                    <button mat-raised-button class="btn btn-primary"
+                            [routerLink]="['/transit',org.id]">
+                      Endorse
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+</div>
+
+<div align="center row">
+  <div class="col-sm-3">
+  </div>
+  <div class="col-sm-6" align="center">
+    <app-paginator [page]="page | async" (pageChange)="onPageChanged($event)"></app-paginator>
+  </div>
+  <div class="col-sm-3">
+    <!--
+        <div *ngIf="authService.isGroupAdmin()" class="form-group row">
+          <section align="center">
+            <button mat-raised-button class="btn-success"
+                    (click)="onExport()">
+              Export all records to csv
+            </button>
+          </section>
+        </div>
+  </div>
+  -->
+</div>

@@ -49,6 +49,7 @@ import { GuideComponent } from './help/guide/guide.component';
 import { TutorialComponent } from './help/tutorial/tutorial.component';
 import { TeamListComponent } from './team/team-list/team-list.component';
 import { RouteSearchComponent } from './transit/route-search/route-search.component';
+import { OrgsListComponent } from './funding/orgs-list/orgs-list.component';
 
 const routes: Routes = [
     {path : '', component : EntityListComponent, canActivate: [AuthGuard]},
@@ -65,7 +66,7 @@ const routes: Routes = [
     {path : 'invite', component : InviteComponent},
     {path : 'list', component : EntityListComponent, canActivate:[AuthGuard]},
     {path : 'request', component : RequestsListComponent, canActivate:[AuthGuard]},
-    {path : 'fund', component : EntityListComponent, canActivate:[AuthGuard]},
+    {path : 'fund', component : OrgsListComponent, canActivate:[AuthGuard]},
     {path : 'mylist', component : MyEntityListComponent, canActivate:[AuthGuard]},
     {path : 'map', component : ContextMapComponent, canActivate:[AuthGuard]},
     {path : 'about', component : AboutComponent},

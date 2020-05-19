@@ -106,6 +106,7 @@ export class EntityListComponent  {
 	@Inject(DOCUMENT) private document: Document,
         private dialog: MatDialog
     ) {
+        console.log('EntityListComponent.constructor()');
         this.usergroup=localStorage.getItem('usergroup')
         this.user_role = localStorage.getItem('ur');
         this.groupID = localStorage.getItem('groupid');
