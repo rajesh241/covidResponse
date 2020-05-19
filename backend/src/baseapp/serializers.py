@@ -74,11 +74,19 @@ class PledgeSerializer(serializers.ModelSerializer):
         fields = '__all__'
 class RequestSerializer(serializers.ModelSerializer):
     """Serializer for Report Model"""
+    org_name = serializers.SerializerMethodField()
     user = serializers.HiddenField(default=serializers.CurrentUserDefault())
     class Meta:
         """Meta Class"""
         model = Request
         fields = '__all__'
+    def get_org_name(self, instance):
+        """This method will return if the user has edit permissions or not"""
+        if instance.organization is not None:
+            org_name = instance.organization.name
+        else:
+            org_name = ''
+        return org_name
 class FeedbackSerializer(serializers.ModelSerializer):
     """Serializer for Report Model"""
     user = serializers.HiddenField(default=serializers.CurrentUserDefault())

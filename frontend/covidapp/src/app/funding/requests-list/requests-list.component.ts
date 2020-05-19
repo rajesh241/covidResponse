@@ -37,11 +37,7 @@ export class RequestsListComponent implements OnInit {
     this.user_role = localStorage.getItem('ur');
     this.usergroup=localStorage.getItem('usergroup')
     this.filterForm = new FormGroup({
-      is_staff: new FormControl(),
       limit : new FormControl(10),
-      user_role : new FormControl(),
-      formio_usergroup : new FormControl(),
-      team__id : new FormControl(this.groupID),
       ordering : new FormControl('-id'),
       search: new FormControl()
     });
