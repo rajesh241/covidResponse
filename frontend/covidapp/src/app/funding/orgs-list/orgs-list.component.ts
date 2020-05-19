@@ -12,6 +12,7 @@ import { Page } from '../../pagination';
 // import { EntityService } from "../../services/entity.service";
 import { AuthService } from "../../services/auth.service";
 import { UserService } from "../../services/user.service";
+import { EntityService } from "../../services/entity.service";
 
 import { MatDialog, MatDialogConfig, MatSnackBar } from "@angular/material";
 import { BulkDialogComponent } from '../../entity/bulk-dialog/bulk-dialog.component';
@@ -48,6 +49,7 @@ export class OrgsListComponent implements OnInit {
     constructor(
         public authService: AuthService,
         private userService: UserService,
+        private entityService: EntityService,
         private router:Router,
 	private snackBar: MatSnackBar,
 	@Inject(DOCUMENT) private document: Document,
@@ -150,13 +152,13 @@ export class OrgsListComponent implements OnInit {
 
 		    console.log(`OrgListComponent.onBulkAction().dialogRef.afterClosed()`, data);
                     // FIXME - This is alredy there - this.selectedOrgs[]
-		    for (let org of data.orgs) {
+		    for (let org of data.entities) {
 			//console.log("Printing org id " + org.id); // 1, "string", false
 			org_ids.push(org.id)
 		    }
 		    console.log("Org Ids is " + org_ids);
 		    ids_json = { "ids" : org_ids}
-                    /*
+                    
                     this.entityService.createBulkOperation({
 			'ids_json': ids_json,
 			'bulk_action': data.action.key,
@@ -205,7 +207,6 @@ export class OrgsListComponent implements OnInit {
 			    });
                         }
                     );
-                    */
             	    //const replacer = (key, value) =>  String(value) === "null" || String(value) === "undefined" ? 0 : value; 
                     // data = JSON.parse( JSON.stringify(data, replacer));
                     console.log("Dialog output:", data);

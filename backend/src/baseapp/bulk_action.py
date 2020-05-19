@@ -1,7 +1,7 @@
 """This is the module to define Bulk Actions"""
 from django.contrib.auth import get_user_model, authenticate
 from baseapp.models import Entity, Request
-from core.models import Team
+from core.models import Team, Organization
 from django.conf import settings
 import boto3
 from io import StringIO
@@ -24,6 +24,32 @@ def perform_bulk_action(data, user):
         return
     print(id_array)
     bulk_action = data.get("bulk_action", None)
+    if bulk_action == "endorse":
+        print("I am in bulk action endorse")
+        user_id = formio_json.get("user", None)
+        if user_id is None:
+            return
+        if user_id == '':
+            myuser = None
+        else:
+            myuser = User.objects.filter(id=user_id).first()
+        if myuser is None:
+            return
+        for each_id in id_array:
+            obj = Organization.objects.filter(id_each_id).first()
+            if obj.endorsed_by is None:
+                endorsed_by_array = []
+            else:
+                endorsed_by_array = obj.endorsed_by.split(",")
+            if myuser.id not in endorsed_by_array:
+                endorsed_by_array.append(myuser.id)
+            endorsed_by = ''
+            for elem in endorsed_by_array:
+                endorsed_by = f"{endorsed_by},{elem}"
+            endorsed_by = endorsed_by.lstrip(",")
+            obj.endorsed_by = endorsed_by
+            obj.total_endorsed = len(endorsed_by_array)
+            obj.save()
     if bulk_action == "pledgeAmount":
         print("I am Pledge Amount")
         user_id = formio_json.get("user", None)

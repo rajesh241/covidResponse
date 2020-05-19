@@ -57,6 +57,8 @@ class Organization(models.Model):
     name = models.CharField(max_length=256, null=True, blank=True)
     contact_name = models.CharField(max_length=256, null=True, blank=True)
     contact_phone = models.CharField(max_length=256, null=True, blank=True)
+    endorsed_by = models.CharField(max_length=4096, null=True, blank=True)
+    total_endorsed = models.BigIntegerField(blank=True, null=True, default=0)
     has_12A = models.BooleanField(default=False)
     has_FCRA = models.BooleanField(default=False)
     has_GST = models.BooleanField(default=False)

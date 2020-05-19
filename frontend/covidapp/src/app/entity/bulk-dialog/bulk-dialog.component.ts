@@ -33,6 +33,7 @@ export class BulkDialogComponent implements OnInit {
     loadGroupForm:boolean=false;
     loadDuplicateDialog:boolean=false;
     loadExportDialog:boolean=false;
+    loadEndorseDialog:boolean=false;
     page: Observable<Page<PublicUser>>;
     pageUrl = new Subject<string>();
     user_role:any;
@@ -88,6 +89,12 @@ export class BulkDialogComponent implements OnInit {
 	    this.formioBased = false;
 	    this.loadExportDialog = true;
             this.data.json = {'filename' : this.exportFilename}
+            this.dialogRef.close(this.data);
+	}
+	else if (this.action.key == 'endorse') {
+	    this.formioBased = false;
+	    this.loadEndorseDialog = true;
+            this.data.json = {'user' : this.userid}
             this.dialogRef.close(this.data);
 	}
 	else{
