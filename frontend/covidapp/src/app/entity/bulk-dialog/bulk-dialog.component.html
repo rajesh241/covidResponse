@@ -82,14 +82,16 @@
         <p><b><i class="fa fa-warning fa-lg" style="color:red; padding: 0 5px;"></i>NOTE: This will be submitted to the Approval Team.</b></p>
       </div>
       <div *ngIf="loadPledgeDialog" class="well">
+        <form [formGroup]="pledgeForm" (ngSubmit)="submitPledge()">
         Kindly enter the amount you wish to pledge:
-        <input type="text">
+        <input type="text" formControlName="amount">
         <label style="margin: 5px;"></label>
-        <button mat-raised-button class="btn" (click)="onSubmit(true)">
+        <button mat-raised-button class="btn" (click)="submitPledge()">
           Pledge
         </button>
         <br />
         <p><b align="center">Thanks for the support!<i class="fa fa-angellist fa-lg" style="color:red; padding: 0 5px;"></i></b></p>
+	</form>
       </div>
     </mat-card-content>
   </mat-card>

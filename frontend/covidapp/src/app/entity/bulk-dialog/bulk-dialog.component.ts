@@ -29,6 +29,7 @@ export class BulkDialogComponent implements OnInit {
     form_url:string;
     formioBased:boolean= false;
     assignForm: FormGroup;
+    pledgeForm: FormGroup;
     loadVolunteerForm:boolean=false;
     loadGroupForm:boolean=false;
     loadDuplicateDialog:boolean=false;
@@ -168,6 +169,10 @@ export class BulkDialogComponent implements OnInit {
             assigntovolunteer: new FormControl(),
             assigntogroup: new FormControl(),
         });
+        this.pledgeForm = new FormGroup({
+            amount: new FormControl(),
+        });
+
         this.form = this.fb.group({
             //description: [this.description, []],
         });
@@ -176,6 +181,7 @@ export class BulkDialogComponent implements OnInit {
     onSubmit(commit) {
         console.log(`BulkDialogComponent.onSubmit(${commit})`);
 	if (commit) {
+	    console.log("The commit data is " + commit);
             this.data.json = '';
             this.dialogRef.close(this.data);
 	}
@@ -199,6 +205,14 @@ export class BulkDialogComponent implements OnInit {
         */
     }
 
+    submitPledge(){
+        console.log(`BulkDialogComponent.submitAssign()`);
+        if (this.pledgeForm.valid) {
+             console.log(this.pledgeForm.value);
+             this.data.json = this.pledgeForm.value;
+             this.dialogRef.close(this.data);
+	}
+    }
     submitAssign(){
         console.log(`BulkDialogComponent.submitAssign()`);
         if (this.assignForm.valid) {
