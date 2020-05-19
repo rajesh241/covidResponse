@@ -85,6 +85,10 @@ export class BulkDialogComponent implements OnInit {
 	    this.formioBased = false;
 	    this.loadDuplicateDialog = true;
 	}
+	else if (this.action.key == 'pledge') {
+	    this.formioBased = false;
+	    this.loadPledgeDialog = true;
+	}
 	else if (this.action.key == 'export') {
 	    this.formioBased = false;
 	    this.loadExportDialog = true;

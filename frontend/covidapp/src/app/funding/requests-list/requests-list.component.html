@@ -173,7 +173,7 @@
                     </button>
                     <label style="margin: 0 5px;"></label>
                     <button mat-raised-button class="btn btn-primary"
-                            [routerLink]="['/transit',request.id]">
+                            (click)="onBulkActionFor('pledge', request.id)">
                       Pledge
                     </button>
                   </div>

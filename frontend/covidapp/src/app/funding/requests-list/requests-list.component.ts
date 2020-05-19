@@ -56,7 +56,7 @@ export class RequestsListComponent implements OnInit {
             //district: new FormControl(),
             endorsed__isnull:  new FormControl(),
             search: new FormControl(),
-            //dummy: new FormControl(),
+            dummy: new FormControl(),
         });
         this.filterForm.valueChanges.subscribe(data => {
 		console.log(data);
@@ -104,6 +104,13 @@ export class RequestsListComponent implements OnInit {
     onCBChange(request) {
         console.log('RequestListComponent.onCBChange()');
         this.showBulkActions = Object.values(this.selectedRequests).some(e => e);
+    }
+
+    onBulkActionFor(action_key, id) {
+        this.selectedRequests[id] = true;
+        let action = this.bulkActionList[action_key];
+        console.log(`RequestListComponent.onBulkActionFor(${action_key}. ${id})`, action);
+        this.onBulkAction({'key': action_key, 'value': action});
     }
 
     onBulkAction(action) {
