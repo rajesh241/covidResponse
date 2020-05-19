@@ -1,6 +1,6 @@
 """This is the module to define Bulk Actions"""
 from django.contrib.auth import get_user_model, authenticate
-from baseapp.models import Entity, Request
+from baseapp.models import Entity, Request, Pledge
 from core.models import Team, Organization
 from django.conf import settings
 import boto3
@@ -61,7 +61,8 @@ def perform_bulk_action(data, user):
             myuser = None
         else:
             myuser = User.objects.filter(id=user_id).first()
-
+        if myuser is None:
+            return
         for each_id in id_array:
             obj = Request.objects.filter(id=each_id).first()
             pending = obj.amount_pending
@@ -73,6 +74,9 @@ def perform_bulk_action(data, user):
             obj.amount_pending = pending - donation
             obj.amount_pledged = obj.amount_pledged + donation
             obj.save()
+            if donation > 0:
+                myPledge = Pledge.objects.create(user=myuser, request=obj,
+                                                 amount_pledged=donation)
             if amount == 0:
                 break
             
