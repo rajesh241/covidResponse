@@ -63,6 +63,7 @@ const routes: Routes = [
     {path : 'form-edit', component : FormEditComponent, canActivate:[AuthGuard]},
     {path : 'invite', component : InviteComponent},
     {path : 'list', component : EntityListComponent, canActivate:[AuthGuard]},
+    {path : 'fund', component : EntityListComponent, canActivate:[AuthGuard]},
     {path : 'mylist', component : MyEntityListComponent, canActivate:[AuthGuard]},
     {path : 'map', component : ContextMapComponent, canActivate:[AuthGuard]},
     {path : 'about', component : AboutComponent},

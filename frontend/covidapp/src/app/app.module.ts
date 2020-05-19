@@ -94,6 +94,8 @@ import { FaqComponent } from './help/faq/faq.component';
 import { AutoCompleteComponent } from './utils/auto-complete/auto-complete.component';
 import { TeamListComponent } from './team/team-list/team-list.component';
 import { RouteSearchComponent } from './transit/route-search/route-search.component';
+import { OrgsListComponent } from './funding/orgs-list/orgs-list.component';
+import { RequestsListComponent } from './funding/requests-list/requests-list.component';
 
 /*
 // AG Grid
@@ -179,6 +181,8 @@ export function provideConfig() {
         AutoCompleteComponent,
         TeamListComponent,
         RouteSearchComponent,
+        OrgsListComponent,
+        RequestsListComponent,
         // EntityGridComponent,
 	/*
         DateComponent,
