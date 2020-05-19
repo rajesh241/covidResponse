@@ -50,6 +50,7 @@ import { TutorialComponent } from './help/tutorial/tutorial.component';
 import { TeamListComponent } from './team/team-list/team-list.component';
 import { RouteSearchComponent } from './transit/route-search/route-search.component';
 import { OrgsListComponent } from './funding/orgs-list/orgs-list.component';
+import { RequestCreateComponent } from './funding/request-create/request-create.component';
 
 const routes: Routes = [
     {path : '', component : EntityListComponent, canActivate: [AuthGuard]},
@@ -83,6 +84,7 @@ const routes: Routes = [
     {path : 'add/:form', component : EntityCreateComponent, canActivate:[AuthGuard]},
     {path : 'helpseekers', component : EntityCreateComponent, canActivate:[AuthGuard]},
     {path : 'supportnetwork', component : EntityCreateComponent, canActivate:[AuthGuard]},
+    {path : 'travelsupport', component : RequestCreateComponent, canActivate:[AuthGuard]},
     {path : 'useredit/:id', component : UserEditComponent, canActivate:[AuthGuard]},
     {path : 'update/:id', component : EntityUpdateComponent, canActivate:[AuthGuard]},
     {path : 'useraddedit/:id', component : UserAddeditComponent, canActivate:[AuthGuard]},

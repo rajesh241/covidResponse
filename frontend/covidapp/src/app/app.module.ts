@@ -96,6 +96,7 @@ import { TeamListComponent } from './team/team-list/team-list.component';
 import { RouteSearchComponent } from './transit/route-search/route-search.component';
 import { OrgsListComponent } from './funding/orgs-list/orgs-list.component';
 import { RequestsListComponent } from './funding/requests-list/requests-list.component';
+import { RequestCreateComponent } from './funding/request-create/request-create.component';
 
 /*
 // AG Grid
@@ -183,6 +184,7 @@ export function provideConfig() {
         RouteSearchComponent,
         OrgsListComponent,
         RequestsListComponent,
+        RequestCreateComponent,
         // EntityGridComponent,
 	/*
         DateComponent,
