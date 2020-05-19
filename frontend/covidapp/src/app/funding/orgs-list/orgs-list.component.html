@@ -69,7 +69,8 @@
     </mat-expansion-panel>
   </mat-card>
 
-  <div *ngIf="orgs" class="col-lg-12 well">
+  <div *ngIf="dataLoaded | async" class="col-lg-12 well">
+    Here >> {{ page$|json }}
     <div class="row">
       <div class="col-md-12">
         <!--

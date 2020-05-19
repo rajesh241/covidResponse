@@ -52,6 +52,10 @@ export class UserService {
         return this.http.get(this.orgPublicEndPoint+"?limit=10000",this.getPublicHttpOptions());
     }
 
+    getOrgs(urlOrFilter?: string | object) {
+        return queryPaginated(this.http, this.orgPublicEndPoint, this.insertToken, urlOrFilter);
+    }
+
     list(urlOrFilter?: string | object): Observable<Page<User>> {
         return queryPaginated<User>(this.http, this.listEndPoint, this.insertToken, urlOrFilter);
     }

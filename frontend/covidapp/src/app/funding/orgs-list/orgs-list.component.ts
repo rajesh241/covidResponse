@@ -3,11 +3,11 @@ import { DOCUMENT } from '@angular/common';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from "@angular/router"
 
-// import { Observable, Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { map, debounceTime, merge, share, startWith, switchMap } from 'rxjs/operators';
 import * as moment from "moment";
 
-// import { Page } from '../../pagination';
+import { Page } from '../../pagination';
 // import { Entity } from "../../models/entity";
 // import { EntityService } from "../../services/entity.service";
 import { AuthService } from "../../services/auth.service";
@@ -26,6 +26,8 @@ export class OrgsListComponent implements OnInit {
     public panelOpen: boolean = true;
     public dataLoaded: Promise<boolean>;
     public orgs: any;
+    public page$: any;
+    pageUrl = new Subject<string>();
     public filterForm: FormGroup;
     // public page$: Observable<Page<Entity>>;
     // private pageUrl = new Subject<string>();
@@ -61,6 +63,31 @@ export class OrgsListComponent implements OnInit {
             search: new FormControl(),
             dummy: new FormControl(),
         });
+
+        this.page$ = this.filterForm.valueChanges.pipe(
+            debounceTime(200),
+            startWith(this.filterForm.value),
+            merge(this.pageUrl),
+            switchMap(urlOrFilter => this.userService.getOrgs(urlOrFilter)),
+            share()
+        );
+
+        this.page$.subscribe(
+            data => {
+                console.log('OrgsListComponent.getOrgs()', data);
+                this.orgs = data.results;
+	        this.checkState = false;
+                this.showBulkActions = false;
+                delete this.selectedOrgs;
+	        this.selectedOrgs = {};
+                this.orgs.forEach(org => {
+                    this.selectedOrgs[org.id] = this.checkState;
+                });
+                this.dataLoaded = Promise.resolve(true);
+            },
+        );
+
+        /*
         this.userService.getAllOrgsPublic()
             .subscribe(
                 data => {
@@ -77,11 +104,30 @@ export class OrgsListComponent implements OnInit {
                     });
                 },
             );
+        */
     }
 
     ngOnInit() {
         console.log('OrgsListComponent.ngOnInit()');
     }
+
+    onPageChanged(url: string) {
+        this.pageUrl.next(url);
+    }
+
+    /* Mynk - not needed
+    loadpage() {
+        console.log("Load page is getting executed")
+        this.page = this.filterForm.valueChanges.pipe(
+            debounceTime(200),
+            startWith(this.filterForm.value),
+            merge(this.pageUrl),
+            switchMap(urlOrFilter => this.entityService.list(urlOrFilter)),
+            share()
+        );
+        this.dataLoaded = Promise.resolve(true);
+    }
+    */
 
     allChecked() {
         console.log('OrgListComponent.allChecked()');
