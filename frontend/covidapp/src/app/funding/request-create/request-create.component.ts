@@ -52,7 +52,20 @@ export class RequestCreateComponent implements OnInit {
                 }
             );
         }
-        else // fundseekers
-            console.log(`RequestCreateComponent.onSubmit()|createRequest(${this.formio_tag})`);
+        else { // fundseekers
+            console.log(`RequestCreateComponent.onSubmit()|orgCreate(${this.formio_tag})`);
+            this.userService.orgCreate({'user': this.user, 'data_json': $event.data})
+                .subscribe(
+                    data => {
+                        console.log('RequestCreateComponent|Entity Creatton Successful', data);
+		        setTimeout(() => {
+			    this.location.back();
+		        }, 1000);
+                    },
+                    err => {
+                        console.log('RequestCreateComponent|Entity Creation Failed');
+                    }
+                );
+        }
     }
 }

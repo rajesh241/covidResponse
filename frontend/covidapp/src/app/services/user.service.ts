@@ -49,6 +49,10 @@ export class UserService {
         return this.http.get(this.teamPublicEndPoint+"?limit=10000",this.getPublicHttpOptions());
     }
 
+    orgCreate(payload:any) {
+        return this.http.post(this.orgEndPoint, payload, this.getEditHttpOptions());
+    }
+
     getAllOrgsPublic(): Observable<any>{
         return this.http.get(this.orgPublicEndPoint+"?limit=10000",this.getPublicHttpOptions());
     }
