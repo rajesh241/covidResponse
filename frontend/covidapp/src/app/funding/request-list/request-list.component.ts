@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, Inject, OnInit, OnDestroy } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from "@angular/router"
@@ -22,12 +22,13 @@ import { BulkDialogComponent } from '../../entity/bulk-dialog/bulk-dialog.compon
     templateUrl: './request-list.component.html',
     styleUrls: ['./request-list.component.css']
 })
-export class RequestListComponent implements OnInit {
+export class RequestListComponent implements OnInit, OnDestroy {
     public panelOpen: boolean = true;
     public dataLoaded: Promise<boolean>;
     public requests: any;
     public page: any;
-    pageUrl = new Subject<string>();
+    private pageUrl = new Subject<string>();
+    private subscription;
     public filterForm: FormGroup;
     private rand_number:any;
     public selectedRequests: any;
@@ -56,6 +57,7 @@ export class RequestListComponent implements OnInit {
             search: new FormControl(),
             dummy: new FormControl(),
         });
+
         this.page = this.filterForm.valueChanges.pipe(
             debounceTime(200),
             startWith(this.filterForm.value),
@@ -63,8 +65,13 @@ export class RequestListComponent implements OnInit {
             switchMap(urlOrFilter => this.entityService.listRequest(urlOrFilter)),
             share()
         );
+        this.dataLoaded = Promise.resolve(true); // To serialize subscribe only after share!
+    }
 
-        this.page.subscribe(
+    ngOnInit() {
+        console.log('RequestListComponent.ngOnInit()');
+
+        this.subscription = this.page.subscribe(
             data => {
                 console.log('RequestListComponent.getRequests()', data);
                 this.requests = data.results;
@@ -75,13 +82,12 @@ export class RequestListComponent implements OnInit {
                 this.requests.forEach(request => {
                     this.selectedRequests[request.id] = this.checkState;
                 });
-                this.dataLoaded = Promise.resolve(true);
             },
         );
     }
 
-    ngOnInit() {
-        console.log('RequestListComponent.ngOnInit()');
+    ngOnDestroy() {
+        this.subscription.unsubscribe();
     }
 
     onPageChanged(url: string) {

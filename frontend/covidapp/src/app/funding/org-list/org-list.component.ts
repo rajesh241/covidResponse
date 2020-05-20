@@ -63,7 +63,7 @@ export class OrgListComponent implements OnInit {
             //district: new FormControl(),
             endorsed__isnull:  new FormControl(),
             search: new FormControl(),
-            //dummy: new FormControl(),
+            dummy: new FormControl(),
         });
 
         this.page = this.filterForm.valueChanges.pipe(
@@ -165,7 +165,7 @@ export class OrgListComponent implements OnInit {
                         data => {
                             console.log('Bulk Operation Creattion Successful', data);
                             this.rand_number = Math.floor(Math.random()*(100)+0);
-                            this.filterForm.controls['dummy'].setValue(this.rand_number);
+                            this.filterForm.controls.dummy.setValue(this.rand_number);
 			    if (data['bulk_action']== 'export') {
 			    this.snackBar.open('Your file will be downloaded shortly', action.value, {
 				duration: 3000,

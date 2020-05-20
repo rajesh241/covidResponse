@@ -25,7 +25,7 @@
               <input formControlName="search" class="form-control" placeholder="Search by Name, Phone">
             </div>
           </div>
-          <div class="form-group row col-md-6">
+          <div class="form-group row col-md-6" *ngIf="fasle">
             <div align="center">
               <mat-button-toggle-group appearance="legacy" style="top:-3px;"
                                        formControlName="endorsed__isnull">
@@ -141,7 +141,7 @@
                 <th>FCRA</th>
                 <th>GST</th>
                 <th>Endorsements</th>
-                <th>Endorsed By</th>
+                <th *ngIf="false">Endorsed By</th>
                 <th *ngIf="authService.isAboveVolunteer()" align="center">Actions</th>
               </tr>
             </thead>
@@ -156,7 +156,7 @@
                 </td>
                 <td>
                   <ng-container *ngIf="authService.isAboveVolunteer(); else volunteerandbelow">
-                    <a [routerLink]="['/update',org.id]">{{org.id}}</a>
+                    <a [routerLink]="['/update-org',org.id]">{{org.id}}</a>
                   </ng-container>
                   <ng-template #volunteerandbelow>
                     {{ org.id }}
@@ -173,19 +173,21 @@
                 <td>{{ org.has_12A }}</td>
                 <td>{{ org.has_FCRA }}</td>
                 <td>{{ org.has_GST }}</td>
-                <td>{{ org.endorsements }}</td>
-                <td>{{ org.endorsedBy }}</td>
+                <td>{{ org.endorsed_by?.split(',').length }}</td>
+                <td *ngIf="false">{{ org.endorsed_by }}</td>
                 <td *ngIf="authService.isAboveVolunteer()" class="td-actions">
                   <div>
                     <button mat-raised-button class="btn btn-primary"
-                            [routerLink]="['/update',org.id]">
+                            [routerLink]="['/update-org',org.id]">
                       Edit
                     </button>
-                    <label style="margin: 0 5px;"></label>
-                    <button mat-raised-button class="btn btn-primary"
-                            [routerLink]="['/transit',org.id]">
-                      Endorse
-                    </button>
+                    <div  *ngIf="fasle">
+                      <label style="margin: 0 5px;"></label>
+                      <button mat-raised-button class="btn btn-primary"
+                              [routerLink]="['/transit',org.id]">
+                        Endorse
+                      </button>
+                    </div>
                   </div>
                 </td>
               </tr>

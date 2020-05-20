@@ -25,7 +25,7 @@
               <input formControlName="search" class="form-control" placeholder="Search by Title">
             </div>
           </div>
-          <div class="form-group row col-md-6">
+          <div class="form-group row col-md-6" *ngIf="false">
             <div align="center">
               <mat-button-toggle-group appearance="legacy" style="top:-3px;"
                                        formControlName="endorsed__isnull">
@@ -145,8 +145,7 @@
               </tr>
             </thead>
             <tbody>
-              <!-- <tr *ngFor="let request of (page | async)?.results;let i=index"> -->
-              <tr *ngFor="let request of requests">
+              <tr *ngFor="let request of (page | async)?.results;let i=index">
                 <td *ngIf="authService.isAboveVolunteer()">
                   <mat-checkbox
                     [ngModelOptions]="{standalone: true}"
@@ -155,7 +154,7 @@
                 </td>
                 <td>
                   <ng-container *ngIf="authService.isAboveVolunteer(); else volunteerandbelow">
-                    <a [routerLink]="['/update',request.id]">{{request.id}}</a>
+                    <a [routerLink]="['/update-request', request.id]">{{request.id}}</a>
                   </ng-container>
                   <ng-template #volunteerandbelow>
                     {{ request.id }}
@@ -170,14 +169,16 @@
                 <td *ngIf="authService.isAboveVolunteer()" class="td-actions">
                   <div>
                     <button mat-raised-button class="btn btn-primary"
-                            [routerLink]="['/update',request.id]">
+                            [routerLink]="['/update-request', request.id]">
                       Edit
                     </button>
-                    <label style="margin: 0 5px;"></label>
-                    <button mat-raised-button class="btn btn-primary"
-                            (click)="onBulkActionFor('pledge', request.id)">
-                      Pledge
-                    </button>
+                    <div *ngIf="false">
+                      <label style="margin: 0 5px;"></label>
+                      <button mat-raised-button class="btn btn-primary"
+                              (click)="onBulkActionFor('pledge', request.id)">
+                        Pledge
+                      </button>
+                    </div>
                   </div>
                 </td>
               </tr>
