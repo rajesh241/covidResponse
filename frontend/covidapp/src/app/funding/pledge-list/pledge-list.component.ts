@@ -219,6 +219,7 @@ export class PledgeListComponent implements OnInit {
 	}
     }
 
+    /*
     onTabSelect($event=null) {
         if($event) {
             console.log('PledgeListComponent.onTabSelect()', $event);
@@ -248,4 +249,5 @@ export class PledgeListComponent implements OnInit {
             this.filterForm.controls['assigned_to_user__id'].setValue('');
         }
     }
+    */
 }

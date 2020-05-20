@@ -83,15 +83,38 @@
       </div>
       <div *ngIf="loadPledgeDialog" class="well">
         <form [formGroup]="pledgeForm" (ngSubmit)="submitPledge()">
-        Kindly enter the amount you wish to pledge:
-        <input type="text" formControlName="amount">
-        <label style="margin: 5px;"></label>
-        <button mat-raised-button class="btn" (click)="submitPledge()">
-          Pledge
-        </button>
-        <br />
-        <p><b align="center">Thanks for the support!<i class="fa fa-angellist fa-lg" style="color:red; padding: 0 5px;"></i></b></p>
-	</form>
+          Kindly enter the amount you wish to pledge:
+          <input type="number" class="form-control" formControlName="amount"
+                 [ngClass]="{'red-border-class': pledgeForm.controls.amount.invalid}">
+          <label style="margin: 5px;"></label>
+          <br />
+          <!--
+          <pre>
+            {{ pledgeForm.controls.amount.dirty }}
+            {{ pledgeForm.controls.amount.valid }}
+          </pre>
+          -->
+          <br />
+          <mat-checkbox formControlName="confirm"
+                        class="form-control" [ngClass]="{'red-border-class': pledgeForm.controls.confirm.invalid && (pledgeForm.controls.amount.dirty || pledgeForm.controls.amount.touched) }">
+            <i class="fa fa-lg fa-hand-stop-o"
+               style="color: red; padding: 0 5px;"></i>
+            Kindly confirm you wish to pledge the said amount
+          </mat-checkbox>
+          <!--
+          <pre>
+            {{ pledgeForm.controls.confirm.dirty }}
+            {{ pledgeForm.controls.confirm.valid }}
+          </pre>
+          -->
+          <br />
+          <br />
+          <button mat-raised-button class="btn" (click)="submitPledge()">
+            Pledge
+          </button>
+          <br />
+          <!-- <p><b align="center">Thanks for the support!<i class="fa fa-angellist fa-lg" style="color:red; padding: 0 5px;"></i></b></p> -->
+        </form>
       </div>
     </mat-card-content>
   </mat-card>
