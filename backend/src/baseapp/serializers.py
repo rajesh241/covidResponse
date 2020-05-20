@@ -139,7 +139,7 @@ class RequestSerializer(serializers.ModelSerializer):
         except:
             notes = ''
         obj.amount_needed = amount_needed
-        obj.amount_pending = 0
+        obj.amount_pending = amount_needed
         obj.amount_pledged = 0
         obj.notes = notes
         obj.organization = myorg

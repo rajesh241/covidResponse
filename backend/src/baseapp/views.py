@@ -845,6 +845,41 @@ class RequestAPIView(HttpResponseMixin,
             return self.render_to_response(data, status="404")
         return self.destroy(request, *args, **kwargs)
 
+class PledgeFilter(filters.FilterSet):
+
+    class Meta:
+        model = Pledge
+        fields = {
+                    'id': ['gte', 'lte'],
+                    #'status' : ['exact'],
+                    # 'state' : ['exact'],
+                    # 'district' : ['exact'],
+                    # 'assigned_to_user' : ['isnull'],
+                    'notes' : ['contains', 'icontains'],
+                    #'assigned_to_user__id' : ['exact'],
+                    #'assigned_to_group' : ['isnull'],
+                    #'assigned_to_group__name' : ['contains', 'icontains'],
+                    #'assigned_to_group__id' : ['exact'],
+                    #'assigned_to_group__organization__id' : ['exact'],
+                    #'user__email' : ['exact'],
+                    #'what_help' : ['contains', 'icontains'],
+                }
+    @property
+    def qs(self):
+        parent_qs = super(PledgeFilter, self).qs
+        queryset = parent_qs
+        for key in self.request.query_params:
+            if "extra_fields__" in key:
+                value = self.request.query_params[key]
+                queryset = queryset.filter(**{ key: value })
+            if "what_help" in key:
+                value = self.request.query_params[key].lstrip(",").rstrip(",")
+                for item in value:
+                    queryset = queryset.filter(what_help__icontains=item)
+                
+                
+        return queryset
+
 class PledgeAPIView(HttpResponseMixin,
                     mixins.CreateModelMixin,
                     mixins.DestroyModelMixin,
@@ -856,6 +891,7 @@ class PledgeAPIView(HttpResponseMixin,
     permission_classes = [EntityPermissions]
     #permission_classes = [permissions.IsAuthenticated]
     serializer_class = PledgeSerializer
+    filterset_class = PledgeFilter
     passed_id = None
     input_id = None
     search_fields = ('id')
