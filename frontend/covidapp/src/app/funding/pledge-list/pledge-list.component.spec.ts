@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { OrgsListComponent } from './orgs-list.component';
+import { PledgeListComponent } from './pledge-list.component';
 
-describe('OrgsListComponent', () => {
-  let component: OrgsListComponent;
-  let fixture: ComponentFixture<OrgsListComponent>;
+describe('PledgeListComponent', () => {
+  let component: PledgeListComponent;
+  let fixture: ComponentFixture<PledgeListComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ OrgsListComponent ]
+      declarations: [ PledgeListComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(OrgsListComponent);
+    fixture = TestBed.createComponent(PledgeListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

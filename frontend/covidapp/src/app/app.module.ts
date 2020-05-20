@@ -94,9 +94,10 @@ import { FaqComponent } from './help/faq/faq.component';
 import { AutoCompleteComponent } from './utils/auto-complete/auto-complete.component';
 import { TeamListComponent } from './team/team-list/team-list.component';
 import { RouteSearchComponent } from './transit/route-search/route-search.component';
-import { OrgsListComponent } from './funding/orgs-list/orgs-list.component';
-import { RequestsListComponent } from './funding/requests-list/requests-list.component';
 import { RequestCreateComponent } from './funding/request-create/request-create.component';
+import { PledgeListComponent } from './funding/pledge-list/pledge-list.component';
+import { OrgListComponent } from './funding/org-list/org-list.component';
+import { RequestListComponent } from './funding/request-list/request-list.component';
 
 /*
 // AG Grid
@@ -182,9 +183,10 @@ export function provideConfig() {
         AutoCompleteComponent,
         TeamListComponent,
         RouteSearchComponent,
-        OrgsListComponent,
-        RequestsListComponent,
         RequestCreateComponent,
+        PledgeListComponent,
+        OrgListComponent,
+        RequestListComponent,
         // EntityGridComponent,
 	/*
         DateComponent,

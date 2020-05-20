@@ -14,6 +14,7 @@ export class EntityService {
     private fbendpoint = environment.apiURL+"/api/public/feedback/";
     private listEndPoint = environment.apiURL+"/api/public/entity/";
     private requestEndPoint = environment.apiURL+"/api/public/request/";
+    private pledgeEndPoint = environment.apiURL+"/api/public/pledge/";
     private stateEndPoint = environment.apiURL+"/api/public/states/";
     private districtEndPoint = environment.apiURL+"/api/public/districts/";
     private historyEndPoint = environment.apiURL+"/api/public/entityhistory/";
@@ -59,6 +60,10 @@ export class EntityService {
 
     listRequest(urlOrFilter?: string | object): Observable<Page<any>> {
 	return queryPaginated<any>(this.http, this.requestEndPoint, false, urlOrFilter);
+    }
+
+    pledgeList(urlOrFilter?: string | object): Observable<Page<any>> {
+	return queryPaginated<any>(this.http, this.pledgeEndPoint, false, urlOrFilter);
     }
 
     geoList(geoBounds:object, urlOrFilter?: string | object): Observable<Page<Entity>> {

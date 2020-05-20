@@ -26,7 +26,7 @@ import { EntityEditComponent } from "./entity/entity-edit/entity-edit.component"
 import { EntityDetailComponent } from "./entity/entity-detail/entity-detail.component";
 import { EntityUpdateComponent } from "./entity/entity-update/entity-update.component";
 //import { EntityGridComponent } from './entity/entity-grid/entity-grid.component';
-import { RequestsListComponent } from "./funding/requests-list/requests-list.component";
+import { RequestListComponent } from "./funding/request-list/request-list.component";
 
 import { LoginComponent } from './user/login/login.component';
 import { MatloginComponent } from './user/matlogin/matlogin.component';
@@ -49,8 +49,9 @@ import { GuideComponent } from './help/guide/guide.component';
 import { TutorialComponent } from './help/tutorial/tutorial.component';
 import { TeamListComponent } from './team/team-list/team-list.component';
 import { RouteSearchComponent } from './transit/route-search/route-search.component';
-import { OrgsListComponent } from './funding/orgs-list/orgs-list.component';
+import { OrgListComponent } from './funding/org-list/org-list.component';
 import { RequestCreateComponent } from './funding/request-create/request-create.component';
+import { PledgeListComponent } from './funding/pledge-list/pledge-list.component';
 
 const routes: Routes = [
     {path : '', component : EntityListComponent, canActivate: [AuthGuard]},
@@ -66,8 +67,9 @@ const routes: Routes = [
     {path : 'form-edit', component : FormEditComponent, canActivate:[AuthGuard]},
     {path : 'invite', component : InviteComponent},
     {path : 'list', component : EntityListComponent, canActivate:[AuthGuard]},
-    {path : 'request', component : RequestsListComponent, canActivate:[AuthGuard]},
-    {path : 'fund', component : OrgsListComponent, canActivate:[AuthGuard]},
+    {path : 'requests', component : RequestListComponent, canActivate:[AuthGuard]},
+    {path : 'pledges', component : PledgeListComponent, canActivate:[AuthGuard]},
+    {path : 'orgs', component : OrgListComponent, canActivate:[AuthGuard]},
     {path : 'mylist', component : MyEntityListComponent, canActivate:[AuthGuard]},
     {path : 'map', component : ContextMapComponent, canActivate:[AuthGuard]},
     {path : 'about', component : AboutComponent},

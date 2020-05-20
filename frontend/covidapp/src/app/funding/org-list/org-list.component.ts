@@ -17,27 +17,34 @@ import { EntityService } from "../../services/entity.service";
 import { MatDialog, MatDialogConfig, MatSnackBar } from "@angular/material";
 import { BulkDialogComponent } from '../../entity/bulk-dialog/bulk-dialog.component';
 
+
 @Component({
-    selector: 'app-requests-list',
-    templateUrl: './requests-list.component.html',
-    styleUrls: ['./requests-list.component.css']
+    selector: 'app-orgs-list',
+    templateUrl: './org-list.component.html',
+    styleUrls: ['./org-list.component.css']
 })
-export class RequestsListComponent implements OnInit {
+export class OrgListComponent implements OnInit {
     public panelOpen: boolean = true;
     public dataLoaded: Promise<boolean>;
-    public requests: any;
+    public orgs: any;
     public page$: any;
     pageUrl = new Subject<string>();
     public filterForm: FormGroup;
     // public page$: Observable<Page<Entity>>;
     // private pageUrl = new Subject<string>();
     private rand_number:any;
-    private selectedRequests: any;
+
+    private selectedOrgs: any;
     public checkState: boolean = false;
     public showBulkActions: boolean = false;
     public bulkActionList = {
-        'pledge': 'Pledge',
+        'endorse': 'Endorse',
     };
+
+    public isEndorsedOptions = [
+        {'value': '1', 'name': 'Not Endorsed'},
+        {'value': '0', 'name': 'Endorsed'}
+    ];
 
     constructor(
         public authService: AuthService,
@@ -48,7 +55,7 @@ export class RequestsListComponent implements OnInit {
 	@Inject(DOCUMENT) private document: Document,
         private dialog: MatDialog
     ) {
-        console.log('RequestsListComponent.constructor()');
+        console.log('OrgListComponent.constructor()');
         this.filterForm = new FormGroup({
             limit : new FormControl(10),
             ordering : new FormControl('-created'),
@@ -56,7 +63,7 @@ export class RequestsListComponent implements OnInit {
             //district: new FormControl(),
             endorsed__isnull:  new FormControl(),
             search: new FormControl(),
-            dummy: new FormControl(),
+            //dummy: new FormControl(),
         });
         this.filterForm.valueChanges.subscribe(data => {
 		console.log(data);
@@ -65,20 +72,20 @@ export class RequestsListComponent implements OnInit {
             debounceTime(200),
             startWith(this.filterForm.value),
             merge(this.pageUrl),
-            switchMap(urlOrFilter => this.entityService.listRequest(urlOrFilter)),
+            switchMap(urlOrFilter => this.userService.getOrgs(urlOrFilter)),
             share()
         );
 
         this.page$.subscribe(
             data => {
-                console.log('RequestsListComponent.getRequests()', data);
-                this.requests = data.results;
+                console.log('OrgListComponent.getOrgs()', data);
+                this.orgs = data.results;
 	        this.checkState = false;
                 this.showBulkActions = false;
-                delete this.selectedRequests;
-	        this.selectedRequests = {};
-                this.requests.forEach(request => {
-                    this.selectedRequests[request.id] = this.checkState;
+                delete this.selectedOrgs;
+	        this.selectedOrgs = {};
+                this.orgs.forEach(org => {
+                    this.selectedOrgs[org.id] = this.checkState;
                 });
                 this.dataLoaded = Promise.resolve(true);
             },
@@ -86,7 +93,7 @@ export class RequestsListComponent implements OnInit {
     }
 
     ngOnInit() {
-        console.log('RequestsListComponent.ngOnInit()');
+        console.log('OrgListComponent.ngOnInit()');
     }
 
     onPageChanged(url: string) {
@@ -94,36 +101,29 @@ export class RequestsListComponent implements OnInit {
     }
 
     allChecked() {
-        console.log('RequestListComponent.allChecked()');
-        this.requests.forEach( request => {
-            this.selectedRequests[request.id] = this.checkState;
+        console.log('OrgListComponent.allChecked()');
+        this.orgs.forEach( org => {
+            this.selectedOrgs[org.id] = this.checkState;
         });
         this.showBulkActions = this.checkState;
     }
 
-    onCBChange(request) {
-        console.log('RequestListComponent.onCBChange()');
-        this.showBulkActions = Object.values(this.selectedRequests).some(e => e);
-    }
-
-    onBulkActionFor(action_key, id) {
-        this.selectedRequests[id] = true;
-        let action = this.bulkActionList[action_key];
-        console.log(`RequestListComponent.onBulkActionFor(${action_key}. ${id})`, action);
-        this.onBulkAction({'key': action_key, 'value': action});
+    onCBChange(org) {
+        console.log('OrgListComponent.onCBChange()');
+        this.showBulkActions = Object.values(this.selectedOrgs).some(e => e);
     }
 
     onBulkAction(action) {
-        console.log(`RequestListComponent.applyBulkAction(${JSON.stringify(action)})`, action);
-        //console.log(this.selectedRequests);
+        console.log(`OrgListComponent.applyBulkAction(${JSON.stringify(action)})`, action);
+        //console.log(this.selectedOrgs);
 
-	let chosenRequests = [];
+	let chosenOrgs = [];
 
-        this.requests.forEach(
-	    request => {
-		if (this.selectedRequests[request.id]) {
-                    // this.bulkAction.Key(request);
-		    chosenRequests.push(request);
+        this.orgs.forEach(
+	    org => {
+		if (this.selectedOrgs[org.id]) {
+                    // this.bulkAction.Key(org);
+		    chosenOrgs.push(org);
 		}
             });
 	
@@ -134,7 +134,7 @@ export class RequestsListComponent implements OnInit {
             dialogConfig.autoFocus = true;
 
             dialogConfig.data = {
-		'entities': chosenRequests, // Mynk - FIXME
+		'entities': chosenOrgs, // Mynk - FIXME
 		'action': action,
 		'json': '',
 	    };
@@ -143,21 +143,21 @@ export class RequestsListComponent implements OnInit {
 
             dialogRef.afterClosed().subscribe(
                 data => {
-		    let request_ids = new  Array();
+		    let org_ids = new  Array();
 		    var length;
 		    let ids_json : any;
                     
                     if (!data)   // Close pressed without any action.key
                         return;
 
-		    console.log(`RequestListComponent.onBulkAction().dialogRef.afterClosed()`, data);
-                    // FIXME - This is alredy there - this.selectedRequests[]
-		    for (let request of data.entities) {
-			//console.log("Printing request id " + request.id); // 1, "string", false
-			request_ids.push(request.id)
+		    console.log(`OrgListComponent.onBulkAction().dialogRef.afterClosed()`, data);
+                    // FIXME - This is alredy there - this.selectedOrgs[]
+		    for (let org of data.entities) {
+			//console.log("Printing org id " + org.id); // 1, "string", false
+			org_ids.push(org.id)
 		    }
-		    console.log("Request Ids is " + request_ids);
-		    ids_json = { "ids" : request_ids}
+		    console.log("Org Ids is " + org_ids);
+		    ids_json = { "ids" : org_ids}
                     
                     this.entityService.createBulkOperation({
 			'ids_json': ids_json,
@@ -211,8 +211,8 @@ export class RequestsListComponent implements OnInit {
                     // data = JSON.parse( JSON.stringify(data, replacer));
                     console.log("Dialog output:", data);
                     /*
-                    //this.requestService.createItem({'name':'default','latitude': this.latitude, 'longitude': this.longitude, 'record_type':type})
-                    this.requestService.createItem({'name':'default','latitude': this.latitude, 'longitude': this.longitude, 'record_type':type, 'data_json':data,'address':this.address,'google_location_json':this.gmap_details})
+                    //this.orgService.createItem({'name':'default','latitude': this.latitude, 'longitude': this.longitude, 'record_type':type})
+                    this.orgService.createItem({'name':'default','latitude': this.latitude, 'longitude': this.longitude, 'record_type':type, 'data_json':data,'address':this.address,'google_location_json':this.gmap_details})
                     */
                 }
             );
