@@ -100,6 +100,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     name = models.CharField(max_length=255)
     team = models.ForeignKey(Team, on_delete=models.CASCADE, null=True,
                              blank=True)
+    organization = models.ForeignKey(Organization, on_delete=models.CASCADE, null=True,
+                             blank=True)
     formio_usergroup = models.CharField(max_length=256, null=True, blank=True,
                                        default='wassan')
     region = models.CharField(max_length=256, null=True, blank=True)
@@ -109,6 +111,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     is_user_manager = models.BooleanField(default=False)
+    can_endorse = models.BooleanField(default=False)
+    can_fund = models.BooleanField(default=False)
     login_attempt_count = models.PositiveSmallIntegerField(default=0)
     is_locked = models.BooleanField(default=False)
     avatar = models.ImageField(blank=True, null=True,

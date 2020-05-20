@@ -880,6 +880,25 @@ class PledgeFilter(filters.FilterSet):
                 
         return queryset
 
+class PledgeFilter(filters.FilterSet):
+ #   min_price = filters.NumberFilter(field_name="price", lookup_expr='gte')
+ #   max_price = filters.NumberFilter(field_name="price", lookup_expr='lte')
+
+    class Meta:
+        model = Pledge
+        #fields = ('number_of_rooms', 'floor_area_size',
+        #          'price_per_month', 'is_available')
+        fields = {
+                    'id': ['gte', 'lte'],
+                    'user__id' : ['exact'],
+                    'request__organization__id' : ['exact'],
+                }
+    @property
+    def qs(self):
+        parent_qs = super(PledgeFilter, self).qs
+        queryset = parent_qs
+        return queryset
+ 
 class PledgeAPIView(HttpResponseMixin,
                     mixins.CreateModelMixin,
                     mixins.DestroyModelMixin,
