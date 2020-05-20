@@ -1,5 +1,20 @@
 <div class="container" [formGroup]="filterForm">
   <h3 align="center">Pledges</h3>
+
+  <mat-tab-group [selectedIndex]="tabIndex"
+                 (selectedTabChange)="onTabSelect($event)"
+                 mat-align-tabs="center"
+                 color="accent"
+                 style="background-color: #f5f5f5;">
+    <mat-tab *ngFor="let option of tabList">
+      <ng-template mat-tab-label>
+        <i class="fa fa-lg" [ngClass]="option.class"
+           [ngStyle]="{'color': option.color}"></i>
+        <b style="margin: 4px; font-size:15px;">{{ option.name }}</b>
+      </ng-template>
+    </mat-tab>
+  </mat-tab-group>
+
   <mat-card class="col-md-12" style="padding:5px;">
     <mat-expansion-panel (opened)="panelOpen = true"
                          (closed)="panelOpen = false"
@@ -159,7 +174,7 @@
                 </td>
                 <td>{{ pledge.amount_pledged }}</td>
                 <td>{{ pledge.notes }}</td>
-                <td>{{ pledge.created }}</td>
+                <td>{{ pledge.created|date }}</td>
                 <td>{{ pledge.request }}</td>
                 <td *ngIf="authService.isAboveVolunteer()" class="td-actions">
                   <div>

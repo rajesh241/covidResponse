@@ -34,6 +34,14 @@ export class PledgeListComponent implements OnInit {
     public bulkActionList = {
         'need': 'Do we need any?',
     };
+    tab;
+    tabIndex;
+    tabList = [
+	{'key': 'all', 'name': 'All', 'selected': false, 'class': 'fa-arrows-alt', 'color': 'green'},
+	{'key': 'team', 'name': 'Pledged to My Org', 'selected': false, 'class': 'fa-group', 'color': 'brown'},
+	{'key': 'mine', 'name': 'Pledged by Me', 'selected': false, 'class': 'fa-user', 'color': 'purple'},
+        //	{'key': 'region', 'name': 'My Region', 'selected': false, 'class': 'fa-map-marker', 'color': 'red'},
+    ];
 
     constructor(
         public authService: AuthService,
@@ -209,5 +217,35 @@ export class PledgeListComponent implements OnInit {
 	}else{
             this.router.navigate(['/login']);
 	}
+    }
+
+    onTabSelect($event=null) {
+        if($event) {
+            console.log('PledgeListComponent.onTabSelect()', $event);
+            this.tab = this.tabList[$event.index].key
+        }
+        console.log('PledgeListComponent.onTabSelect()', this.tab);
+
+        if(this.tab == 'mine') {
+            console.log(`PledgeListComponent.onTabSelect(): Filtering by User[${this.userID}]`);
+            this.resetTabFilters();
+            this.filterForm.controls['assigned_to_user__id'].setValue(this.userID);
+        }
+        else if (this.tab == 'team') {
+            console.log(`PledgeListComponent.onTabSelect(): Filtering by Team[${this.groupID}]`);
+            this.resetTabFilters();
+            this.filterForm.controls['assigned_to_group__id'].setValue(this.groupID);
+        }
+        else if (this.tab == 'region') {
+            console.log(`PledgeListComponent.onTabSelect(): Not Filtering`);
+            this.resetTabFilters();
+            // this.filterForm.controls['state & district'].setValue('');
+            // #TBD preferrably by State & District ID
+        }
+        else {
+            console.log(`PledgeListComponent.onTabSelect(): Not Filtering`);
+            this.filterForm.controls['assigned_to_group__id'].setValue('undefined');
+            this.filterForm.controls['assigned_to_user__id'].setValue('');
+        }
     }
 }
