@@ -69,10 +69,38 @@ class LocationSerializer(serializers.ModelSerializer):
 class PledgeSerializer(serializers.ModelSerializer):
     """Serializer for Report Model"""
     user = serializers.HiddenField(default=serializers.CurrentUserDefault())
+    org_name = serializers.SerializerMethodField()
+    user_name = serializers.SerializerMethodField()
+    request_title = serializers.SerializerMethodField()
     class Meta:
         """Meta Class"""
         model = Pledge
         fields = '__all__'
+
+    def get_org_name(self, instance):
+        try:
+            org_name = instance.request.organization.name
+        except:
+            org_name = ''
+        return org_name
+    def get_user_name(self, instance):
+        try:
+            name = instance.user.name
+        except:
+            name = ''
+        return name
+    def get_request_title(self, instance):
+        try:
+            name = instance.request.title
+        except:
+            name = ''
+        return name
+        try:
+            org_name = instance.request.organization.name
+        except:
+            org_name = ''
+        return org_name
+    
 class RequestSerializer(serializers.ModelSerializer):
     """Serializer for Report Model"""
     org_name = serializers.SerializerMethodField()
