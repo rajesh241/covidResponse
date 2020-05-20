@@ -1,0 +1,7 @@
+<div class="container well" *ngIf="item$ | async as item">
+  <h3>Please update the form</h3>
+  <formio [src]="formio_url"
+          [submission]="{'data': item.data_json}"
+          (submit)="onSubmit($event)">
+  </formio>
+</div>

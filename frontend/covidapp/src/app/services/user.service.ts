@@ -53,6 +53,14 @@ export class UserService {
         return this.http.post(this.orgEndPoint, payload, this.getEditHttpOptions());
     }
 
+    patchOrg(id:number,payload:any):Observable<object>{
+        return this.http.patch(this.orgEndPoint + '?id=' + id, payload, this.getEditHttpOptions())
+    }
+
+    getOrg(id:number): Observable<any>{
+        return this.http.get(this.orgEndPoint + '?id=' + id, this.getHttpOptions());
+    }
+
     getAllOrgsPublic(): Observable<any>{
         return this.http.get(this.orgPublicEndPoint+"?limit=10000",this.getPublicHttpOptions());
     }

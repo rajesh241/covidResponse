@@ -98,6 +98,8 @@ import { RequestCreateComponent } from './funding/request-create/request-create.
 import { PledgeListComponent } from './funding/pledge-list/pledge-list.component';
 import { OrgListComponent } from './funding/org-list/org-list.component';
 import { RequestListComponent } from './funding/request-list/request-list.component';
+import { RequestUpdateComponent } from './funding/request-update/request-update.component';
+import { OrgUpdateComponent } from './funding/org-update/org-update.component';
 
 /*
 // AG Grid
@@ -187,6 +189,8 @@ export function provideConfig() {
         PledgeListComponent,
         OrgListComponent,
         RequestListComponent,
+        RequestUpdateComponent,
+        OrgUpdateComponent,
         // EntityGridComponent,
 	/*
         DateComponent,

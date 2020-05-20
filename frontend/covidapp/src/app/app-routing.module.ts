@@ -26,7 +26,6 @@ import { EntityEditComponent } from "./entity/entity-edit/entity-edit.component"
 import { EntityDetailComponent } from "./entity/entity-detail/entity-detail.component";
 import { EntityUpdateComponent } from "./entity/entity-update/entity-update.component";
 //import { EntityGridComponent } from './entity/entity-grid/entity-grid.component';
-import { RequestListComponent } from "./funding/request-list/request-list.component";
 
 import { LoginComponent } from './user/login/login.component';
 import { MatloginComponent } from './user/matlogin/matlogin.component';
@@ -52,6 +51,9 @@ import { RouteSearchComponent } from './transit/route-search/route-search.compon
 import { OrgListComponent } from './funding/org-list/org-list.component';
 import { RequestCreateComponent } from './funding/request-create/request-create.component';
 import { PledgeListComponent } from './funding/pledge-list/pledge-list.component';
+import { RequestUpdateComponent } from './funding/request-update/request-update.component';
+import { RequestListComponent } from "./funding/request-list/request-list.component";
+import { OrgUpdateComponent } from './funding/org-update/org-update.component';
 
 const routes: Routes = [
     {path : '', component : EntityListComponent, canActivate: [AuthGuard]},
@@ -90,6 +92,8 @@ const routes: Routes = [
     {path : 'fundseekers', component : RequestCreateComponent, canActivate:[AuthGuard]},
     {path : 'useredit/:id', component : UserEditComponent, canActivate:[AuthGuard]},
     {path : 'update/:id', component : EntityUpdateComponent, canActivate:[AuthGuard]},
+    {path : 'update-request/:id', component : RequestUpdateComponent, canActivate:[AuthGuard]},
+    {path : 'update-org/:id', component : OrgUpdateComponent, canActivate:[AuthGuard]},
     {path : 'useraddedit/:id', component : UserAddeditComponent, canActivate:[AuthGuard]},
     {path : 'item/:id', component : EntityDetailComponent, canActivate:[AuthGuard]},
     {path : 'transit/:id', component : RouteSearchComponent, canActivate:[AuthGuard]},

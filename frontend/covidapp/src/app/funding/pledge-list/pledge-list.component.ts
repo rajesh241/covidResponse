@@ -252,12 +252,12 @@ export class PledgeListComponent implements OnInit {
         console.log('PledgeListComponent.onTabSelect()', this.tab);
 
         if(this.tab == 'mine') {
-            console.log(`PledgeListComponent.onTabSelect(): Filtering by User[${this.userID}]`);
+            console.log(`PledgeListComponent.onTabSelect(): Filtering by User[${this.user}]`);
             this.resetTabFilters();
             this.filterForm.controls.user__id.setValue(this.user);
         }
         else if (this.tab == 'team') {
-            console.log(`PledgeListComponent.onTabSelect(): Filtering by Team[${this.groupID}]`);
+            console.log(`PledgeListComponent.onTabSelect(): Filtering by Team[${this.org}]`);
             this.resetTabFilters();
             this.filterForm.controls.user__organization__id.setValue(this.org);
         }

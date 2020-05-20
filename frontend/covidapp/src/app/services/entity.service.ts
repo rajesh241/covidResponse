@@ -58,6 +58,14 @@ export class EntityService {
 	return this.http.post(this.requestEndPoint, JSON.stringify(data), this.getHttpOptions());
     }
 
+    patchRequest(id:number, data:any): Observable<object> {
+	return this.http.patch(this.requestEndPoint + '?id=' + id, data, this.getHttpOptions())
+    }
+
+    getRequest(id:number): Observable<any> {
+	return this.http.get(this.requestEndPoint + '?id=' + id, this.getHttpOptions());
+    }
+
     listRequest(urlOrFilter?: string | object): Observable<Page<any>> {
 	return queryPaginated<any>(this.http, this.requestEndPoint, false, urlOrFilter);
     }
