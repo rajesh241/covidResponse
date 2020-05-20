@@ -183,7 +183,7 @@ SIMPLE_JWT = {
 
 ##Settings from Frontend
 FORMIO_URL = "https://formio.coastindia.org"
-FRONTEND_URL = "https://covid.libtech.in"
+FRONTEND_URL = "https://admin.coastindia.org"
 FRONTEND_REGCONFIRM_URL = f"{FRONTEND_URL}/regconfirm/"
 FRONTEND_PWDRESETCONFIRM_URL = f"{FRONTEND_URL}/pwdresetconfirm/"
 FRONTEND_REGISTER_URL = f"{FRONTEND_URL}/register/"

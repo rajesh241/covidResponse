@@ -151,7 +151,7 @@ def password_reset_token_created(sender, instance, reset_password_token, *args, 
 
     msg = EmailMultiAlternatives(
         # title:
-        "Password Reset for {title}".format(title="Toptal Demo"),
+        "Password Reset for {title}".format(title="Coast India"),
         # message:
         email_plaintext_message,
         # from:
