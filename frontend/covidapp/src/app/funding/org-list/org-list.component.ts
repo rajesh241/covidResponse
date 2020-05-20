@@ -34,7 +34,7 @@ export class OrgListComponent implements OnInit {
     // private pageUrl = new Subject<string>();
     private rand_number:any;
 
-    private selectedOrgs: any;
+    public selectedOrgs: any;
     public checkState: boolean = false;
     public showBulkActions: boolean = false;
     public bulkActionList = {

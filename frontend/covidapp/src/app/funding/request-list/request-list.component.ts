@@ -30,7 +30,7 @@ export class RequestListComponent implements OnInit {
     pageUrl = new Subject<string>();
     public filterForm: FormGroup;
     private rand_number:any;
-    private selectedRequests: any;
+    public selectedRequests: any;
     public checkState: boolean = false;
     public showBulkActions: boolean = false;
     public bulkActionList = {

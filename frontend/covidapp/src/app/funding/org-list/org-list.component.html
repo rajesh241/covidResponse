@@ -66,6 +66,54 @@
         </div>
         <!-- END Bulk Actions END -->
 
+        <!-- BEGIN Paginator Section BEGIN -->
+        <div align="center row">
+          <div class="col-sm-4">
+            <label class="col-sm-2 col-form-label" style="line-height:34px;">Rows</label>
+            <div class="col-sm-3">
+              <input  formControlName="limit" class="form-control" placeholder="min">
+            </div>
+            <div class="col-sm-7">
+              <mat-form-field>
+                <mat-label>Sort By</mat-label>
+                <mat-select formControlName="ordering">
+                  <mat-option value="created">Oldest Listing First</mat-option>
+                  <mat-option value="-created">Newest Listing First</mat-option>
+                  <mat-option value="updated">Recently Updated First</mat-option>
+                  <mat-option value="-updated">Recently Updated Last</mat-option>
+                  <!--
+                      <mat-option value="nearest">Nearest to Farthest</mat-option>
+                      <mat-option value="-nearest">Farthest to Nearest</mat-option>
+                      <mat-option value="null" selected>Sort by?</mat-option>
+                      -->
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="col-sm-4" align="center" style="padding-top:5px;">
+            <app-paginator [page]="page | async" (pageChange)="onPageChanged($event)"></app-paginator>
+          </div>
+          <div class="col-sm-4">
+            <div class="form-group row">
+              <section align="center">
+                <!--
+                <button mat-raised-button class="btn-success"
+                        (click)="onExportFiltered()"
+                        *ngIf="false && authService.isGroupAdmin()">
+                  Export Filtered
+                </button>
+                <label style="margin: 0 10px;"></label>
+                -->
+                <button mat-raised-button class="btn-success"
+                        routerLink="/fundseekers"
+                        *ngIf="authService.isGroupAdmin()">
+                  Add Fund Seeking Organization
+                </button>
+              </section>
+            </div>
+          </div>
+        </div>
+        <!-- END Paginator Section END -->
       </mat-card-content>
     </mat-expansion-panel>
   </mat-card>
@@ -127,7 +175,7 @@
                 <td>{{ org.has_GST }}</td>
                 <td>{{ org.endorsements }}</td>
                 <td>{{ org.endorsedBy }}</td>
-                <td *ngIf="authService.isAboveVolunteer() || (tab === 'mine')" class="td-actions">
+                <td *ngIf="authService.isAboveVolunteer()" class="td-actions">
                   <div>
                     <button mat-raised-button class="btn btn-primary"
                             [routerLink]="['/update',org.id]">

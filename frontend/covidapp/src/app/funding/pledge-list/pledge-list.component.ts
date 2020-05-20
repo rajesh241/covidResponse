@@ -28,7 +28,7 @@ export class PledgeListComponent implements OnInit {
     pageUrl = new Subject<string>();
     public filterForm: FormGroup;
     private rand_number:any;
-    private selectedPledges: any;
+    public selectedPledges: any;
     public checkState: boolean = false;
     public showBulkActions: boolean = false;
     public bulkActionList = {
@@ -217,7 +217,6 @@ export class PledgeListComponent implements OnInit {
 	}
     }
 
-    /*
     onTabSelect($event=null) {
         if($event) {
             console.log('PledgeListComponent.onTabSelect()', $event);
@@ -225,6 +224,7 @@ export class PledgeListComponent implements OnInit {
         }
         console.log('PledgeListComponent.onTabSelect()', this.tab);
 
+        /*
         if(this.tab == 'mine') {
             console.log(`PledgeListComponent.onTabSelect(): Filtering by User[${this.userID}]`);
             this.resetTabFilters();
@@ -246,6 +246,6 @@ export class PledgeListComponent implements OnInit {
             this.filterForm.controls['assigned_to_group__id'].setValue('undefined');
             this.filterForm.controls['assigned_to_user__id'].setValue('');
         }
-    }
     */
+    }
 }

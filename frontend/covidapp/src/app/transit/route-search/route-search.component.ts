@@ -10,7 +10,8 @@ import { MatSnackBar } from "@angular/material";
 
 @Component({
     selector: 'app-route-search',
-    templateUrl: './route-search.component.html',
+    template: '<b class="container">Work In Progress</b>',
+    //templateUrl: './route-search.component.html',
     styleUrls: ['./route-search.component.css']
 })
 export class RouteSearchComponent implements OnInit {
