@@ -38,10 +38,13 @@ export class PledgeListComponent implements OnInit {
     tabIndex;
     tabList = [
 	{'key': 'all', 'name': 'All', 'selected': false, 'class': 'fa-arrows-alt', 'color': 'green'},
-	{'key': 'team', 'name': 'Pledged to My Org', 'selected': false, 'class': 'fa-group', 'color': 'brown'},
+	{'key': 'org', 'name': 'Pledged to My Org', 'selected': false, 'class': 'fa-group', 'color': 'brown'},
 	{'key': 'mine', 'name': 'Pledged by Me', 'selected': false, 'class': 'fa-user', 'color': 'purple'},
         //	{'key': 'region', 'name': 'My Region', 'selected': false, 'class': 'fa-map-marker', 'color': 'red'},
     ];
+
+    private user;
+    private org;
 
     constructor(
         public authService: AuthService,
@@ -53,6 +56,9 @@ export class PledgeListComponent implements OnInit {
         private dialog: MatDialog
     ) {
         console.log('PledgeListComponent.constructor()');
+        this.org = localStorage.getItem('orgid');
+        this.user = localStorage.getItem('userid');
+
         this.filterForm = new FormGroup({
             limit : new FormControl(10),
             ordering : new FormControl('-created'),
@@ -61,7 +67,22 @@ export class PledgeListComponent implements OnInit {
             endorsed__isnull:  new FormControl(),
             search: new FormControl(),
             dummy: new FormControl(),
+            user__id: new FormControl(),
+            user__organization__id: new FormControl()
         });
+
+        /*
+        // Set the tab to Assigned to me for all before subscribing
+        if (this.user_role == 'volunteer')
+            this.tab = 'mine';
+        else if(this.user_role == 'groupadmin')
+            this.tab = 'team';
+        else
+            this.tab = 'all';
+        this.tabIndex = this.tabList.findIndex(e => e.key === this.tab);
+        console.log('EntityListComponent.constructor()', this.tabIndex);
+        this.onTabSelect();
+        */
 
         this.page = this.filterForm.valueChanges.pipe(
             debounceTime(200),
@@ -217,6 +238,12 @@ export class PledgeListComponent implements OnInit {
 	}
     }
 
+    resetTabFilters() {
+        console.log(`EntityListComponent.resetTabFilters()`);
+        this.filterForm.controls.user__id.setValue('');
+        this.filterForm.controls.user__organization__id.setValue('');
+    }
+
     onTabSelect($event=null) {
         if($event) {
             console.log('PledgeListComponent.onTabSelect()', $event);
@@ -224,28 +251,19 @@ export class PledgeListComponent implements OnInit {
         }
         console.log('PledgeListComponent.onTabSelect()', this.tab);
 
-        /*
         if(this.tab == 'mine') {
             console.log(`PledgeListComponent.onTabSelect(): Filtering by User[${this.userID}]`);
             this.resetTabFilters();
-            this.filterForm.controls['assigned_to_user__id'].setValue(this.userID);
+            this.filterForm.controls.user__id.setValue(this.user);
         }
         else if (this.tab == 'team') {
             console.log(`PledgeListComponent.onTabSelect(): Filtering by Team[${this.groupID}]`);
             this.resetTabFilters();
-            this.filterForm.controls['assigned_to_group__id'].setValue(this.groupID);
-        }
-        else if (this.tab == 'region') {
-            console.log(`PledgeListComponent.onTabSelect(): Not Filtering`);
-            this.resetTabFilters();
-            // this.filterForm.controls['state & district'].setValue('');
-            // #TBD preferrably by State & District ID
+            this.filterForm.controls.user__organization__id.setValue(this.org);
         }
         else {
             console.log(`PledgeListComponent.onTabSelect(): Not Filtering`);
-            this.filterForm.controls['assigned_to_group__id'].setValue('undefined');
-            this.filterForm.controls['assigned_to_user__id'].setValue('');
+            this.resetTabFilters();
         }
-    */
     }
 }

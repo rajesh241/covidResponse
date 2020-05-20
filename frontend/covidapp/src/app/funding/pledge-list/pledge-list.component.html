@@ -143,13 +143,15 @@
               <tr>
                 <th *ngIf="false && authService.isAboveVolunteer()">
                   <mat-checkbox [ngModelOptions]="{standalone: true}" class="cb-margin" (change)="allChecked()" [(ngModel)]="checkState"></mat-checkbox></th>
-                <th>ID</th>
-                <th>Amount Pledged</th>
-                <th>For Request</th>
-                <th>Organization</th>
-                <th>Pledged By</th>
+                <th>Pledge ID</th>
+                <th>Pledge Date</th>
+                <th *ngIf="tab !== 'org'">Organization</th>
+                <th *ngIf="tab !== 'org'">Org Phone</th>
+                <th *ngIf="tab !== 'mine'">Donor</th>
+                <th *ngIf="tab !== 'mine'">Donor Phone</th>
                 <th>Notes</th>
-                <th>Created</th>
+                <th>Request ID</th>
+                <th>Amount Pledged</th>
                 <th *ngIf="false && authService.isAboveVolunteer()" align="center">Actions</th>
               </tr>
             </thead>
@@ -170,12 +172,14 @@
                     {{ pledge.id }}
                   </ng-template>
                 </td>
-                <td>{{ pledge.amount_pledged }}</td>
-                <td>{{ pledge.request }}</td>
-                <td>{{ pledge.org_name }}</td>
-                <td>{{ pledge.user_name }}</td>
-                <td>{{ pledge.notes }}</td>
                 <td>{{ pledge.created|date }}</td>
+                <td *ngIf="tab !== 'org'">{{ pledge.org_name }}</td>
+                <td *ngIf="tab !== 'org'">{{ pledge.org_phone }}</td>
+                <td *ngIf="tab !== 'mine'">{{ pledge.user_name }}</td>
+                <td *ngIf="tab !== 'mine'">{{ pledge.user_phone }}</td>
+                <td>{{ pledge.notes }}</td>
+                <td>{{ pledge.request }}</td>
+                <td>{{ pledge.amount_pledged }}</td>
                 <td *ngIf="false && authService.isAboveVolunteer()" class="td-actions">
                   <div>
                     <button mat-raised-button class="btn btn-primary"

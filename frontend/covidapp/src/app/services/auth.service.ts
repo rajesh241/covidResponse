@@ -101,6 +101,7 @@ export class AuthService {
 	localStorage.setItem("region", decoded.region);
 	localStorage.setItem("usergroup", decoded.usergroup);
 	localStorage.setItem("userid", decoded.id);
+	localStorage.setItem("orgid", decoded.orgid);
 	//    setTimeout(() => {
 	//        this.router.navigate(['/list']);
 	//    }, 500);

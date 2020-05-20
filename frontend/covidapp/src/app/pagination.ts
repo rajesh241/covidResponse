@@ -27,6 +27,12 @@ export function queryPaginated<T>(http: HttpClient, baseUrl: string, insertToken
 	        console.log(key+value)
                 params = params.set(key, value.toString());
             }
+            else if ( (value != null) && (key === "user__id")){
+                params = params.set(key, value.toString());
+            }
+            else if ( (value != null) && (key === "user__organization__id")){
+                params = params.set(key, value.toString());
+            }
             else if ( (value != null) && (key === "user_role")){
                 params = params.set(key, value.toString());
             }
