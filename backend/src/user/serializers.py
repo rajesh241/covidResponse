@@ -26,6 +26,16 @@ class OrganizationSerializer(serializers.ModelSerializer):
         """Meta Class"""
         model = Organization
         fields = '__all__'
+    def create(self, validated_data):
+        obj = Organization.objects.create(**validated_data)
+        try:
+            name = validated_data["data_json"]["organization"]
+        except:
+            name = ''
+        print(validated_data)
+        obj.name = name
+        obj.save()
+        return obj
 
 
 class TeamSerializer(serializers.ModelSerializer):
