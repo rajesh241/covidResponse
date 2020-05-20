@@ -24,7 +24,7 @@ export class PledgeListComponent implements OnInit {
     public panelOpen: boolean = true;
     public dataLoaded: Promise<boolean>;
     public pledges: any;
-    public page$: any;
+    public page: any;
     pageUrl = new Subject<string>();
     public filterForm: FormGroup;
     private rand_number:any;
@@ -62,10 +62,8 @@ export class PledgeListComponent implements OnInit {
             search: new FormControl(),
             dummy: new FormControl(),
         });
-        this.filterForm.valueChanges.subscribe(data => {
-	    console.log(data);
-	});
-        this.page$ = this.filterForm.valueChanges.pipe(
+
+        this.page = this.filterForm.valueChanges.pipe(
             debounceTime(200),
             startWith(this.filterForm.value),
             merge(this.pageUrl),
@@ -73,7 +71,7 @@ export class PledgeListComponent implements OnInit {
             share()
         );
 
-        this.page$.subscribe(
+        this.page.subscribe(
             data => {
                 console.log('PledgeListComponent.getPledges()', data);
                 this.pledges = data.results;

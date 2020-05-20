@@ -248,14 +248,12 @@ export class EntityListComponent  {
             );
 
         this.page.subscribe(page => {
+            console.log('EntityListComponent.page.subscribe() =>', page);
             this.entities = page.results;
 	    this.checkState = false;
             this.showBulkActions = false;
             delete this.selectedEntities;
 	    this.selectedEntities = {};
-	    console.log('Page Subscription');
-	    //console.log(this.entities);
-            // this.bulkActionList = {};
             this.entities.forEach(entity => {
                 this.selectedEntities[entity.id] = this.checkState;
             });

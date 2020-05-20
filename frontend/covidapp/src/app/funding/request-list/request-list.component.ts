@@ -26,11 +26,9 @@ export class RequestListComponent implements OnInit {
     public panelOpen: boolean = true;
     public dataLoaded: Promise<boolean>;
     public requests: any;
-    public page$: any;
+    public page: any;
     pageUrl = new Subject<string>();
     public filterForm: FormGroup;
-    // public page$: Observable<Page<Entity>>;
-    // private pageUrl = new Subject<string>();
     private rand_number:any;
     private selectedRequests: any;
     public checkState: boolean = false;
@@ -58,10 +56,7 @@ export class RequestListComponent implements OnInit {
             search: new FormControl(),
             dummy: new FormControl(),
         });
-        this.filterForm.valueChanges.subscribe(data => {
-	    console.log(data);
-	});
-        this.page$ = this.filterForm.valueChanges.pipe(
+        this.page = this.filterForm.valueChanges.pipe(
             debounceTime(200),
             startWith(this.filterForm.value),
             merge(this.pageUrl),
@@ -69,7 +64,7 @@ export class RequestListComponent implements OnInit {
             share()
         );
 
-        this.page$.subscribe(
+        this.page.subscribe(
             data => {
                 console.log('RequestListComponent.getRequests()', data);
                 this.requests = data.results;

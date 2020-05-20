@@ -27,10 +27,10 @@ export class OrgListComponent implements OnInit {
     public panelOpen: boolean = true;
     public dataLoaded: Promise<boolean>;
     public orgs: any;
-    public page$: any;
+    public page: any;
     pageUrl = new Subject<string>();
     public filterForm: FormGroup;
-    // public page$: Observable<Page<Entity>>;
+    // public page: Observable<Page<Entity>>;
     // private pageUrl = new Subject<string>();
     private rand_number:any;
 
@@ -65,10 +65,8 @@ export class OrgListComponent implements OnInit {
             search: new FormControl(),
             //dummy: new FormControl(),
         });
-        this.filterForm.valueChanges.subscribe(data => {
-		console.log(data);
-	});
-        this.page$ = this.filterForm.valueChanges.pipe(
+
+        this.page = this.filterForm.valueChanges.pipe(
             debounceTime(200),
             startWith(this.filterForm.value),
             merge(this.pageUrl),
@@ -76,7 +74,7 @@ export class OrgListComponent implements OnInit {
             share()
         );
 
-        this.page$.subscribe(
+        this.page.subscribe(
             data => {
                 console.log('OrgListComponent.getOrgs()', data);
                 this.orgs = data.results;
