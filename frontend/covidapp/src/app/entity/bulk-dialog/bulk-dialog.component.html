@@ -83,7 +83,7 @@
       </div>
       <div *ngIf="loadPledgeDialog" class="well">
         <form [formGroup]="pledgeForm" (ngSubmit)="submitPledge()">
-          Kindly enter the amount you wish to pledge:
+          How much would you like to contribute?
           <input type="number" class="form-control" formControlName="amount"
                  [ngClass]="{'red-border-class': pledgeForm.controls.amount.invalid}">
           <label style="margin: 5px;"></label>
@@ -101,13 +101,14 @@
                style="color: red; padding: 0 5px;"></i>
             Kindly confirm you wish to pledge the said amount
           </mat-checkbox>
+          <br />
+	  <p>We only collect information on how much you are willing to contribute.  Once you pledge an amount, a representative from the organization will contact you with their account details for the transfer.  If you would like to make a transfer online to a common pool, please contribute here.  This fund is maintained by the Foundation for Ecological Security (one of the Founding members of Coast) and will be used for providing relief to migrant workers.  <a href="">here</a>.</p>
           <!--
           <pre>
             {{ pledgeForm.controls.confirm.dirty }}
             {{ pledgeForm.controls.confirm.valid }}
           </pre>
           -->
-          <br />
           <br />
           <button mat-raised-button class="btn" (click)="submitPledge()">
             Pledge

@@ -48,7 +48,7 @@
             <mat-card *ngIf="authService.isAboveVolunteer()">
               <mat-card-content>
                 <div *ngIf="!showBulkActions" align="center" style="padding:8px;">
-                  Please select one or more organizations you trust to endorse them.  Endorsements will help new funders understand that the fund seeker is legitimate. To learn more, see the "endorsements" section of the <a routerLink='/guide'>guide</a>.
+                  <b>Please select one or more organizations you trust to endorse them.  Endorsements will help new funders understand that the fund seeker is legitimate. To learn more, see the "endorsements" section of the <a routerLink='/guide'>guide</a>.</b>
                 </div>
                 <div *ngIf="showBulkActions">
                   <ng-container
@@ -106,7 +106,7 @@
                 -->
                 <button mat-raised-button class="btn-success"
                         routerLink="/fundseekers"
-                        *ngIf="authService.isGroupAdmin()">
+                        *ngIf="authService.isNotClient()">
                   Add Fund Seeking Organization
                 </button>
               </section>

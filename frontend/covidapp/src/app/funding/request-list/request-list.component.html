@@ -48,7 +48,7 @@
             <mat-card *ngIf="authService.isAboveVolunteer()">
               <mat-card-content>
                 <div *ngIf="!showBulkActions" align="center" style="padding:8px;">
-                  Please select one or more requests if you would like to support them.  Once you do that, you will get a button here to pledge.  To learn more, please see the "pledges" section of the <a routerLink='/guide'>guide</a>.
+                  <b>Please select one or more requests if you would like to support them.  Once you do that, you will get a button here to pledge.  To learn more, please see the "pledges" section of the <a routerLink='/guide'>guide</a>.</b>
                 </div>
                 <div *ngIf="showBulkActions">
                   <ng-container
@@ -106,7 +106,7 @@
                 -->
                 <button mat-raised-button class="btn-success"
                         routerLink="/supportrequest"
-                        *ngIf="authService.isGroupAdmin()">
+                        *ngIf="authService.isNotClient()">
                   Add Fund Request
                 </button>
               </section>

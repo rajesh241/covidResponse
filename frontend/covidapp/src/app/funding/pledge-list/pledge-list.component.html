@@ -1,6 +1,8 @@
 <div class="container" [formGroup]="filterForm">
+  <div class="jumbotron">
   <h3 align="center">Pledges</h3>
-
+  <p class="about-class" align="center">Pledges are promises made by funders to support specific requests. To make a new pledge please go to the <a routerLink="/requests">funding requests page</a>.</p>
+  </div>
   <mat-tab-group [selectedIndex]="tabIndex"
                  (selectedTabChange)="onTabSelect($event)"
                  mat-align-tabs="center"
