@@ -26,23 +26,47 @@ class OrganizationSerializer(serializers.ModelSerializer):
         """Meta Class"""
         model = Organization
         fields = '__all__'
+
+    def parse_data_json(self, instance, validated_data):
+        '''
+        This will parse the data json to populate few fields in Organization Model
+        '''
+        try:
+            instance.name = validated_data['data_json']['organization']
+        except:
+            print('Exception[{e}]')
+        try:
+            instance.contact_name = validated_data['data_json']['contactName']
+        except:
+            print('Exception[{e}]')
+        try:
+            instance.contact_phone = ','.join('{0}'.format(n) for n in validated_data['data_json']['mobile'])
+        except Exception as e:
+            print('Exception[{e}]')
+        try:
+            registrations = validated_data['data_json']['registrations']
+            instance.has_12A = registrations['12a']
+            instance.has_FCRA = registrations['fcra']
+            instance.has_GST = registrations['gst']
+        except:
+            print('Exception[{e}]')
+        instance.save()
+        return instance
+
     def create(self, validated_data):
         obj = Organization.objects.create(**validated_data)
-        try:
-            name = validated_data["data_json"]["organization"]
-        except:
-            name = ''
-        print(validated_data)
-        obj.name = name
         obj.save()
+        self.parse_data_json(obj, validated_data)
         return obj
+
     def update(self, instance, validated_data):
         """Overriding the default instance method"""
         for key,value in validated_data.items():
             setattr(instance, key, value)
         instance.save()
-        #self.parse_data_json(instance, validated_data)
+        self.parse_data_json(instance, validated_data)
         return instance
+
 
 
 class TeamSerializer(serializers.ModelSerializer):

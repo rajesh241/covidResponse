@@ -168,9 +168,35 @@ class RequestSerializer(serializers.ModelSerializer):
         for key,value in validated_data.items():
             setattr(instance, key, value)
         instance.save()
-        #self.parse_data_json(instance, validated_data)
-        return instance
+        obj = instance
+        try:
+            amount_needed = validated_data["data_json"]["totalcost"]
+            #amount_raised = validated_data["data_json"]["totalcost"]
+            #amount_pending = amount_needed - obj.amount_raised
+        except:
+            amount_needed = 0
+            amount_pending = obj.amount_pending
 
+        try:
+            org_id = validated_data["data_json"]["requestedBy"]["id"]
+            print(org_id)
+            myorg = Organization.objects.filter(id=org_id).first()
+            title = f"support request from {myorg.name}"
+        except:
+            myorg = None
+            title = "support request"
+        try:
+            notes = validated_data["data_json"]["remarks"]
+        except:
+            notes = ''
+        obj.amount_needed = amount_needed
+        obj.amount_pending = amount_needed - obj.amount_pledged
+        # obj.amount_pledged = 0
+        obj.notes = notes
+        obj.organization = myorg
+        obj.title = title
+        obj.save()
+        return obj
         
 class FeedbackSerializer(serializers.ModelSerializer):
     """Serializer for Report Model"""
