@@ -49,11 +49,12 @@ export class RequestListComponent implements OnInit, OnDestroy {
     ) {
         console.log('RequestListComponent.constructor()');
         this.filterForm = new FormGroup({
-            limit : new FormControl(10),
+            limit : new FormControl(100),
             ordering : new FormControl('-created'),
             //state: new FormControl(),
             //district: new FormControl(),
             endorsed__isnull:  new FormControl(),
+            amount_pending__gt:  new FormControl(0),
             search: new FormControl(),
             dummy: new FormControl(),
         });
@@ -199,6 +200,7 @@ export class RequestListComponent implements OnInit, OnDestroy {
 			        this.snackBar.open('Submitted Successfuly', action.value, {
 				    duration: 3000,
 			        });
+                                this.router.navigate(['/pledges']);
 			    }
                         },
                         err => {

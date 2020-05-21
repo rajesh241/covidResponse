@@ -766,6 +766,26 @@ class LocationAPIView(HttpResponseMixin,
             return self.retrieve(request, *args, **kwargs)
         return super().get(request, *args, **kwargs)
 
+class RequestFilter(filters.FilterSet):
+ #   min_price = filters.NumberFilter(field_name="price", lookup_expr='gte')
+ #   max_price = filters.NumberFilter(field_name="price", lookup_expr='lte')
+
+    class Meta:
+        model = Request
+        #fields = ('number_of_rooms', 'floor_area_size',
+        #          'price_per_month', 'is_available')
+        fields = {
+                    'id': ['gte', 'lte'],
+                    'user__id' : ['exact'],
+                    'user__organization__id' : ['exact'],
+                    'amount_pending' : ['gt']
+                }
+    @property
+    def qs(self):
+        parent_qs = super(RequestFilter, self).qs
+        queryset = parent_qs
+        return queryset
+ 
 class RequestAPIView(HttpResponseMixin,
                     mixins.CreateModelMixin,
                     mixins.DestroyModelMixin,
@@ -777,13 +797,14 @@ class RequestAPIView(HttpResponseMixin,
     permission_classes = [EntityPermissions]
     #permission_classes = [permissions.IsAuthenticated]
     serializer_class = RequestSerializer
+    filterset_class = RequestFilter
     passed_id = None
     input_id = None
     search_fields = ('id', 'title')
     ordering_fields = ('id')
     queryset = Request.objects.all()
     def get_queryset(self, *args, **kwargs):
-       return Request.objects.all()
+       return Request.objects.all().order_by("-updated")
     def get_object(self):
         input_id = self.input_id
         queryset = self.get_queryset()
@@ -845,40 +866,6 @@ class RequestAPIView(HttpResponseMixin,
             return self.render_to_response(data, status="404")
         return self.destroy(request, *args, **kwargs)
 
-class PledgeFilter(filters.FilterSet):
-
-    class Meta:
-        model = Pledge
-        fields = {
-                    'id': ['gte', 'lte'],
-                    #'status' : ['exact'],
-                    # 'state' : ['exact'],
-                    # 'district' : ['exact'],
-                    # 'assigned_to_user' : ['isnull'],
-                    'notes' : ['contains', 'icontains'],
-                    #'assigned_to_user__id' : ['exact'],
-                    #'assigned_to_group' : ['isnull'],
-                    #'assigned_to_group__name' : ['contains', 'icontains'],
-                    #'assigned_to_group__id' : ['exact'],
-                    #'assigned_to_group__organization__id' : ['exact'],
-                    #'user__email' : ['exact'],
-                    #'what_help' : ['contains', 'icontains'],
-                }
-    @property
-    def qs(self):
-        parent_qs = super(PledgeFilter, self).qs
-        queryset = parent_qs
-        for key in self.request.query_params:
-            if "extra_fields__" in key:
-                value = self.request.query_params[key]
-                queryset = queryset.filter(**{ key: value })
-            if "what_help" in key:
-                value = self.request.query_params[key].lstrip(",").rstrip(",")
-                for item in value:
-                    queryset = queryset.filter(what_help__icontains=item)
-                
-                
-        return queryset
 
 class PledgeFilter(filters.FilterSet):
  #   min_price = filters.NumberFilter(field_name="price", lookup_expr='gte')
@@ -891,7 +878,7 @@ class PledgeFilter(filters.FilterSet):
         fields = {
                     'id': ['gte', 'lte'],
                     'user__id' : ['exact'],
-                    'request__organization__id' : ['exact'],
+                    'user__organization__id' : ['exact'],
                 }
     @property
     def qs(self):
@@ -917,7 +904,7 @@ class PledgeAPIView(HttpResponseMixin,
     ordering_fields = ('id')
     queryset = Pledge.objects.all()
     def get_queryset(self, *args, **kwargs):
-       return Pledge.objects.all()
+       return Pledge.objects.all().order_by("-updated")
     def get_object(self):
         input_id = self.input_id
         queryset = self.get_queryset()

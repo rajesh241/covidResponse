@@ -20,6 +20,7 @@ class UserAdmin(BaseUserAdmin):
         (_('Personal Info'), {'fields': ('name', 'team', 'user_role', 'avatar',
                                          'login_attempt_count', 'is_locked',
                                          'organization', 'can_endorse',
+                                         'phone',
                                          'can_fund', 'formio_usergroup', 'is_user_manager')}),
         (
             _('Permissions'),

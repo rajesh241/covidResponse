@@ -60,7 +60,7 @@ export class PledgeListComponent implements OnInit {
         this.user = localStorage.getItem('userid');
 
         this.filterForm = new FormGroup({
-            limit : new FormControl(10),
+            limit : new FormControl(100),
             ordering : new FormControl('-created'),
             //state: new FormControl(),
             //district: new FormControl(),

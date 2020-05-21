@@ -70,7 +70,9 @@ class PledgeSerializer(serializers.ModelSerializer):
     """Serializer for Report Model"""
     user = serializers.HiddenField(default=serializers.CurrentUserDefault())
     org_name = serializers.SerializerMethodField()
+    org_phone = serializers.SerializerMethodField()
     user_name = serializers.SerializerMethodField()
+    user_phone = serializers.SerializerMethodField()
     request_title = serializers.SerializerMethodField()
     class Meta:
         """Meta Class"""
@@ -83,6 +85,18 @@ class PledgeSerializer(serializers.ModelSerializer):
         except:
             org_name = ''
         return org_name
+    def get_org_phone(self, instance):
+        try:
+            org_name = instance.request.organization.contact_phone
+        except:
+            org_name = ''
+        return org_name
+    def get_user_phone(self, instance):
+        try:
+            name = instance.user.phone
+        except:
+            name = ''
+        return name
     def get_user_name(self, instance):
         try:
             name = instance.user.name
@@ -127,7 +141,7 @@ class RequestSerializer(serializers.ModelSerializer):
             amount_needed = 0
 
         try:
-            org_id = validated_data["data_json"]["requestedBy"]
+            org_id = validated_data["data_json"]["requestedBy"]["id"]
             print(org_id)
             myorg = Organization.objects.filter(id=org_id).first()
             title = f"support request from {myorg.name}"
@@ -151,6 +165,13 @@ class RequestSerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
         """Overriding the default instance method"""
+        for key,value in validated_data.items():
+            setattr(instance, key, value)
+        instance.save()
+        #self.parse_data_json(instance, validated_data)
+        return instance
+
+        
 class FeedbackSerializer(serializers.ModelSerializer):
     """Serializer for Report Model"""
     user = serializers.HiddenField(default=serializers.CurrentUserDefault())

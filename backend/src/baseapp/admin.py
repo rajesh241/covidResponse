@@ -32,7 +32,7 @@ class BulkOperationModelAdmin(admin.ModelAdmin):
 
 class RequestModelAdmin(admin.ModelAdmin):
     """Model Admin for Entity Bulk Edit"""
-    list_display = ["id", "user", "amount_needed", "amount_pledged",
+    list_display = ["id", "user", "organization", "amount_needed", "amount_pledged",
                     "amount_pending"]
     list_filter = ["mode"]
 
