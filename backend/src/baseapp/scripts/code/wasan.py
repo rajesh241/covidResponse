@@ -15,7 +15,7 @@ from defines import DJANGO_SETTINGS
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", DJANGO_SETTINGS)
 django.setup()
 from core.models import Region
-from baseapp.models import Entity, EntityHistory
+from baseapp.models import Entity, EntityHistory, Request
 from baseapp.formio import help_sought, get_status, get_remarks
 User = get_user_model()
 from core.models import Team, Region, Organization
@@ -43,6 +43,8 @@ def args_fetch():
     parser.add_argument('-db', '--db2csv', help='dump Database in csv',
                         required=False, action='store_const', const=1)
     parser.add_argument('-ie', '--importEntities', help='Import',
+                        required=False, action='store_const', const=1)
+    parser.add_argument('-io', '--importOrgs', help='Import',
                         required=False, action='store_const', const=1)
     parser.add_argument('-pd', '--populateDistricts', help='Import',
                         required=False, action='store_const', const=1)
@@ -307,7 +309,94 @@ def main():
             if district is not None:
                 obj.district = district
                 obj.save()
+    if args['importOrgs']:
+        df = pd.read_csv("../import_data/orgs_15may2020_survey.csv")
+        password = '123456'
+        for index, row in df.iterrows():
+            logger.info(index)
+            org = row.get('organizationName', None)
+            phone = row.get('mobile', None)
+            try:
+                phone = str(int(phone))
+            except:
+                phone = ''
+            email = row.get('email', None)
+            name = row.get('fullName', None)
+            logger.info(f"{index}-{org}-{name}-{email}-{phone}")
+            if org is not None:
+                myorg = Organization.objects.filter(name = org).first()
+                if myorg is None:
+                    myorg = Organization.objects.create(name = org)
+                myorg.contact_phone = phone
+                myorg.contact_name = name
+                prefill_json = { 'data' : {
+                   'fullName' : name,
+                    'organizationName' : org,
+                    'mobile' : phone,
+                    'email' : email
+                }
+                }
+                #myorg.prefill_json = prefill_json
+                myorg.save()
+            if email is not None:
+                myUser = User.objects.filter(email=email).first()
+                if myUser is None:
+                    myUser = User.objects.create(email=email, name=name)
+                myUser.organization = myorg
+                myUser.phone = phone
+                myUser.user_role = "volunteer"
+                myUser.set_password(password) 
+                myUser.save()
     if args['test']:
+        objs = Entity.objects.filter(information_source__icontains = 'APPI')
+        i = 0
+        for obj in objs:
+            i = i + 1
+            logger.info(f"{i}-{obj.record_type}-{obj.information_source}")
+        exit(0)
+        df = pd.read_csv("/tmp/requests.csv")
+        logger.info(df.columns)
+        password = "covid@19"
+        for index, row in df.iterrows():
+            logger.info(index)
+            org = row.get('org', None)
+            phone = row.get('phone', None)
+            email = row.get('email', None)
+            total = row.get('total', None)
+            remarks = row.get('remarks', None)
+            logger.info(remarks)
+            if org is not None:
+                myorg = Organization.objects.filter(name = org).first()
+                if myorg is None:
+                    myorg = Organization.objects.create(name = org)
+                myorg.contact_phone = phone
+                myorg.save()
+            if email is not None:
+                myUser = User.objects.filter(email=email).first()
+                if myUser is None:
+                    myUser = User.objects.create(email=email, name=org)
+                myUser.organization = myorg
+                myUser.user_role = "volunteer"
+                myUser.set_password(password) 
+                myUser.save()
+                logger.info(f"Created user {myUser.id}")
+            try:
+                total = int(total)
+            except:
+                total = ''
+            if isinstance(total, int):
+                req_title = f"request from {org}-{index}"
+                my_req = Request.objects.filter(title = req_title).first()
+                if my_req is None:
+                    my_req = Request.objects.create(title = req_title)
+                my_req.amount_needed = total
+                my_req.organization = myorg
+                my_req.user = myUser
+                my_req.amount_pending = total
+                my_req.amount_pledged = 0
+                my_req.notes = remarks
+                my_req.save()
+        exit(0)
         users = User.objects.filter(formio_usergroup = "swan")
         for user in users:
             logger.info(user.id)
