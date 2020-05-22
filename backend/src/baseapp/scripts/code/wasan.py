@@ -228,7 +228,7 @@ def main():
 
     if args['importSwanUsers']:
         logger.info("Importing swan users")
-        df = pd.read_csv("../import_data/swan_users_21may2020.csv")
+        df = pd.read_csv("../import_data/swan_users_final.csv")
         myteam = Team.objects.filter(name="swanteam").first()
         myorg = Organization.objects.filter(name="swan").first()
         for index, row in df.iterrows():
@@ -237,8 +237,8 @@ def main():
             if isinstance(email, str):
                 if "@" in email:
                     password = User.objects.make_random_password()
-                    password = 'covid@19'
-                    logger.info(f"email is {email} and password is {password}")
+                    password = 'test123'
+                    logger.info(f"{index} email is {email} and password is {password}")
                     myuser = User.objects.filter(email=email).first()
                     if myuser is None:
                         myuser = User.objects.create(email=email,name=name)
@@ -248,6 +248,8 @@ def main():
                     myuser.user_role = 'groupadmin'
                     myuser.organization = myorg
                     myuser.set_password(password) 
+                    myuser.is_locked=False
+                    myuser.login_attempt_count=0
                     myuser.save()
            
     if args['connectUsersEntity']:
