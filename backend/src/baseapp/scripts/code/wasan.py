@@ -204,8 +204,12 @@ def create_entity(logger, record, myUser, wasan_id = None, wasan_org_id=None,
    #        obj.assigned_to_user = myUser
    #except:
    #    obj.assigned_to_user = myUser
-    if my_group is not None:
-        obj.assigned_to_group = my_group
+    if assigned_to_user is not None:
+        team = assigned_to_user.team
+    else:
+        team = my_group
+  #  if my_group is not None:
+    obj.assigned_to_group = team
     obj.remarks = remarks
     obj.what_help = help_sought(obj.prefill_json)
     #logger.info(f"Saving {obj.id}")
@@ -228,12 +232,20 @@ def main():
 
     if args['importSwanUsers']:
         logger.info("Importing swan users")
-        df = pd.read_csv("../import_data/swan_users_final.csv")
-        myteam = Team.objects.filter(name="swanteam").first()
+        df = pd.read_csv("../import_data/swan_users_22may20.csv")
+        swanteam = Team.objects.filter(name="swanteam").first()
         myorg = Organization.objects.filter(name="swan").first()
         for index, row in df.iterrows():
             email = row['email']
             name = row['name']
+            team = str(row['team']).lstrip().rstrip()
+            if ((team != '') and (team != "nan")):
+                myteam = Team.objects.filter(organization=myorg,
+                                             name=team).first()
+                if myteam is None:
+                    myteam = Team.objects.create(organization=myorg, name=team)
+            else:
+                myteam = swanteam
             if isinstance(email, str):
                 if "@" in email:
                     password = User.objects.make_random_password()
@@ -312,9 +324,15 @@ def main():
 
     if args['importEntities']:
         superadminuser = User.objects.filter(id=1).first()
-        with open('../import_data/2020-05-21_SWAN_Data_final.json', 'r') as f:
+       #with open('../import_data/2020-05-22_SWAN_Data.json', 'r') as f:
+       #    #data = f.read().replace(': NaN,', ': "",').replace(': NaN',':""').replace(',NaN',',""')
+       #    data = f.read().replace('NaN','""')
+       #with open('/tmp/a.json', 'w') as f:
+       #    f.write(data)
+       #exit(0)
+        with open('../import_data/swan_data_22may20.json', 'r') as f:
                 records = json.load(f)
-        backend_remarks = "Imported Swan Data on 21 May 2020"
+        backend_remarks = "Imported Swan Data on 22 May 2020"
         base_number = 200521 * 10000
         email_array = []
        #for i,record in enumerate(records):
@@ -341,7 +359,6 @@ def main():
                 creator = volunteer
           
             sr_no = base_number + i
-            #logger.info(record)
             obj_id = create_entity(logger, record, creator,  wasan_id = sr_no,
                           wasan_org_id=500, usergroup='swan',
                           backend_remarks=backend_remarks,

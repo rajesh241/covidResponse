@@ -215,7 +215,7 @@ class OrganizationPublicAPIView(HttpResponseMixin,
   serializer_class = OrganizationSerializer
   passedID=None
   inputID=None
-  search_fields = ('id')
+  search_fields = ('id', 'name')
   ordering_fields = ('created', 'id')
   #filter_fields=("name")
   queryset=Organization.objects.all()

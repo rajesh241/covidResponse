@@ -328,7 +328,8 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
                     message="Incorrect password"
                     raise exceptions.AuthenticationFailed(message)
                     
-            user.login_attempt_count = user.login_attempt_count + 1
+            #user.login_attempt_count = user.login_attempt_count + 1
+            user.login_attempt_count = user.login_attempt_count
             if user.login_attempt_count >= 3:
                 user.is_locked = True
             user.save()
