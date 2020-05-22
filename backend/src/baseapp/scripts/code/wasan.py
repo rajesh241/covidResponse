@@ -52,6 +52,8 @@ def args_fetch():
                         required=False, action='store_const', const=1)
     parser.add_argument('-cue', '--connectUsersEntity', help='Import',
                         required=False, action='store_const', const=1)
+    parser.add_argument('-isu', '--importSwanUsers', help='Import',
+                        required=False, action='store_const', const=1)
     parser.add_argument('-ir', '--importRegions', help='Import',
                         required=False, action='store_const', const=1)
     parser.add_argument('-fn', '--filename', help='filename to be imported', required=False)
@@ -104,14 +106,14 @@ org_id_mapping = {
 }
 orgs_to_be_imported = ['2', '324', '325', '326', '327', '328', '400', '500']
 def create_entity(logger, record, myUser, wasan_id = None, wasan_org_id=None,
-                  usergroup=None):
-    logger.info(f"my user is {myUser.id}")
+                  usergroup=None, backend_remarks=None, assigned_to_user=None):
+    #logger.info(f"my user is {myUser.id}")
     if usergroup is None:
         usergroup = "wassan"
     # This has to go as a string
     # extra_fields = str(record['extra_fields'])
     # revised['extra_fields'] = extra_fields
-    logger.info(f"wasan id is {wasan_id}")
+    #logger.info(f"wasan id is {wasan_id}")
     if wasan_id is None: 
         try:
             wasan_id = record['extra_fields']['common']['entity_id']
@@ -121,9 +123,9 @@ def create_entity(logger, record, myUser, wasan_id = None, wasan_org_id=None,
         if wasan_org_id is None:
             wasan_org_id = record['extra_fields']['formio_parsed_data']['sourceSpecific']['organisationId']
         libtech_org_id = org_id_mapping.get(str(wasan_org_id), None)
-        logger.info(f"wasan_org_id {wasan_org_id} - libtech_org_id {libtech_org_id}")
+        #logger.info(f"wasan_org_id {wasan_org_id} - libtech_org_id {libtech_org_id}")
         my_group = Team.objects.filter(name=libtech_org_id).first()
-        logger.info(my_group)
+        #logger.info(my_group)
     except:
         wasan_org_id = None
         my_group = None
@@ -143,17 +145,21 @@ def create_entity(logger, record, myUser, wasan_id = None, wasan_org_id=None,
             input()
             return
     obj = None
-    logger.info(wasan_id)
+    #logger.info(wasan_id)
     if wasan_id is not None:
-        logger.info(wasan_id)
+    #    logger.info(wasan_id)
         obj = Entity.objects.filter(wassan_id=wasan_id).first()
     if obj is None:
         obj = Entity.objects.create(title="blankNewItem")
-    logger.info(obj.id)
-    logger.info(f"checking my user again {myUser.id}")
+    #logger.info(obj.id)
+    #logger.info(f"checking my user again {myUser.id}")
     obj.user = myUser
     obj.updated_by_user = myUser
+    #logger.info(f"Assigned to user is {assigned_to_user}")
+    obj.assigned_to_user = assigned_to_user
     for key, value in record.items():
+        if key == "assigned_to_user":
+            continue
         setattr(obj,key,value)
     obj.record_type = 'helpseekers'
     # False if it does not come via formio
@@ -188,32 +194,62 @@ def create_entity(logger, record, myUser, wasan_id = None, wasan_org_id=None,
     except:
         remarks = ''
     obj.wassan_id = wasan_id
-    try:
-        user_email = record['common']['user_email']
-        assigned_user = User.objects.filter(wassan_username=user_email).first()
-        if assigned_user is not None:
-            obj.assigned_to_user = assigned_user
-        else:
-            obj.assigned_to_user = myUser
-    except:
-        obj.assigned_to_user = myUser
+   #try:
+   #    user_email = record['common']['user_email']
+   #    logger.info(f"User email is {user_email}")
+   #    assigned_user = User.objects.filter(wassan_username=user_email).first()
+   #    if assigned_user is not None:
+   #        obj.assigned_to_user = assigned_user
+   #    else:
+   #        obj.assigned_to_user = myUser
+   #except:
+   #    obj.assigned_to_user = myUser
     if my_group is not None:
         obj.assigned_to_group = my_group
     obj.remarks = remarks
     obj.what_help = help_sought(obj.prefill_json)
-    logger.info(f"Saving {obj.id}")
+    #logger.info(f"Saving {obj.id}")
     if not isinstance(obj.latitude, float):
         obj.latitude = None
     if not isinstance(obj.longitude, float):
         obj.longitude = None
     
+    keywords = f"{obj.title},{obj.phone},{obj.email}"
+    obj.keywords = keywords
+    obj.backend_remarks = backend_remarks
     obj.save()
+    return obj.id
     #logger.info(obj.phone)
     #create_history(obj, myUser)
 def main():
     """Main Module of this program"""
     args = args_fetch()
     logger = logger_fetch(args.get('log_level'))
+
+    if args['importSwanUsers']:
+        logger.info("Importing swan users")
+        df = pd.read_csv("../import_data/swan_users_21may2020.csv")
+        myteam = Team.objects.filter(name="swanteam").first()
+        myorg = Organization.objects.filter(name="swan").first()
+        for index, row in df.iterrows():
+            email = row['email']
+            name = row['name']
+            if isinstance(email, str):
+                if "@" in email:
+                    password = User.objects.make_random_password()
+                    password = 'covid@19'
+                    logger.info(f"email is {email} and password is {password}")
+                    myuser = User.objects.filter(email=email).first()
+                    if myuser is None:
+                        myuser = User.objects.create(email=email,name=name)
+                    myuser.team = myteam
+                    myuser.name = name
+                    myuser.formio_usergroup = "swan"
+                    myuser.user_role = 'groupadmin'
+                    myuser.organization = myorg
+                    myuser.set_password(password) 
+                    myuser.save()
+           
     if args['connectUsersEntity']:
         objs = Entity.objects.filter(record_type = "helpseekers")
         myTeam = Team.objects.filter(id=10).first()
@@ -273,23 +309,42 @@ def main():
            
 
     if args['importEntities']:
-        my_user = User.objects.filter(id=1).first()
-        with open('../import_data/swan_14_05_2020.json', 'r') as f:
+        superadminuser = User.objects.filter(id=1).first()
+        with open('../import_data/2020-05-21_SWAN_Data_final.json', 'r') as f:
                 records = json.load(f)
-        base_number = 200514 * 10000
+        backend_remarks = "Imported Swan Data on 21 May 2020"
+        base_number = 200521 * 10000
+        email_array = []
+       #for i,record in enumerate(records):
+       #    logger.info(i)
+       #    try:
+       #        email = record["extra_fields"]["common"]["user_email"]
+       #    except:
+       #        email = None
+       #    if email is not None:
+       #        if email not in email_array:
+       #            email_array.append(email)
+       #logger.info(email_array)
+       #logger.info(len(email_array))
+       #exit(0)
         for i,record in enumerate(records):
-            logger.info(i)
+            #logger.info(i)
             try:
-                username= record["extra_fields"]["source_specific"]["who_entering_this_txn"]
-                volunteer  = User.objects.filter(name = username).first()
+                email = record["extra_fields"]["common"]["user_email"]
+                volunteer  = User.objects.filter(email=email).first()
             except:
                 volunteer = None
-            if volunteer is None:
-                volunteer = User.objects.filter(id=13).first()
-            logger.info(f"volunteer id is {volunteer.id}")
+            creator = superadminuser
+            if volunteer is not None:
+                creator = volunteer
+          
             sr_no = base_number + i
-            create_entity(logger, record, volunteer, wasan_id = sr_no,
-                          wasan_org_id=500, usergroup='swan')
+            #logger.info(record)
+            obj_id = create_entity(logger, record, creator,  wasan_id = sr_no,
+                          wasan_org_id=500, usergroup='swan',
+                          backend_remarks=backend_remarks,
+                          assigned_to_user=volunteer)
+            logger.info(f"{i}-{obj_id} creator-{creator} assigned-{volunteer}")
         exit(0)
         usergroup = "wassan"
         objs = Entity.objects.filter(record_type = "helpseekers")
