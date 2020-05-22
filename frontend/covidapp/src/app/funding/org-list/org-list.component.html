@@ -142,7 +142,7 @@
                 <th>GST</th>
                 <th>Endorsements</th>
                 <th *ngIf="false">Endorsed By</th>
-                <th *ngIf="authService.isAboveVolunteer()" align="center">Actions</th>
+                <th *ngIf="authService.isAboveVolunteer()" class="centered">Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -175,7 +175,7 @@
                 <td>{{ org.has_GST }}</td>
                 <td>{{ org.endorsed_by?.split(',').length }}</td>
                 <td *ngIf="false">{{ org.endorsed_by }}</td>
-                <td *ngIf="authService.isAboveVolunteer()" class="td-actions">
+                <td *ngIf="authService.isAboveVolunteer()" class="td-actions centered">
                   <div>
                     <button mat-raised-button class="btn btn-primary"
                             [routerLink]="['/update-org',org.id]">

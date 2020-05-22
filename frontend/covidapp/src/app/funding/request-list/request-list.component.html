@@ -140,8 +140,9 @@
                 <th>Endorsements</th>
                 <th>Endorsed By</th>
                 <th>Amount Needed</th>
+                <th>Amount Pledged</th>
                 <th>Amount Pending</th>
-                <th *ngIf="authService.isAboveVolunteer()" align="center">Actions</th>
+                <th *ngIf="authService.isAboveVolunteer()" class="centered">Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -165,8 +166,9 @@
                 <td>{{ request.endorsedBy }}</td>
                 <td>{{ request.total_endorsed }}</td>
                 <td>{{ request.amount_needed }}</td>
-                <td>{{ request.amount_pending }}</td>
-                <td *ngIf="authService.isAboveVolunteer()" class="td-actions">
+                <td>{{ request.amount_pledged }}</td>
+                <td class="td-actions highlight">{{ request.amount_pending }}</td>
+                <td *ngIf="authService.isAboveVolunteer()" class="centered">
                   <div>
                     <button mat-raised-button class="btn btn-primary"
                             [routerLink]="['/update-request', request.id]">

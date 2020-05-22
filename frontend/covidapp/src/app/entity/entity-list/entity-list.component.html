@@ -341,7 +341,7 @@
                 <th>Volunteer</th>
                 <th>Status</th>
                 <th>Urgency</th>
-                <th *ngIf="authService.isAboveVolunteer() || (tab === 'mine')" align="center">Actions</th>
+                <th *ngIf="authService.isAboveVolunteer() || (tab === 'mine')" class="centered">Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -395,7 +395,7 @@
                 <td *ngIf="entity.assigned_to_user">{{ entity.assigned_to_user.name }}</td>
                 <td>{{ entity.status }}</td>
                 <td>{{ entity.urgency }}</td>
-                <td *ngIf="authService.isAboveVolunteer() || (tab === 'mine')" class="td-actions">
+                <td *ngIf="authService.isAboveVolunteer() || (tab === 'mine')" class="td-actions centered">
                   <div>
                     <button mat-raised-button class="btn btn-primary"
                             [routerLink]="['/update',entity.id]">
