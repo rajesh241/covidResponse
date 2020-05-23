@@ -1,7 +1,7 @@
 <form *ngIf="items" style="margin-top: -12px;">
   <mat-form-field style="width=250px">
     <input matInput [placeholder]="desc"
-           [matAutocomplete]="auto" [formControl]="acControl" />
+           [matAutocomplete]="auto" [formControl]="acControl" style="color: #f44336; font-weight: bold;" />
     <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="acClear()">
     <i class="fa fa-times-circle fa-lg"  style="align:center; color:#8A8A8A; margin-left: 1px;"></i>
     </button>

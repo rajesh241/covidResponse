@@ -90,3 +90,18 @@ tbody th:focus::before {
 .highlight {
     animation: highlight 10s;
 }
+
+.form-control {
+    color: #f44336;
+    font-weight: bold;
+}
+
+.mat-button-toggle-checked {
+    background-color: #f44336;
+    color: white;
+}
+
+app-paginator > div > span:nth-child(1) {
+    color: #f44336;
+    font-weight: bold;
+}
