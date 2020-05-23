@@ -175,10 +175,10 @@ class UserPublicAPIView(HttpResponseMixin,
   serializer_class = UserPublicSerializer
   passedID=None
   inputID=None
-  search_fields = ('name')
+  search_fields = ('name', 'id')
   ordering_fields = ('name', 'id')
   filter_fields=("is_staff","is_locked","is_active","user_role","formio_usergroup",
-                "team__id")
+                "team__id", "name")
   queryset=User.objects.all()
   def get_object(self):
     inputID=self.inputID
