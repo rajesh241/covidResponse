@@ -138,7 +138,7 @@
                 <th>Title</th>
                 <th>Organization</th>
                 <th>Endorsements</th>
-                <th>Endorsed By</th>
+                <th *ngIf="false">Endorsed By</th>
                 <th>Amount Needed</th>
                 <th>Amount Pledged</th>
                 <th>Amount Pending</th>
@@ -164,8 +164,8 @@
                 </td>
                 <td>{{ request.title }}</td>
                 <td>{{ request.org_name }}</td>
-                <td>{{ request.endorsedBy }}</td>
-                <td>{{ request.total_endorsed }}</td>
+                <td *ngIf="false">{{ request.endorsed_by }}</td>
+                <td>{{ request.endorsed_by?.split(',').length }}</td> <!-- both should work {{ request.total_endorsed }}</td> -->
                 <td>{{ request.amount_needed }}</td>
                 <td>{{ request.amount_pledged }}</td>
                 <td class="td-actions"
