@@ -77,9 +77,10 @@ tbody th:focus::before {
     -ms-transition: background-color 1000ms linear;
     transition: background-color 1000ms linear;
 }
+*/
 @keyframes highlight {
     0% {
-        background: red;
+        background: #DDFFDD;
     }
     100% {
         background: none;
@@ -87,6 +88,5 @@ tbody th:focus::before {
 }
 
 .highlight {
-    animation: highlight 1s;
+    animation: highlight 10s;
 }
-*/

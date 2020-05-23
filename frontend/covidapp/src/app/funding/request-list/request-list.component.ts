@@ -80,8 +80,12 @@ export class RequestListComponent implements OnInit, OnDestroy {
                 this.showBulkActions = false;
                 delete this.selectedRequests;
 	        this.selectedRequests = {};
+                let now = new Date();
                 this.requests.forEach(request => {
                     this.selectedRequests[request.id] = this.checkState;
+                    let change = new Date(request.updated);
+                    if(now.getTime()-change.getTime() < 5000)
+                        request.recentlyUpdated = true;
                 });
             },
         );
@@ -170,37 +174,15 @@ export class RequestListComponent implements OnInit, OnDestroy {
                             console.log('Bulk Operation Creattion Successful', data);
                             this.rand_number = Math.floor(Math.random()*(100)+0);
                             this.filterForm.controls['dummy'].setValue(this.rand_number);
-			    if (data['bulk_action']== 'export') {
-			        this.snackBar.open('Your file will be downloaded shortly', action.value, {
+			    if (data['bulk_action']== 'pledge') {
+			        this.snackBar.open('Pledge Submitted Successfully', action.value, {
 				    duration: 3000,
 			        });
-                                this.document.location.href = 'https://coast-india.s3.ap-south-1.amazonaws.com/export/selected/'+data["data_json"]["filename"];
-			    }
-                            else if (data['bulk_action']== 'assigntovolunteer') {
-                                if (data['data_json']['assigntovolunteer'] === '')
-			            this.snackBar.open('Submitted Successfuly', 'Unassign', {
-				        duration: 3000,
-			            });
-                                else
-			            this.snackBar.open('Submitted Successfuly', action.value, {
-				        duration: 3000,
-			            });
-			    }
-                            else if (data['bulk_action']== 'assigntogroup') {
-                                if (data['data_json']['assigntogroup'] === '')
-			            this.snackBar.open('Submitted Successfuly', 'Unassisnged', {
-				        duration: 3000,
-			            });
-                                else
-			            this.snackBar.open('Submitted Successfuly', action.value, {
-				        duration: 3000,
-			            });
 			    }
                             else{
 			        this.snackBar.open('Submitted Successfuly', action.value, {
 				    duration: 3000,
 			        });
-                                this.router.navigate(['/pledges']);
 			    }
                         },
                         err => {

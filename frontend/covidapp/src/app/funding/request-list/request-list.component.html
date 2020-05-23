@@ -142,6 +142,7 @@
                 <th>Amount Needed</th>
                 <th>Amount Pledged</th>
                 <th>Amount Pending</th>
+                <th>Updated</th>
                 <th *ngIf="authService.isAboveVolunteer()" class="centered">Actions</th>
               </tr>
             </thead>
@@ -167,7 +168,10 @@
                 <td>{{ request.total_endorsed }}</td>
                 <td>{{ request.amount_needed }}</td>
                 <td>{{ request.amount_pledged }}</td>
-                <td class="td-actions highlight">{{ request.amount_pending }}</td>
+                <td class="td-actions"
+                    [ngClass]="{'highlight': request.recentlyUpdated}">
+                  {{ request.amount_pending }}</td>
+                <td>{{ request.updated | date }}</td>
                 <td *ngIf="authService.isAboveVolunteer()" class="centered">
                   <div>
                     <button mat-raised-button class="btn btn-primary"
