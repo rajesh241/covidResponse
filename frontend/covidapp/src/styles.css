@@ -8,23 +8,17 @@ html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 /* Adding for Table Related adjustments */
+
+/*
 table {
     overflow: hidden;
 }
+*/
 
 td, th {
     padding: 10px;
     position: relative;
     outline: 0;
-}
-
-.table>tbody>tr>td {
-    vertical-align: middle;
-}
-
-.centered {
-    text-align: center;
-    vertical-align: middle;
 }
 
 body:not(.nohover) tbody tr:hover {
@@ -36,7 +30,7 @@ thead th:not(:empty):hover::after,
 td:focus::after,
 thead th:not(:empty):focus::after { 
     content: '';  
-    height: 10000px;
+    /* height: 10000px; */
     left: 0;
     position: absolute;  
     top: -5000px;
@@ -59,12 +53,22 @@ td:focus::before,
 tbody th:focus::before {
     background-color: lightblue;
     content: '';  
-    height: 100%;
+/*    height: 100%; */
     top: 0;
     left: -5000px;
     position: absolute;  
     width: 10000px;
     z-index: -1;
+}
+
+/* Added after row highlight */
+.table>tbody>tr>td {
+    vertical-align: middle;
+}
+
+.centered {
+    text-align: center;
+    vertical-align: middle;
 }
 
 /* Adding hightlght with kill 
@@ -104,4 +108,21 @@ tbody th:focus::before {
 app-paginator > div > span:nth-child(1) {
     color: #f44336;
     font-weight: bold;
+}
+
+
+// Checkbox related styling
+.cb-h2 {
+    margin: 10px;
+}
+
+.cb-section {
+    display: flex;
+    align-content: center;
+    align-items: center;
+    height: 60px;
+}
+
+.cb-margin {
+    margin: 0 10px;
 }
