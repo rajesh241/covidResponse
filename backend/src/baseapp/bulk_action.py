@@ -160,7 +160,6 @@ def perform_bulk_action(data, user):
 
 
 
-
 def export_entities(queryset, filename, bulk_export=False):
         csv_array = []
         columns = ['ID', 'Urgency', 'Status', 'Assigned to', 'Remarks',

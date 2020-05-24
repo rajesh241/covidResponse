@@ -44,6 +44,8 @@ def args_fetch():
                         required=False, action='store_const', const=1)
     parser.add_argument('-ie', '--importEntities', help='Import',
                         required=False, action='store_const', const=1)
+    parser.add_argument('-ir', '--importRequests', help='Import',
+                        required=False, action='store_const', const=1)
     parser.add_argument('-io', '--importOrgs', help='Import',
                         required=False, action='store_const', const=1)
     parser.add_argument('-pd', '--populateDistricts', help='Import',
@@ -54,7 +56,7 @@ def args_fetch():
                         required=False, action='store_const', const=1)
     parser.add_argument('-isu', '--importSwanUsers', help='Import',
                         required=False, action='store_const', const=1)
-    parser.add_argument('-ir', '--importRegions', help='Import',
+    parser.add_argument('-ire', '--importRegions', help='Import',
                         required=False, action='store_const', const=1)
     parser.add_argument('-fn', '--filename', help='filename to be imported', required=False)
     parser.add_argument('-ti2', '--testInput2', help='Test Input 2', required=False)
@@ -321,7 +323,47 @@ def main():
             myuser.formio_usergroup = 'wassan'
             myuser.save()
            
+    if args['importRequests']:
+        with open('../import_data/support_requests_24may20.json', 'r') as f:
+                records = json.load(f)
 
+        for i,record in enumerate(records):
+            logger.info(record)
+            try:
+                email = record['extra_fields']['email']
+            except:
+                email = None
+            try:
+                amount_needed = record['prefill_json']['data']['totalcost']
+            except:
+                amount_needed = '0'
+            amount_needed = int(amount_needed.replace(",",""))
+            prefill_json = record['prefill_json']
+            extra_fields = record['extra_fields']
+            myuser = None
+            if email is not None:
+                myuser = User.objects.filter(email=email).first()
+            
+            if myuser is not None:
+                myorg = myuser.organization
+                logger.info(f"{i}-{myuser.email}-{myorg.name}--{amount_needed}")
+                title = f"{i}-request from {myorg.name}"
+                obj = Request.objects.filter(title=title).first()
+                if obj  is None:
+                    obj = Request.objects.create(title=title)
+                obj.user = myuser
+                obj.organization = myorg
+                obj.amount_needed = amount_needed
+                obj.amount_pending = amount_needed
+                obj.amount_pledged = 0
+                obj.save()
+                try:
+                    obj.prefill_json = prefill_json
+                    obj.data_json = prefill_json['data']
+                    obj.extra_fields = extra_fields
+                    obj.save()
+                except:
+                    logger.info("count not prefill")
     if args['importEntities']:
         superadminuser = User.objects.filter(id=1).first()
        #with open('../import_data/2020-05-22_SWAN_Data.json', 'r') as f:
@@ -384,7 +426,7 @@ def main():
                 obj.district = district
                 obj.save()
     if args['importOrgs']:
-        df = pd.read_csv("../import_data/org_import_23may20.csv")
+        df = pd.read_csv("../import_data/requests_24may20.csv")
         df = df.fillna("")
         password = '123456'
         for index, row in df.iterrows():
@@ -397,6 +439,8 @@ def main():
                 phone = ''
             email = row.get('email', None)
             name = row.get('name', None)
+            if name is None:
+                name = org
             logger.info(f"{index}-{org}-{name}-{email}-{phone}")
             if org is not None:
                 myorg = Organization.objects.filter(name = org).first()
@@ -422,6 +466,7 @@ def main():
                 myUser = User.objects.filter(email=email).first()
                 if myUser is None:
                     myUser = User.objects.create(email=email, name=name)
+                myUser.name = name
                 myUser.organization = myorg
                 myUser.team = myTeam
                 myUser.phone = phone
