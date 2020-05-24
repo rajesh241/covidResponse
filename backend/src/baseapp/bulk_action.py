@@ -161,10 +161,12 @@ def perform_bulk_action(data, user):
 
 def export_requests(filename=None):
     csv_array = []
-    columns = ["id", "org", "contat name", "contact phone", "email",
+    columns = ["srno", "id", "org", "contat name", "contact phone", "email",
                "totalamount", "pledged", "pending"]
-    queryset = Request.objects.all()
+    queryset = Request.objects.filter(id__gt = 1)
+    srno = 0
     for obj in queryset:
+        srno = srno + 1
         if obj.organization is not None:
             orgname = obj.organization.name
             orgphone = obj.organization.contact_phone
@@ -177,7 +179,7 @@ def export_requests(filename=None):
         else:
             username = ''
             useremail = ''
-        a = [obj.id, orgname, username, orgphone, useremail, obj.amount_needed,
+        a = [srno, obj.id, orgname, username, orgphone, useremail, obj.amount_needed,
              obj.amount_pledged, obj.amount_pending]
         csv_array.append(a)
     df = pd.DataFrame(csv_array, columns=columns)
