@@ -96,18 +96,23 @@
           <div class="col-sm-4">
             <div class="form-group row">
               <section align="center">
+                <button mat-raised-button class="btn-success"
+                        routerLink="/supportrequest"
+                        *ngIf="authService.isNotClient()">
+                  Add Fund Request
+                </button>
                 <!--
                 <button mat-raised-button class="btn-success"
                         (click)="onExportFiltered()"
                         *ngIf="false && authService.isGroupAdmin()">
                   Export Filtered
                 </button>
-                <label style="margin: 0 10px;"></label>
                 -->
+                <label style="margin: 0 5px;"></label>
                 <button mat-raised-button class="btn-success"
-                        routerLink="/supportrequest"
-                        *ngIf="authService.isNotClient()">
-                  Add Fund Request
+                        (click)="onExport()"
+                        *ngIf="authService.isGroupAdmin()">
+                  Export All
                 </button>
               </section>
             </div>
@@ -165,7 +170,7 @@
                 <td>{{ request.title }}</td>
                 <td>{{ request.org_name }}</td>
                 <td *ngIf="false">{{ request.endorsed_by }}</td>
-                <td>{{ request.endorsed_by?.split(',').length }}</td> <!-- both should work {{ request.total_endorsed }}</td> -->
+                <td>{{ request.total_endorsed }}</td>
                 <td>{{ request.amount_needed }}</td>
                 <td>{{ request.amount_pledged }}</td>
                 <td class="td-actions"

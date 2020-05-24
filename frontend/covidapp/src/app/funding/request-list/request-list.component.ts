@@ -205,4 +205,9 @@ export class RequestListComponent implements OnInit, OnDestroy {
             this.router.navigate(['/login']);
 	}
     }
+
+    onExport(){
+	    console.log("User has clicked export button");
+	    this.document.location.href = 'https://coast-india.s3.ap-south-1.amazonaws.com/export/funding.csv';
+    }
 }
