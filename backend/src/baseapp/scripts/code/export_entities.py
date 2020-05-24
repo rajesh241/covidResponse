@@ -12,7 +12,7 @@ from defines import DJANGO_SETTINGS
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", DJANGO_SETTINGS)
 django.setup()
 from baseapp.models import Entity
-from baseapp.bulk_action import export_entities
+from baseapp.bulk_action import export_entities, export_requests
 AWS_PROFILE_NAME = "libtechIndia"
 AWS_DATA_BUCKET = "coast-india"
 AWS_REGION = "ap-south-1"
@@ -28,6 +28,10 @@ def args_fetch():
     parser.add_argument('-t', '--test', help='Test Loop',
                         required=False, action='store_const', const=1)
     parser.add_argument('-e', '--export', help='Test Loop',
+                        required=False, action='store_const', const=1)
+    parser.add_argument('-er', '--exportRequests', help='Export Requests',
+                        required=False, action='store_const', const=1)
+    parser.add_argument('-ep', '--exportPledges', help='Export Requests',
                         required=False, action='store_const', const=1)
     parser.add_argument('-e1', '--export1', help='Test Loop',
                         required=False, action='store_const', const=1)
@@ -109,6 +113,8 @@ def main():
         for obj in objs:
             logger.info(obj.id)
             break
+    if args['exportRequests']:
+        export_requests()
     if args['export']:
         queryset = Entity.objects.filter(record_type = 'helpseekers')
         filename = ''

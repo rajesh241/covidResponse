@@ -159,6 +159,30 @@ def perform_bulk_action(data, user):
                 obj.save()
 
 
+def export_requests(filename=None):
+    csv_array = []
+    columns = ["id", "org", "contat name", "contact phone", "email",
+               "totalamount", "pledged", "pending"]
+    queryset = Request.objects.all()
+    for obj in queryset:
+        if obj.organization is not None:
+            orgname = obj.organization.name
+            orgphone = obj.organization.contact_phone
+        else:
+            orgname = ''
+            orgphone = ''
+        if obj.user is not None:
+            username = obj.user.name
+            useremail = obj.user.email
+        else:
+            username = ''
+            useremail = ''
+        a = [obj.id, orgname, username, orgphone, useremail, obj.amount_needed,
+             obj.amount_pledged, obj.amount_pending]
+        csv_array.append(a)
+    df = pd.DataFrame(csv_array, columns=columns)
+    filename = f"export/funding.csv"
+    file_url = upload_s3(filename, df)
 
 def export_entities(queryset, filename, bulk_export=False):
         csv_array = []
