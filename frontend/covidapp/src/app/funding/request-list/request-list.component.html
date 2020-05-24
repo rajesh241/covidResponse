@@ -96,18 +96,23 @@
           <div class="col-sm-4">
             <div class="form-group row">
               <section align="center">
+                <button mat-raised-button class="btn-success"
+                        routerLink="/supportrequest"
+                        *ngIf="authService.isNotClient()">
+                  Add Fund Request
+                </button>
                 <!--
                 <button mat-raised-button class="btn-success"
                         (click)="onExportFiltered()"
                         *ngIf="false && authService.isGroupAdmin()">
                   Export Filtered
                 </button>
-                <label style="margin: 0 10px;"></label>
                 -->
+                <label style="margin: 0 5px;"></label>
                 <button mat-raised-button class="btn-success"
-                        routerLink="/supportrequest"
-                        *ngIf="authService.isNotClient()">
-                  Add Fund Request
+                        (click)="onExport()"
+                        *ngIf="authService.isGroupAdmin()">
+                  Export All
                 </button>
               </section>
             </div>
