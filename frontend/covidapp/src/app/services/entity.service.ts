@@ -55,10 +55,12 @@ export class EntityService {
     }
 
     createRequest(data:any) {
+	console.log('In Createrequest()', data);
 	return this.http.post(this.requestEndPoint, JSON.stringify(data), this.getHttpOptions());
     }
 
     patchRequest(id:number, data:any): Observable<object> {
+	console.log('In Createrequest()', data);
 	return this.http.patch(this.requestEndPoint + '?id=' + id, data, this.getHttpOptions())
     }
 

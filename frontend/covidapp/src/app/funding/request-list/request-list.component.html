@@ -165,7 +165,7 @@
                 <td>{{ request.title }}</td>
                 <td>{{ request.org_name }}</td>
                 <td *ngIf="false">{{ request.endorsed_by }}</td>
-                <td>{{ request.endorsed_by?.split(',').length }}</td> <!-- both should work {{ request.total_endorsed }}</td> -->
+                <td>{{ request.total_endorsed }}</td>
                 <td>{{ request.amount_needed }}</td>
                 <td>{{ request.amount_pledged }}</td>
                 <td class="td-actions"
