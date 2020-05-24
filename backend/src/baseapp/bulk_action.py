@@ -158,6 +158,38 @@ def perform_bulk_action(data, user):
                 obj.assigned_to_org = myentity
                 obj.save()
 
+def export_pledges(filename=None):
+    csv_array = []
+    columns = ["srno", "id", "org", "reqid", "org email", "org contact", "amount", "donor name",
+               "donor email", "donor phone"]
+    queryset = Pledge.objects.all()
+    srno = 0
+    for obj in queryset:
+        srno = srno + 1
+        org = ''
+        orgphone = ''
+        reqid = ''
+        orgemail = ''
+        if obj.request is not None:
+            reqid = obj.request.id
+            if obj.request.organization is not None:
+                org = obj.request.organization.name
+                orgphone = obj.request.organization.contact_phone
+        
+        if obj.user is not None:
+            username = obj.user.name
+            useremail = obj.user.email
+            userphone = obj.user.phone
+        else:
+            username = ''
+            useremail = ''
+            userphone = ''
+        a = [srno, obj.id, org, reqid, orgemail, orgphone, obj.amount_pledged,
+             username, useremail, userphone]
+        csv_array.append(a)
+    df = pd.DataFrame(csv_array, columns=columns)
+    filename = f"export/pledges.csv"
+    file_url = upload_s3(filename, df)
 
 def export_requests(filename=None):
     csv_array = []

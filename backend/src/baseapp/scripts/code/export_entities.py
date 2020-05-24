@@ -12,7 +12,7 @@ from defines import DJANGO_SETTINGS
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", DJANGO_SETTINGS)
 django.setup()
 from baseapp.models import Entity
-from baseapp.bulk_action import export_entities, export_requests
+from baseapp.bulk_action import export_entities, export_requests, export_pledges
 AWS_PROFILE_NAME = "libtechIndia"
 AWS_DATA_BUCKET = "coast-india"
 AWS_REGION = "ap-south-1"
@@ -113,6 +113,8 @@ def main():
         for obj in objs:
             logger.info(obj.id)
             break
+    if args['exportPledges']:
+        export_pledges()
     if args['exportRequests']:
         export_requests()
     if args['export']:

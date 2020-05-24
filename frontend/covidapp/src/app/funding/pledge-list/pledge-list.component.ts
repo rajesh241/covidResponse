@@ -269,6 +269,6 @@ export class PledgeListComponent implements OnInit {
 
     onExport(){
 	    console.log("User has clicked export button");
-	    this.document.location.href = 'https://coast-india.s3.ap-south-1.amazonaws.com/export/funding.csv';
+	    this.document.location.href = 'https://coast-india.s3.ap-south-1.amazonaws.com/export/pledges.csv';
     }
 }
