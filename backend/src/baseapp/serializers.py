@@ -118,6 +118,8 @@ class PledgeSerializer(serializers.ModelSerializer):
 class RequestSerializer(serializers.ModelSerializer):
     """Serializer for Report Model"""
     org_name = serializers.SerializerMethodField()
+    total_endorsed = serializers.SerializerMethodField()
+    endorsed_by = serializers.SerializerMethodField()
     user = serializers.HiddenField(default=serializers.CurrentUserDefault())
     class Meta:
         """Meta Class"""
@@ -130,6 +132,20 @@ class RequestSerializer(serializers.ModelSerializer):
         else:
             org_name = ''
         return org_name
+    def get_endorsed_by(self, instance):
+        """This method will return if the user has edit permissions or not"""
+        if instance.organization is not None:
+            output = instance.organization.endorsed_by
+        else:
+            output = ''
+        return output
+    def get_total_endorsed(self, instance):
+        """This method will return if the user has edit permissions or not"""
+        if instance.organization is not None:
+            output = instance.organization.total_endorsed
+        else:
+            output = ''
+        return output
     def create(self, validated_data):
         """Over riding teh create method of serializer"""
         obj = Request.objects.create(**validated_data)

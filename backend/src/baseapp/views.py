@@ -900,7 +900,7 @@ class PledgeAPIView(HttpResponseMixin,
     filterset_class = PledgeFilter
     passed_id = None
     input_id = None
-    search_fields = ('id')
+    search_fields = ('id', 'request__organization__name', 'user__name')
     ordering_fields = ('id')
     queryset = Pledge.objects.all()
     def get_queryset(self, *args, **kwargs):
