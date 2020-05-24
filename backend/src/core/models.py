@@ -66,6 +66,8 @@ class Organization(models.Model):
     data_json = JSONField(null=True, blank=True)  # requires Django-Mysql package
     prefill_json = JSONField(null=True, blank=True)  # requires Django-Mysql package
     extra_fields = JSONField(null=True, blank=True)  # requires Django-Mysql package
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
     class Meta:
         """To define meta data attributes"""
         db_table = 'organization'

@@ -458,7 +458,7 @@ class OrganizationAPIView(HttpResponseMixin,
   passedID=None
   inputID=None
   search_fields = ('name', 'contact_phone')
-  ordering_fields = ('id', 'id')
+  ordering_fields = ('id', 'created', 'updated')
   #filterset_class = ReportFilter
 
   #filter_fields=("title")

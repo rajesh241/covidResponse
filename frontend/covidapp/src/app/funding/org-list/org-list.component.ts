@@ -58,7 +58,7 @@ export class OrgListComponent implements OnInit {
         console.log('OrgListComponent.constructor()');
         this.filterForm = new FormGroup({
             limit : new FormControl(10),
-            ordering : new FormControl('-created'),
+            ordering : new FormControl('-id'),
             //state: new FormControl(),
             //district: new FormControl(),
             endorsed__isnull:  new FormControl(),
