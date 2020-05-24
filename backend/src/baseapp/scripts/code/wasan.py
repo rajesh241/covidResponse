@@ -384,18 +384,19 @@ def main():
                 obj.district = district
                 obj.save()
     if args['importOrgs']:
-        df = pd.read_csv("../import_data/orgs_15may2020_survey.csv")
+        df = pd.read_csv("../import_data/org_import_23may20.csv")
+        df = df.fillna("")
         password = '123456'
         for index, row in df.iterrows():
             logger.info(index)
-            org = row.get('organizationName', None)
-            phone = row.get('mobile', None)
+            org = row.get('org', None)
+            phone = row.get('phone', None)
             try:
                 phone = str(int(phone))
             except:
                 phone = ''
             email = row.get('email', None)
-            name = row.get('fullName', None)
+            name = row.get('name', None)
             logger.info(f"{index}-{org}-{name}-{email}-{phone}")
             if org is not None:
                 myorg = Organization.objects.filter(name = org).first()
@@ -403,22 +404,28 @@ def main():
                     myorg = Organization.objects.create(name = org)
                 myorg.contact_phone = phone
                 myorg.contact_name = name
-                prefill_json = { 'data' : {
-                   'fullName' : name,
-                    'organizationName' : org,
-                    'mobile' : phone,
-                    'email' : email
+                phone_array = [phone]
+                data_json = {
+                   "contactName" : name,
+                    "organization" : org,
+                    "mobile" : phone_array
                 }
-                }
-                #myorg.prefill_json = prefill_json
+                
+                myorg.data_json = data_json
                 myorg.save()
+                myTeam = Team.objects.filter(name=org).first()
+                if myTeam is None:
+                    myTeam = Team.objects.create(name=org, organization=myorg)
+                myTeam.organization = myorg
+                myTeam.save()
             if email is not None:
                 myUser = User.objects.filter(email=email).first()
                 if myUser is None:
                     myUser = User.objects.create(email=email, name=name)
                 myUser.organization = myorg
+                myUser.team = myTeam
                 myUser.phone = phone
-                myUser.user_role = "volunteer"
+                myUser.user_role = "groupadmin"
                 myUser.set_password(password) 
                 myUser.save()
     if args['test']:
