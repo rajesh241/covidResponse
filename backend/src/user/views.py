@@ -216,7 +216,7 @@ class OrganizationPublicAPIView(HttpResponseMixin,
   passedID=None
   inputID=None
   search_fields = ('id', 'name')
-  ordering_fields = ('created', 'id')
+  ordering_fields = ('created', 'id', 'name')
   #filter_fields=("name")
   queryset=Organization.objects.all()
   def get_object(self):
