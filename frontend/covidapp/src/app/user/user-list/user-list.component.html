@@ -14,71 +14,71 @@
         </mat-panel-description>
       </mat-expansion-panel-header>
       <mat-card-content class="col-md-12">
-	<div class="form-group row">
+        <div class="form-group row">
           <label  class="col-sm-3 col-form-label"></label>
-	  <label  class="col-md-2 col-form-label">Search</label>
-	  <div class="col-md-4">
-	    <input formControlName="search" class="form-control" placeholder="Search by user name or email">
-	  </div>
-	</div>
+          <label  class="col-md-2 col-form-label">Search</label>
+          <div class="col-md-4">
+            <input formControlName="search" class="form-control" placeholder="Search by user name or email">
+          </div>
+        </div>
 
-	<div class="form-group row">
+        <div class="form-group row">
           <label class="col-sm-3 col-form-label"></label>
-	  <label class="col-md-2 col-form-label">Results per Page</label>
-	  <div class="col-md-1">
-	    <input  formControlName="limit" class="form-control" placeholder="min">
-	  </div>
-	  <div class="col-md-3">
+          <label class="col-md-2 col-form-label">Results per Page</label>
+          <div class="col-md-1">
+            <input  formControlName="limit" class="form-control" placeholder="min">
+          </div>
+          <div class="col-md-3">
             <select formControlName="ordering" class="form-control">
               <option value="null" selected>Sort by?</option>
               <option value="name">Name A-Z</option>
               <option value="-name">Name Z-A</option>
             </select>
-	  </div>
-	</div>
+          </div>
+        </div>
 
         <div class="form-group row">
           <label class="col-sm-3 col-form-label"></label>
           <div align="center" class="col-sm-3">
-	    <mat-form-field>
+            <mat-form-field>
               <mat-label>Team</mat-label>
               <mat-select formControlName="team__id">
-		<mat-option value="">None</mat-option>
-		<mat-option *ngFor="let option of groups" [value]="option.id">{{ option.display }}</mat-option>
+                <mat-option value="">None</mat-option>
+                <mat-option *ngFor="let option of groups" [value]="option.id">{{ option.display }}</mat-option>
               </mat-select>
-	    </mat-form-field>
+            </mat-form-field>
           </div>
           <div align="center" class="col-sm-3">
-	    <mat-form-field>
+            <mat-form-field>
               <mat-label>User Role</mat-label>
               <mat-select formControlName="user_role">
-		<mat-option value="">None</mat-option>
-		<mat-option *ngFor="let option of roleOptions" [value]="option.value">{{ option.name }}</mat-option>
+                <mat-option value="">None</mat-option>
+                <mat-option *ngFor="let option of roleOptions" [value]="option.value">{{ option.name }}</mat-option>
               </mat-select>
-	    </mat-form-field>
-	  </div>
-	</div>
-	
-	<div class="row" *ngIf="authService.isUserAdmin()">
-	  <div class="col-md-4" align="center" style="padding=15px;">
-	  </div>
-	  <div *ngIf="authService.isGroupAdmin()" class="col-md-2" align="center" style="padding=15px;">
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="row" *ngIf="authService.isUserAdmin()">
+          <div class="col-md-4" align="center" style="padding=15px;">
+          </div>
+          <div *ngIf="authService.isGroupAdmin()" class="col-md-2" align="center" style="padding=15px;">
             <button mat-raised-button
-		    style="color: red;"
+                    style="color: red;"
                     [routerLink]="['/teamadd']">
               Add Team
             </button>
-	  </div>
-	  <div *ngIf="authService.isUserAdmin()" class="col-md-2" align="center" style="padding=15px;">
+          </div>
+          <div *ngIf="authService.isUserAdmin()" class="col-md-2" align="center" style="padding=15px;">
             <button mat-raised-button
-		    style="color: red;"
+                    style="color: red;"
                     [routerLink]="['/useraddedit','0']">
               Add User
             </button>
-	  </div>
-	  <div class="col-md-4" align="center" style="padding=15px;">
-	  </div>
-	</div>
+          </div>
+          <div class="col-md-4" align="center" style="padding=15px;">
+          </div>
+        </div>
       </mat-card-content>
     </mat-expansion-panel>
   </mat-card>
@@ -95,24 +95,25 @@
                 <th>email</th>
                 <th>User Role</th>
                 <th>Team</th>
-                <th >Actions</th>
+                <th class="centered">Actions</th>
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let user of (page | async)?.results;let i=index" 
+              <tr *ngFor="let user of (page | async)?.results;let i=index"
                   >
-		<td>{{user.name}}</td>
+                <td>{{user.name}}</td>
                 <td>
-		  <span *ngIf="authService.isLoggedIn() && !authService.isClient()">{{user.email}}</span>
-		</td>
+                  <span *ngIf="authService.isLoggedIn() && !authService.isClient()">{{user.email}}</span>
+                </td>
                 <td>{{user.user_role}}</td>
                 <td *ngIf="user.team">{{user.team.name}}</td>
                 <td *ngIf="!user.team"></td>
-                <td *ngIf="authService.isUserAdmin()" class="td-actions text-right">                             
+                <td *ngIf="authService.isUserAdmin()" class="td-actions centered">
                   <button mat-raised-button class="btn btn-primary"
                           [routerLink]="['/useraddedit',user.id]">
                     Edit
                   </button>
+                  <label style="margin: 0 5px;"></label>
                   <button mat-raised-button class="btn btn-primary"
                           (click)="deleteUser(user.id)">
                     Delete
