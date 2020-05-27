@@ -14,10 +14,11 @@ class FeedbackModelAdmin(admin.ModelAdmin):
 class EntityModelAdmin(admin.ModelAdmin):
     """Model Adminf or class Location"""
     list_display = ["id", "title", "latitude", "longitude"]
-    list_filter = ["record_type", "status", "urgency", "formio_usergroup",
+    list_filter = ["assigned_to_group__organization", "record_type", "status", "urgency", "formio_usergroup",
                    "assigned_to_group", "state"]
     search_fields = ["name", "description", "phone"]
-    readonly_fields = ["assigned_to_org", "assigned_to_user"]
+    readonly_fields = ["assigned_to_org", "assigned_to_user",
+                       "assigned_to_group"]
 class EntityHistoryModelAdmin(admin.ModelAdmin):
     """Model Adminf or class Location"""
     list_display = ["id", "title", "user_name", "updated", "urgency", "status", "remarks"]

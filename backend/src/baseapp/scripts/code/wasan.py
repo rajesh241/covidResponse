@@ -107,67 +107,34 @@ org_id_mapping = {
     '500' : 'swanteam'
 }
 orgs_to_be_imported = ['2', '324', '325', '326', '327', '328', '400', '500']
-def create_entity(logger, record, myUser, wasan_id = None, wasan_org_id=None,
+def create_entity(logger, record, wasan_id=None, user=None, assigned_to_group=None,
                   usergroup=None, backend_remarks=None, assigned_to_user=None):
     #logger.info(f"my user is {myUser.id}")
     if usergroup is None:
         usergroup = "wassan"
-    # This has to go as a string
-    # extra_fields = str(record['extra_fields'])
-    # revised['extra_fields'] = extra_fields
-    #logger.info(f"wasan id is {wasan_id}")
-    if wasan_id is None: 
-        try:
-            wasan_id = record['extra_fields']['common']['entity_id']
-        except:
-            wasan_id = None
-    try:
-        if wasan_org_id is None:
-            wasan_org_id = record['extra_fields']['formio_parsed_data']['sourceSpecific']['organisationId']
-        libtech_org_id = org_id_mapping.get(str(wasan_org_id), None)
-        #logger.info(f"wasan_org_id {wasan_org_id} - libtech_org_id {libtech_org_id}")
-        my_group = Team.objects.filter(name=libtech_org_id).first()
-        #logger.info(my_group)
-    except:
-        wasan_org_id = None
-        my_group = None
-    if wasan_org_id is not None:
-        if int(wasan_org_id) == 3:
-            return
-        if int(wasan_org_id) == 322:
-            return
-        if int(wasan_org_id) == 321:
-            return
-        if int(wasan_org_id) == 127:
-            return
-        if int(wasan_org_id) == 0:
-            return
-        if (wasan_org_id is None) or (str(wasan_org_id) not in orgs_to_be_imported):
-            logger.info("will not import this")
-            input()
-            return
     obj = None
-    #logger.info(wasan_id)
     if wasan_id is not None:
-    #    logger.info(wasan_id)
         obj = Entity.objects.filter(wassan_id=wasan_id).first()
     if obj is None:
         obj = Entity.objects.create(title="blankNewItem")
-    #logger.info(obj.id)
-    #logger.info(f"checking my user again {myUser.id}")
-    obj.user = myUser
-    obj.updated_by_user = myUser
-    #logger.info(f"Assigned to user is {assigned_to_user}")
+
+    obj.wassan_id = wasan_id
+    obj.record_type = 'helpseekers'
+    obj.form_ui = False
+    obj.user = user
+    obj.updated_by_user = user
     obj.assigned_to_user = assigned_to_user
+    obj.assigned_to_group = assigned_to_group
+    obj.backend_notes = backend_remarks
+
     for key, value in record.items():
         if key == "assigned_to_user":
             continue
         setattr(obj,key,value)
-    obj.record_type = 'helpseekers'
-    # False if it does not come via formio
-    obj.form_ui = False
+
     name = record.get('full_name', '')
-    title = f"{name}, {record.get('address', None)}"
+    address = record.get('address','')
+    title = f"{name}, {address}"
     title = title.replace('nan', '')
     title = title.replace('  ', ' ')
     title = str(title)
@@ -176,8 +143,16 @@ def create_entity(logger, record, myUser, wasan_id = None, wasan_org_id=None,
         obj.how_many_people = None
     obj.name = title
     obj.title = title
-    obj.phone = str(record.get('phone',''))
-    obj.backend_notes = 'Added from a dump from Min on 2 May.'
+    phone = record.get('phone',None)
+    if phone is None:
+        contact_numbers = obj.contact_numbers
+        #logger.info(contact_numbers)
+        if contact_numbers is not None:
+            contact_array = contact_numbers.split(",")
+            #logger.info(contact_array)
+            if len(contact_array) >= 1:
+                phone = contact_array[0]
+    obj.phone = phone
     
     # entity_status = status[random.randint(0,len(status)-1)]
     if isinstance(record['extra_fields'], str):
@@ -195,34 +170,15 @@ def create_entity(logger, record, myUser, wasan_id = None, wasan_org_id=None,
         #logger.info(remarks)
     except:
         remarks = ''
-    obj.wassan_id = wasan_id
-   #try:
-   #    user_email = record['common']['user_email']
-   #    logger.info(f"User email is {user_email}")
-   #    assigned_user = User.objects.filter(wassan_username=user_email).first()
-   #    if assigned_user is not None:
-   #        obj.assigned_to_user = assigned_user
-   #    else:
-   #        obj.assigned_to_user = myUser
-   #except:
-   #    obj.assigned_to_user = myUser
-    if assigned_to_user is not None:
-        team = assigned_to_user.team
-    else:
-        team = my_group
-  #  if my_group is not None:
-    obj.assigned_to_group = team
     obj.remarks = remarks
     obj.what_help = help_sought(obj.prefill_json)
-    #logger.info(f"Saving {obj.id}")
     if not isinstance(obj.latitude, float):
         obj.latitude = None
     if not isinstance(obj.longitude, float):
         obj.longitude = None
     
-    keywords = f"{obj.title},{obj.phone},{obj.email}"
+    keywords = f"{obj.title},{obj.phone},{obj.email},{obj.contact_numbers}"
     obj.keywords = keywords
-    obj.backend_remarks = backend_remarks
     obj.save()
     return obj.id
     #logger.info(obj.phone)
@@ -366,45 +322,39 @@ def main():
                     logger.info("count not prefill")
     if args['importEntities']:
         superadminuser = User.objects.filter(id=1).first()
+        superadminuser = User.objects.filter(email='sakinahnd@gmail.com').first()
+        swanteam = Team.objects.filter(name = "swanteam").first()
        #with open('../import_data/2020-05-22_SWAN_Data.json', 'r') as f:
        #    #data = f.read().replace(': NaN,', ': "",').replace(': NaN',':""').replace(',NaN',',""')
        #    data = f.read().replace('NaN','""')
        #with open('/tmp/a.json', 'w') as f:
        #    f.write(data)
        #exit(0)
-        with open('../import_data/swan_data_22may20.json', 'r') as f:
+        with open('../import_data/swan_final_import.json', 'r') as f:
                 records = json.load(f)
-        backend_remarks = "Imported Swan Data on 22 May 2020"
-        base_number = 200521 * 10000
-        email_array = []
-       #for i,record in enumerate(records):
-       #    logger.info(i)
-       #    try:
-       #        email = record["extra_fields"]["common"]["user_email"]
-       #    except:
-       #        email = None
-       #    if email is not None:
-       #        if email not in email_array:
-       #            email_array.append(email)
-       #logger.info(email_array)
-       #logger.info(len(email_array))
-       #exit(0)
+        backend_remarks = "Imported Swan Data on 25 May 2020"
+        usergroup = "swan"
+        base_number = 250520 * 10000
         for i,record in enumerate(records):
-            #logger.info(i)
             try:
                 email = record["extra_fields"]["common"]["user_email"]
                 volunteer  = User.objects.filter(email=email).first()
             except:
                 volunteer = None
             creator = superadminuser
+            team = None
             if volunteer is not None:
                 creator = volunteer
-          
+                team = volunteer.team
+            if team is None:
+                team = swanteam
+            
             sr_no = base_number + i
-            obj_id = create_entity(logger, record, creator,  wasan_id = sr_no,
-                          wasan_org_id=500, usergroup='swan',
-                          backend_remarks=backend_remarks,
-                          assigned_to_user=volunteer)
+            obj_id = create_entity(logger, record, user=creator,
+                                   assigned_to_user=volunteer,
+                                  assigned_to_group=team, wasan_id=sr_no,
+                                   backend_remarks=backend_remarks,
+                                   usergroup=usergroup)
             logger.info(f"{i}-{obj_id} creator-{creator} assigned-{volunteer}")
         exit(0)
         usergroup = "wassan"
@@ -474,6 +424,12 @@ def main():
                 myUser.set_password(password) 
                 myUser.save()
     if args['test']:
+        objs = Entity.objects.filter(assigned_to_group__organization__name = "swan")
+        logger.info(len(objs))
+        for obj in objs:
+            logger.info(obj.id)
+            obj.delete()
+        exit(0)
         objs = Entity.objects.filter(information_source__icontains = 'APPI')
         i = 0
         for obj in objs:

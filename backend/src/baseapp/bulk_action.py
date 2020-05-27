@@ -193,27 +193,81 @@ def export_pledges(filename=None):
 
 def export_requests(filename=None):
     csv_array = []
-    columns = ["srno", "id", "org", "contat name", "contact phone", "email",
-               "totalamount", "pledged", "pending"]
-    queryset = Request.objects.filter(id__gt = 1)
+    queryset = Request.objects.filter(id__gt = 1).order_by('-id')
     srno = 0
     for obj in queryset:
+        # print(f'data_json[{obj.data_json}]')
         srno = srno + 1
         if obj.organization is not None:
             orgname = obj.organization.name
+            has_12A = obj.organization.has_12A
+            has_FCRA = obj.organization.has_FCRA
+            has_GST = obj.organization.has_GST
             orgphone = obj.organization.contact_phone
         else:
             orgname = ''
             orgphone = ''
+            has_12A = ''
+            has_FCRA = ''
+            has_GST = ''
         if obj.user is not None:
             username = obj.user.name
             useremail = obj.user.email
         else:
             username = ''
             useremail = ''
-        a = [srno, obj.id, orgname, username, orgphone, useremail, obj.amount_needed,
-             obj.amount_pledged, obj.amount_pending]
+
+        try:
+            district = obj.data_json['origin']['district_name']
+        except Exception as e:
+            district = ''
+            #print(f'Exception[{e}]')
+            
+        try:
+            dest_district = obj.data_json['destinationdistrict']['district_name']            
+        except Exception as e:
+            dest_district = ''
+
+        try:
+            dod = obj.data_json['dateofdeparture']
+        except Exception as e:
+            dod = ''
+            
+        try:
+            distance = obj.data_json['distance']
+        except Exception as e:
+            distance = ''
+            
+        try:
+            numPassengers = obj.data_json['numPassengers']
+        except Exception as e:
+            numPassengers = ''
+
+        try:
+            busesRequired = obj.data_json['busesRequired']
+        except Exception as e:
+            busesRequired = ''
+
+        try:
+            total_cost = obj.data_json['totalcost']
+        except Exception as e:
+            total_cost = ''
+            
+        a = [
+            srno, obj.id, orgname, username, orgphone, useremail, obj.amount_needed,
+            obj.amount_pledged, obj.amount_pending, district, dest_district, has_12A,
+            has_FCRA, has_GST, dod, numPassengers, busesRequired, distance, total_cost,
+        ]
         csv_array.append(a)
+        #print(csv_array)
+
+    columns = [
+        "srno", "id", "org", "contat name", "contact phone", "email",
+        "totalamount", "pledged", "pending",
+        "Origin District", "Dest. District",
+        "12A", "FCRA", "GST", "Date Of Departure",
+        "No of Passengers", "busesRequired", "Distance", "Total Cost",
+    ]
     df = pd.DataFrame(csv_array, columns=columns)
     filename = f"export/funding.csv"
     file_url = upload_s3(filename, df)
