@@ -121,7 +121,7 @@ class User(AbstractBaseUser, PermissionsMixin):
                                upload_to=avatar_upload_path)
     avatar_url = models.URLField(max_length=1024, null=True, blank=True)
     provider = models.CharField(max_length=32, default="native")
-    phone = models.CharField(max_length=32, default="native")
+    phone = models.CharField(max_length=32)
     objects = UserManager()
     USERNAME_FIELD = 'email'
 

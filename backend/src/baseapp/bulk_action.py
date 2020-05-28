@@ -282,7 +282,8 @@ def export_entities(queryset, filename, bulk_export=False):
                    'Native District', 'People Stranded', 'Date Called', 'Contact with Govt Official', 'Contact with anyone', 'Accom for 14 days',
                    'If no', ' Where are you staying"', 'Ration', 'Ration Desc', 'Drinking Water', 'Health Issues', 
                    'Health Issue Desc', 'Urgent Req', 'Need Cash', 'How Much', 'Urgent Req Desc', 'Donor Involved', 'Donor Name', 'Type Of donation',
-                   'Donation Value(Rs))', 'Initial Date', 'created', 'modified']
+                   'Donation Value(Rs))', 'Initial Date', 'created',
+                   'modified', 'updated_by_user', 'backend_remarks', 'information_source']
         for obj in queryset:
             a = [obj.title, obj.state, obj.status, obj.urgency, obj.remarks]
             if obj.assigned_to_user is not None:
@@ -331,6 +332,10 @@ def export_entities(queryset, filename, bulk_export=False):
             initial_date = ''
             created = obj.created
             modified = obj.updated
+            if obj.updated_by_user is not None:
+                updated_user_name = obj.updated_by_user.name
+            else:
+                updated_user_name = ''
 
             a = [obj.id, obj.urgency, obj.status, user_name, obj.remarks,
                  government_scheme, team_name, org_name, contact, obj.phone,
@@ -342,7 +347,7 @@ def export_entities(queryset, filename, bulk_export=False):
                  health_issues, health_issue_description, urgent_req,
                  need_cash, how_much, urgent_req_desc, donor_involved,
                  donar_name, donation_type, donation_value, initial_date,
-                 created, modified]
+                 created, modified, updated_user_name, obj.backend_remarks, obj.information_source]
             csv_array.append(a)
         df = pd.DataFrame(csv_array, columns=columns)
         if bulk_export == True:

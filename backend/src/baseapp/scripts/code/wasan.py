@@ -190,7 +190,7 @@ def main():
 
     if args['importSwanUsers']:
         logger.info("Importing swan users")
-        df = pd.read_csv("../import_data/swan_users_22may20.csv")
+        df = pd.read_csv("../import_data/swan_users_26may20.csv")
         swanteam = Team.objects.filter(name="swanteam").first()
         myorg = Organization.objects.filter(name="swan").first()
         for index, row in df.iterrows():
@@ -214,6 +214,7 @@ def main():
                         myuser = User.objects.create(email=email,name=name)
                     myuser.team = myteam
                     myuser.name = name
+                    myuser.phone = ''
                     myuser.formio_usergroup = "swan"
                     myuser.user_role = 'groupadmin'
                     myuser.organization = myorg
@@ -321,6 +322,7 @@ def main():
                 except:
                     logger.info("count not prefill")
     if args['importEntities']:
+        #For import on 26may 2020 for swan   StratID = 48913
         superadminuser = User.objects.filter(id=1).first()
         superadminuser = User.objects.filter(email='sakinahnd@gmail.com').first()
         swanteam = Team.objects.filter(name = "swanteam").first()
@@ -330,11 +332,11 @@ def main():
        #with open('/tmp/a.json', 'w') as f:
        #    f.write(data)
        #exit(0)
-        with open('../import_data/swan_final_import.json', 'r') as f:
+        with open('../import_data/swan_final_import_26may20.json', 'r') as f:
                 records = json.load(f)
-        backend_remarks = "Imported Swan Data on 25 May 2020"
+        backend_remarks = "Imported Swan Data on 26 May 2020"
         usergroup = "swan"
-        base_number = 250520 * 10000
+        base_number = 260520 * 10000
         for i,record in enumerate(records):
             try:
                 email = record["extra_fields"]["common"]["user_email"]
