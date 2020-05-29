@@ -75,7 +75,7 @@ const routes: Routes = [
     {path : 'mylist', component : MyEntityListComponent, canActivate:[AuthGuard]},
     {path : 'map', component : ContextMapComponent, canActivate:[AuthGuard]},
     {path : 'about', component : AboutComponent},
-//    {path : 'help', component : HelpComponent},
+    {path : 'help', component : HelpComponent},
     {path : 'faq', component : FaqComponent},
     {path : 'guide', component : GuideComponent},
     {path : 'tutorial', component : TutorialComponent},
