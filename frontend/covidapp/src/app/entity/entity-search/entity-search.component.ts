@@ -11,7 +11,7 @@ import { Entity } from "../../models/entity";
 import { EntityService } from "../../services/entity.service";
 import { AuthService } from "../../services/auth.service";
 
-import { MatDialog, MatDialogConfig } from "@angular/material";
+import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 import { MarkerDialogComponent } from '../marker-dialog/marker-dialog.component';
 import { AddDialogComponent } from '../add-dialog/add-dialog.component';
 

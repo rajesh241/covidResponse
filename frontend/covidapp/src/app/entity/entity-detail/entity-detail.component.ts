@@ -7,7 +7,7 @@ import { AuthService } from "../../services/auth.service";
 import { ActivatedRoute } from "@angular/router";
 import { Router } from "@angular/router"
 
-import { MatDialog, MatDialogConfig } from "@angular/material";
+import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 import { EditDialogComponent } from '../edit-dialog/edit-dialog.component';
 
 @Component({

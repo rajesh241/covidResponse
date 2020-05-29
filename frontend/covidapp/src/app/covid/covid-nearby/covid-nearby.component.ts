@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MapsAPILoader } from '@agm/core';
 import { FormCreateComponent } from '../../formio/form-create/form-create.component';
 
-import {MatDialog, MatDialogConfig} from "@angular/material";
+import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 import { MarkerDialogComponent } from '../../entity/marker-dialog/marker-dialog.component';
 
 // just an interface for type safety.

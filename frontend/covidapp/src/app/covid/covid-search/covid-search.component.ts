@@ -11,7 +11,7 @@ import { ContextService } from "../../services/context.service";
 import { AuthService } from "../../services/auth.service";
 import { Router } from "@angular/router"
 
-import {MatDialog, MatDialogConfig} from "@angular/material";
+import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 import { MarkerDialogComponent } from '../../entity/marker-dialog/marker-dialog.component';
 
 

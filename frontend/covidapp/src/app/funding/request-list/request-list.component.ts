@@ -14,7 +14,8 @@ import { AuthService } from "../../services/auth.service";
 import { UserService } from "../../services/user.service";
 import { EntityService } from "../../services/entity.service";
 
-import { MatDialog, MatDialogConfig, MatSnackBar } from "@angular/material";
+import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
+import { MatSnackBar } from "@angular/material/snack-bar";
 import { BulkDialogComponent } from '../../entity/bulk-dialog/bulk-dialog.component';
 
 @Component({

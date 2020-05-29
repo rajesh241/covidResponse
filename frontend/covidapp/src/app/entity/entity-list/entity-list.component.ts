@@ -14,7 +14,8 @@ import { AuthService } from "../../services/auth.service";
 import { UserService } from "../../services/user.service";
 import { DownloadService } from "../../services/download.service";
 
-import { MatDialog, MatDialogConfig, MatSnackBar } from "@angular/material";
+import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
+import { MatSnackBar } from "@angular/material/snack-bar";
 import { EditDialogComponent } from '../edit-dialog/edit-dialog.component';
 import { BulkDialogComponent } from '../bulk-dialog/bulk-dialog.component';
 import { Location } from '@angular/common';

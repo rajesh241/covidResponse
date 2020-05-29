@@ -11,7 +11,7 @@ import { Entity } from "../../models/entity";
 import { EntityService } from "../../services/entity.service";
 import { AuthService } from "../../services/auth.service";
 
-import { MatDialog, MatDialogConfig } from "@angular/material";
+import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 import { EditDialogComponent } from '../edit-dialog/edit-dialog.component';
 import { BulkDialogComponent } from '../bulk-dialog/bulk-dialog.component';
 

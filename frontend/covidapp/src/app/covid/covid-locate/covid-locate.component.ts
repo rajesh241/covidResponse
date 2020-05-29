@@ -17,7 +17,7 @@ export class CovidLocateComponent implements OnInit {
     @Input() autoDetect: boolean = true;
     @Input('entity') entity: any;
 
-    @ViewChild('search', { static: false })
+    @ViewChild('search')
     public searchElementRef: ElementRef;
 
     constructor(

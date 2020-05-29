@@ -5,7 +5,7 @@ import { AuthService } from "../../services/auth.service";
 import { EntityService } from "../../services/entity.service";
 // import { UserService } from "../../services/user.service";
 
-import { MatSnackBar } from "@angular/material";
+import { MatSnackBar } from "@angular/material/snack-bar";
 
 
 @Component({

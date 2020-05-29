@@ -20,7 +20,7 @@ export class FormEditComponent implements OnInit {
     address: string = '';
     private geoCoder;
 
-    @ViewChild('search', { static: false })
+    @ViewChild('search')
     public searchElementRef: ElementRef;
 
     constructor(
