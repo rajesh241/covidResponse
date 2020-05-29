@@ -1,6 +1,6 @@
 import { Component, OnInit, NgZone } from '@angular/core';
-import { GoogleLoginProvider } from 'angular4-social-login';
-import { AuthService as GAuthService } from 'angular4-social-login'; 
+import { GoogleLoginProvider } from 'angularx-social-login';
+import { AuthService as GAuthService } from 'angularx-social-login'; 
 import { Router } from "@angular/router"
 
 import { coastConfig } from '../../../config';

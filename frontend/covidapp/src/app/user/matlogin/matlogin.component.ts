@@ -1,8 +1,8 @@
 import { Input, Component, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { OnInit, NgZone } from '@angular/core';
-import { GoogleLoginProvider } from 'angular4-social-login';
-import { AuthService as GAuthService } from 'angular4-social-login'; 
+import { GoogleLoginProvider } from 'angularx-social-login';
+import { AuthService as GAuthService } from 'angularx-social-login'; 
 import { Router } from "@angular/router"
 
 import { coastConfig } from '../../../config';
