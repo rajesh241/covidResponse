@@ -4,12 +4,14 @@ import os
 import django
 import pandas as pd
 from django.utils.text import slugify
+from django.contrib.auth import get_user_model
 from commons import logger_fetch, ms_transliterate_word
-from defines import DJANGO_SETTINGS, STATE_SHORT_CODE_DICT
+from defines import DJANGO_SETTINGS
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", DJANGO_SETTINGS)
 django.setup()
-from baseapp.models import Entity, Covid
-
+from baseapp.models import Entity, EntityHistory
+from core.models import Team
+User = get_user_model()
 def args_fetch():
     '''
     Paser for the argument list that returns the args list
@@ -33,6 +35,68 @@ def main():
     args = args_fetch()
     logger = logger_fetch(args.get('log_level'))
     if args['test']:
+        df = pd.read_csv("../import_data/modifications.csv")
+        j = 0
+        for index, row in df.iterrows():
+            user = row.get("user", "")
+            obj_id = row.get("ID", "")
+            team_id = row.get("teamid", "")
+            if isinstance(user, str):
+                if "@" in user:
+                    j = j + 1
+                    logger.info(f"{j}-{obj_id} - {user}")
+                    obj = Entity.objects.filter(id = obj_id).first()
+                    my_user = User.objects.filter(email = user).first()
+                    my_team = Team.objects.filter(id = team_id).first()
+                    obj.assigned_to_user = my_user
+                    obj.assigned_to_group = my_team
+                    obj.save()
+        exit(0)
+        logger.info("Working on test")
+        csv_array = []
+        columns = ["ID", "team", "user", "teamid", "userid",
+                               "currentStatus", "oldStatus"]
+        my_user = User.objects.filter(email="subratabasu2002@gmail.com").first()
+        objs = Entity.objects.filter(updated_by_user = my_user)
+        logger.info(len(objs))
+        for obj in objs:
+            #logger.info(f"Processing Entity {obj.id}")
+            historys = EntityHistory.objects.filter(entity =
+                                                    obj).order_by("-id")
+            a = None
+            b = None
+            for history in historys:
+                #logger.info(f"History id {history.id}")
+                assigned_to_group = history.assigned_to_group
+                assigned_to_user = history.assigned_to_user
+                if assigned_to_user is not None:
+                    user_id = assigned_to_user.id
+                else:
+                    user_id = ""
+                if assigned_to_group is not None:
+                    if b is None:
+                        b = [obj.id, assigned_to_group, assigned_to_user,
+                         assigned_to_group.id, user_id, obj.status,
+                         history.status]
+
+                if assigned_to_user is not None:
+                    logger.info(f"{obj.id}-{assigned_to_group}-{assigned_to_user}")
+                    if a is None:
+                        a = [obj.id, assigned_to_group, assigned_to_user,
+                         assigned_to_group.id, user_id, obj.status,
+                         history.status]
+              #  if (assigned_to_user != my_user):
+              #      break
+            
+            if a is not None:
+                csv_array.append(a)
+            else:
+                if b is not None:
+                    csv_array.append(b)
+        df = pd.DataFrame(csv_array, columns=columns)
+        df.to_csv("../import_data/modifications.csv")
+
+        exit(0)
         df = pd.read_csv("/tmp/facility.csv")
         for index,row in df.iterrows():
             name = row.get("name", "")
