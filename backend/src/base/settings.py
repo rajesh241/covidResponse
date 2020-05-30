@@ -175,7 +175,7 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = EMAIL_CONFIG.get('username')
 EMAIL_HOST_PASSWORD = EMAIL_CONFIG.get('password')
-
+SENDGRID_API_KEY = EMAIL_CONFIG.get('sendgrid_api_key')
 SIMPLE_JWT = {
         'ACCESS_TOKEN_LIFETIME': timedelta(minutes=120),
         'REFRESH_TOKEN_LIFETIME': timedelta(days=2),

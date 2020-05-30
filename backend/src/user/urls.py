@@ -27,6 +27,7 @@ urlpatterns = [
     path('team/', views.TeamAPIView.as_view(), name='team_api_view'),
     path('organization/', views.OrganizationAPIView.as_view(), name='org_api_view'),
     path('team/public', views.TeamPublicAPIView.as_view(), name='public_team_api_view'),
+    path('sendmail', views.EmailView.as_view(), name='sendmail'),
     path('organization/public', views.OrganizationPublicAPIView.as_view(),
          name='public_org_api_view'),
     path('token/', views.MyTokenObtainPairView.as_view(), name='token_obtain_pair'),

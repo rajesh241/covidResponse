@@ -1,5 +1,7 @@
 """Views Module for User App"""
 import json
+from sendgrid import SendGridAPIClient
+from sendgrid.helpers.mail import Mail
 from django.utils.http import urlsafe_base64_decode
 from django.contrib.auth import get_user_model
 from django.core.exceptions import PermissionDenied
@@ -19,9 +21,9 @@ from rest_framework.generics import GenericAPIView
 from rest_framework_simplejwt.views import TokenObtainPairView
 from django.utils.translation import ugettext_lazy as _
 from rest_framework.response import Response
-from rest_framework import viewsets
+from rest_framework import viewsets, views
 from user.mixins import HttpResponseMixin
-from user.permissions import UserViewPermission, IsAdminOwner
+from user.permissions import UserViewPermission, IsAdminOwner, IsStaffReadWriteOrReadOnly
 from user.utils import is_json
 from passwordreset.serializers import EmailSerializer
 from user.serializers import (UserSerializer, AuthTokenSerializer,
@@ -33,6 +35,26 @@ from user.serializers import (UserSerializer, AuthTokenSerializer,
                               OrganizationSerializer)
 User = get_user_model()
 from core.models import Team, Organization
+
+class EmailView(GenericAPIView):
+    permission_classes = [IsStaffReadWriteOrReadOnly]
+
+    def post(self, request, *args, **kwargs):
+        receiver = request.data.get('receiver', None)
+        sender = request.data.get('sender', None)
+        template = request.data.get('template', None)
+        emaildata = request.data.get('emaildata', None)
+        message = Mail(
+                from_email=sender,
+                to_emails=receiver
+        )
+        #message.dynamic_template_data = data_dict
+       # message.template_id = 'd-1622be1610494a6db57d0d66006fed20'
+        message.dynamic_template_data = emaildata
+        message.template_id = template
+        sg = SendGridAPIClient(settings.SENDGRID_API_KEY)
+        response = sg.send(message)
+        return Response({"success": False})
 
 def getID(request):
   urlID=request.GET.get('id',None)
