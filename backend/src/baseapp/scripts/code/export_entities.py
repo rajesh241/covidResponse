@@ -12,7 +12,8 @@ from defines import DJANGO_SETTINGS
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", DJANGO_SETTINGS)
 django.setup()
 from baseapp.models import Entity
-from baseapp.bulk_action import export_entities, export_requests, export_pledges
+from core.models import Team
+from baseapp.bulk_action import export_entities, export_requests, export_pledges, upload_s3
 AWS_PROFILE_NAME = "libtechIndia"
 AWS_DATA_BUCKET = "coast-india"
 AWS_REGION = "ap-south-1"
@@ -28,6 +29,8 @@ def args_fetch():
     parser.add_argument('-t', '--test', help='Test Loop',
                         required=False, action='store_const', const=1)
     parser.add_argument('-e', '--export', help='Test Loop',
+                        required=False, action='store_const', const=1)
+    parser.add_argument('-eraw', '--exportraw', help='Test Loop',
                         required=False, action='store_const', const=1)
     parser.add_argument('-er', '--exportRequests', help='Export Requests',
                         required=False, action='store_const', const=1)
@@ -69,7 +72,7 @@ def put_object_s3(bucket, filename, filedata, content_type):
         )
 
 
-def upload_s3(logger, filename, data, bucket_name=None):
+def upload_s31(logger, filename, data, bucket_name=None):
     """
     This function will upload to amazon S3, it can take data either as
     string or as data frame
@@ -117,11 +120,26 @@ def main():
         export_pledges()
     if args['exportRequests']:
         export_requests()
+    if args['exportraw']:
+        df = pd.DataFrame(list(Entity.objects.all().values()))
+        filename = f"export/dataraw.csv"
+        file_url = upload_s3(filename, df)
+        
     if args['export']:
         queryset = Entity.objects.filter(record_type = 'helpseekers')
         filename = ''
         export_entities(queryset, filename, bulk_export=True)
     if args['export1']:
+        my_team = Team.objects.filter(id=189).first()
+        queryset = Entity.objects.filter(id=53787)
+        filename = 'rise_infinity'
+        for obj in queryset:
+            logger.info(obj.prefill_json)
+            break
+        queryset = Entity.objects.filter(assigned_to_group = my_team,
+                                         record_type = 'helpseekers')
+        export_entities(queryset, filename, bulk_export=False, upload_s3=False)
+        exit(0)
         csv_array = []
         columns = ["title", "state", "status", "urgency", "remarks"]
 

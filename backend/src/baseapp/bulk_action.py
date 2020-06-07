@@ -272,7 +272,7 @@ def export_requests(filename=None):
     filename = f"export/funding.csv"
     file_url = upload_s3(filename, df)
 
-def export_entities(queryset, filename, bulk_export=False):
+def export_entities(queryset, filename, bulk_export=False, upload_s3=True):
         csv_array = []
         columns = ['ID', 'Urgency', 'Status', 'Assigned to', 'Remarks',
                    'Connected with Govt Scheme', 'Team Name', 'Organisation Name',
@@ -283,7 +283,16 @@ def export_entities(queryset, filename, bulk_export=False):
                    'If no', ' Where are you staying"', 'Ration', 'Ration Desc', 'Drinking Water', 'Health Issues', 
                    'Health Issue Desc', 'Urgent Req', 'Need Cash', 'How Much', 'Urgent Req Desc', 'Donor Involved', 'Donor Name', 'Type Of donation',
                    'Donation Value(Rs))', 'Initial Date', 'created',
-                   'modified', 'updated_by_user', 'backend_remarks', 'information_source']
+                   'modified', 'updated_by_user', 'backend_remarks',
+                   'information_source', "Employer Name", "what Employment",
+                   "Have been paid Lockdown", "contactForm_name",
+                   "contactForm_phone", "contactForm_address",
+                   "contactForm_district", "migrantForm_byWhen",
+                   "migrantForm_homeImmediately", "migrantForm_regPolice",
+                   "migrantForm_regOnline", "migrantForm_receivedConfirmation",
+                  "needsForm_status", "needsForm_urgency", "needsForm_howmany",
+                  "needsForm_womenChildrenElderly", "needsForm_notes",
+                   "formFillerNotes"]
         for obj in queryset:
             a = [obj.title, obj.state, obj.status, obj.urgency, obj.remarks]
             if obj.assigned_to_user is not None:
@@ -307,8 +316,6 @@ def export_entities(queryset, filename, bulk_export=False):
             stranded_block = ''
             stranded_panchayat = ''
             stranded_address = obj.address
-            native_state = ''
-            native_district = ''
             how_many_people = obj.how_many_people
             date_called = ''
             govt_official = ''
@@ -332,6 +339,55 @@ def export_entities(queryset, filename, bulk_export=False):
             initial_date = ''
             created = obj.created
             modified = obj.updated
+            try:
+                from_grid = obj.prefill_json["data"]["fromGrid"][0]
+            except:
+                from_grid = {}
+            native_state = from_grid.get("state", "")
+            native_district = from_grid.get("district", "")
+            try:
+                formfillerNotes = obj.prefill_json["data"]["formFillerNotes"][0]
+            except:
+                formfillerNotes = ""
+            try:
+                employer_data = obj.prefill_json["data"]["employerForm"]["data"]
+            except:
+                employer_data = {}
+            employer_name = employer_data.get("employerName", "")
+            been_paid = employer_data.get("beenPaid", "")
+            employment_type = employer_data.get("workType", "")
+            try:
+                need_data = obj.prefill_json["data"]["needsForm"]["data"]
+            except:
+                need_data = {}
+            needsForm_notes = need_data.get("notes","")
+            needsForm_urgency = need_data.get("urgency","")
+            needsForm_status = need_data.get("status", "")
+            needsForm_howmany = need_data.get("howMany", "")
+            needsForm_womenChildrenElderly = need_data.get("womenChildrenElderly", "")
+
+            try:
+                migrant_data = obj.prefill_json["data"]["migrantTrasnportForm"]["data"]
+            except:
+                migrant_data = {}
+            migrantForm_homeImmediately = migrant_data.get("homeImmediately",
+                                                           "")
+            migrantForm_byWhen = migrant_data.get("byWhen", "")
+            migrantForm_receivedConfirmation = migrant_data.get("receiveConfirmation", "")
+            migrantForm_regPolice = migrant_data.get("registered", {"yesOnline":"","yesPoliceStation":""}).get("yesPoliceStation","")
+            migrantForm_regOnline = migrant_data.get("registered",{"yesOnline":"","yesPoliceStation":""}).get("yesOnline","")
+            try:
+                contact_data = obj.prefill_json["data"]["contactForm"]["data"]
+            except:
+                contact_data = {}
+            contactForm_fullName = contact_data.get("fullName", "")
+            contactForm_district = contact_data.get("district", "")
+            contactForm_givenAddress = contact_data.get("givenAddress", "")
+            try:
+                contactForm_phone = contact_data.get("mobilePanel",
+                                                     [""])[0].get("mobile")
+            except:
+                contactForm_phone = ''
             if obj.updated_by_user is not None:
                 updated_user_name = obj.updated_by_user.name
             else:
@@ -347,15 +403,28 @@ def export_entities(queryset, filename, bulk_export=False):
                  health_issues, health_issue_description, urgent_req,
                  need_cash, how_much, urgent_req_desc, donor_involved,
                  donar_name, donation_type, donation_value, initial_date,
-                 created, modified, updated_user_name, obj.backend_remarks, obj.information_source]
+                 created, modified, updated_user_name, obj.backend_remarks,
+                 obj.information_source, employer_name, employment_type,
+                 been_paid, contactForm_fullName, contactForm_phone,
+                 contactForm_givenAddress, contactForm_district,
+                 migrantForm_byWhen, migrantForm_homeImmediately,
+                 migrantForm_regPolice, migrantForm_regOnline,
+                 migrantForm_receivedConfirmation, needsForm_status,
+                 needsForm_urgency, needsForm_howmany,
+                 needsForm_womenChildrenElderly, needsForm_notes,
+                 formfillerNotes]
             csv_array.append(a)
         df = pd.DataFrame(csv_array, columns=columns)
-        if bulk_export == True:
-            filename = f"export/data.csv"
+        if upload_s3 == True:
+            if bulk_export == True:
+                filename = f"export/data.csv"
+            else:
+                filename = f"export/selected/{filename}"
+        if upload_s3 == True:
+            file_url = upload_s3(filename, df)
+            print(file_url)
         else:
-            filename = f"export/selected/{filename}"
-        file_url = upload_s3(filename, df)
-        print(file_url)
+            df.to_csv(f"/tmp/{filename}.csv")
 
 def aws_init(use_env=None):
     """Initializes the AWS bucket. It can either pick up AWS credentials from
