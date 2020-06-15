@@ -1,15 +1,19 @@
-import { Component, OnInit, isDevMode } from '@angular/core';
+import { Component,  isDevMode, OnInit, OnDestroy } from '@angular/core';
 import { AuthService } from './services/auth.service';
 import { EntityService } from './services/entity.service';
 import { VERSION } from '../environments/version';
 import { environment } from '../environments/environment';
+import { Router, NavigationEnd } from '@angular/router';
+import { filter } from 'rxjs/operators';
+
+declare let gtag: Function;
 
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnDestroy {
     title = 'CoAST India';
     public version: string = VERSION.version;
     public hash: string = VERSION.hash;
@@ -22,9 +26,12 @@ export class AppComponent implements OnInit {
     public isDev: boolean = false;
     public user;
     public group;
+    private navEndEvents;
+    private observer;
 
     constructor(
 	public entityService: EntityService,
+        private router: Router,
 	public authService: AuthService
     ) {
 	console.log(`AppComponent.constructor(${JSON.stringify(VERSION)})`);
@@ -41,6 +48,10 @@ export class AppComponent implements OnInit {
                 this.group = localStorage.getItem('group');
             }
         });
+
+        this.navEndEvents = this.router.events.pipe(
+            filter(event => event instanceof NavigationEnd)
+        );
     }
 
     ngOnInit() {
@@ -49,6 +60,21 @@ export class AppComponent implements OnInit {
 	if(false && !isDevMode())
 	    this.setUpVersionChecker();
 	this.versionCheck();
+
+        this.observer = this.navEndEvents.subscribe(
+            (event: NavigationEnd) => {
+                gtag('config', 'UA-169392896-1', 
+                     {
+                    'page_path': event.urlAfterRedirects
+                });
+                console.log('AppComponent.ngOnInit(): NavigationEnd event', event);
+            }
+        );
+    }
+
+    ngOnDestroy() {
+        this.observer.unsubscribe();
+        this.subscriber.unsubscribe();
     }
 
     setUpVersionChecker() {
